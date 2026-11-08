@@ -84,7 +84,20 @@ try {
       const s = await get(), button = s.poseButtons.find(b => b.pose === pose);
       await page.mouse.click(...center(s, button.rect));
       await wait(v => v.pose.player.pose === pose, `${pose} requested`);
-      if (pose === 'downed') await wait(v => Math.abs(v.chestAngleDeg) > 50, 'native physical fall');
+      if (pose === 'downed') {
+        await wait(v => Math.abs(v.chestAngleDeg) > 50, 'native physical fall');
+        const passive = await page.evaluate(() => {
+          const lab = window.poseLab;
+          return { weights: lab.snapshot().pose.player.jointControlWeights,
+            motorTorques: Object.fromEntries([...lab.ragdolls[0].joints].map(([id, joint]) => [id, joint.maxMotorTorque])) };
+        });
+        for (const joint of ['neck', 'waist', 'leftHip', 'leftKnee', 'rightHip', 'rightKnee']) {
+          assert.equal(passive.weights[joint], 0, `${joint}: 倒地不应主动维持躯干/腿部姿态`);
+          assert.equal(passive.motorTorques[joint], 0, `${joint}: 实际组件扭矩应归零`);
+        }
+        assert.ok(passive.weights.rightShoulder > 0 && passive.weights.leftShoulder > 0, '存活倒地保留双臂驱动');
+        report.cases.downedPassiveBody = passive;
+      }
       else await wait(v => Math.abs(v.chestAngleDeg) > 8, 'native stagger');
     }
     const before = await get();

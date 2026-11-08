@@ -5,7 +5,7 @@ currentMilestone: M1
 currentTask: T004
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003
-sourceRevision: 本轮修复基线 main @ db9cb2f（已合入最新 Creator 编译修复）；修改及验证见关联提交
+sourceRevision: 本轮修复基线 main @ 3760c6d；修改及验证见关联提交
 configVersion: 2
 runtimeVerified: 否（T003 左右骨架 WebGL 已实测；完整玩法种子未验收）
 feelGateG1: NOT_RUN
@@ -56,3 +56,7 @@ selectedTapTapPath: Android APK 默认方案，待 T016 核实
 初始基线 main @ 2c8290f；开发期间已合入远端 db9cb2f 的编译与 meta 修复。手臂 Sprite 与灰盒依据真实肩肘握点的局部连线对齐；持弓目标改为更接近伸展并同步校正弦深度。保留碰撞/质量/铰链，不改物理节点变换。
 HitResolver→AimController→PoseController 已接分箭型/部位关节降权、渐进恢复与死亡零主动驱动。去掉统一后仰目标；保留普通1.8/冲击3.2/穿甲1.4 N·s 原冲量，实际数值与关节计划进入 lastHit。
 101 项便携回归通过；新引擎代码语法检查通过；实际 Creator/声明/构建缺失，未运行新增 test:web:arm-impact，三姿态、四部位、稳定性与 G1 继续待验。详细原因、参数表和命令：docs/ARM_IMPACT_FIX.md；证据 evidence/arm-impact。
+
+## T004 受限驱动与倒地释放（2026-11-08）
+已修正肩部跨限位边界时马达方向：不再按整圈最短路顶住停止角。Downed 仅保留双臂有限IK驱动，躯干/腿部实际马达最大扭矩与速度归零；保留活体与死亡区别，零控制不再显示为满控制。未改限位、质量或三箭参数，没有自动倒地识别/起身。
+106 项回归、便携类型检查通过；新场景断言已补，Creator/真实声明缺失，实际三姿态、冲击、稳定性与 G1 仍未放行。证据 evidence/T004/limited-drive/verification.md；说明 docs/LIMITED_DRIVE_FIX.md。

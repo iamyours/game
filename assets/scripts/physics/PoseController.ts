@@ -2,10 +2,10 @@ import { PhysicsAdapter as Physics } from './PhysicsAdapter';
 import type { RagdollInstance } from './RagdollFactory';
 import type { RigJointId, RigDefinition } from './RigDefinition';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
-import { armGeometry, solveArm, type ArmGeometry } from '../domain/archery';
+import { armGeometry, solveArm, postureMotorAuthority, type ArmGeometry, type PhysicalPose } from '../domain/archery';
 import { ReactionWeights, type JointReaction } from '../domain/reaction';
 
-export type PoseName = 'standing' | 'staggered' | 'downed';
+export type PoseName = PhysicalPose;
 
 export interface PoseControllerSnapshot {
   readonly pose: PoseName;
@@ -26,8 +26,9 @@ const POSES: Readonly<Record<PoseName, Readonly<Record<RigJointId, number>>>> = 
     leftHip: -12, leftKnee: 0, rightHip: 12, rightKnee: 0 },
   staggered: { neck: 10, waist: -16, leftShoulder: 18, leftElbow: 38, rightShoulder: -22, rightElbow: 42,
     leftHip: -8, leftKnee: 24, rightHip: 10, rightKnee: 30 },
-  downed: { neck: 18, waist: 30, leftShoulder: 36, leftElbow: 58, rightShoulder: -34, rightElbow: 58,
-    leftHip: 34, leftKnee: 72, rightHip: 34, rightKnee: 72 },
+  // Non-arm targets have zero authority in downed; arms are replaced by world-space IK.
+  downed: { neck: 0, waist: 0, leftShoulder: 0, leftElbow: 0, rightShoulder: 0, rightElbow: 0,
+    leftHip: 0, leftKnee: 0, rightHip: 0, rightKnee: 0 },
 };
 
 /**
@@ -80,7 +81,7 @@ export class PoseController {
   public get snapshot(): PoseControllerSnapshot {
     return { pose: this.pose, aimRad: this.aimRad, armControlWeight: this.armControlWeight,
       drawing: this.drawing, drawAmount: this.drawAmount, alive: this.alive,
-      jointControlWeights: Object.fromEntries(JOINTS.map(joint => [joint, this.alive ? this.reactions.weight(joint) : 0])) };
+      jointControlWeights: Object.fromEntries(JOINTS.map(joint => [joint, this.controlWeight(joint)])) };
   }
 
   public reset(): void {
@@ -92,7 +93,16 @@ export class PoseController {
     this.alive = true; this.reactions.clear();
   }
 
-  public setPose(pose: PoseName): void { this.pose = pose; }
+  public setPose(pose: PoseName): void {
+    this.pose = pose;
+    if (pose === 'downed') {
+      // Do not retain the factory's high-torque warmup or last frame's leg targets.
+      this.warmupRemaining = 0;
+      for (const joint of JOINTS) if (postureMotorAuthority(joint, pose, this.alive) === 0) {
+        this.ragdoll.setJointMotor(joint, 0, 0, 0);
+      }
+    }
+  }
   public setAimRad(aimRad: number): void { this.aimRad = aimRad; }
   public registerHit(reactions: readonly JointReaction[]): void {
     this.reactions.register(reactions);
@@ -141,10 +151,15 @@ export class PoseController {
     const controlTorque = Math.min(12, this.baseTorqueNm * 0.1);
     for (const jointId of JOINTS) {
       const arm = jointId.endsWith('Shoulder') || jointId.endsWith('Elbow');
-      const poseWeight = this.pose === 'downed' && arm ? 0.8 : 1;
-      const reactionWeight = this.reactions.weight(jointId);
-      this.ragdoll.setJointMotor(jointId, targets[jointId], controlTorque * poseWeight * reactionWeight * (arm ? this.armControlWeight : 1), arm ? this.bow.armMaxSpeedDegPerSec : 135);
+      const weight = this.controlWeight(jointId);
+      this.ragdoll.setJointMotor(jointId, targets[jointId], controlTorque * weight,
+        weight === 0 ? 0 : arm ? this.bow.armMaxSpeedDegPerSec : 135);
     }
+  }
+
+  private controlWeight(joint: RigJointId): number {
+    const arm = joint.endsWith('Shoulder') || joint.endsWith('Elbow');
+    return postureMotorAuthority(joint, this.pose, this.alive) * this.reactions.weight(joint) * (arm ? this.armControlWeight : 1);
   }
 
   private balanceStandingChest(): void {

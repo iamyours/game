@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { aimHintPoints, applyDrawStrength, armGeometry, solveArm } from '../assets/scripts/domain/archery.js';
+import { aimHintPoints, applyDrawStrength, armGeometry, solveArm, limitedJointMotorSpeed, postureMotorAuthority } from '../assets/scripts/domain/archery.js';
 import { readRigDefinition } from '../assets/scripts/physics/RigDefinition.js';
 import { readBootManifest } from '../assets/scripts/core/BootManifest.js';
 import { loadSeedPack, renderGenerated } from '../tools/config/files.js';
@@ -102,4 +102,54 @@ test('持弓手不再锁成约 90 度折臂，伸展后全瞄准范围两手仍�
   const held = solveArm(g, shoulder, { x: shoulder.x + bow.bowArmReachM, y: shoulder.y }, 0);
   const bend = Math.abs(held.elbowRad + g.foreRestRad - g.upperRestRad) * 180 / Math.PI;
   assert.ok(bend < 45 && bend > 8, `持弓臂保留小弯曲而非直角：${bend}`);
+});
+
+test('肩关节跨限位间隙时走合法区间：150→-150 向负转，反向向正转', () => {
+  assert.equal(limitedJointMotorSpeed(150, -150, [-160, 160], 360), -360);
+  assert.equal(limitedJointMotorSpeed(-150, 150, [-160, 160], 360), 360);
+  assert.equal(limitedJointMotorSpeed(160, -160, [-160, 160], 360), -360);
+  assert.equal(limitedJointMotorSpeed(-160, 160, [-160, 160], 360), 360);
+});
+
+test('所有已配置铰链的驱动方向均指向合法目标，不绕整圈顶住限位', async () => {
+  const { rig } = await setup();
+  for (const joint of rig.jointDefinitions) {
+    const [lo, hi] = joint.limitsDeg;
+    for (const current of [lo, (lo + hi) / 2, hi]) for (const wanted of [lo - 30, lo, (lo + hi) / 2, hi, hi + 30]) {
+      const target = Math.max(lo, Math.min(hi, wanted));
+      const speed = limitedJointMotorSpeed(current, wanted, joint.limitsDeg, 135);
+      assert.equal(Math.sign(speed), Math.sign(target - current), `${joint.id}: ${current}→${target}`);
+      assert.ok(Math.abs(speed) <= 135);
+      assert.equal(limitedJointMotorSpeed(current, wanted, joint.limitsDeg, 0), 0);
+    }
+  }
+});
+
+test('受限伺服数值规则跨 ±150° 能到达目标且不越界（非引擎物理验收）', () => {
+  for (const [start, target] of [[150, -150], [-150, 150]]) {
+    let current = start!;
+    for (let i = 0; i < 240; i++) {
+      current += limitedJointMotorSpeed(current, target!, [-160, 160], 360) / 60;
+      assert.ok(current >= -160 && current <= 160);
+    }
+    assert.ok(Math.abs(current - target!) < 0.01);
+  }
+});
+
+test('倒地仅保留双臂主动瞄准；死亡全部释放，站立/后仰保留控制', async () => {
+  const { rig } = await setup();
+  for (const joint of rig.jointDefinitions) {
+    const arm = joint.id.endsWith('Shoulder') || joint.id.endsWith('Elbow');
+    assert.equal(postureMotorAuthority(joint.id, 'downed', true), arm ? 0.8 : 0);
+    for (const pose of ['standing', 'staggered', 'downed'] as const) assert.equal(postureMotorAuthority(joint.id, pose, false), 0);
+    assert.equal(postureMotorAuthority(joint.id, 'standing', true), 1);
+    assert.equal(postureMotorAuthority(joint.id, 'staggered', true), 1);
+  }
+});
+
+test('拒绝非有限驱动值、倒置限位和负速度，防止向 Box2D 写入 NaN', () => {
+  assert.throws(() => limitedJointMotorSpeed(NaN, 0, [-160, 160], 360));
+  assert.throws(() => limitedJointMotorSpeed(0, Infinity, [-160, 160], 360));
+  assert.throws(() => limitedJointMotorSpeed(0, 0, [10, -10], 360));
+  assert.throws(() => limitedJointMotorSpeed(0, 0, [-10, 10], -1));
 });

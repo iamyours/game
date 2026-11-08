@@ -109,3 +109,6 @@ T002_EVIDENCE_DIR=evidence/T004/bow-draw/t002-regression npm run test:web:t002
 
 ## 手臂/冲击修复验证（2026-11-08）
 最终基线 db9cb2f；npm run verify 退出 0（101 项），引擎适配代码仅语法检查。env:check 仍报告 Creator/导入缺失；typecheck:engine 和 build:web 退出 2。新增 test:web:arm-impact 沿用既有 PLAYWRIGHT_MODULE / CHROME_PATH / T004_URL 环境约定，默认输出 evidence/arm-impact/runtime；未在当前环境执行，不声称物理通过。命令与参数前后记录见 evidence/arm-impact。
+
+## 受限驱动迭代（2026-11-08）
+基线3760c6d；npm run verify退出0（106项）。node --check scripts/verify-t004-web.mjs退出0；引擎文件仅语法/import检查。Creator与真实声明仍缺失，typecheck:engine/build:web退出2。证据 evidence/T004/limited-drive；本次无新引擎运行PASS。

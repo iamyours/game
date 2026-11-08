@@ -1,0 +1,25 @@
+{
+  "baseRevision": "3760c6d66fed6e58dfaf9643a1bd52aa52fe1b81",
+  "engineRequired": "3.8.8",
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "tests": 106
+    },
+    {
+      "command": "npm run env:check",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 2
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 2
+    }
+  ],
+  "webThreePose": "NOT_RUN",
+  "physicalAcceptance": "BLOCKED: Creator and editor declarations unavailable"
+}

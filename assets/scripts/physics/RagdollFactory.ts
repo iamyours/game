@@ -1,6 +1,6 @@
 import { BoxCollider2D, CircleCollider2D, Color, ERigidBody2DType, Graphics, HingeJoint2D, Node, PhysicsSystem2D, RigidBody2D, Vec2 } from 'cc';
 import { PhysicsAdapter as Physics } from './PhysicsAdapter';
-import { armVisualLayout } from '../domain/archery';
+import { armVisualLayout, limitedJointMotorSpeed } from '../domain/archery';
 import type { RigBodyDefinition, RigDefinition, RigBodyId } from './RigDefinition';
 
 export interface RagdollInstanceSnapshot {
@@ -105,11 +105,11 @@ class RagdollInstanceImpl implements RagdollInstance {
     const joint = this.joints.get(jointId);
     const definition = this.definition.jointDefinitions.find((value) => value.id === jointId);
     if (!joint || !definition) return;
-    const target = Math.max(definition.limitsDeg[0], Math.min(definition.limitsDeg[1], targetAngleDeg));
-    const error = normalizeDegrees(target - this.relativeAngleDeg(jointId));
+    const speed = limitedJointMotorSpeed(this.relativeAngleDeg(jointId), targetAngleDeg,
+      definition.limitsDeg, maxSpeedDegPerSec);
     joint.enableMotor = true;
     joint.maxMotorTorque = Math.max(0, torqueNm);
-    Physics.setMotorSpeed(joint, Math.max(-maxSpeedDegPerSec, Math.min(maxSpeedDegPerSec, error * 7)));
+    Physics.setMotorSpeed(joint, speed);
   }
 
   public relativeAngleDeg(jointId: string): number {

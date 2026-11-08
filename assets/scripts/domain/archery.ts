@@ -1,7 +1,25 @@
-import type { RigDefinition, RigBodyDefinition } from '../physics/RigDefinition.js';
+import type { RigDefinition, RigBodyDefinition, RigJointId } from '../physics/RigDefinition.js';
 
 export interface PointM { readonly x: number; readonly y: number }
 export type ArmSide = 'left' | 'right';
+export type PhysicalPose = 'standing' | 'staggered' | 'downed';
+
+/** A limited hinge must take the legal interval route, not a wrapped shortcut through its stops. */
+export function limitedJointMotorSpeed(currentDeg: number, targetDeg: number,
+  limitsDeg: readonly [number, number], maxSpeedDegPerSec: number): number {
+  if (![currentDeg, targetDeg, ...limitsDeg, maxSpeedDegPerSec].every(Number.isFinite) ||
+    limitsDeg[0] > limitsDeg[1] || maxSpeedDegPerSec < 0) throw new Error('无效关节驱动参数');
+  const target = Math.max(limitsDeg[0], Math.min(limitsDeg[1], targetDeg));
+  const error = target - currentDeg;
+  if (maxSpeedDegPerSec === 0 || error === 0) return 0;
+  return Math.max(-maxSpeedDegPerSec, Math.min(maxSpeedDegPerSec, error * 7));
+}
+
+export function postureMotorAuthority(joint: RigJointId, pose: PhysicalPose, alive: boolean): number {
+  if (!alive) return 0;
+  if (pose !== 'downed') return 1;
+  return joint.endsWith('Shoulder') || joint.endsWith('Elbow') ? 0.8 : 0;
+}
 export interface ArmGeometry {
   readonly shoulderAnchorM: readonly [number, number];
   readonly gripLocalM: readonly [number, number];

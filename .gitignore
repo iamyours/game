@@ -1,0 +1,14 @@
+node_modules/
+.cache/
+# Cocos 导入/构建输出；meta 和编辑器生成的设置需要版本管理。
+library/
+temp/
+build/
+profiles/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.*
+!.env.example
+# 机器路径、渠道凭据仅本地保存。
+configs/*.local.json

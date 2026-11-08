@@ -1,0 +1,397 @@
+{
+  "generatedFrom": "configs/rig.seed.json",
+  "sourceKind": "unverified_seed",
+  "runtimeVerified": false,
+  "seedHash": "9fbd932d2de2ce3ff9e602724e933653d047b03d73188c834d68cd466265a829",
+  "data": {
+    "configVersion": 2,
+    "status": "runtime_spec_ready_requires_stability",
+    "heightM": 1.8,
+    "massKg": 24,
+    "bodyCount": 11,
+    "jointCount": 10,
+    "partGroups": [
+      {
+        "id": "head",
+        "count": 1,
+        "massFractionTotal": 0.08
+      },
+      {
+        "id": "chest",
+        "count": 1,
+        "massFractionTotal": 0.32
+      },
+      {
+        "id": "pelvis",
+        "count": 1,
+        "massFractionTotal": 0.2
+      },
+      {
+        "id": "arms",
+        "count": 4,
+        "massFractionTotal": 0.16
+      },
+      {
+        "id": "legs",
+        "count": 4,
+        "massFractionTotal": 0.24
+      }
+    ],
+    "logicalJointLimitsDeg": {
+      "neck": [
+        -25,
+        25
+      ],
+      "waist": [
+        -40,
+        40
+      ],
+      "shoulder": [
+        -160,
+        160
+      ],
+      "elbow": [
+        0,
+        150
+      ],
+      "hip": [
+        -70,
+        70
+      ],
+      "knee": [
+        0,
+        150
+      ]
+    },
+    "bodyDefinitions": [
+      {
+        "id": "head",
+        "shape": "circle",
+        "positionM": [
+          0,
+          1.61
+        ],
+        "sizeM": [
+          0.36,
+          0.36
+        ],
+        "massKg": 1.92
+      },
+      {
+        "id": "chest",
+        "shape": "box",
+        "positionM": [
+          0,
+          1.1
+        ],
+        "sizeM": [
+          0.48,
+          0.65
+        ],
+        "massKg": 7.68
+      },
+      {
+        "id": "pelvis",
+        "shape": "box",
+        "positionM": [
+          0,
+          0.66
+        ],
+        "sizeM": [
+          0.42,
+          0.34
+        ],
+        "massKg": 4.8
+      },
+      {
+        "id": "leftUpperArm",
+        "shape": "box",
+        "positionM": [
+          -0.49,
+          1.16
+        ],
+        "sizeM": [
+          0.2,
+          0.4
+        ],
+        "massKg": 0.96
+      },
+      {
+        "id": "leftForearm",
+        "shape": "box",
+        "positionM": [
+          -0.7,
+          1.03
+        ],
+        "sizeM": [
+          0.18,
+          0.38
+        ],
+        "massKg": 0.96
+      },
+      {
+        "id": "rightUpperArm",
+        "shape": "box",
+        "positionM": [
+          0.49,
+          1.16
+        ],
+        "sizeM": [
+          0.2,
+          0.4
+        ],
+        "massKg": 0.96
+      },
+      {
+        "id": "rightForearm",
+        "shape": "box",
+        "positionM": [
+          0.7,
+          1.03
+        ],
+        "sizeM": [
+          0.18,
+          0.38
+        ],
+        "massKg": 0.96
+      },
+      {
+        "id": "leftThigh",
+        "shape": "box",
+        "positionM": [
+          -0.15,
+          0.32
+        ],
+        "sizeM": [
+          0.22,
+          0.56
+        ],
+        "massKg": 1.44
+      },
+      {
+        "id": "leftShin",
+        "shape": "box",
+        "positionM": [
+          -0.15,
+          -0.12
+        ],
+        "sizeM": [
+          0.2,
+          0.58
+        ],
+        "massKg": 1.44
+      },
+      {
+        "id": "rightThigh",
+        "shape": "box",
+        "positionM": [
+          0.15,
+          0.32
+        ],
+        "sizeM": [
+          0.22,
+          0.56
+        ],
+        "massKg": 1.44
+      },
+      {
+        "id": "rightShin",
+        "shape": "box",
+        "positionM": [
+          0.15,
+          -0.12
+        ],
+        "sizeM": [
+          0.2,
+          0.58
+        ],
+        "massKg": 1.44
+      }
+    ],
+    "jointDefinitions": [
+      {
+        "id": "neck",
+        "parentId": "chest",
+        "childId": "head",
+        "parentAnchorM": [
+          0,
+          0.33
+        ],
+        "childAnchorM": [
+          0,
+          -0.18
+        ],
+        "limitsDeg": [
+          -25,
+          25
+        ]
+      },
+      {
+        "id": "waist",
+        "parentId": "chest",
+        "childId": "pelvis",
+        "parentAnchorM": [
+          0,
+          -0.32
+        ],
+        "childAnchorM": [
+          0,
+          0.12
+        ],
+        "limitsDeg": [
+          -40,
+          40
+        ]
+      },
+      {
+        "id": "leftShoulder",
+        "parentId": "chest",
+        "childId": "leftUpperArm",
+        "parentAnchorM": [
+          -0.27,
+          0.17
+        ],
+        "childAnchorM": [
+          0.22,
+          0.11
+        ],
+        "limitsDeg": [
+          -160,
+          160
+        ]
+      },
+      {
+        "id": "leftElbow",
+        "parentId": "leftUpperArm",
+        "childId": "leftForearm",
+        "parentAnchorM": [
+          -0.1,
+          -0.06
+        ],
+        "childAnchorM": [
+          0.11,
+          0.07
+        ],
+        "limitsDeg": [
+          0,
+          150
+        ]
+      },
+      {
+        "id": "rightShoulder",
+        "parentId": "chest",
+        "childId": "rightUpperArm",
+        "parentAnchorM": [
+          0.27,
+          0.17
+        ],
+        "childAnchorM": [
+          -0.22,
+          0.11
+        ],
+        "limitsDeg": [
+          -160,
+          160
+        ]
+      },
+      {
+        "id": "rightElbow",
+        "parentId": "rightUpperArm",
+        "childId": "rightForearm",
+        "parentAnchorM": [
+          0.1,
+          -0.06
+        ],
+        "childAnchorM": [
+          -0.11,
+          0.07
+        ],
+        "limitsDeg": [
+          0,
+          150
+        ]
+      },
+      {
+        "id": "leftHip",
+        "parentId": "pelvis",
+        "childId": "leftThigh",
+        "parentAnchorM": [
+          -0.15,
+          -0.17
+        ],
+        "childAnchorM": [
+          0,
+          0.17
+        ],
+        "limitsDeg": [
+          -70,
+          70
+        ]
+      },
+      {
+        "id": "leftKnee",
+        "parentId": "leftThigh",
+        "childId": "leftShin",
+        "parentAnchorM": [
+          0,
+          -0.28
+        ],
+        "childAnchorM": [
+          0,
+          0.16
+        ],
+        "limitsDeg": [
+          0,
+          150
+        ]
+      },
+      {
+        "id": "rightHip",
+        "parentId": "pelvis",
+        "childId": "rightThigh",
+        "parentAnchorM": [
+          0.15,
+          -0.17
+        ],
+        "childAnchorM": [
+          0,
+          0.17
+        ],
+        "limitsDeg": [
+          -70,
+          70
+        ]
+      },
+      {
+        "id": "rightKnee",
+        "parentId": "rightThigh",
+        "childId": "rightShin",
+        "parentAnchorM": [
+          0,
+          -0.28
+        ],
+        "childAnchorM": [
+          0,
+          0.16
+        ],
+        "limitsDeg": [
+          0,
+          150
+        ]
+      }
+    ],
+    "collisionGroups": {
+      "platform": 1,
+      "ragdoll": 2,
+      "projectile": 4
+    },
+    "neutralMotorTorqueNm": 120,
+    "anchors": "calibrate_and_write_in_T003",
+    "motorGains": "calibrate_and_write_in_T004",
+    "relativeReferenceAngles": "calibrate_separately_for_left_and_right",
+    "noNegativePhysicsScale": true,
+    "adjacentSelfCollision": false,
+    "otherSelfCollisionInitially": false,
+    "downedAliveCanAim": true
+  }
+}

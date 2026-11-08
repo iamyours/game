@@ -1,0 +1,45 @@
+{
+  "passed": false,
+  "date": "2026-11-07",
+  "mode": "headless Chrome; WebGL; Cocos 3.8.8; Box2D; no phone claim",
+  "url": "http://127.0.0.1:7458/",
+  "browser": "150.0.7871.125",
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld"
+  },
+  "stability": {},
+  "reset": {},
+  "pageErrors": [],
+  "consoleErrors": [],
+  "platformFixtures": {
+    "fixtures": [
+      {
+        "name": "Platform_player_main",
+        "masks": [
+          7
+        ]
+      },
+      {
+        "name": "Platform_enemy_low",
+        "masks": [
+          7
+        ]
+      },
+      {
+        "name": "Platform_enemy_high",
+        "masks": [
+          7
+        ]
+      }
+    ],
+    "requiredMask": 6
+  },
+  "standing": {
+    "minChestYM": 3.2832701206207275,
+    "maxDriftXM": 1.5102806091308594
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: 未受击应持续站在各自平台上: {\"minChestYM\":3.2832701206207275,\"maxDriftXM\":1.5102806091308594}"
+}

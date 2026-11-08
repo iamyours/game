@@ -1,0 +1,4 @@
+
+> storm-archers@0.1.0 typecheck:engine
+> node scripts/creator.mjs typecheck
+

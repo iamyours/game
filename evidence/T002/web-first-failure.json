@@ -1,0 +1,91 @@
+{
+  "passed": false,
+  "browser": "150.0.7871.125",
+  "url": "http://127.0.0.1:7458/",
+  "date": "2026-11-08",
+  "mode": "headless Chrome; WebGL; CDP two-point touch and desktop mouse; not a phone test",
+  "checks": {},
+  "events": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "console": [
+    {
+      "type": "timeEnd",
+      "text": "Init Base: 50.748046875 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init Infrastructure: 263.38623046875 ms"
+    },
+    {
+      "type": "log",
+      "text": "[PHYSICS2D]: register box2d."
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init SubSystem: 102.552001953125 ms"
+    },
+    {
+      "type": "log",
+      "text": "Cocos Creator v3.8.8"
+    },
+    {
+      "type": "log",
+      "text": "Using custom pipeline: Builtin"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init Project: 47.77587890625 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "LoadScene db://assets/scenes/Boot.scene: 20.301025390625 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "InitScene: 0.221923828125 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "AttachPersist: 0.087890625 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "AutoRelease: 0.134033203125 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Destroy: 0.18115234375 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Activate: 10.98193359375 ms"
+    },
+    {
+      "type": "log",
+      "text": "Success to load scene: db://assets/scenes/Boot.scene"
+    },
+    {
+      "type": "info",
+      "text": "[StormArchersBoot] 正在加载风暴弓手种子配置…"
+    },
+    {
+      "type": "info",
+      "text": "[PhysicsLab] ready in Boot; seed 951e27ddf49d804db67e880ad2008026c0872f9a7a76eb81110e9fad58ff4295"
+    }
+  ],
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld",
+    "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "canvas": {
+      "x": 80,
+      "y": 84.875,
+      "width": 1280,
+      "height": 960
+    }
+  },
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n+   height: 960,\n+   width: 1280,\n+   x: 80,\n+   y: 84.875\n-   height: 810,\n-   width: 1440,\n-   x: 0,\n-   y: 0\n  }\n\n    at file:///Users/mac/Documents/game/scripts/verify-t002-web.mjs:85:10"
+}

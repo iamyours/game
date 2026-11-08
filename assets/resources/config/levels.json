@@ -1,0 +1,155 @@
+{
+  "generatedFrom": "configs/levels.seed.json",
+  "sourceKind": "unverified_seed",
+  "runtimeVerified": false,
+  "seedHash": "9fbd932d2de2ce3ff9e602724e933653d047b03d73188c834d68cd466265a829",
+  "data": {
+    "configVersion": 2,
+    "status": "seed_requires_reachability_and_runtime_test",
+    "coordinateSystem": "metres_x_right_y_up_platform_surface",
+    "platforms": [
+      {
+        "id": "player_main",
+        "centerX_M": 3.5,
+        "surfaceY_M": 3,
+        "widthM": 5,
+        "thicknessM": 0.6,
+        "breakable": false
+      },
+      {
+        "id": "enemy_low",
+        "centerX_M": 18,
+        "surfaceY_M": 3,
+        "widthM": 3,
+        "thicknessM": 0.6,
+        "breakable": false
+      },
+      {
+        "id": "enemy_high",
+        "centerX_M": 20,
+        "surfaceY_M": 6,
+        "widthM": 3,
+        "thicknessM": 0.6,
+        "breakable": false
+      }
+    ],
+    "playerPlatformId": "player_main",
+    "levels": [
+      {
+        "id": "L001",
+        "name": "遗迹初战",
+        "sceneId": "storm_ruins",
+        "waves": [
+          [
+            {
+              "enemyId": "archer",
+              "platformId": "enemy_low",
+              "spawnDelaySec": 0
+            }
+          ],
+          [
+            {
+              "enemyId": "archer",
+              "platformId": "enemy_high",
+              "spawnDelaySec": 0
+            }
+          ],
+          [
+            {
+              "enemyId": "archer",
+              "platformId": "enemy_low",
+              "spawnDelaySec": 0
+            },
+            {
+              "enemyId": "archer",
+              "platformId": "enemy_high",
+              "spawnDelaySec": 0.6
+            }
+          ]
+        ],
+        "unlockArrow": "impact",
+        "unlockLevel": "L002"
+      },
+      {
+        "id": "L002",
+        "name": "装甲试炼",
+        "sceneId": "storm_ruins",
+        "waves": [
+          [
+            {
+              "enemyId": "armored",
+              "platformId": "enemy_low",
+              "spawnDelaySec": 0
+            }
+          ],
+          [
+            {
+              "enemyId": "armored",
+              "platformId": "enemy_high",
+              "spawnDelaySec": 0
+            },
+            {
+              "enemyId": "archer",
+              "platformId": "enemy_low",
+              "spawnDelaySec": 0.6
+            }
+          ],
+          [
+            {
+              "enemyId": "armored",
+              "platformId": "enemy_low",
+              "spawnDelaySec": 0
+            },
+            {
+              "enemyId": "armored",
+              "platformId": "enemy_high",
+              "spawnDelaySec": 0.6
+            }
+          ]
+        ],
+        "unlockArrow": "piercing",
+        "unlockLevel": "L003"
+      },
+      {
+        "id": "L003",
+        "name": "遗迹守卫",
+        "sceneId": "storm_ruins",
+        "waves": [
+          [
+            {
+              "enemyId": "archer",
+              "platformId": "enemy_low",
+              "spawnDelaySec": 0
+            },
+            {
+              "enemyId": "archer",
+              "platformId": "enemy_high",
+              "spawnDelaySec": 0.6
+            }
+          ],
+          [
+            {
+              "enemyId": "armored",
+              "platformId": "enemy_high",
+              "spawnDelaySec": 0
+            },
+            {
+              "enemyId": "archer",
+              "platformId": "enemy_low",
+              "spawnDelaySec": 0.6
+            }
+          ],
+          [
+            {
+              "enemyId": "boss",
+              "platformId": "enemy_high",
+              "spawnDelaySec": 0
+            }
+          ]
+        ],
+        "unlockArrow": null,
+        "unlockLevel": null
+      }
+    ]
+  }
+}

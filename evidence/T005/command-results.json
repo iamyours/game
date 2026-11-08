@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-08",
+  "commands": [
+    {"command": "npm run config:generate", "exitCode": 0, "result": "projectile collision group=4; calibration probe moved to isolated group=8; seedHash=bc96602a3baf5bbfd96acbeafc8a0bcb2e08d193252819a1650c9e9ea9f0b9a9"},
+    {"command": "npm run verify", "exitCode": 0, "result": "63/63 unit/config/portable checks passed"},
+    {"command": "npm run typecheck:engine", "exitCode": 0, "result": "Cocos Creator 3.8.8 generated declarations strict check passed"},
+    {"command": "npm run build:web", "exitCode": 0, "creatorRawExitCode": 36, "result": "build/web-desktop generated; expected Creator raw 36 normalized by wrapper"},
+    {"command": "npm run test:web:t003", "exitCode": 0, "result": "30s active-pose stability, 20 reset cycles, 263 samples, no page/console errors"},
+    {"command": "npm run test:web:t004-t006", "exitCode": 0, "result": "standing/staggered/downed, downed aiming, one 18 m arrow flight and one local hit; no page/console errors"}
+  ],
+  "runtime": "Boot -> PhysicsLab; Chrome desktop WebGL; Cocos Creator 3.8.8; Box2D 2D"
+}

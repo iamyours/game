@@ -1,0 +1,29 @@
+{
+  "generatedFrom": "configs/platform.seed.json",
+  "sourceKind": "unverified_seed",
+  "runtimeVerified": false,
+  "seedHash": "9fbd932d2de2ce3ff9e602724e933653d047b03d73188c834d68cd466265a829",
+  "data": {
+    "configVersion": 2,
+    "orientation": "landscape",
+    "web": {
+      "purpose": "development_baseline",
+      "verified": false
+    },
+    "wechat": {
+      "target": "minigame",
+      "appId": "set_locally",
+      "verified": false
+    },
+    "taptap": {
+      "selectedPath": "android_apk",
+      "alternativePaths": [
+        "ordinary_minigame",
+        "h5_minigame"
+      ],
+      "pathDecisionRequiredBeforeT016": true,
+      "verified": false
+    },
+    "commercialFeaturesEnabled": false
+  }
+}

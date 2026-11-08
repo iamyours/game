@@ -1,0 +1,89 @@
+{
+  "passed": true,
+  "date": "2026-11-07",
+  "mode": "headless Chrome; WebGL; Cocos 3.8.8; Box2D; no phone claim",
+  "url": "http://127.0.0.1:7458/",
+  "browser": "150.0.7871.125",
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld"
+  },
+  "stability": {
+    "durationSec": 30,
+    "observedFixedSteps": 1794,
+    "sampleCount": 265,
+    "initialResetCount": 0,
+    "bodyCountPerRagdoll": [
+      11
+    ],
+    "jointCountPerRagdoll": [
+      10
+    ],
+    "maxJointErrorM": 0.0024984000677512625,
+    "physicsBodies": [
+      27
+    ],
+    "physicsJoints": [
+      20
+    ],
+    "box2dBodies": [
+      28
+    ],
+    "box2dJoints": [
+      20
+    ],
+    "calibrationPassed": true
+  },
+  "reset": {
+    "requested": 20,
+    "completed": 20,
+    "physicsBodies": 27,
+    "physicsJoints": 20,
+    "box2dBodies": 28,
+    "box2dJoints": 20,
+    "ragdollBodyCounts": [
+      11,
+      11
+    ],
+    "ragdollJointCounts": [
+      10,
+      10
+    ]
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "platformFixtures": {
+    "fixtures": [
+      {
+        "name": "Platform_player_main",
+        "masks": [
+          7
+        ]
+      },
+      {
+        "name": "Platform_enemy_low",
+        "masks": [
+          7
+        ]
+      },
+      {
+        "name": "Platform_enemy_high",
+        "masks": [
+          7
+        ]
+      }
+    ],
+    "requiredMask": 6
+  },
+  "standing": {
+    "minChestYM": 4.526991367340088,
+    "maxDriftXM": 0.07880783081054688
+  },
+  "standingSoak": {
+    "fixedSteps": 3600,
+    "minChestYM": 4.528069496154785,
+    "maxDriftXM": 0.20757293701171875
+  }
+}

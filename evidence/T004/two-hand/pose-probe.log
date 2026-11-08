@@ -1,0 +1,19 @@
+
+> storm-archers@0.1.0 test:web:t004
+> node scripts/verify-t004-web.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: 实际拉弦手应可观察地前后移动
+    at file:///Users/mac/Documents/game/scripts/verify-t004-web.mjs:67:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.13.0

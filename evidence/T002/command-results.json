@@ -1,0 +1,144 @@
+{
+  "date": "2026-11-08",
+  "timezone": "Asia/Shanghai",
+  "root": "/Users/mac/Documents/game",
+  "creator": "3.8.8",
+  "configVersion": 2,
+  "seedHash": "11485b4d28fb55feee23a55928d9a9559b0450fc4b46b22532d7db97da904628",
+  "final": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": "logs/20-verify-release.log",
+      "detail": "配置/生成漂移/63 单测/便携严格类型"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 0,
+      "log": "logs/17-typecheck-engine-final.log",
+      "detail": "实际编辑器声明，无 cc stub"
+    },
+    {
+      "command": "npm run env:check",
+      "exitCode": 0,
+      "log": "logs/22-env-verified.log"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 0,
+      "creatorRawExitCode": 36,
+      "log": "logs/18-build-web-verified.log",
+      "detail": "真实 CLI 构建；退出阶段有全局窗口状态恢复诊断，未修改全局文件"
+    },
+    {
+      "command": "HEADED=1 EVIDENCE_DATE=2026-11-08 npm run test:web:t002",
+      "exitCode": 0,
+      "log": "logs/19-web-verified.log",
+      "detail": "真实 WebGL、Box2D、可信双触点、实际标签页 hidden/visible、鼠标、投影/五种尺寸；无页面异常与失败请求"
+    },
+    {
+      "command": "npm run config:generate",
+      "exitCode": 0,
+      "log": "logs/12-config-generate.log"
+    },
+    {
+      "command": "T001 preservation/meta audit (Python)",
+      "exitCode": 0,
+      "log": "logs/21-preservation-audit.log"
+    }
+  ],
+  "history": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": "logs/01-verify.log",
+      "detail": "61 项，添加启动配置回归前"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 0,
+      "log": "logs/02-typecheck-engine.log"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 0,
+      "creatorRawExitCode": 36,
+      "log": "logs/03-build-web.log"
+    },
+    {
+      "command": "npm run test:web:t002",
+      "exitCode": 1,
+      "log": "logs/04-web-first.log",
+      "detail": "固定 1280x960 desktop 壳超出窗口；修复模板，失败快照保留"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 0,
+      "creatorRawExitCode": 36,
+      "log": "logs/05-build-web-responsive.log"
+    },
+    {
+      "command": "EVIDENCE_DATE=2026-11-08 npm run test:web:t002",
+      "exitCode": 1,
+      "log": "logs/06-web-responsive.log",
+      "detail": "仅 CSS 尺寸改变未发引擎 resize；修正启动 exactFitScreen，失败快照保留"
+    },
+    {
+      "command": "npm run env:check",
+      "exitCode": 0,
+      "log": "logs/07-env.log"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 0,
+      "creatorRawExitCode": 36,
+      "log": "logs/08-build-web-final.log"
+    },
+    {
+      "command": "HEADED=1 EVIDENCE_DATE=2026-11-08 npm run test:web:t002",
+      "exitCode": 0,
+      "log": "logs/09-web-final.log",
+      "detail": "旧配置哈希 951e27...，加入显式步进契约之前"
+    },
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": "logs/10-verify-final.log",
+      "detail": "61 项"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 0,
+      "log": "logs/11-typecheck-engine-final.log"
+    },
+    {
+      "command": "npm run verify",
+      "exitCode": 2,
+      "log": "logs/13-verify-final.log",
+      "detail": "新增配置测试暴露 portable type-only 导入无 .js 和空值守卫；已修复"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 0,
+      "log": "logs/14-typecheck-engine-final.log"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 0,
+      "creatorRawExitCode": 36,
+      "log": "logs/15-build-web-final.log"
+    },
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": "logs/16-verify-final.log",
+      "detail": "63 项，显式添加 portable include 前"
+    }
+  ],
+  "boundaries": [
+    "AC01/AC02 PASS_WEB，不是手机/微信/TapTap通过",
+    "未运行骨架稳定性、正式箭矢、碰撞结算、性能或手感 G1",
+    "runtimeVerified 保留 false",
+    "Git 未初始化，未提交推送发布"
+  ]
+}

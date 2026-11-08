@@ -1,0 +1,7 @@
+$ npm ci --ignore-scripts
+
+added 8 packages, and audited 9 packages in 5s
+
+found 0 vulnerabilities
+
+[exit_code=0]

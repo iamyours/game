@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-07",
+  "downloadPage": "https://www.cocos.com/creator-download",
+  "downloadUrl": "https://download.cocos.com/CocosCreator/v3.8.8/CocosCreator-v3.8.8-mac-121518.zip",
+  "archive": "/Users/mac/Downloads/cocos-creator/CocosCreator-v3.8.8-mac-121518.zip",
+  "archiveBytes": 1181883559,
+  "sha256": "cc65c3665539e996c076fa8202dee8531b8770e7e956f0c68f610537735d640c",
+  "hashMeaning": "下载后本地计算，用于标识本次安装包；不是厂家另行发布的校验值",
+  "appPath": "/Applications/CocosCreator.app",
+  "creatorExecutable": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+  "version": "3.8.8",
+  "host": {
+    "arch": "x86_64",
+    "macOS": "12.7.4"
+  },
+  "sourceTemplate": "/Applications/CocosCreator.app/Contents/Resources/templates/empty-2d",
+  "bootScene": {
+    "path": "assets/scenes/Boot.scene",
+    "uuid": "b8f2cde8-b589-45b1-a6ee-044e54463f58",
+    "createdBy": "Creator scene and asset-db APIs; serialized and imported by editor"
+  },
+  "importEvidence": "evidence/T001/logs/09-creator-project-import.log",
+  "box2dEvidence": "[PHYSICS2D]: switch from builtin to box2d.",
+  "typecheck": "使用真实 temp/declarations；skipLibCheck 仅跳过第三方引擎声明自身诊断，项目源码 strict 检查仍启用"
+}

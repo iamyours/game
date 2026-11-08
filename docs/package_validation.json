@@ -1,0 +1,16 @@
+{
+  "taskCount": 18,
+  "programmerDays": 40,
+  "qaCaseCount": 24,
+  "levelCount": 3,
+  "waveCount": 9,
+  "arrowCount": 3,
+  "orientation": "landscape",
+  "seedReferenceChecks": "PASS",
+  "gameTests": "NOT_RUN",
+  "engineRuntime": "NOT_RUN",
+  "deviceTests": "NOT_RUN",
+  "wordPageCount": 25,
+  "wordPagesVisuallyReviewed": 25,
+  "wordLayoutCheck": "PASS"
+}

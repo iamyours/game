@@ -1,0 +1,22 @@
+
+> storm-archers@0.1.0 config:generate
+> tsx tools/config/cli.ts generate
+
+{
+  "ok": true,
+  "command": "generate",
+  "configVersion": 2,
+  "sourceKind": "unverified_seed",
+  "runtimeVerified": false,
+  "seedHash": "9fbd932d2de2ce3ff9e602724e933653d047b03d73188c834d68cd466265a829",
+  "arrows": [
+    "normal",
+    "impact",
+    "piercing"
+  ],
+  "levels": [
+    "L001",
+    "L002",
+    "L003"
+  ]
+}

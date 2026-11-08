@@ -1,0 +1,142 @@
+
+> storm-archers@0.1.0 verify
+> node scripts/verify.mjs
+
+
+=== npm run check:config ===
+
+> storm-archers@0.1.0 check:config
+> tsx tools/config/cli.ts check
+
+{
+  "ok": true,
+  "command": "check",
+  "configVersion": 2,
+  "sourceKind": "unverified_seed",
+  "runtimeVerified": false,
+  "seedHash": "11485b4d28fb55feee23a55928d9a9559b0450fc4b46b22532d7db97da904628",
+  "arrows": [
+    "normal",
+    "impact",
+    "piercing"
+  ],
+  "levels": [
+    "L001",
+    "L002",
+    "L003"
+  ]
+}
+
+=== npm run config:check-generated ===
+
+> storm-archers@0.1.0 config:check-generated
+> tsx tools/config/cli.ts check-generated
+
+{
+  "ok": true,
+  "command": "check-generated",
+  "configVersion": 2,
+  "sourceKind": "unverified_seed",
+  "runtimeVerified": false,
+  "seedHash": "11485b4d28fb55feee23a55928d9a9559b0450fc4b46b22532d7db97da904628",
+  "arrows": [
+    "normal",
+    "impact",
+    "piercing"
+  ],
+  "levels": [
+    "L001",
+    "L002",
+    "L003"
+  ]
+}
+
+=== npm run test:unit ===
+
+> storm-archers@0.1.0 test:unit
+> tsx --test tests/*.test.ts tests/*.test.mjs
+
+✔ 并发启动共享同一 Promise，加载和就绪事件只执行一次 (7.309506ms)
+✔ 加载失败不启动后续流程，并允许显式重试 (1.487015ms)
+✔ 加载期间场景销毁不向已销毁节点发出就绪事件 (0.749265ms)
+✔ 就绪回调错误会使启动失败而不是伪报 ready (0.289927ms)
+✔ 无甲直接扣生命，部位倍率来自配置而非重复常量 (1.102447ms)
+✔ 普通箭破甲不把本次余伤传体，后续无甲命中才扣生命 (1.152305ms)
+✔ 穿甲原始伤害 32 / 耐久 20 / 系数 2 = 生命扣 22（仅公式测试，不放行 AC11） (0.211329ms)
+✔ 完全吸收不扣血，恰好破甲不扣血 (0.15502ms)
+✔ 余伤最后向上取整，不能先对装甲等价伤害取整 (0.15358ms)
+✔ 零伤害无副作用 (0.158006ms)
+✔ 拒绝 NaN / 无穷 / 负数 / 零倍率 / 运算溢出 (19.454458ms)
+✔ 四份原始种子通过结构与交叉引用校验，但仍未标定 (3.492822ms)
+✔ 配置拒绝：箭种重复 (12.349112ms)
+✔ 配置拒绝：敌人重复 (1.071766ms)
+✔ 配置拒绝：平台重复 (0.725365ms)
+✔ 配置拒绝：关卡重复 (0.708349ms)
+✔ 配置拒绝：不存在的玩家平台 (0.720501ms)
+✔ 配置拒绝：不存在的敌人平台 (0.725457ms)
+✔ 配置拒绝：敌我出生同台 (0.8419ms)
+✔ 配置拒绝：同波平台重叠 (8.833307ms)
+✔ 配置拒绝：无效解锁引用 (0.739056ms)
+✔ 配置拒绝：解锁自循环 (0.640867ms)
+✔ 配置拒绝：解锁多节点循环 (0.649642ms)
+✔ 配置拒绝：关卡不可达 (0.750052ms)
+✔ 配置拒绝：箭种解锁遗漏 (2.312322ms)
+✔ 配置拒绝：箭种重复解锁 (0.684892ms)
+✔ 配置拒绝：首领混编 (0.680667ms)
+✔ 配置拒绝：超出配置敌人上限 (2.881879ms)
+✔ 配置拒绝：首领未独立标定 (0.782586ms)
+✔ 配置拒绝：质量比例非一 (0.622026ms)
+✔ 配置拒绝：部位数量不符 (1.179096ms)
+✔ 配置拒绝：部位重复 (0.655737ms)
+✔ 配置拒绝：瞄准初始角越界 (0.602246ms)
+✔ 配置拒绝：设计画布竖屏 (0.632986ms)
+✔ 配置拒绝：视野比例漂移 (0.607161ms)
+✔ 配置拒绝：摇杆死区过大 (0.596844ms)
+✔ 配置拒绝：过大箭冲量 (24.515269ms)
+✔ 配置拒绝：过大体力消耗 (15.442385ms)
+✔ 配置拒绝：普通箭错误溢出 (0.78949ms)
+✔ 配置拒绝：过大玩家冲量上限 (0.686713ms)
+✔ 配置拒绝：出生点在出界线下 (1.154668ms)
+✔ 配置拒绝：常态预算超过峰值 (0.819891ms)
+✔ 配置拒绝：单人插箭超过全场 (0.613841ms)
+✔ 配置拒绝：攻击间隔小于蓄势 (0.556781ms)
+✔ 配置拒绝：空值 (0.824799ms)
+✔ 配置拒绝：数组 (0.137792ms)
+✔ 配置拒绝：空对象 (13.186397ms)
+✔ 结构校验拒绝未知字段、非有限数、负尺寸和颠倒区间 (11.831047ms)
+✔ 生成结果确定、标明未验证、来源与 SHA-256 完整 (3.786779ms)
+✔ 种子变化会改变哈希 (0.508071ms)
+✔ 漂移检查拒绝元数据/数值篡改与文件缺失 (87.818771ms)
+✔ 启动清单拒绝被误标为已验证、无效版本、哈希与尺寸 (0.552129ms)
+✔ Creator 成功码 36 归一为 0，0 / 失败码 / 信号退出不能被误当构建成功 (1.097756ms)
+✔ CLI 使用 --project，并以编辑器 meta 的 UUID 选择启动场景 (62.93701ms)
+✔ 未生成的工程阻止构建，版本不匹配和缺失 scene/meta 均被报告 (5.492399ms)
+✔ 首发在第 8 固定步；右侧完成轻点才切箭，不覆盖左手或重置冷却 (1.785512ms)
+✔ 死区保留方向，设计坐标 y 翻转，移出热区仍由原触点控制且角度限幅 (4.409497ms)
+✔ 取消清两侧触点；后到 move/up 和暂停时的新按下不能补发 (0.715255ms)
+✔ 取消后立即重按仍受已有冷却；离开切箭区后在外松手不切箭 (0.240553ms)
+✔ 只有一种箭时不接管切箭触点 (0.296132ms)
+✔ 固定步只消费整步，长帧丢弃超额时间，重置清空余量 (0.316501ms)
+✔ PhysicsLab 启动配置来自同一哈希的生成物，拒绝旧版本与混包 (56.806429ms)
+✔ 禁止配置第二步进器或引擎自动步与适配器并行 (37.679398ms)
+ℹ tests 63
+ℹ suites 0
+ℹ pass 63
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1786.425526
+
+=== npm run typecheck ===
+
+> storm-archers@0.1.0 typecheck
+> tsc --project tsconfig.json --noEmit
+
+assets/scripts/core/PhysicsLabConfig.ts(1,31): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean '../../../tools/config/schema.js'?
+assets/scripts/core/PhysicsLabConfig.ts(2,35): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean './BootManifest.js'?
+assets/scripts/core/PhysicsLabConfig.ts(10,48): error TS18047: 'asset' is possibly 'null'.
+assets/scripts/core/PhysicsLabConfig.ts(13,3): error TS2322: Type '(PhysicsLabConfig & { configVersion?: number; }) | undefined' is not assignable to type 'PhysicsLabConfig'.
+  Type 'undefined' is not assignable to type 'PhysicsLabConfig'.
+assets/scripts/core/PhysicsLabConfig.ts(13,10): error TS18047: 'asset' is possibly 'null'.
+typecheck 失败，退出码 2

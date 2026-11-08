@@ -1,0 +1,59 @@
+
+> storm-archers@0.1.0 test:web:t003
+> node scripts/verify-t003-web.mjs
+
+{
+  "passed": true,
+  "date": "2026-11-08",
+  "mode": "headless Chrome; WebGL; Cocos 3.8.8; Box2D; no phone claim",
+  "url": "http://127.0.0.1:7458/",
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld"
+  },
+  "stability": {
+    "durationSec": 30,
+    "sampleCount": 242,
+    "initialResetCount": 0,
+    "bodyCountPerRagdoll": [
+      11
+    ],
+    "jointCountPerRagdoll": [
+      10
+    ],
+    "maxJointErrorM": 0.0006420653815249985,
+    "physicsBodies": [
+      27
+    ],
+    "physicsJoints": [
+      20
+    ],
+    "box2dBodies": [
+      28
+    ],
+    "box2dJoints": [
+      20
+    ],
+    "calibrationPassed": true
+  },
+  "reset": {
+    "requested": 20,
+    "completed": 20,
+    "physicsBodies": 27,
+    "physicsJoints": 20,
+    "box2dBodies": 28,
+    "box2dJoints": 20,
+    "ragdollBodyCounts": [
+      11,
+      11
+    ],
+    "ragdollJointCounts": [
+      10,
+      10
+    ]
+  },
+  "pageErrors": [],
+  "consoleErrors": []
+}

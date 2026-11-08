@@ -1,0 +1,105 @@
+
+> storm-archers@0.1.0 test:web:t002
+> node scripts/verify-t002-web.mjs
+
+{
+  "passed": false,
+  "browser": "150.0.7871.125",
+  "url": "http://127.0.0.1:7458/",
+  "date": "2026-11-08",
+  "mode": "headed Chrome; WebGL; CDP two-point touch and desktop mouse; not a phone test",
+  "checks": {},
+  "events": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "console": [
+    {
+      "type": "timeEnd",
+      "text": "Init Base: 48.570068359375 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init Infrastructure: 37.97802734375 ms"
+    },
+    {
+      "type": "log",
+      "text": "[PHYSICS2D]: register box2d."
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init SubSystem: 90.801025390625 ms"
+    },
+    {
+      "type": "log",
+      "text": "Cocos Creator v3.8.8"
+    },
+    {
+      "type": "log",
+      "text": "Using custom pipeline: Builtin"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init Project: 52.7919921875 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "LoadScene db://assets/scenes/Boot.scene: 19.307861328125 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "InitScene: 0.211181640625 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "AttachPersist: 0.095947265625 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "AutoRelease: 0.153076171875 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Destroy: 0.220947265625 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Activate: 12.9228515625 ms"
+    },
+    {
+      "type": "log",
+      "text": "Success to load scene: db://assets/scenes/Boot.scene"
+    },
+    {
+      "type": "info",
+      "text": "[StormArchersBoot] 正在加载风暴弓手种子配置…"
+    },
+    {
+      "type": "info",
+      "text": "[PhysicsLab] ready in Boot; seed 2a076436f69c303645e9af3165ca06b7e55c4c610df76cd6ec1342b95f066b27"
+    }
+  ],
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld",
+    "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "canvas": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 810
+    }
+  },
+  "error": "Error: 未观察到：AC01 标定结果\n{\"seedHash\":\"2a076436f69c303645e9af3165ca06b7e55c4c610df76cd6ec1342b95f066b27\",\"calibration\":null,\"stepId\":19,\"autoSimulation\":false,\"shots\":0,\"lastShot\":null,\"aimId\":null,\"aimDeg\":18,\"arrow\":\"normal\",\"drawProgress\":0,\"paused\":false,\"hidden\":true,\"portrait\":false,\"layout\":{\"aim\":{\"left\":38.4,\"top\":734.4000000000001,\"right\":806.4,\"bottom\":1047.6},\"arrowSwitch\":{\"left\":1638,\"top\":857.1999999999999,\"right\":1818,\"bottom\":957.1999999999999}},\"pauseRect\":{\"left\":1720,\"top\":16,\"right\":1900,\"bottom\":116},\"resetRect\":{\"left\":1528,\"top\":16,\"right\":1708,\"bottom\":116},\"width\":1920,\"height\":1080,\"safe\":{\"left\":0,\"top\":0,\"right\":1920,\"bottom\":1080},\"projection\":{\"topLeft\":{\"x\":0,\"y\":0},\"bottomRight\":{\"x\":1920,\"y\":1080},\"roundTrip\":{\"x\":3.4999999999999982,\"y\":3.8499999999999996}},\"pose\":{\"player\":{\"pose\":\"standing\",\"aimRad\":0.3141592653589793,\"armControlWeight\":1},\"enemy\":{\"pose\":\"standing\",\"aimRad\":0,\"armControlWeight\":1},\"bowSocket\":{\"x\":4.307809575649781,\"y\":4.354546358169043,\"angleRad\":-0.009914282383753865}},\"combat\":[{\"id\":\"PlayerRagdoll\",\"hp\":100,\"armor\":0,\"hits\":0,\"lastHit\":null},{\"id\":\"EnemyRagdoll\",\"hp\":60,\"armor\":0,\"hits\":0,\"lastHit\":null}],\"projectiles\":0,\"embedded\":0,\"rig\":{\"bodyCount\":11,\"jointCount\":10,\"totalMassKg\":24.000000000000007,\"resetCount\":0,\"ragdolls\":[{\"id\":\"PlayerRagdoll\",\"bodyCount\":11,\"jointCount\":10,\"bodyIds\":[\"head\",\"chest\",\"pelvis\",\"leftUpperArm\",\"leftForearm\",\"rightUpperArm\",\"rightForearm\",\"leftThigh\",\"leftShin\",\"rightThigh\",\"rightShin\"],\"jointIds\":[\"neck\",\"waist\",\"leftShoulder\",\"leftElbow\",\"rightShoulder\",\"rightElbow\",\"leftHip\",\"leftKnee\",\"rightHip\",\"rightKnee\"],\"positionsM\":{\"head\":{\"x\":3.5118701457977295,\"y\":5.042746067047119},\"chest\":{\"x\":3.508443593978882,\"y\":4.532757759094238},\"pelvis\":{\"x\":3.5059399604797363,\"y\":4.092783451080322},\"leftUpperArm\":{\"x\":3.0293655395507812,\"y\":4.577165603637695},\"leftForearm\":{\"x\":2.827951669692993,\"y\":4.434190273284912},\"rightUpperArm\":{\"x\":3.9863641262054443,\"y\":4.567388534545898},\"rightForearm\":{\"x\":4.188509464263916,\"y\":4.425732612609863},\"leftThigh\":{\"x\":3.354551076889038,\"y\":3.75327467918396},\"leftShin\":{\"x\":3.352504014968872,\"y\":3.313281297683716},\"rightThigh\":{\"x\":3.654545783996582,\"y\":3.7526700496673584},\"rightShin\":{\"x\":3.6523594856262207,\"y\":3.3129189014434814}},\"massesKg\":{\"head\":1.9200000000001265,\"chest\":7.679999546637908,\"pelvis\":4.799999900625531,\"leftUpperArm\":0.9600000286102294,\"leftForearm\":0.9600000261005597,\"rightUpperArm\":0.9600000286102294,\"rightForearm\":0.9600000261005597,\"leftThigh\":1.4399999983279732,\"leftShin\":1.4399999800221668,\"rightThigh\":1.4399999983279732,\"rightShin\":1.4399999800221668},\"maxJointErrorM\":0.0002800301264365433,\"finite\":true},{\"id\":\"EnemyRagdoll\",\"bodyCount\":11,\"jointCount\":10,\"bodyIds\":[\"head\",\"chest\",\"pelvis\",\"leftUpperArm\",\"leftForearm\",\"rightUpperArm\",\"rightForearm\",\"leftThigh\",\"leftShin\",\"rightThigh\",\"rightShin\"],\"jointIds\":[\"neck\",\"waist\",\"leftShoulder\",\"leftElbow\",\"rightShoulder\",\"rightElbow\",\"leftHip\",\"leftKnee\",\"rightHip\",\"rightKnee\"],\"positionsM\":{\"head\":{\"x\":18.011871337890625,\"y\":5.042746543884277},\"chest\":{\"x\":18.008459091186523,\"y\":4.5327582359313965},\"pelvis\":{\"x\":18.005956649780273,\"y\":4.0927839279174805},\"leftUpperArm\":{\"x\":17.529375076293945,\"y\":4.577167510986328},\"leftForearm\":{\"x\":17.327959060668945,\"y\":4.434196949005127},\"rightUpperArm\":{\"x\":18.486373901367188,\"y\":4.567386150360107},\"rightForearm\":{\"x\":18.688514709472656,\"y\":4.425726413726807},\"leftThigh\":{\"x\":17.85455894470215,\"y\":3.7532756328582764},\"leftShin\":{\"x\":17.852497100830078,\"y\":3.3132824897766113},\"rightThigh\":{\"x\":18.15455436706543,\"y\":3.7526698112487793},\"rightShin\":{\"x\":18.152355194091797,\"y\":3.3129186630249023}},\"massesKg\":{\"head\":1.9200000000001265,\"chest\":7.679999546637908,\"pelvis\":4.799999900625531,\"leftUpperArm\":0.9600000286102294,\"leftForearm\":0.9600000261005597,\"rightUpperArm\":0.9600000286102294,\"rightForearm\":0.9600000261005597,\"leftThigh\":1.4399999983279732,\"leftShin\":1.4399999800221668,\"rightThigh\":1.4399999983279732,\"rightShin\":1.4399999800221668},\"maxJointErrorM\":0.00027977977353877786,\"finite\":true}]},\"physicsBodies\":27,\"physicsJoints\":20}\n    at wait (file:///Users/mac/Documents/game/scripts/verify-t002-web.mjs:65:9)\n    at async file:///Users/mac/Documents/game/scripts/verify-t002-web.mjs:149:16"
+}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+Error: 未观察到：AC01 标定结果
+{"seedHash":"2a076436f69c303645e9af3165ca06b7e55c4c610df76cd6ec1342b95f066b27","calibration":null,"stepId":19,"autoSimulation":false,"shots":0,"lastShot":null,"aimId":null,"aimDeg":18,"arrow":"normal","drawProgress":0,"paused":false,"hidden":true,"portrait":false,"layout":{"aim":{"left":38.4,"top":734.4000000000001,"right":806.4,"bottom":1047.6},"arrowSwitch":{"left":1638,"top":857.1999999999999,"right":1818,"bottom":957.1999999999999}},"pauseRect":{"left":1720,"top":16,"right":1900,"bottom":116},"resetRect":{"left":1528,"top":16,"right":1708,"bottom":116},"width":1920,"height":1080,"safe":{"left":0,"top":0,"right":1920,"bottom":1080},"projection":{"topLeft":{"x":0,"y":0},"bottomRight":{"x":1920,"y":1080},"roundTrip":{"x":3.4999999999999982,"y":3.8499999999999996}},"pose":{"player":{"pose":"standing","aimRad":0.3141592653589793,"armControlWeight":1},"enemy":{"pose":"standing","aimRad":0,"armControlWeight":1},"bowSocket":{"x":4.307809575649781,"y":4.354546358169043,"angleRad":-0.009914282383753865}},"combat":[{"id":"PlayerRagdoll","hp":100,"armor":0,"hits":0,"lastHit":null},{"id":"EnemyRagdoll","hp":60,"armor":0,"hits":0,"lastHit":null}],"projectiles":0,"embedded":0,"rig":{"bodyCount":11,"jointCount":10,"totalMassKg":24.000000000000007,"resetCount":0,"ragdolls":[{"id":"PlayerRagdoll","bodyCount":11,"jointCount":10,"bodyIds":["head","chest","pelvis","leftUpperArm","leftForearm","rightUpperArm","rightForearm","leftThigh","leftShin","rightThigh","rightShin"],"jointIds":["neck","waist","leftShoulder","leftElbow","rightShoulder","rightElbow","leftHip","leftKnee","rightHip","rightKnee"],"positionsM":{"head":{"x":3.5118701457977295,"y":5.042746067047119},"chest":{"x":3.508443593978882,"y":4.532757759094238},"pelvis":{"x":3.5059399604797363,"y":4.092783451080322},"leftUpperArm":{"x":3.0293655395507812,"y":4.577165603637695},"leftForearm":{"x":2.827951669692993,"y":4.434190273284912},"rightUpperArm":{"x":3.9863641262054443,"y":4.567388534545898},"rightForearm":{"x":4.188509464263916,"y":4.425732612609863},"leftThigh":{"x":3.354551076889038,"y":3.75327467918396},"leftShin":{"x":3.352504014968872,"y":3.313281297683716},"rightThigh":{"x":3.654545783996582,"y":3.7526700496673584},"rightShin":{"x":3.6523594856262207,"y":3.3129189014434814}},"massesKg":{"head":1.9200000000001265,"chest":7.679999546637908,"pelvis":4.799999900625531,"leftUpperArm":0.9600000286102294,"leftForearm":0.9600000261005597,"rightUpperArm":0.9600000286102294,"rightForearm":0.9600000261005597,"leftThigh":1.4399999983279732,"leftShin":1.4399999800221668,"rightThigh":1.4399999983279732,"rightShin":1.4399999800221668},"maxJointErrorM":0.0002800301264365433,"finite":true},{"id":"EnemyRagdoll","bodyCount":11,"jointCount":10,"bodyIds":["head","chest","pelvis","leftUpperArm","leftForearm","rightUpperArm","rightForearm","leftThigh","leftShin","rightThigh","rightShin"],"jointIds":["neck","waist","leftShoulder","leftElbow","rightShoulder","rightElbow","leftHip","leftKnee","rightHip","rightKnee"],"positionsM":{"head":{"x":18.011871337890625,"y":5.042746543884277},"chest":{"x":18.008459091186523,"y":4.5327582359313965},"pelvis":{"x":18.005956649780273,"y":4.0927839279174805},"leftUpperArm":{"x":17.529375076293945,"y":4.577167510986328},"leftForearm":{"x":17.327959060668945,"y":4.434196949005127},"rightUpperArm":{"x":18.486373901367188,"y":4.567386150360107},"rightForearm":{"x":18.688514709472656,"y":4.425726413726807},"leftThigh":{"x":17.85455894470215,"y":3.7532756328582764},"leftShin":{"x":17.852497100830078,"y":3.3132824897766113},"rightThigh":{"x":18.15455436706543,"y":3.7526698112487793},"rightShin":{"x":18.152355194091797,"y":3.3129186630249023}},"massesKg":{"head":1.9200000000001265,"chest":7.679999546637908,"pelvis":4.799999900625531,"leftUpperArm":0.9600000286102294,"leftForearm":0.9600000261005597,"rightUpperArm":0.9600000286102294,"rightForearm":0.9600000261005597,"leftThigh":1.4399999983279732,"leftShin":1.4399999800221668,"rightThigh":1.4399999983279732,"rightShin":1.4399999800221668},"maxJointErrorM":0.00027977977353877786,"finite":true}]},"physicsBodies":27,"physicsJoints":20}
+    at wait (file:///Users/mac/Documents/game/scripts/verify-t002-web.mjs:65:9)
+    at async file:///Users/mac/Documents/game/scripts/verify-t002-web.mjs:149:16
+
+Node.js v24.13.0

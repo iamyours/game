@@ -1,0 +1,662 @@
+
+> storm-archers@0.1.0 test:web:t002
+> node scripts/verify-t002-web.mjs
+
+{
+  "passed": true,
+  "browser": "150.0.7871.125",
+  "url": "http://127.0.0.1:7458/",
+  "date": "2026-11-08",
+  "mode": "headless Chrome; WebGL; CDP two-point touch and desktop mouse; not a phone test",
+  "checks": {
+    "AC01": {
+      "steps": 60,
+      "seconds": 1,
+      "start": {
+        "glide": {
+          "positionM": {
+            "x": 2,
+            "y": 8.5
+          },
+          "angleRad": 0,
+          "angularVelocityRadps": 1.5707963267948966,
+          "velocityMps": {
+            "x": 10,
+            "y": 0
+          }
+        },
+        "drop": {
+          "positionM": {
+            "x": 21,
+            "y": 8.5
+          },
+          "angleRad": 0,
+          "angularVelocityRadps": 0,
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      },
+      "end": {
+        "glide": {
+          "positionM": {
+            "x": 12.000004768371582,
+            "y": 8.5
+          },
+          "angleRad": 1.5707963267948966,
+          "angularVelocityRadps": 1.5707963267948966,
+          "velocityMps": {
+            "x": 10,
+            "y": 0
+          }
+        },
+        "drop": {
+          "positionM": {
+            "x": 21,
+            "y": 3.518333911895752
+          },
+          "angleRad": 0,
+          "angularVelocityRadps": 0,
+          "velocityMps": {
+            "x": 0,
+            "y": -9.79999828338623
+          }
+        }
+      },
+      "tolerance": 0.02,
+      "checks": {
+        "glideXM": {
+          "actual": 10.000004768371582,
+          "expected": 10,
+          "error": 0.00000476837158203125,
+          "passed": true
+        },
+        "glideYM": {
+          "actual": 0,
+          "expected": 0,
+          "error": 0,
+          "passed": true
+        },
+        "angleRad": {
+          "actual": 1.5707963267948966,
+          "expected": 1.5707963267948966,
+          "error": 0,
+          "passed": true
+        },
+        "angularVelocityRadps": {
+          "actual": 1.5707963267948966,
+          "expected": 1.5707963267948966,
+          "error": 0,
+          "passed": true
+        },
+        "dropYM": {
+          "actual": -4.981666088104248,
+          "expected": -4.9,
+          "error": 0.08166608810424769,
+          "passed": true
+        },
+        "dropVelocityMps": {
+          "actual": -9.79999828338623,
+          "expected": -9.8,
+          "error": 0.0000017166137702417927,
+          "passed": true
+        }
+      },
+      "passed": true
+    },
+    "AC02": {
+      "passed": true,
+      "expectedSwitchGapSteps": 33,
+      "actualSwitchGapSteps": 33
+    },
+    "landscape-16x9": {
+      "viewport": [
+        1440,
+        810
+      ],
+      "projection": {
+        "topLeft": {
+          "x": 0,
+          "y": 0
+        },
+        "bottomRight": {
+          "x": 1920,
+          "y": 1080
+        },
+        "roundTrip": {
+          "x": 3.4999999999999982,
+          "y": 3.8499999999999996
+        }
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 38.4,
+          "top": 734.4000000000001,
+          "right": 806.4,
+          "bottom": 1047.6
+        },
+        "arrowSwitch": {
+          "left": 1638,
+          "top": 857.1999999999999,
+          "right": 1818,
+          "bottom": 957.1999999999999
+        }
+      },
+      "portrait": false
+    },
+    "landscape-4x3": {
+      "viewport": [
+        1200,
+        900
+      ],
+      "projection": {
+        "topLeft": {
+          "x": 0,
+          "y": 180
+        },
+        "bottomRight": {
+          "x": 1920,
+          "y": 1260
+        },
+        "roundTrip": {
+          "x": 3.5,
+          "y": 3.85
+        }
+      },
+      "safe": {
+        "left": 0,
+        "top": 180,
+        "right": 1920,
+        "bottom": 1260
+      },
+      "controls": {
+        "aim": {
+          "left": 38.4,
+          "top": 914.4000000000001,
+          "right": 806.4,
+          "bottom": 1227.6
+        },
+        "arrowSwitch": {
+          "left": 1638,
+          "top": 1037.1999999999998,
+          "right": 1818,
+          "bottom": 1137.1999999999998
+        }
+      },
+      "portrait": false
+    },
+    "landscape-ultrawide": {
+      "viewport": [
+        1400,
+        600
+      ],
+      "projection": {
+        "topLeft": {
+          "x": 300,
+          "y": 0
+        },
+        "bottomRight": {
+          "x": 2219.9999999999995,
+          "y": 1080
+        },
+        "roundTrip": {
+          "x": 3.5,
+          "y": 3.8500000000000014
+        }
+      },
+      "safe": {
+        "left": 300,
+        "top": 0,
+        "right": 2220,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 338.4,
+          "top": 734.4000000000001,
+          "right": 1106.4,
+          "bottom": 1047.6
+        },
+        "arrowSwitch": {
+          "left": 1938,
+          "top": 857.1999999999999,
+          "right": 2118,
+          "bottom": 957.1999999999999
+        }
+      },
+      "portrait": false
+    },
+    "landscape-compact": {
+      "viewport": [
+        640,
+        360
+      ],
+      "projection": {
+        "topLeft": {
+          "x": 0,
+          "y": 0
+        },
+        "bottomRight": {
+          "x": 1920,
+          "y": 1080
+        },
+        "roundTrip": {
+          "x": 3.5,
+          "y": 3.849999999999999
+        }
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 38.4,
+          "top": 734.4000000000001,
+          "right": 806.4,
+          "bottom": 1047.6
+        },
+        "arrowSwitch": {
+          "left": 1638,
+          "top": 835.1999999999999,
+          "right": 1818,
+          "bottom": 979.1999999999999
+        }
+      },
+      "portrait": false
+    },
+    "portrait": {
+      "viewport": [
+        540,
+        960
+      ],
+      "projection": {
+        "topLeft": {
+          "x": 0,
+          "y": 1166.666666666667
+        },
+        "bottomRight": {
+          "x": 1920,
+          "y": 2246.666666666667
+        },
+        "roundTrip": {
+          "x": 3.5,
+          "y": 3.849999999999999
+        }
+      },
+      "safe": {
+        "left": 0,
+        "top": 1166.6666666666667,
+        "right": 1920,
+        "bottom": 2246.666666666667
+      },
+      "controls": {
+        "aim": {
+          "left": 38.4,
+          "top": 1901.066666666667,
+          "right": 806.4,
+          "bottom": 2214.266666666667
+        },
+        "arrowSwitch": {
+          "left": 1638,
+          "top": 1988.5333333333335,
+          "right": 1818,
+          "bottom": 2159.2000000000003
+        }
+      },
+      "portrait": true
+    }
+  },
+  "events": [
+    {
+      "name": "idle",
+      "step": 62,
+      "shots": 0,
+      "lastShot": null,
+      "aimId": null,
+      "aimDeg": 18,
+      "arrow": "normal",
+      "paused": false,
+      "hidden": false
+    },
+    {
+      "name": "two-finger switch while left is outside aim zone",
+      "step": 77,
+      "shots": 1,
+      "lastShot": {
+        "arrowId": "normal",
+        "aimRad": 0.9218007677983955,
+        "stepId": 74
+      },
+      "aimId": 11,
+      "aimDeg": 52.81529354676686,
+      "arrow": "impact",
+      "paused": false,
+      "hidden": false
+    },
+    {
+      "name": "new arrow fires at unchanged cooldown deadline",
+      "step": 111,
+      "shots": 2,
+      "lastShot": {
+        "arrowId": "impact",
+        "aimRad": 0.9218007677983955,
+        "stepId": 107
+      },
+      "aimId": 11,
+      "aimDeg": 52.81529354676686,
+      "arrow": "impact",
+      "paused": false,
+      "hidden": false
+    },
+    {
+      "name": "touchcancel: no queued shots",
+      "step": 178,
+      "shots": 2,
+      "lastShot": {
+        "arrowId": "impact",
+        "aimRad": 0.9218007677983955,
+        "stepId": 107
+      },
+      "aimId": null,
+      "aimDeg": 52.81529354676686,
+      "arrow": "impact",
+      "paused": false,
+      "hidden": false
+    },
+    {
+      "name": "pause/resume: old touch does not reacquire",
+      "step": 239,
+      "shots": 2,
+      "lastShot": {
+        "arrowId": "impact",
+        "aimRad": 0.9218007677983955,
+        "stepId": 107
+      },
+      "aimId": null,
+      "aimDeg": 52.81529354676686,
+      "arrow": "impact",
+      "paused": false,
+      "hidden": false
+    },
+    {
+      "name": "fresh hold fires",
+      "step": 252,
+      "shots": 3,
+      "lastShot": {
+        "arrowId": "impact",
+        "aimRad": 0.9218007677983955,
+        "stepId": 250
+      },
+      "aimId": 11,
+      "aimDeg": 52.81529354676686,
+      "arrow": "impact",
+      "paused": false,
+      "hidden": false
+    },
+    {
+      "name": "background: clocks stopped, hold discarded",
+      "step": 278,
+      "shots": 3,
+      "lastShot": {
+        "arrowId": "impact",
+        "aimRad": 0.9218007677983955,
+        "stepId": 250
+      },
+      "aimId": null,
+      "aimDeg": 52.81529354676686,
+      "arrow": "impact",
+      "paused": false,
+      "hidden": true
+    },
+    {
+      "name": "foreground: no catch-up and no stale hold",
+      "step": 336,
+      "shots": 3,
+      "lastShot": {
+        "arrowId": "impact",
+        "aimRad": 0.9218007677983955,
+        "stepId": 250
+      },
+      "aimId": null,
+      "aimDeg": 52.81529354676686,
+      "arrow": "impact",
+      "paused": false,
+      "hidden": false
+    },
+    {
+      "name": "desktop mouse drag, release, and switch",
+      "step": 556,
+      "shots": 4,
+      "lastShot": {
+        "arrowId": "impact",
+        "aimRad": 0.3058788714048521,
+        "stepId": 495
+      },
+      "aimId": null,
+      "aimDeg": 17.52556837372287,
+      "arrow": "piercing",
+      "paused": false,
+      "hidden": false
+    }
+  ],
+  "pageErrors": [],
+  "failedRequests": [],
+  "console": [
+    {
+      "type": "timeEnd",
+      "text": "Init Base: 21.132080078125 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init Infrastructure: 37.31298828125 ms"
+    },
+    {
+      "type": "log",
+      "text": "[PHYSICS2D]: register box2d."
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init SubSystem: 66.525146484375 ms"
+    },
+    {
+      "type": "log",
+      "text": "Cocos Creator v3.8.8"
+    },
+    {
+      "type": "log",
+      "text": "Using custom pipeline: Builtin"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init Project: 40.407958984375 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "LoadScene db://assets/scenes/Boot.scene: 18.969970703125 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "InitScene: 0.2880859375 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "AttachPersist: 0.111083984375 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "AutoRelease: 0.243896484375 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Destroy: 0.31396484375 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Activate: 10.5771484375 ms"
+    },
+    {
+      "type": "log",
+      "text": "Success to load scene: db://assets/scenes/Boot.scene"
+    },
+    {
+      "type": "info",
+      "text": "[StormArchersBoot] 正在加载风暴弓手种子配置…"
+    },
+    {
+      "type": "info",
+      "text": "[PhysicsLab] ready in Boot; seed 2a076436f69c303645e9af3165ca06b7e55c4c610df76cd6ec1342b95f066b27"
+    },
+    {
+      "type": "info",
+      "text": "[PhysicsLab AC01] {\"steps\":60,\"seconds\":1,\"start\":{\"glide\":{\"positionM\":{\"x\":2,\"y\":8.5},\"angleRad\":0,\"angularVelocityRadps\":1.5707963267948966,\"velocityMps\":{\"x\":10,\"y\":0}},\"drop\":{\"positionM\":{\"x\":21,\"y\":8.5},\"angleRad\":0,\"angularVelocityRadps\":0,\"velocityMps\":{\"x\":0,\"y\":0}}},\"end\":{\"glide\":{\"positionM\":{\"x\":12.000004768371582,\"y\":8.5},\"angleRad\":1.5707963267948966,\"angularVelocityRadps\":1.5707963267948966,\"velocityMps\":{\"x\":10,\"y\":0}},\"drop\":{\"positionM\":{\"x\":21,\"y\":3.518333911895752},\"angleRad\":0,\"angularVelocityRadps\":0,\"velocityMps\":{\"x\":0,\"y\":-9.79999828338623}}},\"tolerance\":0.02,\"checks\":{\"glideXM\":{\"actual\":10.000004768371582,\"expected\":10,\"error\":0.00000476837158203125,\"passed\":true},\"glideYM\":{\"actual\":0,\"expected\":0,\"error\":0,\"passed\":true},\"angleRad\":{\"actual\":1.5707963267948966,\"expected\":1.5707963267948966,\"error\":0,\"passed\":true},\"angularVelocityRadps\":{\"actual\":1.5707963267948966,\"expected\":1.5707963267948966,\"error\":0,\"passed\":true},\"dropYM\":{\"actual\":-4.981666088104248,\"expected\":-4.9,\"error\":0.08166608810424769,\"passed\":true},\"dropVelocityMps\":{\"actual\":-9.79999828338623,\"expected\":-9.8,\"error\":0.0000017166137702417927,\"passed\":true}},\"passed\":true}"
+    },
+    {
+      "type": "error",
+      "text": "Ignored attempt to cancel a touchcancel event with cancelable=false, for example because scrolling is in progress and cannot be interrupted."
+    }
+  ],
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld",
+    "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "canvas": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 810
+    }
+  },
+  "seedHash": "2a076436f69c303645e9af3165ca06b7e55c4c610df76cd6ec1342b95f066b27",
+  "backgroundSource": "synthetic DOM pagehide/pageshow through Cocos web lifecycle (automated tabs stay visible)",
+  "domEvents": [
+    {
+      "name": "touchstart",
+      "trusted": true,
+      "changed": [
+        11
+      ],
+      "active": [
+        11
+      ]
+    },
+    {
+      "name": "touchstart",
+      "trusted": true,
+      "changed": [
+        22
+      ],
+      "active": [
+        11,
+        22
+      ]
+    },
+    {
+      "name": "touchend",
+      "trusted": true,
+      "changed": [
+        22
+      ],
+      "active": [
+        11
+      ]
+    },
+    {
+      "name": "touchcancel",
+      "trusted": true,
+      "changed": [
+        11
+      ],
+      "active": []
+    },
+    {
+      "name": "touchstart",
+      "trusted": true,
+      "changed": [
+        11
+      ],
+      "active": [
+        11
+      ]
+    },
+    {
+      "name": "touchstart",
+      "trusted": true,
+      "changed": [
+        22
+      ],
+      "active": [
+        11,
+        22
+      ]
+    },
+    {
+      "name": "touchend",
+      "trusted": true,
+      "changed": [
+        22
+      ],
+      "active": [
+        11
+      ]
+    },
+    {
+      "name": "touchstart",
+      "trusted": true,
+      "changed": [
+        22
+      ],
+      "active": [
+        11,
+        22
+      ]
+    },
+    {
+      "name": "touchend",
+      "trusted": true,
+      "changed": [
+        22
+      ],
+      "active": [
+        11
+      ]
+    },
+    {
+      "name": "touchend",
+      "trusted": true,
+      "changed": [
+        11
+      ],
+      "active": []
+    },
+    {
+      "name": "touchstart",
+      "trusted": true,
+      "changed": [
+        11
+      ],
+      "active": [
+        11
+      ]
+    },
+    {
+      "name": "touchend",
+      "trusted": true,
+      "changed": [
+        11
+      ],
+      "active": []
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-07",
+  "cwd": "/Users/mac/Documents/game",
+  "sourceRevision": null,
+  "enginePatch": null,
+  "commands": [
+    {
+      "command": "npm ci --ignore-scripts",
+      "exitCode": 0,
+      "log": "evidence/T001/logs/01.log"
+    },
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": "evidence/T001/logs/02.log"
+    },
+    {
+      "command": "npm run config:check-generated",
+      "exitCode": 0,
+      "log": "evidence/T001/logs/03.log"
+    },
+    {
+      "command": "npm run env:check",
+      "exitCode": 0,
+      "log": "evidence/T001/logs/04.log"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 2,
+      "log": "evidence/T001/logs/05.log"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 2,
+      "log": "evidence/T001/logs/06.log"
+    },
+    {
+      "command": "npm audit --audit-level=high",
+      "exitCode": 0,
+      "log": "evidence/T001/logs/07.log"
+    }
+  ],
+  "recordScope": "顶层为安装前历史；afterInstallation 为当前 T001 结果。",
+  "afterInstallation": {
+    "verifiedDate": "2026-11-08",
+    "enginePatch": "3.8.8",
+    "creatorPath": "/Applications/CocosCreator.app/Contents/MacOS/CocosCreator",
+    "editorImport": {
+      "passed": true,
+      "log": "evidence/T001/logs/09-creator-project-import.log",
+      "bootSceneUuid": "b8f2cde8-b589-45b1-a6ee-044e54463f58"
+    },
+    "commands": [
+      {
+        "command": "npm run typecheck:engine",
+        "exitCode": 0,
+        "log": "evidence/T001/logs/13-typecheck-engine.log"
+      },
+      {
+        "command": "npm run build:web",
+        "exitCode": 0,
+        "creatorExitCode": 36,
+        "log": "evidence/T001/logs/14-build-web-final.log"
+      },
+      {
+        "command": "SMOKE_DATE=2026-11-08 node evidence/T001/installation/webgl-smoke.mjs",
+        "exitCode": 0,
+        "log": "evidence/T001/logs/15-webgl-smoke-final.log"
+      },
+      {
+        "command": "npm run verify",
+        "exitCode": 0,
+        "testsPassed": 55,
+        "log": "evidence/T001/logs/16-verify-final.log"
+      },
+      {
+        "command": "npm run env:check",
+        "exitCode": 0,
+        "projectBlockers": [],
+        "log": "evidence/T001/logs/17-env-final.log"
+      }
+    ]
+  }
+}

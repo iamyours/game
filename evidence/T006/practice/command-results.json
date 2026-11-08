@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-08",
+  "scene": "Boot → PhysicsLab",
+  "creatorVersion": "3.8.8",
+  "creatorRawExit": 36,
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": "logs/verify.log"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 0,
+      "log": "logs/storm-retry-engine.log"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 0,
+      "log": "logs/storm-retry-build.log"
+    },
+    {
+      "command": "npm run test:web:t004-t006",
+      "exitCode": 0,
+      "log": "logs/practice.log"
+    },
+    {
+      "command": "T003_EVIDENCE_DIR=evidence/T006/practice/t003-regression npm run test:web:t003",
+      "exitCode": 0,
+      "log": "logs/t003-regression.log"
+    }
+  ]
+}

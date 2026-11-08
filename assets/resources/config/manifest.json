@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "configVersion": 2,
+  "sourceKind": "unverified_seed",
+  "runtimeVerified": false,
+  "seedHash": "9fbd932d2de2ce3ff9e602724e933653d047b03d73188c834d68cd466265a829",
+  "resources": [
+    "config/combat",
+    "config/rig",
+    "config/levels",
+    "config/platform"
+  ],
+  "summary": {
+    "designWidth": 1920,
+    "designHeight": 1080,
+    "worldWidthM": 24,
+    "worldHeightM": 13.5,
+    "arrowIds": [
+      "normal",
+      "impact",
+      "piercing"
+    ],
+    "levelIds": [
+      "L001",
+      "L002",
+      "L003"
+    ],
+    "bodyCount": 11
+  }
+}

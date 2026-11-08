@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-08",
+  "cwd": "/Users/mac/Documents/game",
+  "commands": [
+    {
+      "command": "npm run config:generate",
+      "exitCode": 0,
+      "result": "seedHash bc96602a3baf5bbfd96acbeafc8a0bcb2e08d193252819a1650c9e9ea9f0b9a9（新增 projectile collision group=4；probe=8）"
+    },
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "result": "63/63 tests; config and generated drift checks passed; portable typecheck passed"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 0,
+      "result": "Cocos Creator 3.8.8 generated declarations strict check passed"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 0,
+      "creatorRawExitCode": 36,
+      "result": "build/web-desktop/index.html generated; Creator wrapper normalized expected raw exit 36"
+    },
+    {
+      "command": "npm run test:web:t003",
+      "exitCode": 0,
+      "result": "WebGL b2PhysicsWorld; 30s/263 samples; 20 resets; no page/console errors; max joint error 0.001440814 m"
+    }
+  ],
+  "runtime": "Boot → PhysicsLab; Chrome desktop WebGL; Cocos Creator 3.8.8; Box2D 2D"
+}

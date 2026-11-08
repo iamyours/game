@@ -1,0 +1,37 @@
+{
+  "name": "storm-archers",
+  "version": "0.1.0",
+  "private": true,
+  "description": "风暴弓手 — Cocos Creator 3.8.8 PhysicsLab",
+  "engines": {
+    "node": ">=22 <25",
+    "npm": ">=10 <12"
+  },
+  "scripts": {
+    "check:config": "tsx tools/config/cli.ts check",
+    "config:generate": "tsx tools/config/cli.ts generate",
+    "config:check-generated": "tsx tools/config/cli.ts check-generated",
+    "test:unit": "tsx --test tests/*.test.ts tests/*.test.mjs",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "typecheck:engine": "node scripts/creator.mjs typecheck",
+    "verify": "node scripts/verify.mjs",
+    "env:check": "node scripts/creator.mjs inspect",
+    "build:web": "node scripts/creator.mjs build-web",
+    "test:web:t002": "node scripts/verify-t002-web.mjs",
+    "test:web:t003": "node scripts/verify-t003-web.mjs",
+    "test:web:t004-t006": "node scripts/verify-t004-t006-web.mjs",
+    "test:web:t004": "node scripts/verify-t004-web.mjs",
+    "test:web:release": "node scripts/verify-t004-web.mjs --release-only"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "zod": "4.6.7"
+  },
+  "type": "module",
+  "creator": {
+    "version": "3.8.8"
+  },
+  "uuid": "ed2ce48d-9565-4296-b566-b6fa1e8c8dd5"
+}

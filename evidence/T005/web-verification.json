@@ -1,0 +1,99 @@
+{
+  "passed": true,
+  "date": "2026-11-08",
+  "mode": "headless Chrome; WebGL; Cocos 3.8.8; Box2D; desktop only",
+  "url": "http://127.0.0.1:7458/",
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld"
+  },
+  "checks": {
+    "initial": {
+      "stepId": 63,
+      "calibrationPassed": true,
+      "bowSocket": {
+        "x": 4.328784461126464,
+        "y": 4.577824210845182,
+        "angleRad": 0.6293710210900272
+      }
+    },
+    "pose": {
+      "initial": {
+        "stepId": 63,
+        "calibrationPassed": true,
+        "bowSocket": {
+          "x": 4.328784461126464,
+          "y": 4.577824210845182,
+          "angleRad": 0.6293710210900272
+        }
+      },
+      "staggered": {
+        "pose": "staggered",
+        "aimRad": 0,
+        "armControlWeight": 1
+      },
+      "downed": {
+        "pose": "downed",
+        "aimRad": 0,
+        "armControlWeight": 1
+      },
+      "playerDownedAim": {
+        "aimId": 77,
+        "aimDeg": 1.5275254422129272,
+        "bowSocket": {
+          "x": 4.36255224827243,
+          "y": 4.39250573086331,
+          "angleRad": 0.28974683268426266
+        }
+      }
+    },
+    "combat": {
+      "before": {
+        "shots": 0,
+        "projectiles": 0
+      },
+      "after": {
+        "shots": 1,
+        "projectiles": 0,
+        "enemyHp": 48,
+        "hits": 1,
+        "lastHit": {
+          "shotId": 1,
+          "stepId": 171,
+          "targetId": "EnemyRagdoll",
+          "partId": "leftThigh",
+          "pointM": {
+            "x": 17.395753860473633,
+            "y": 3.683450222015381
+          },
+          "incomingVelocityMps": {
+            "x": 9.340084075927734,
+            "y": 6.404241561889648
+          },
+          "arrow": {
+            "id": "normal",
+            "baseDamage": 18,
+            "intervalSec": 0.55,
+            "speedMps": 18,
+            "staminaCost": 6,
+            "impulseNs": 1.8,
+            "armorDamageFactor": 1,
+            "armorOverflow": false,
+            "multiActorPenetration": false
+          },
+          "result": {
+            "zoneDamage": 12,
+            "armorDamage": 0,
+            "hpDamage": 12,
+            "remainingArmor": 0
+          },
+          "zone": "limb"
+        }
+      }
+    }
+  },
+  "pageErrors": [],
+  "consoleErrors": []
+}

@@ -1,0 +1,132 @@
+
+> storm-archers@0.1.0 test:web:t004-t006
+> node scripts/verify-t004-t006-web.mjs
+
+{
+  "passed": true,
+  "date": "2026-11-08",
+  "browser": "150.0.7871.125",
+  "mode": "desktop Chrome WebGL; Playwright mouse; fixed clock paused only while staging the two precision drags; no product playtest",
+  "errors": [],
+  "checks": {
+    "muzzleInsideChestCancelled": true,
+    "box2d": {
+      "baselineBodies": 28,
+      "flyingBodies": [
+        29,
+        29
+      ],
+      "afterResetBodies": [
+        29,
+        29
+      ]
+    },
+    "round1": {
+      "launchStep": 143,
+      "approximateDistanceM": 13.04875084368609,
+      "targetHp": 48,
+      "event": {
+        "shotId": 1,
+        "stepId": 186,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "leftUpperArm",
+        "pointM": {
+          "x": 17.43439483642578,
+          "y": 4.769164085388184
+        },
+        "normal": {
+          "x": -0.9029216170310974,
+          "y": 0.429805189371109
+        },
+        "source": "contact",
+        "fraction": 0.2256120898969721,
+        "incomingVelocityMps": {
+          "x": 17.671371459960938,
+          "y": -3.599506139755249
+        },
+        "arrow": {
+          "id": "normal",
+          "baseDamage": 18,
+          "intervalSec": 0.55,
+          "speedMps": 18,
+          "staminaCost": 6,
+          "impulseNs": 1.8,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "result": {
+          "zoneDamage": 12,
+          "armorDamage": 0,
+          "hpDamage": 12,
+          "remainingArmor": 0
+        },
+        "zone": "limb",
+        "impulseNs": 1.8
+      }
+    },
+    "round2": {
+      "launchStep": 355,
+      "approximateDistanceM": 13.08811691887679,
+      "targetHp": 48,
+      "event": {
+        "shotId": 2,
+        "stepId": 398,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "leftUpperArm",
+        "pointM": {
+          "x": 17.517250061035156,
+          "y": 4.783734321594238
+        },
+        "normal": {
+          "x": -0.10922645032405853,
+          "y": 0.9940168857574463
+        },
+        "source": "contact",
+        "fraction": 0.4930617883146398,
+        "incomingVelocityMps": {
+          "x": 17.65045166015625,
+          "y": -3.493244171142578
+        },
+        "arrow": {
+          "id": "normal",
+          "baseDamage": 18,
+          "intervalSec": 0.55,
+          "speedMps": 18,
+          "staminaCost": 6,
+          "impulseNs": 1.8,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "result": {
+          "zoneDamage": 12,
+          "armorDamage": 0,
+          "hpDamage": 12,
+          "remainingArmor": 0
+        },
+        "zone": "limb",
+        "impulseNs": 1.8
+      }
+    },
+    "mouseSwitch": [
+      "normal",
+      "impact",
+      "piercing"
+    ],
+    "volley": {
+      "arrow": "piercing",
+      "fired": 3,
+      "firedAfterRelease": 0
+    },
+    "resetFromPause": true
+  },
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "backend": "b2PhysicsWorld"
+  },
+  "seedHash": "bc96602a3baf5bbfd96acbeafc8a0bcb2e08d193252819a1650c9e9ea9f0b9a9"
+}

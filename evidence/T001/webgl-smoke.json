@@ -1,0 +1,94 @@
+{
+  "passed": true,
+  "date": "2026-11-08",
+  "browser": "150.0.7871.125",
+  "mode": "headless Chrome, actual WebGL context; no hardware-performance, phone or feel claim",
+  "url": "http://127.0.0.1:7458/",
+  "result": {
+    "labelSize": {
+      "width": 1700,
+      "height": 700
+    },
+    "scene": "Boot",
+    "label": "风暴弓手 · T001 启动基线\n1920 × 1080  |  24 × 13.5 m\n种子配置 V2  |  951e27ddf49d\n11 刚体规格  |  3 箭种  |  3 关卡种子\n配置加载完成；物理、关卡与手感尚未实现/验证。\n下一步：通过 T001 引擎导入后开始 T002 PhysicsLab。",
+    "designResolution": {
+      "width": 1920,
+      "height": 1080
+    },
+    "canvasSize": {
+      "width": 1280,
+      "height": 960
+    },
+    "webglVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "physicsWorld": "b2PhysicsWorld",
+    "engineVersion": "3.8.8"
+  },
+  "errors": [],
+  "failedRequests": [],
+  "consoleLog": [
+    {
+      "type": "timeEnd",
+      "text": "Init Base: 41.68017578125 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init Infrastructure: 53.30615234375 ms"
+    },
+    {
+      "type": "log",
+      "text": "[PHYSICS2D]: register box2d."
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init SubSystem: 72.828857421875 ms"
+    },
+    {
+      "type": "log",
+      "text": "Cocos Creator v3.8.8"
+    },
+    {
+      "type": "log",
+      "text": "Using custom pipeline: Builtin"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Init Project: 47.110107421875 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "LoadScene db://assets/scenes/Boot.scene: 18.405029296875 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "InitScene: 0.254150390625 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "AttachPersist: 0.0908203125 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "AutoRelease: 0.13916015625 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Destroy: 0.18505859375 ms"
+    },
+    {
+      "type": "timeEnd",
+      "text": "Activate: 11.320068359375 ms"
+    },
+    {
+      "type": "log",
+      "text": "Success to load scene: db://assets/scenes/Boot.scene"
+    },
+    {
+      "type": "info",
+      "text": "[StormArchersBoot] 正在加载风暴弓手种子配置…"
+    },
+    {
+      "type": "info",
+      "text": "[StormArchersBoot] 风暴弓手 · T001 启动基线\n1920 × 1080  |  24 × 13.5 m\n种子配置 V2  |  951e27ddf49d\n11 刚体规格  |  3 箭种  |  3 关卡种子\n配置加载完成；物理、关卡与手感尚未实现/验证。\n下一步：通过 T001 引擎导入后开始 T002 PhysicsLab。"
+    }
+  ]
+}

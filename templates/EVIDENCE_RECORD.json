@@ -1,0 +1,16 @@
+{
+  "caseId": "",
+  "taskId": "",
+  "sourceRevision": "",
+  "configHash": "",
+  "engineVersion": "",
+  "platform": "",
+  "device": "",
+  "steps": [],
+  "result": "NOT_RUN",
+  "commands": [],
+  "exitCodes": [],
+  "evidencePaths": [],
+  "observed": "",
+  "remainingIssues": []
+}

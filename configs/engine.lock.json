@@ -1,0 +1,10 @@
+{
+  "family": "Cocos Creator",
+  "requiredSeries": "3.8",
+  "patch": "3.8.8",
+  "physicsBackend": "Box2D 2D",
+  "editorImportVerified": true,
+  "webBuildVerified": true,
+  "note": "Cocos Creator 3.8.8 已安装并导入；Boot.scene/meta 经编辑器生成。实际 Web Desktop 构建和 WebGL 2.0 Boot 验证通过；Box2D 后端已启用，未验证玩法物理、标定或手感。",
+  "bootWebglVerified": true
+}

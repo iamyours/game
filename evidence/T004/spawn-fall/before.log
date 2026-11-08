@@ -1,0 +1,19 @@
+
+> storm-archers@0.1.0 test:web:t003
+> node scripts/verify-t003-web.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: 30 秒采样不足：156
+    at file:///Users/mac/Documents/game/scripts/verify-t003-web.mjs:62:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.13.0

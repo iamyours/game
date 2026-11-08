@@ -1,0 +1,263 @@
+{
+  "generatedFrom": "configs/combat.seed.json",
+  "sourceKind": "unverified_seed",
+  "runtimeVerified": false,
+  "seedHash": "9fbd932d2de2ce3ff9e602724e933653d047b03d73188c834d68cd466265a829",
+  "data": {
+    "configVersion": 2,
+    "status": "seed_requires_runtime_calibration",
+    "project": "storm_archers",
+    "engine": {
+      "family": "Cocos Creator 3.8 LTS",
+      "patch": "discover_and_lock_in_T001",
+      "physics": "Box2D 2D"
+    },
+    "orientation": "landscape",
+    "units": {
+      "length": "m",
+      "time": "s",
+      "mass": "kg",
+      "angleAuthoring": "deg",
+      "angleLogic": "rad",
+      "coordinateSystem": "x_right_y_up",
+      "conversionOwner": "PhysicsAdapter"
+    },
+    "viewport": {
+      "designWidth": 1920,
+      "designHeight": 1080,
+      "worldWidthM": 24,
+      "worldHeightM": 13.5,
+      "worldCenterM": [
+        12,
+        5
+      ],
+      "preserveCoreView": true,
+      "followEachArrow": false
+    },
+    "input": {
+      "aimZoneNormalized": [
+        0.02,
+        0.68,
+        0.42,
+        0.97
+      ],
+      "switchCenterNormalized": [
+        0.9,
+        0.84
+      ],
+      "joystickRadiusDesign": 90,
+      "deadzoneDesign": 10,
+      "fullDrawDistanceDesign": 120,
+      "firstShotDelaySec": 0.12,
+      "initialAimDeg": 18,
+      "minAimDeg": -15,
+      "maxAimDeg": 75,
+      "holdToFire": false,
+      "pullBackToAim": true,
+      "releaseStopsNewShots": false,
+      "releaseToFire": true,
+      "cancelNeverFires": true,
+      "clearOnCancelPauseBackground": true,
+      "switchResetsCooldown": false,
+      "hideSwitchWhenOneArrow": true,
+      "jumpEnabled": false
+    },
+    "bowControl": {
+      "minPowerRatio": 0.35,
+      "bowArmReachM": 0.42,
+      "braceDepthM": 0.36,
+      "drawTravelM": 0.2,
+      "bowHalfHeightM": 0.42,
+      "drawFollowPerSec": 12,
+      "releaseFollowPerSec": 9,
+      "armMaxSpeedDegPerSec": 360,
+      "gripReadyToleranceM": 0.16
+    },
+    "physics": {
+      "fixedTimeStepSec": 0.016666666666666666,
+      "gravityMps2": [
+        0,
+        -9.8
+      ],
+      "velocityIterations": 8,
+      "positionIterations": 8,
+      "bulletProjectiles": true,
+      "sweptTipSupplement": true,
+      "safeMutationAfterPhysics": true,
+      "customSecondStepper": false,
+      "steppingOwner": "PhysicsAdapter",
+      "engineAutoSimulation": false,
+      "maxStepsPerFrame": 5
+    },
+    "player": {
+      "hp": 100,
+      "stamina": 100,
+      "staminaRegenHeldPerSec": 6,
+      "staminaRegenReleasedPerSec": 16,
+      "permanentDisarm": false,
+      "armRecoveryRangeSec": [
+        0.25,
+        0.45
+      ]
+    },
+    "damage": {
+      "zoneMultipliers": {
+        "head": 2,
+        "torso": 1,
+        "limb": 0.65
+      },
+      "rounding": "ceil_zone_damage_then_ceil_hp_after_armor",
+      "sameStepMutualDeath": "lose",
+      "deadBodyTakesDamage": false
+    },
+    "arrows": [
+      {
+        "id": "normal",
+        "baseDamage": 18,
+        "intervalSec": 0.55,
+        "speedMps": 18,
+        "staminaCost": 6,
+        "impulseNs": 1.8,
+        "armorDamageFactor": 1,
+        "armorOverflow": false,
+        "multiActorPenetration": false
+      },
+      {
+        "id": "impact",
+        "baseDamage": 12,
+        "intervalSec": 0.8,
+        "speedMps": 17,
+        "staminaCost": 10,
+        "impulseNs": 3.2,
+        "armorDamageFactor": 1,
+        "armorOverflow": false,
+        "multiActorPenetration": false
+      },
+      {
+        "id": "piercing",
+        "baseDamage": 16,
+        "intervalSec": 0.75,
+        "speedMps": 19,
+        "staminaCost": 10,
+        "impulseNs": 1.4,
+        "armorDamageFactor": 2,
+        "armorOverflow": true,
+        "multiActorPenetration": false
+      }
+    ],
+    "reaction": {
+      "impulseCalibrationRequired": true,
+      "maxSingleImpulseNs": 4,
+      "playerMaxIncomingImpulseNs": 2.4,
+      "enemyArmTraumaToDisarm": 24,
+      "armTraumaSource": "ceil_zone_damage_before_armor",
+      "armTraumaDecayPerSec": 0,
+      "repeatDisarmAllowed": false,
+      "liveLimbSevering": false,
+      "jointWeights": "tune_in_T004_T008"
+    },
+    "enemies": [
+      {
+        "id": "archer",
+        "hp": 60,
+        "helmetDurability": 0,
+        "attackIntervalRangeSec": [
+          2.4,
+          3
+        ],
+        "telegraphSec": 0.5,
+        "aimErrorDeg": 4,
+        "arrowBaseDamage": 12,
+        "speedMps": 18
+      },
+      {
+        "id": "armored",
+        "hp": 85,
+        "helmetDurability": 28,
+        "attackIntervalRangeSec": [
+          2.5,
+          3.1
+        ],
+        "telegraphSec": 0.6,
+        "aimErrorDeg": 3,
+        "arrowBaseDamage": 14,
+        "speedMps": 18
+      },
+      {
+        "id": "boss",
+        "hp": 220,
+        "helmetDurability": 45,
+        "attackIntervalRangeSec": [
+          3,
+          3.6
+        ],
+        "telegraphSec": 0.9,
+        "aimErrorDeg": 3,
+        "arrowBaseDamage": 18,
+        "speedMps": 17,
+        "exclusiveWave": true,
+        "sizeMultiplier": 1.35,
+        "massMultiplier": 1.8,
+        "phaseTwoHpRatio": 0.5,
+        "phaseTwoIntervalMultiplier": 0.85,
+        "rigRequiresSeparateCalibration": true
+      }
+    ],
+    "run": {
+      "waveTransitionSec": 1.5,
+      "clearFlyingArrowsAtTransition": true,
+      "fireDuringTransition": false,
+      "firstEnemyShotMinSec": 1.5,
+      "enemyAttackStartSeparationSec": 0.6,
+      "fallKillY_M": -2,
+      "disarmedCountsAsDead": false
+    },
+    "pickups": {
+      "ids": [
+        "red",
+        "green"
+      ],
+      "spawnIntervalRangeSec": [
+        10,
+        14
+      ],
+      "maxAlive": 2,
+      "ttlSec": 16,
+      "redHp": 25,
+      "greenStamina": 30,
+      "playerArrowConsumed": true,
+      "enemyCollects": false,
+      "requireReachabilityValidation": true
+    },
+    "limits": {
+      "maxLiveEnemies": 2,
+      "maxFlyingArrows": 24,
+      "maxEmbeddedVisuals": 24,
+      "maxEmbeddedPerActor": 6,
+      "maxCorpses": 2,
+      "maxPhysicalEquipmentDrops": 6,
+      "corpseTtlSec": 3,
+      "equipmentTtlSec": 3,
+      "projectileTtlSec": 5,
+      "normalBodiesTarget": 80,
+      "peakBodiesBudget": 110
+    },
+    "save": {
+      "schemaVersion": 1,
+      "persistMidRunPhysics": false,
+      "progression": "level_and_arrow_unlocks_only"
+    },
+    "feelTargets": {
+      "normalMidrangeDistanceM": [
+        13,
+        17
+      ],
+      "normalMidrangeFlightSec": [
+        0.7,
+        1.1
+      ],
+      "validated": false,
+      "requiresProductPlaytest": true
+    }
+  }
+}

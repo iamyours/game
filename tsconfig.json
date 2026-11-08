@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noEmit": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "types": [
+      "node"
+    ],
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "tools/**/*.ts",
+    "tests/**/*.ts",
+    "assets/scripts/domain/**/*.ts",
+    "assets/scripts/core/BootRuntime.ts",
+    "assets/scripts/core/BootManifest.ts",
+    "assets/scripts/core/PhysicsLabConfig.ts",
+    "assets/scripts/input/InputRouter.ts"
+  ]
+}

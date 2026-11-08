@@ -1,0 +1,141 @@
+import { PhysicsAdapter as Physics } from './PhysicsAdapter';
+import type { RagdollInstance } from './RagdollFactory';
+import type { RigJointId, RigDefinition } from './RigDefinition';
+import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
+import { armGeometry, solveArm, type ArmGeometry } from '../domain/archery';
+
+export type PoseName = 'standing' | 'staggered' | 'downed';
+
+export interface PoseControllerSnapshot {
+  readonly pose: PoseName;
+  readonly aimRad: number;
+  readonly armControlWeight: number;
+  readonly drawing: boolean;
+  readonly drawAmount: number;
+}
+
+const JOINTS: readonly RigJointId[] = ['neck', 'waist', 'leftShoulder', 'leftElbow', 'rightShoulder', 'rightElbow',
+  'leftHip', 'leftKnee', 'rightHip', 'rightKnee'];
+
+// Opposite hip angles widen the support base; bending both knees the same way drifts sideways.
+const POSES: Readonly<Record<PoseName, Readonly<Record<RigJointId, number>>>> = {
+  standing: { neck: 0, waist: 0, leftShoulder: 8, leftElbow: 24, rightShoulder: -8, rightElbow: 24,
+    leftHip: -12, leftKnee: 0, rightHip: 12, rightKnee: 0 },
+  staggered: { neck: 10, waist: -16, leftShoulder: 18, leftElbow: 38, rightShoulder: -22, rightElbow: 42,
+    leftHip: -8, leftKnee: 24, rightHip: 10, rightKnee: 30 },
+  downed: { neck: 18, waist: 30, leftShoulder: 36, leftElbow: 58, rightShoulder: -34, rightElbow: 58,
+    leftHip: 34, leftKnee: 72, rightHip: 34, rightKnee: 72 },
+};
+
+/**
+ * Drives the authored rig through constrained hinge motors. It never writes a
+ * rigid body's transform; Box2D remains responsible for the actual pose.
+ */
+export class PoseController {
+  private pose: PoseName = 'standing';
+  private aimRad = Math.PI / 10;
+  private armTraumaUntil = 0;
+  private armControlWeight = 1;
+  private elapsed = 0;
+  private warmupRemaining = 0.5;
+
+  private drawing = false;
+  private requestedDraw = 0;
+  private drawAmount = 0;
+  private readonly rightArm: ArmGeometry;
+  private readonly leftArm: ArmGeometry;
+  private readonly baseTorqueNm: number;
+
+  public constructor(private readonly ragdoll: RagdollInstance, rig: RigDefinition,
+    private readonly bow: PhysicsLabConfig['bowControl']) {
+    this.baseTorqueNm = rig.neutralMotorTorqueNm;
+    this.rightArm = armGeometry(rig, 'right');
+    this.leftArm = armGeometry(rig, 'left');
+  }
+
+  public setDraw(drawing: boolean, progress: number): void {
+    this.drawing = drawing;
+    this.requestedDraw = drawing ? Math.max(0, Math.min(1, progress)) : 0;
+  }
+
+  public get handsSnapshot() {
+    const bowGrip = this.ragdoll.worldPointM('rightForearm', this.rightArm.gripLocalM);
+    const stringGrip = this.ragdoll.worldPointM('leftForearm', this.leftArm.gripLocalM);
+    const shoulder = this.ragdoll.worldPointM('chest', this.rightArm.shoulderAnchorM);
+    const dx = Math.cos(this.aimRad), dy = Math.sin(this.aimRad);
+    const bowTarget = { x: shoulder.x + dx * this.bow.bowArmReachM, y: shoulder.y + dy * this.bow.bowArmReachM };
+    const depth = this.bow.braceDepthM + this.bow.drawTravelM * this.drawAmount;
+    const stringTarget = { x: bowGrip.x - dx * depth, y: bowGrip.y - dy * depth };
+    const bowErrorM = Math.hypot(bowGrip.x - bowTarget.x, bowGrip.y - bowTarget.y);
+    const stringErrorM = Math.hypot(stringGrip.x - stringTarget.x, stringGrip.y - stringTarget.y);
+    return { bowGrip, stringGrip, bowTarget, stringTarget, bowErrorM, stringErrorM,
+      ready: this.warmupRemaining <= 0 && Math.max(bowErrorM, stringErrorM) <= this.bow.gripReadyToleranceM };
+  }
+
+  public get snapshot(): PoseControllerSnapshot {
+    return { pose: this.pose, aimRad: this.aimRad, armControlWeight: this.armControlWeight,
+      drawing: this.drawing, drawAmount: this.drawAmount };
+  }
+
+  public reset(): void {
+    this.pose = 'standing';
+    this.drawing = false; this.requestedDraw = this.drawAmount = 0;
+    this.elapsed = this.armTraumaUntil = 0;
+    this.armControlWeight = 1;
+    this.warmupRemaining = 0.5;
+  }
+
+  public setPose(pose: PoseName): void { this.pose = pose; }
+  public setAimRad(aimRad: number): void { this.aimRad = aimRad; }
+
+  /** Temporarily lowers only the arm motor authority after a local hit. */
+  public registerArmTrauma(durationSec = 0.35, controlWeight = 0.35): void {
+    this.armTraumaUntil = Math.max(this.armTraumaUntil, this.elapsed + durationSec);
+    this.armControlWeight = Math.min(this.armControlWeight, Math.max(0, Math.min(1, controlWeight)));
+  }
+
+  public step(dt: number): void {
+    this.elapsed += dt;
+    const change = this.requestedDraw - this.drawAmount;
+    const rate = change < 0 ? this.bow.releaseFollowPerSec : this.bow.drawFollowPerSec;
+    this.drawAmount += Math.max(-rate * dt, Math.min(rate * dt, change));
+    if (this.pose === 'standing') this.balanceStandingChest();
+    // Let the authored neutral motors absorb the first contact correction after spawn.
+    // This keeps T003's stability baseline intact while the active controller takes over.
+    if (this.warmupRemaining > 0) {
+      this.warmupRemaining = Math.max(0, this.warmupRemaining - dt);
+      return;
+    }
+    if (this.elapsed >= this.armTraumaUntil) this.armControlWeight = 1;
+    const targets = { ...POSES[this.pose] };
+    const chestRad = Physics.radians(this.ragdoll.worldAngleDeg('chest'));
+    const hands = this.handsSnapshot;
+    const rightShoulder = this.ragdoll.worldPointM('chest', this.rightArm.shoulderAnchorM);
+    const leftShoulder = this.ragdoll.worldPointM('chest', this.leftArm.shoulderAnchorM);
+    const hold = solveArm(this.rightArm, rightShoulder, hands.bowTarget, chestRad);
+    const pull = solveArm(this.leftArm, leftShoulder, hands.stringTarget, chestRad);
+    targets.rightShoulder = Physics.degrees(hold.shoulderRad);
+    targets.rightElbow = Physics.degrees(hold.elbowRad);
+    targets.leftShoulder = Physics.degrees(pull.shoulderRad);
+    targets.leftElbow = Physics.degrees(pull.elbowRad);
+    const controlTorque = Math.min(12, this.baseTorqueNm * 0.1);
+    for (const jointId of JOINTS) {
+      const arm = jointId.endsWith('Shoulder') || jointId.endsWith('Elbow');
+      const poseWeight = this.pose === 'downed' && arm ? 0.8 : 1;
+      this.ragdoll.setJointMotor(jointId, targets[jointId], controlTorque * poseWeight * (arm ? this.armControlWeight : 1), arm ? this.bow.armMaxSpeedDegPerSec : 135);
+    }
+  }
+
+  private balanceStandingChest(): void {
+    // Hinge targets control relative angles, not the whole rig's world tilt.
+    // Fade out outside the standing envelope so this cannot pull a fallen actor upright.
+    const chest = this.ragdoll.bodies.get('chest');
+    if (!chest) return;
+    const tilt = Physics.radians(this.ragdoll.worldAngleDeg('chest'));
+    const weight = Math.max(0, Math.min(1, (Physics.radians(35) - Math.abs(tilt)) / Physics.radians(15)));
+    if (weight === 0) return;
+    const torqueNm = -65 * tilt - 8 * chest.angularVelocity;
+    const limitNm = Math.min(18, this.baseTorqueNm * 0.15);
+    chest.applyTorque(Math.max(-limitNm, Math.min(limitNm, torqueNm)) * weight, false);
+  }
+}

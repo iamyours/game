@@ -1,0 +1,23 @@
+{
+  "configVersion": 2,
+  "orientation": "landscape",
+  "web": {
+    "purpose": "development_baseline",
+    "verified": false
+  },
+  "wechat": {
+    "target": "minigame",
+    "appId": "set_locally",
+    "verified": false
+  },
+  "taptap": {
+    "selectedPath": "android_apk",
+    "alternativePaths": [
+      "ordinary_minigame",
+      "h5_minigame"
+    ],
+    "pathDecisionRequiredBeforeT016": true,
+    "verified": false
+  },
+  "commercialFeaturesEnabled": false
+}

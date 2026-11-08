@@ -1,0 +1,17 @@
+{
+  "passed": false,
+  "date": "2026-11-08",
+  "mode": "headless Chrome; WebGL; Cocos 3.8.8; Box2D; no phone claim",
+  "url": "http://127.0.0.1:7458/",
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld"
+  },
+  "stability": {},
+  "reset": {},
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failure": "AssertionError [ERR_ASSERTION]: 30 秒采样不足：156"
+}

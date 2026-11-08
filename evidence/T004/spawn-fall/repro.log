@@ -1,0 +1,838 @@
+
+> storm-archers@0.1.0 test:web:t003
+> node scripts/verify-t003-web.mjs
+
+{
+  "passed": true,
+  "date": "2026-11-08",
+  "mode": "headless Chrome; WebGL; Cocos 3.8.8; Box2D; no phone claim",
+  "url": "http://127.0.0.1:7458/",
+  "runtime": {
+    "scene": "Boot",
+    "version": "3.8.8",
+    "box2d": true,
+    "physicsWorld": "b2PhysicsWorld"
+  },
+  "stability": {
+    "durationSec": 30,
+    "sampleCount": 148,
+    "initialResetCount": 0,
+    "bodyCountPerRagdoll": [
+      11
+    ],
+    "jointCountPerRagdoll": [
+      10
+    ],
+    "maxJointErrorM": 0.0006362730508184804,
+    "physicsBodies": [
+      27
+    ],
+    "physicsJoints": [
+      20
+    ],
+    "box2dBodies": [
+      28
+    ],
+    "box2dJoints": [
+      20
+    ],
+    "calibrationPassed": true
+  },
+  "reset": {
+    "requested": 20,
+    "completed": 20,
+    "physicsBodies": 27,
+    "physicsJoints": 20,
+    "box2dBodies": 28,
+    "box2dJoints": 20,
+    "ragdollBodyCounts": [
+      11,
+      11
+    ],
+    "ragdollJointCounts": [
+      10,
+      10
+    ]
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "observed": {
+    "first": {
+      "seedHash": "bc96602a3baf5bbfd96acbeafc8a0bcb2e08d193252819a1650c9e9ea9f0b9a9",
+      "calibration": {
+        "steps": 60,
+        "seconds": 1,
+        "start": {
+          "glide": {
+            "positionM": {
+              "x": 2,
+              "y": 8.5
+            },
+            "angleRad": 0,
+            "angularVelocityRadps": 1.5707963267948966,
+            "velocityMps": {
+              "x": 10,
+              "y": 0
+            }
+          },
+          "drop": {
+            "positionM": {
+              "x": 21,
+              "y": 8.5
+            },
+            "angleRad": 0,
+            "angularVelocityRadps": 0,
+            "velocityMps": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "end": {
+          "glide": {
+            "positionM": {
+              "x": 12.000004768371582,
+              "y": 8.5
+            },
+            "angleRad": 1.5707963267948966,
+            "angularVelocityRadps": 1.5707963267948966,
+            "velocityMps": {
+              "x": 10,
+              "y": 0
+            }
+          },
+          "drop": {
+            "positionM": {
+              "x": 21,
+              "y": 3.518333911895752
+            },
+            "angleRad": 0,
+            "angularVelocityRadps": 0,
+            "velocityMps": {
+              "x": 0,
+              "y": -9.79999828338623
+            }
+          }
+        },
+        "tolerance": 0.02,
+        "checks": {
+          "glideXM": {
+            "actual": 10.000004768371582,
+            "expected": 10,
+            "error": 0.00000476837158203125,
+            "passed": true
+          },
+          "glideYM": {
+            "actual": 0,
+            "expected": 0,
+            "error": 0,
+            "passed": true
+          },
+          "angleRad": {
+            "actual": 1.5707963267948966,
+            "expected": 1.5707963267948966,
+            "error": 0,
+            "passed": true
+          },
+          "angularVelocityRadps": {
+            "actual": 1.5707963267948966,
+            "expected": 1.5707963267948966,
+            "error": 0,
+            "passed": true
+          },
+          "dropYM": {
+            "actual": -4.981666088104248,
+            "expected": -4.9,
+            "error": 0.08166608810424769,
+            "passed": true
+          },
+          "dropVelocityMps": {
+            "actual": -9.79999828338623,
+            "expected": -9.8,
+            "error": 0.0000017166137702417927,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      "stepId": 205,
+      "autoSimulation": false,
+      "shots": 0,
+      "lastShot": null,
+      "aimId": null,
+      "aimDeg": 18,
+      "arrow": "normal",
+      "paused": false,
+      "hidden": false,
+      "portrait": false,
+      "layout": {
+        "aim": {
+          "left": 38.4,
+          "top": 734.4000000000001,
+          "right": 806.4,
+          "bottom": 1047.6
+        },
+        "arrowSwitch": {
+          "left": 1638,
+          "top": 857.1999999999999,
+          "right": 1818,
+          "bottom": 957.1999999999999
+        }
+      },
+      "pauseRect": {
+        "left": 1720,
+        "top": 16,
+        "right": 1900,
+        "bottom": 116
+      },
+      "resetRect": {
+        "left": 1528,
+        "top": 16,
+        "right": 1708,
+        "bottom": 116
+      },
+      "width": 1920,
+      "height": 1080,
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 1080
+      },
+      "projection": {
+        "topLeft": {
+          "x": 0,
+          "y": 0
+        },
+        "bottomRight": {
+          "x": 1920,
+          "y": 1080
+        },
+        "roundTrip": {
+          "x": 3.4999999999999982,
+          "y": 3.8499999999999996
+        }
+      },
+      "pose": {
+        "player": {
+          "pose": "standing",
+          "aimRad": 0.3141592653589793,
+          "armControlWeight": 1
+        },
+        "enemy": {
+          "pose": "standing",
+          "aimRad": 0,
+          "armControlWeight": 1
+        },
+        "bowSocket": {
+          "x": 4.39256425488193,
+          "y": 4.8938504958999465,
+          "angleRad": 1.1019192361327168
+        }
+      },
+      "combat": [
+        {
+          "id": "PlayerRagdoll",
+          "hp": 100,
+          "armor": 0,
+          "hits": 0,
+          "lastHit": null
+        },
+        {
+          "id": "EnemyRagdoll",
+          "hp": 60,
+          "armor": 0,
+          "hits": 0,
+          "lastHit": null
+        }
+      ],
+      "projectiles": 0,
+      "embedded": 0,
+      "rig": {
+        "bodyCount": 11,
+        "jointCount": 10,
+        "totalMassKg": 24.000000000000007,
+        "resetCount": 0,
+        "ragdolls": [
+          {
+            "id": "PlayerRagdoll",
+            "bodyCount": 11,
+            "jointCount": 10,
+            "bodyIds": [
+              "head",
+              "chest",
+              "pelvis",
+              "leftUpperArm",
+              "leftForearm",
+              "rightUpperArm",
+              "rightForearm",
+              "leftThigh",
+              "leftShin",
+              "rightThigh",
+              "rightShin"
+            ],
+            "jointIds": [
+              "neck",
+              "waist",
+              "leftShoulder",
+              "leftElbow",
+              "rightShoulder",
+              "rightElbow",
+              "leftHip",
+              "leftKnee",
+              "rightHip",
+              "rightKnee"
+            ],
+            "positionsM": {
+              "head": {
+                "x": 3.5430281162261963,
+                "y": 5.049210071563721
+              },
+              "chest": {
+                "x": 3.530705451965332,
+                "y": 4.539359092712402
+              },
+              "pelvis": {
+                "x": 3.5200307369232178,
+                "y": 4.099489212036133
+              },
+              "leftUpperArm": {
+                "x": 3.0590527057647705,
+                "y": 4.581183910369873
+              },
+              "leftForearm": {
+                "x": 2.907654047012329,
+                "y": 4.393770217895508
+              },
+              "rightUpperArm": {
+                "x": 4.047532081604004,
+                "y": 4.742154598236084
+              },
+              "rightForearm": {
+                "x": 4.275892734527588,
+                "y": 4.8184332847595215
+              },
+              "leftThigh": {
+                "x": 3.3616836071014404,
+                "y": 3.763282299041748
+              },
+              "leftShin": {
+                "x": 3.3730127811431885,
+                "y": 3.3244173526763916
+              },
+              "rightThigh": {
+                "x": 3.6489996910095215,
+                "y": 3.7567028999328613
+              },
+              "rightShin": {
+                "x": 3.6276767253875732,
+                "y": 3.318220376968384
+              }
+            },
+            "massesKg": {
+              "head": 1.9200000000001256,
+              "chest": 7.679999546637908,
+              "pelvis": 4.799999900625531,
+              "leftUpperArm": 0.9600000286102294,
+              "leftForearm": 0.9600000261005597,
+              "rightUpperArm": 0.9600000286102294,
+              "rightForearm": 0.9600000261005597,
+              "leftThigh": 1.4399999983279732,
+              "leftShin": 1.4399999800221668,
+              "rightThigh": 1.4399999983279732,
+              "rightShin": 1.4399999800221668
+            },
+            "maxJointErrorM": 0.00001622569210335902,
+            "finite": true
+          },
+          {
+            "id": "EnemyRagdoll",
+            "bodyCount": 11,
+            "jointCount": 10,
+            "bodyIds": [
+              "head",
+              "chest",
+              "pelvis",
+              "leftUpperArm",
+              "leftForearm",
+              "rightUpperArm",
+              "rightForearm",
+              "leftThigh",
+              "leftShin",
+              "rightThigh",
+              "rightShin"
+            ],
+            "jointIds": [
+              "neck",
+              "waist",
+              "leftShoulder",
+              "leftElbow",
+              "rightShoulder",
+              "rightElbow",
+              "leftHip",
+              "leftKnee",
+              "rightHip",
+              "rightKnee"
+            ],
+            "positionsM": {
+              "head": {
+                "x": 18.050745010375977,
+                "y": 5.048835754394531
+              },
+              "chest": {
+                "x": 18.03757095336914,
+                "y": 4.539006233215332
+              },
+              "pelvis": {
+                "x": 18.026235580444336,
+                "y": 4.099152088165283
+              },
+              "leftUpperArm": {
+                "x": 17.56595802307129,
+                "y": 4.581664562225342
+              },
+              "leftForearm": {
+                "x": 17.4141845703125,
+                "y": 4.394547462463379
+              },
+              "rightUpperArm": {
+                "x": 18.554851531982422,
+                "y": 4.663733959197998
+              },
+              "rightForearm": {
+                "x": 18.795616149902344,
+                "y": 4.665032863616943
+              },
+              "leftThigh": {
+                "x": 17.867507934570312,
+                "y": 3.7630269527435303
+              },
+              "leftShin": {
+                "x": 17.878326416015625,
+                "y": 3.3241522312164307
+              },
+              "rightThigh": {
+                "x": 18.154184341430664,
+                "y": 3.7563061714172363
+              },
+              "rightShin": {
+                "x": 18.13088607788086,
+                "y": 3.317991018295288
+              }
+            },
+            "massesKg": {
+              "head": 1.9200000000001256,
+              "chest": 7.679999546637908,
+              "pelvis": 4.799999900625531,
+              "leftUpperArm": 0.9600000286102294,
+              "leftForearm": 0.9600000261005597,
+              "rightUpperArm": 0.9600000286102294,
+              "rightForearm": 0.9600000261005597,
+              "leftThigh": 1.4399999983279732,
+              "leftShin": 1.4399999800221668,
+              "rightThigh": 1.4399999983279732,
+              "rightShin": 1.4399999800221668
+            },
+            "maxJointErrorM": 0.0000702285110354353,
+            "finite": true
+          }
+        ]
+      },
+      "physicsBodies": 27,
+      "physicsJoints": 20,
+      "box2dBodies": 28,
+      "box2dJoints": 20
+    },
+    "last": {
+      "seedHash": "bc96602a3baf5bbfd96acbeafc8a0bcb2e08d193252819a1650c9e9ea9f0b9a9",
+      "calibration": {
+        "steps": 60,
+        "seconds": 1,
+        "start": {
+          "glide": {
+            "positionM": {
+              "x": 2,
+              "y": 8.5
+            },
+            "angleRad": 0,
+            "angularVelocityRadps": 1.5707963267948966,
+            "velocityMps": {
+              "x": 10,
+              "y": 0
+            }
+          },
+          "drop": {
+            "positionM": {
+              "x": 21,
+              "y": 8.5
+            },
+            "angleRad": 0,
+            "angularVelocityRadps": 0,
+            "velocityMps": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "end": {
+          "glide": {
+            "positionM": {
+              "x": 12.000004768371582,
+              "y": 8.5
+            },
+            "angleRad": 1.5707963267948966,
+            "angularVelocityRadps": 1.5707963267948966,
+            "velocityMps": {
+              "x": 10,
+              "y": 0
+            }
+          },
+          "drop": {
+            "positionM": {
+              "x": 21,
+              "y": 3.518333911895752
+            },
+            "angleRad": 0,
+            "angularVelocityRadps": 0,
+            "velocityMps": {
+              "x": 0,
+              "y": -9.79999828338623
+            }
+          }
+        },
+        "tolerance": 0.02,
+        "checks": {
+          "glideXM": {
+            "actual": 10.000004768371582,
+            "expected": 10,
+            "error": 0.00000476837158203125,
+            "passed": true
+          },
+          "glideYM": {
+            "actual": 0,
+            "expected": 0,
+            "error": 0,
+            "passed": true
+          },
+          "angleRad": {
+            "actual": 1.5707963267948966,
+            "expected": 1.5707963267948966,
+            "error": 0,
+            "passed": true
+          },
+          "angularVelocityRadps": {
+            "actual": 1.5707963267948966,
+            "expected": 1.5707963267948966,
+            "error": 0,
+            "passed": true
+          },
+          "dropYM": {
+            "actual": -4.981666088104248,
+            "expected": -4.9,
+            "error": 0.08166608810424769,
+            "passed": true
+          },
+          "dropVelocityMps": {
+            "actual": -9.79999828338623,
+            "expected": -9.8,
+            "error": 0.0000017166137702417927,
+            "passed": true
+          }
+        },
+        "passed": true
+      },
+      "stepId": 1898,
+      "autoSimulation": false,
+      "shots": 0,
+      "lastShot": null,
+      "aimId": null,
+      "aimDeg": 18,
+      "arrow": "normal",
+      "paused": false,
+      "hidden": false,
+      "portrait": false,
+      "layout": {
+        "aim": {
+          "left": 38.4,
+          "top": 734.4000000000001,
+          "right": 806.4,
+          "bottom": 1047.6
+        },
+        "arrowSwitch": {
+          "left": 1638,
+          "top": 857.1999999999999,
+          "right": 1818,
+          "bottom": 957.1999999999999
+        }
+      },
+      "pauseRect": {
+        "left": 1720,
+        "top": 16,
+        "right": 1900,
+        "bottom": 116
+      },
+      "resetRect": {
+        "left": 1528,
+        "top": 16,
+        "right": 1708,
+        "bottom": 116
+      },
+      "width": 1920,
+      "height": 1080,
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 1080
+      },
+      "projection": {
+        "topLeft": {
+          "x": 0,
+          "y": 0
+        },
+        "bottomRight": {
+          "x": 1920,
+          "y": 1080
+        },
+        "roundTrip": {
+          "x": 3.4999999999999982,
+          "y": 3.8499999999999996
+        }
+      },
+      "pose": {
+        "player": {
+          "pose": "standing",
+          "aimRad": 0.3141592653589793,
+          "armControlWeight": 1
+        },
+        "enemy": {
+          "pose": "standing",
+          "aimRad": 0,
+          "armControlWeight": 1
+        },
+        "bowSocket": {
+          "x": 4.534128112589769,
+          "y": 4.884351937068028,
+          "angleRad": 1.0952719693000366
+        }
+      },
+      "combat": [
+        {
+          "id": "PlayerRagdoll",
+          "hp": 100,
+          "armor": 0,
+          "hits": 0,
+          "lastHit": null
+        },
+        {
+          "id": "EnemyRagdoll",
+          "hp": 60,
+          "armor": 0,
+          "hits": 0,
+          "lastHit": null
+        }
+      ],
+      "projectiles": 0,
+      "embedded": 0,
+      "rig": {
+        "bodyCount": 11,
+        "jointCount": 10,
+        "totalMassKg": 24.000000000000007,
+        "resetCount": 0,
+        "ragdolls": [
+          {
+            "id": "PlayerRagdoll",
+            "bodyCount": 11,
+            "jointCount": 10,
+            "bodyIds": [
+              "head",
+              "chest",
+              "pelvis",
+              "leftUpperArm",
+              "leftForearm",
+              "rightUpperArm",
+              "rightForearm",
+              "leftThigh",
+              "leftShin",
+              "rightThigh",
+              "rightShin"
+            ],
+            "jointIds": [
+              "neck",
+              "waist",
+              "leftShoulder",
+              "leftElbow",
+              "rightShoulder",
+              "rightElbow",
+              "leftHip",
+              "leftKnee",
+              "rightHip",
+              "rightKnee"
+            ],
+            "positionsM": {
+              "head": {
+                "x": 3.691330671310425,
+                "y": 5.04918098449707
+              },
+              "chest": {
+                "x": 3.667335271835327,
+                "y": 4.539745807647705
+              },
+              "pelvis": {
+                "x": 3.6470887660980225,
+                "y": 4.100213527679443
+              },
+              "leftUpperArm": {
+                "x": 3.196974992752075,
+                "y": 4.592181205749512
+              },
+              "leftForearm": {
+                "x": 3.041499137878418,
+                "y": 4.4081196784973145
+              },
+              "rightUpperArm": {
+                "x": 4.188106536865234,
+                "y": 4.734812259674072
+              },
+              "rightForearm": {
+                "x": 4.416957855224609,
+                "y": 4.809711933135986
+              },
+              "leftThigh": {
+                "x": 3.4814605712890625,
+                "y": 3.7667722702026367
+              },
+              "leftShin": {
+                "x": 3.4816300868988037,
+                "y": 3.3277597427368164
+              },
+              "rightThigh": {
+                "x": 3.7603354454040527,
+                "y": 3.7565879821777344
+              },
+              "rightShin": {
+                "x": 3.7083067893981934,
+                "y": 3.321016788482666
+              }
+            },
+            "massesKg": {
+              "head": 1.9200000000001256,
+              "chest": 7.679999546637908,
+              "pelvis": 4.799999900625531,
+              "leftUpperArm": 0.9600000286102294,
+              "leftForearm": 0.9600000261005597,
+              "rightUpperArm": 0.9600000286102294,
+              "rightForearm": 0.9600000261005597,
+              "leftThigh": 1.4399999983279732,
+              "leftShin": 1.4399999800221668,
+              "rightThigh": 1.4399999983279732,
+              "rightShin": 1.4399999800221668
+            },
+            "maxJointErrorM": 0.00018811257528015616,
+            "finite": true
+          },
+          {
+            "id": "EnemyRagdoll",
+            "bodyCount": 11,
+            "jointCount": 10,
+            "bodyIds": [
+              "head",
+              "chest",
+              "pelvis",
+              "leftUpperArm",
+              "leftForearm",
+              "rightUpperArm",
+              "rightForearm",
+              "leftThigh",
+              "leftShin",
+              "rightThigh",
+              "rightShin"
+            ],
+            "jointIds": [
+              "neck",
+              "waist",
+              "leftShoulder",
+              "leftElbow",
+              "rightShoulder",
+              "rightElbow",
+              "leftHip",
+              "leftKnee",
+              "rightHip",
+              "rightKnee"
+            ],
+            "positionsM": {
+              "head": {
+                "x": 18.15264892578125,
+                "y": 5.05150032043457
+              },
+              "chest": {
+                "x": 18.13884925842285,
+                "y": 4.54168701171875
+              },
+              "pelvis": {
+                "x": 18.126426696777344,
+                "y": 4.101866245269775
+              },
+              "leftUpperArm": {
+                "x": 17.667085647583008,
+                "y": 4.585132122039795
+              },
+              "leftForearm": {
+                "x": 17.514904022216797,
+                "y": 4.3983635902404785
+              },
+              "rightUpperArm": {
+                "x": 18.656814575195312,
+                "y": 4.669655799865723
+              },
+              "rightForearm": {
+                "x": 18.89750099182129,
+                "y": 4.674584865570068
+              },
+              "leftThigh": {
+                "x": 17.966842651367188,
+                "y": 3.7671117782592773
+              },
+              "leftShin": {
+                "x": 17.978050231933594,
+                "y": 3.328237771987915
+              },
+              "rightThigh": {
+                "x": 18.249608993530273,
+                "y": 3.758481740951538
+              },
+              "rightShin": {
+                "x": 18.214128494262695,
+                "y": 3.3204708099365234
+              }
+            },
+            "massesKg": {
+              "head": 1.9200000000001256,
+              "chest": 7.679999546637908,
+              "pelvis": 4.799999900625531,
+              "leftUpperArm": 0.9600000286102294,
+              "leftForearm": 0.9600000261005597,
+              "rightUpperArm": 0.9600000286102294,
+              "rightForearm": 0.9600000261005597,
+              "leftThigh": 1.4399999983279732,
+              "leftShin": 1.4399999800221668,
+              "rightThigh": 1.4399999983279732,
+              "rightShin": 1.4399999800221668
+            },
+            "maxJointErrorM": 0.00031547291489679425,
+            "finite": true
+          }
+        ]
+      },
+      "physicsBodies": 27,
+      "physicsJoints": 20,
+      "box2dBodies": 28,
+      "box2dJoints": 20
+    },
+    "sampleCount": 148
+  },
+  "standing": {
+    "minChestYM": 4.535825729370117,
+    "maxDriftXM": 0.18794631958007812
+  }
+}

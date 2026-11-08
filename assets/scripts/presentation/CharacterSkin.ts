@@ -2,6 +2,7 @@ import { Graphics, JsonAsset, Node, Rect, Size, Sprite, SpriteFrame, Texture2D, 
 import type { RagdollInstance } from '../physics/RagdollFactory';
 import type { RigDefinition } from '../physics/RigDefinition';
 import { PhysicsAdapter as Physics } from '../physics/PhysicsAdapter';
+import { armVisualLayout } from '../domain/archery';
 
 interface FrameSpec { rect: [number, number, number, number]; anchor: [number, number] }
 interface AtlasSpec { imageSize: [number, number]; frames: Record<string, FrameSpec> }
@@ -52,7 +53,12 @@ export class CharacterSkin {
       sprite.spriteFrame = frame;
       const transform = visual.getComponent(UITransform)!;
       transform.setAnchorPoint(...specFrame.anchor);
-      transform.setContentSize(Physics.units(part.sizeM[0]), Physics.units(part.sizeM[1]));
+      const arm = armVisualLayout(this.rig, part);
+      if (arm) {
+        visual.setPosition(Physics.units(arm.xM), Physics.units(arm.yM));
+        visual.setRotationFromEuler(0, 0, Physics.degrees(arm.angleRad));
+      }
+      transform.setContentSize(Physics.units(arm?.widthM ?? part.sizeM[0]), Physics.units(arm?.heightM ?? part.sizeM[1]));
       this.visuals.push(visual);
     }
     for (const body of this.actor.bodyNodes.values()) {

@@ -67,3 +67,6 @@ PhysicsAdapter 的手动步必须同时维护锁定引擎的反馈保护：物�
 
 ## D020 Creator assets 导入与双环境类型检查
 2026-11-08。Cocos Creator 3.8.8 QuickCompiler 不把 `assets` 内运行时相对导入的 `.js` 说明符映射到对应 `.ts` 文件；运行时依赖统一使用无扩展名路径，类型专用导入除外。便携 Node 检查改用 ESNext + Bundler，继续通过 `node --import tsx` 执行测试。`Texture2D` 加载结果必须做运行时类型校验，`addRef()` 的声明返回 `Asset` 时不得直接赋给纹理字段。该兼容修复不改变发布范围、物理规则或验收状态。
+
+## D021 手臂轴向与箭型受击控制
+2026-11-08。按用户“手臂关节直角交叉、不同箭矢冲击无差异”的反馈，Sprite/灰盒改沿 RigDefinition 肩肘握点连线绘制，刚体和关节不重标。持弓目标 0.42→0.60 m、弦静置深度 0.36→0.55 m，保留 0.20 m 拉程；全角度可达的规则测试通过，真实站姿/实射需复验。三箭原冲量不改，新增按箭型/部位的软化恢复配置；去掉每次命中统一切 staggered，死亡关闭主动驱动。参数前后快照和限制见 evidence/arm-impact 与 docs/ARM_IMPACT_FIX.md；未据单测放行 AC04/AC07/G1。

@@ -138,7 +138,27 @@
     "armTraumaDecayPerSec": 0,
     "repeatDisarmAllowed": false,
     "liveLimbSevering": false,
-    "jointWeights": "tune_in_T004_T008"
+    "jointWeights": "tune_in_T004_T008",
+    "profiles": {
+      "normal": {
+        "localWeight": 0.25,
+        "neighborWeight": 0.75,
+        "recoverySec": 0.28,
+        "neighborRecoverySec": 0.18
+      },
+      "impact": {
+        "localWeight": 0.03,
+        "neighborWeight": 0.2,
+        "recoverySec": 0.75,
+        "neighborRecoverySec": 0.5
+      },
+      "piercing": {
+        "localWeight": 0.45,
+        "neighborWeight": 0.9,
+        "recoverySec": 0.18,
+        "neighborRecoverySec": 0.12
+      }
+    }
   },
   "enemies": [
     {
@@ -244,8 +264,8 @@
     "requiresProductPlaytest": true
   },
   "bowControl": {
-    "bowArmReachM": 0.42,
-    "braceDepthM": 0.36,
+    "bowArmReachM": 0.6,
+    "braceDepthM": 0.55,
     "drawTravelM": 0.2,
     "bowHalfHeightM": 0.42,
     "drawFollowPerSec": 12,

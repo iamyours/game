@@ -5,7 +5,7 @@ currentMilestone: M1
 currentTask: T004
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003
-sourceRevision: 本轮基线 main @ 2c8290f + Creator 编译修复提交；远端待推送
+sourceRevision: 本轮修复基线 main @ db9cb2f（已合入最新 Creator 编译修复）；修改及验证见关联提交
 configVersion: 2
 runtimeVerified: 否（T003 左右骨架 WebGL 已实测；完整玩法种子未验收）
 feelGateG1: NOT_RUN
@@ -51,3 +51,8 @@ selectedTapTapPath: Android APK 默认方案，待 T016 核实
 - `npx tsc --project tsconfig.creator.json --noEmit`、`npx tsc --project tsconfig.json --noEmit` 与 `npm run verify` 均退出 0；94 项测试通过。
 - 在干净临时 worktree 中重跑 Creator 3.8.8 `npm run build:web`，包装器退出 0、Creator 原始成功码 36；产物随后通过 WebGL 2 启动烟测，Boot 创建 PhysicsLab，`b2PhysicsWorld` 正常，无页面错误或失败请求。
 - 新脚本与角色资源的 `.meta` 已由本机 Creator 生成并随本次修复提交。关闭修复前卡住的旧编辑器实例后，当前工作区也完成标准构建和启动烟测；这不替代 T004/AC04 或 G1。证据见 `evidence/T004/creator-compile-fix/`。
+
+## 手臂交叉 / 三箭冲击反馈修复（2026-11-08）
+初始基线 main @ 2c8290f；开发期间已合入远端 db9cb2f 的编译与 meta 修复。手臂 Sprite 与灰盒依据真实肩肘握点的局部连线对齐；持弓目标改为更接近伸展并同步校正弦深度。保留碰撞/质量/铰链，不改物理节点变换。
+HitResolver→AimController→PoseController 已接分箭型/部位关节降权、渐进恢复与死亡零主动驱动。去掉统一后仰目标；保留普通1.8/冲击3.2/穿甲1.4 N·s 原冲量，实际数值与关节计划进入 lastHit。
+101 项便携回归通过；新引擎代码语法检查通过；实际 Creator/声明/构建缺失，未运行新增 test:web:arm-impact，三姿态、四部位、稳定性与 G1 继续待验。详细原因、参数表和命令：docs/ARM_IMPACT_FIX.md；证据 evidence/arm-impact。

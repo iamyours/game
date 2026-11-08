@@ -77,3 +77,29 @@ test('轻拉/半拉/满弓的速度、局部冲量和伤害递增，满弓保留
   assert.deepEqual(applyDrawStrength(seed, 2, 0.35), seed);
   assert.deepEqual(applyDrawStrength(seed, NaN, 0.35), shots[0]);
 });
+
+test('手臂皮肤的中线端点与肩肘握点对齐，避免把竖直贴图错贴在斜向关节上', async () => {
+  const { armVisualLayout } = await import('../assets/scripts/domain/archery.js');
+  const { rig } = await setup();
+  for (const part of rig.bodyDefinitions) {
+    const layout = armVisualLayout(rig, part);
+    if (!part.id.endsWith('UpperArm') && !part.id.endsWith('Forearm')) { assert.equal(layout, null); continue; }
+    assert.ok(layout);
+    for (const [sign, endpoint] of [[1, layout.proximal], [-1, layout.distal]] as const) {
+      const x = layout.xM - Math.sin(layout.angleRad) * sign * layout.lengthM / 2;
+      const y = layout.yM + Math.cos(layout.angleRad) * sign * layout.lengthM / 2;
+      assert.ok(Math.hypot(x - endpoint[0], y - endpoint[1]) < 1e-9, part.id);
+    }
+    assert.ok(Math.abs(layout.angleRad) > 0.5, '回归：旧贴图直接使用零角，不沿连线');
+    assert.ok(layout.heightM >= layout.lengthM);
+  }
+});
+
+test('持弓手不再锁成约 90 度折臂，伸展后全瞄准范围两手仍可达', async () => {
+  const { rig, bow } = await setup();
+  const g = armGeometry(rig, 'right');
+  const shoulder = { x: g.shoulderAnchorM[0], y: g.shoulderAnchorM[1] };
+  const held = solveArm(g, shoulder, { x: shoulder.x + bow.bowArmReachM, y: shoulder.y }, 0);
+  const bend = Math.abs(held.elbowRad + g.foreRestRad - g.upperRestRad) * 180 / Math.PI;
+  assert.ok(bend < 45 && bend > 8, `持弓臂保留小弯曲而非直角：${bend}`);
+});

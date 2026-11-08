@@ -2,7 +2,7 @@
   "generatedFrom": "configs/combat.seed.json",
   "sourceKind": "unverified_seed",
   "runtimeVerified": false,
-  "seedHash": "9fbd932d2de2ce3ff9e602724e933653d047b03d73188c834d68cd466265a829",
+  "seedHash": "3f8df825a95d73528bd772961f4c50fa6b762e21b16f4802e179cb63ff783a62",
   "data": {
     "configVersion": 2,
     "status": "seed_requires_runtime_calibration",
@@ -64,8 +64,8 @@
     },
     "bowControl": {
       "minPowerRatio": 0.35,
-      "bowArmReachM": 0.42,
-      "braceDepthM": 0.36,
+      "bowArmReachM": 0.6,
+      "braceDepthM": 0.55,
       "drawTravelM": 0.2,
       "bowHalfHeightM": 0.42,
       "drawFollowPerSec": 12,
@@ -154,7 +154,27 @@
       "armTraumaDecayPerSec": 0,
       "repeatDisarmAllowed": false,
       "liveLimbSevering": false,
-      "jointWeights": "tune_in_T004_T008"
+      "jointWeights": "tune_in_T004_T008",
+      "profiles": {
+        "normal": {
+          "localWeight": 0.25,
+          "neighborWeight": 0.75,
+          "recoverySec": 0.28,
+          "neighborRecoverySec": 0.18
+        },
+        "impact": {
+          "localWeight": 0.03,
+          "neighborWeight": 0.2,
+          "recoverySec": 0.75,
+          "neighborRecoverySec": 0.5
+        },
+        "piercing": {
+          "localWeight": 0.45,
+          "neighborWeight": 0.9,
+          "recoverySec": 0.18,
+          "neighborRecoverySec": 0.12
+        }
+      }
     },
     "enemies": [
       {

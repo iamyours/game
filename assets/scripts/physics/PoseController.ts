@@ -3,6 +3,7 @@ import type { RagdollInstance } from './RagdollFactory';
 import type { RigJointId, RigDefinition } from './RigDefinition';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import { armGeometry, solveArm, type ArmGeometry } from '../domain/archery';
+import { ReactionWeights, type JointReaction } from '../domain/reaction';
 
 export type PoseName = 'standing' | 'staggered' | 'downed';
 
@@ -12,6 +13,8 @@ export interface PoseControllerSnapshot {
   readonly armControlWeight: number;
   readonly drawing: boolean;
   readonly drawAmount: number;
+  readonly alive: boolean;
+  readonly jointControlWeights: Readonly<Record<string, number>>;
 }
 
 const JOINTS: readonly RigJointId[] = ['neck', 'waist', 'leftShoulder', 'leftElbow', 'rightShoulder', 'rightElbow',
@@ -38,6 +41,8 @@ export class PoseController {
   private armControlWeight = 1;
   private elapsed = 0;
   private warmupRemaining = 0.5;
+  private alive = true;
+  private readonly reactions = new ReactionWeights();
 
   private drawing = false;
   private requestedDraw = 0;
@@ -54,8 +59,8 @@ export class PoseController {
   }
 
   public setDraw(drawing: boolean, progress: number): void {
-    this.drawing = drawing;
-    this.requestedDraw = drawing ? Math.max(0, Math.min(1, progress)) : 0;
+    this.drawing = drawing && this.alive;
+    this.requestedDraw = this.drawing ? Math.max(0, Math.min(1, progress)) : 0;
   }
 
   public get handsSnapshot() {
@@ -69,12 +74,13 @@ export class PoseController {
     const bowErrorM = Math.hypot(bowGrip.x - bowTarget.x, bowGrip.y - bowTarget.y);
     const stringErrorM = Math.hypot(stringGrip.x - stringTarget.x, stringGrip.y - stringTarget.y);
     return { bowGrip, stringGrip, bowTarget, stringTarget, bowErrorM, stringErrorM,
-      ready: this.warmupRemaining <= 0 && Math.max(bowErrorM, stringErrorM) <= this.bow.gripReadyToleranceM };
+      ready: this.alive && this.warmupRemaining <= 0 && Math.max(bowErrorM, stringErrorM) <= this.bow.gripReadyToleranceM };
   }
 
   public get snapshot(): PoseControllerSnapshot {
     return { pose: this.pose, aimRad: this.aimRad, armControlWeight: this.armControlWeight,
-      drawing: this.drawing, drawAmount: this.drawAmount };
+      drawing: this.drawing, drawAmount: this.drawAmount, alive: this.alive,
+      jointControlWeights: Object.fromEntries(JOINTS.map(joint => [joint, this.alive ? this.reactions.weight(joint) : 0])) };
   }
 
   public reset(): void {
@@ -83,10 +89,22 @@ export class PoseController {
     this.elapsed = this.armTraumaUntil = 0;
     this.armControlWeight = 1;
     this.warmupRemaining = 0.5;
+    this.alive = true; this.reactions.clear();
   }
 
   public setPose(pose: PoseName): void { this.pose = pose; }
   public setAimRad(aimRad: number): void { this.aimRad = aimRad; }
+  public registerHit(reactions: readonly JointReaction[]): void {
+    this.reactions.register(reactions);
+    if (reactions.length) this.warmupRemaining = 0;
+  }
+  public setAlive(alive: boolean): void {
+    this.alive = alive;
+    if (!alive) {
+      this.drawing = false; this.drawAmount = this.requestedDraw = 0;
+      for (const joint of JOINTS) this.ragdoll.setJointMotor(joint, 0, 0, 0);
+    }
+  }
 
   /** Temporarily lowers only the arm motor authority after a local hit. */
   public registerArmTrauma(durationSec = 0.35, controlWeight = 0.35): void {
@@ -95,6 +113,8 @@ export class PoseController {
   }
 
   public step(dt: number): void {
+    if (!this.alive) return;
+    this.reactions.step(dt);
     this.elapsed += dt;
     const change = this.requestedDraw - this.drawAmount;
     const rate = change < 0 ? this.bow.releaseFollowPerSec : this.bow.drawFollowPerSec;
@@ -122,7 +142,8 @@ export class PoseController {
     for (const jointId of JOINTS) {
       const arm = jointId.endsWith('Shoulder') || jointId.endsWith('Elbow');
       const poseWeight = this.pose === 'downed' && arm ? 0.8 : 1;
-      this.ragdoll.setJointMotor(jointId, targets[jointId], controlTorque * poseWeight * (arm ? this.armControlWeight : 1), arm ? this.bow.armMaxSpeedDegPerSec : 135);
+      const reactionWeight = this.reactions.weight(jointId);
+      this.ragdoll.setJointMotor(jointId, targets[jointId], controlTorque * poseWeight * reactionWeight * (arm ? this.armControlWeight : 1), arm ? this.bow.armMaxSpeedDegPerSec : 135);
     }
   }
 
@@ -136,6 +157,6 @@ export class PoseController {
     if (weight === 0) return;
     const torqueNm = -65 * tilt - 8 * chest.angularVelocity;
     const limitNm = Math.min(18, this.baseTorqueNm * 0.15);
-    chest.applyTorque(Math.max(-limitNm, Math.min(limitNm, torqueNm)) * weight, false);
+    chest.applyTorque(Math.max(-limitNm, Math.min(limitNm, torqueNm)) * weight * this.reactions.weight('waist'), false);
   }
 }

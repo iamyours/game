@@ -29,6 +29,9 @@ const enemy = z.object({
   phaseTwoIntervalMultiplier: positive.max(1).optional(),
   rigRequiresSeparateCalibration: z.boolean().optional(),
 }).strict();
+const reactionProfile = z.object({
+  localWeight: ratio, neighborWeight: ratio, recoverySec: positive.max(2), neighborRecoverySec: positive.max(2),
+}).strict();
 
 export const combatSchema = z.object({
   configVersion: version,
@@ -89,6 +92,7 @@ export const combatSchema = z.object({
     armTraumaSource: z.literal('ceil_zone_damage_before_armor'), armTraumaDecayPerSec: nonnegative,
     repeatDisarmAllowed: z.literal(false), liveLimbSevering: z.literal(false),
     jointWeights: z.literal('tune_in_T004_T008'),
+    profiles: z.object({ normal: reactionProfile, impact: reactionProfile, piercing: reactionProfile }).strict(),
   }).strict(),
   enemies: z.array(enemy).length(3),
   run: z.object({

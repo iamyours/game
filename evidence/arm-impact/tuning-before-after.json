@@ -1,0 +1,140 @@
+{
+  "before": {
+    "bowControl": {
+      "bowArmReachM": 0.42,
+      "braceDepthM": 0.36,
+      "drawTravelM": 0.2,
+      "bowHalfHeightM": 0.42,
+      "drawFollowPerSec": 12,
+      "releaseFollowPerSec": 9,
+      "armMaxSpeedDegPerSec": 360,
+      "gripReadyToleranceM": 0.16,
+      "minPowerRatio": 0.35
+    },
+    "reaction": {
+      "impulseCalibrationRequired": true,
+      "maxSingleImpulseNs": 4,
+      "playerMaxIncomingImpulseNs": 2.4,
+      "enemyArmTraumaToDisarm": 24,
+      "armTraumaSource": "ceil_zone_damage_before_armor",
+      "armTraumaDecayPerSec": 0,
+      "repeatDisarmAllowed": false,
+      "liveLimbSevering": false,
+      "jointWeights": "tune_in_T004_T008"
+    },
+    "arrows": [
+      {
+        "id": "normal",
+        "baseDamage": 18,
+        "intervalSec": 0.55,
+        "speedMps": 18,
+        "staminaCost": 6,
+        "impulseNs": 1.8,
+        "armorDamageFactor": 1,
+        "armorOverflow": false,
+        "multiActorPenetration": false
+      },
+      {
+        "id": "impact",
+        "baseDamage": 12,
+        "intervalSec": 0.8,
+        "speedMps": 17,
+        "staminaCost": 10,
+        "impulseNs": 3.2,
+        "armorDamageFactor": 1,
+        "armorOverflow": false,
+        "multiActorPenetration": false
+      },
+      {
+        "id": "piercing",
+        "baseDamage": 16,
+        "intervalSec": 0.75,
+        "speedMps": 19,
+        "staminaCost": 10,
+        "impulseNs": 1.4,
+        "armorDamageFactor": 2,
+        "armorOverflow": true,
+        "multiActorPenetration": false
+      }
+    ]
+  },
+  "after": {
+    "bowControl": {
+      "bowArmReachM": 0.6,
+      "braceDepthM": 0.55,
+      "drawTravelM": 0.2,
+      "bowHalfHeightM": 0.42,
+      "drawFollowPerSec": 12,
+      "releaseFollowPerSec": 9,
+      "armMaxSpeedDegPerSec": 360,
+      "gripReadyToleranceM": 0.16,
+      "minPowerRatio": 0.35
+    },
+    "reaction": {
+      "impulseCalibrationRequired": true,
+      "maxSingleImpulseNs": 4,
+      "playerMaxIncomingImpulseNs": 2.4,
+      "enemyArmTraumaToDisarm": 24,
+      "armTraumaSource": "ceil_zone_damage_before_armor",
+      "armTraumaDecayPerSec": 0,
+      "repeatDisarmAllowed": false,
+      "liveLimbSevering": false,
+      "jointWeights": "tune_in_T004_T008",
+      "profiles": {
+        "normal": {
+          "localWeight": 0.25,
+          "neighborWeight": 0.75,
+          "recoverySec": 0.28,
+          "neighborRecoverySec": 0.18
+        },
+        "impact": {
+          "localWeight": 0.03,
+          "neighborWeight": 0.2,
+          "recoverySec": 0.75,
+          "neighborRecoverySec": 0.5
+        },
+        "piercing": {
+          "localWeight": 0.45,
+          "neighborWeight": 0.9,
+          "recoverySec": 0.18,
+          "neighborRecoverySec": 0.12
+        }
+      }
+    },
+    "arrows": [
+      {
+        "id": "normal",
+        "baseDamage": 18,
+        "intervalSec": 0.55,
+        "speedMps": 18,
+        "staminaCost": 6,
+        "impulseNs": 1.8,
+        "armorDamageFactor": 1,
+        "armorOverflow": false,
+        "multiActorPenetration": false
+      },
+      {
+        "id": "impact",
+        "baseDamage": 12,
+        "intervalSec": 0.8,
+        "speedMps": 17,
+        "staminaCost": 10,
+        "impulseNs": 3.2,
+        "armorDamageFactor": 1,
+        "armorOverflow": false,
+        "multiActorPenetration": false
+      },
+      {
+        "id": "piercing",
+        "baseDamage": 16,
+        "intervalSec": 0.75,
+        "speedMps": 19,
+        "staminaCost": 10,
+        "impulseNs": 1.4,
+        "armorDamageFactor": 2,
+        "armorOverflow": true,
+        "multiActorPenetration": false
+      }
+    ]
+  }
+}

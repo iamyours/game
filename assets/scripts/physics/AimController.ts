@@ -1,6 +1,7 @@
 import { PhysicsAdapter as Physics } from './PhysicsAdapter';
 import type { RagdollInstance } from './RagdollFactory';
 import { PoseController, type PoseControllerSnapshot } from './PoseController';
+import type { JointReaction } from '../domain/reaction';
 
 export interface BowSocketSnapshot {
   readonly x: number;
@@ -19,6 +20,8 @@ export class AimController {
     this.pose.registerArmTrauma(durationSec, controlWeight);
   }
   public setDraw(drawing: boolean, progress: number): void { this.pose.setDraw(drawing, progress); }
+  public registerHit(reactions: readonly JointReaction[]): void { this.pose.registerHit(reactions); }
+  public setAlive(alive: boolean): void { this.pose.setAlive(alive); }
   public get handsSnapshot() { return this.pose.handsSnapshot; }
   public step(dt: number): void { this.pose.step(dt); }
   public get poseSnapshot(): PoseControllerSnapshot { return this.pose.snapshot; }

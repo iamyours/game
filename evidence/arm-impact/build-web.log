@@ -1,0 +1,8 @@
+
+> storm-archers@0.1.0 build:web
+> node scripts/creator.mjs build-web
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+BLOCKED: 缺少编辑器实际导入生成的 temp/tsconfig.cocos.json
+BLOCKED: 未发现 Creator 可执行文件，设置 COCOS_CREATOR_CLI 可指定非标准安装路径
+解除步骤见 docs/EDITOR_SETUP.md；不要伪造版本、scene/meta 或导入证据。

@@ -79,3 +79,6 @@ InputRouter.drawProgress 由设计坐标拖距映射而非计时自动填满；S
 - presentation/CharacterSkin：动态加载 Texture2D 和切片描述；Sprite 仅挂在物理节点子层，显示尺寸来自 RigDefinition，保留灰盒回退。
 
 除 CharacterSkin 外，以上新模块尚未接入 Boot/PhysicsLab，不能与已有 InputRouter 冷却叠加运行。接入步骤及边界见 OFFLINE_HANDOFF.md。
+
+### D021 手臂与受击迭代
+角色手臂视觉以实际关节端点/握点对齐；持弓目标更接近伸展，同步扩大静置弦深度确保双手可达。三种箭通过 reaction.profiles 指定局部/邻接控制权重与恢复时间，按实际冲量缩放；命中不强制统一后仰，死亡关闭全部主动驱动。具体初值、前后对照、实现边界及引擎复验见 docs/ARM_IMPACT_FIX.md。

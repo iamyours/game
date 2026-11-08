@@ -1,0 +1,27 @@
+{
+  "baseRevision": "db9cb2f64c909b820023eec804875ab5f816b79b",
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run env:check",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 2
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 2
+    }
+  ],
+  "tests": 101,
+  "runtime": "BLOCKED: Creator/declarations/build unavailable",
+  "webArmImpact": "NOT_RUN",
+  "initialBaseRevision": "2c8290f7725a942585291601ace973f11642a75f",
+  "mergedUpstream": "Creator compatibility fixes and editor-generated meta preserved",
+  "portableVerifyAfterMerge": 0
+}

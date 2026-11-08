@@ -1,4 +1,4 @@
-import type { RigDefinition } from '../physics/RigDefinition.js';
+import type { RigDefinition, RigBodyDefinition } from '../physics/RigDefinition.js';
 
 export interface PointM { readonly x: number; readonly y: number }
 export type ArmSide = 'left' | 'right';
@@ -42,6 +42,21 @@ export function armGeometry(rig: RigDefinition, side: ArmSide): ArmGeometry {
     upperRestRad: Math.atan2(upper.y, upper.x), foreRestRad: Math.atan2(fore.y, fore.x),
     shoulderLimitsRad: [rad(shoulder.limitsDeg[0]), rad(shoulder.limitsDeg[1])],
     elbowLimitsRad: [rad(elbow.limitsDeg[0]), rad(elbow.limitsDeg[1])] };
+}
+
+/** Sprite +Y runs from distal to proximal. Align it to the SAME anchors used by IK. */
+export function armVisualLayout(rig: RigDefinition, body: RigBodyDefinition) {
+  const side: ArmSide = body.id.startsWith('left') ? 'left' : 'right';
+  if (!body.id.endsWith('UpperArm') && !body.id.endsWith('Forearm')) return null;
+  const shoulder = rig.jointDefinitions.find(j => j.id === `${side}Shoulder`)!;
+  const elbow = rig.jointDefinitions.find(j => j.id === `${side}Elbow`)!;
+  const proximal = body.id.endsWith('UpperArm') ? shoulder.childAnchorM : elbow.childAnchorM;
+  const distal = body.id.endsWith('UpperArm') ? elbow.parentAnchorM : armGeometry(rig, side).gripLocalM;
+  const dx = distal[0] - proximal[0], dy = distal[1] - proximal[1];
+  const lengthM = Math.hypot(dx, dy);
+  return { proximal, distal, xM: (proximal[0] + distal[0]) / 2, yM: (proximal[1] + distal[1]) / 2,
+    angleRad: Math.atan2(dy, dx) + Math.PI / 2, widthM: body.sizeM[0],
+    heightM: lengthM + body.sizeM[0] * 0.4, lengthM };
 }
 
 /** Positive anatomical elbow branch, with a little bend retained at full reach. */

@@ -106,3 +106,6 @@ T002_EVIDENCE_DIR=evidence/T004/bow-draw/t002-regression npm run test:web:t002
 - 基线 `2c8290f` 加本次未提交修复后，真实 Creator 3.8.8 声明类型检查退出 0；`npm run verify` 退出 0，94 项测试通过。
 - 干净临时 worktree 完成导入后执行 `npm run build:web`，退出 0，Creator 原始码 36，产物 index.html 与 bundle.js 哈希记录在编译修复证据中。
 - Chrome headless WebGL 2 启动烟测通过：Boot 场景创建 PhysicsLab、Box2D 为 `b2PhysicsWorld`，无页面错误或失败资源请求。该结果只验证编译与启动，不替代 T004/AC04、G1 或真机验收。
+
+## 手臂/冲击修复验证（2026-11-08）
+最终基线 db9cb2f；npm run verify 退出 0（101 项），引擎适配代码仅语法检查。env:check 仍报告 Creator/导入缺失；typecheck:engine 和 build:web 退出 2。新增 test:web:arm-impact 沿用既有 PLAYWRIGHT_MODULE / CHROME_PATH / T004_URL 环境约定，默认输出 evidence/arm-impact/runtime；未在当前环境执行，不声称物理通过。命令与参数前后记录见 evidence/arm-impact。

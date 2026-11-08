@@ -11,3 +11,5 @@ CharacterSkin 加载对应 Texture2D 子资源并创建 SpriteFrame，不需要�
 首次打开 Creator 3.8.8，等待导入并保存自动生成的 .meta；本次未伪造 UUID 或 meta。图片若被配置为其他资源类型，设为 texture 或 sprite-frame，保证 `characters/hero-atlas/texture` 和 `characters/enemy-atlas/texture` 可加载。加载失败会保留灰盒并输出告警。
 
 当前仅做透明度、边界和引用的静态检查；需要引擎构建确认实际 UV、比例、轮廓与插箭遮挡。资源本身不会升级关节、碰撞或手感验收状态。
+
+D021 修正：手臂片的局部中点、长轴方向和长度由肩/肘/握点连线计算，不再直接以竖直方向贴在刚体中心。少量端帽重叠用于遮缝，不改变刚体/关节；灰盒也沿同一连线绘制。见 docs/ARM_IMPACT_FIX.md。

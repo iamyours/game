@@ -134,10 +134,10 @@ export class PhysicsLab extends Component {
       ['PlayerRagdoll', { id: 'PlayerRagdoll', hp: config.player.hp, armor: 0, hits: 0, lastHit: null }],
       ['EnemyRagdoll', { id: 'EnemyRagdoll', hp: config.enemies[0]?.hp ?? 60, armor: config.enemies[0]?.helmetDurability ?? 0, hits: 0, lastHit: null }],
     ]);
-    this.hitResolver = new HitResolver(this.combatStates, config, (state, partId) => {
-      if (state.id === 'PlayerRagdoll') {
-        if (['rightUpperArm', 'rightForearm', 'leftUpperArm', 'leftForearm'].includes(partId)) this.playerAim.registerArmTrauma();
-      } else this.enemyAim.setPose(state.hp <= 0 ? 'downed' : 'staggered');
+    this.hitResolver = new HitResolver(this.combatStates, config, (state) => {
+      const aim = state.id === 'PlayerRagdoll' ? this.playerAim : this.enemyAim;
+      if (state.hp <= 0) aim.setAlive(false);
+      else if (state.lastHit) aim.registerHit(state.lastHit.jointReaction);
       this.dirty = true;
     });
     this.projectiles = new ProjectileSystem(world, config, this.ragdolls, (candidate, targetBody) => this.hitResolver.resolve(candidate, targetBody));
@@ -427,7 +427,7 @@ export class PhysicsLab extends Component {
     if (result) this.aimLabel.string += `   ·   ${result}`;
     const hit = enemy?.lastHit;
     const r = this.probe.result;
-    this.metrics.string = hit ? (enemy.hp === 0 ? '靶手已击倒 · 点重置再试' : `命中${({ head: '头部', torso: '躯干', limb: '四肢' })[hit.zone]}  ·  -${hit.result.hpDamage} HP`) : r ? `标定${r.passed ? '通过' : '失败'}  ·  位移 ${r.checks.glideXM.actual.toFixed(3)} m  ·  落体 ${r.checks.dropYM.actual.toFixed(3)} m  ·  ${r.steps} 步 / 1 s`
+    this.metrics.string = hit ? (enemy.hp === 0 ? '靶手已击倒 · 点重置再试' : `${arrowNames[hit.arrow.id]} · 命中${({ head: '头部', torso: '躯干', limb: '四肢' })[hit.zone]}  ·  -${hit.result.hpDamage} HP · ${hit.impulseNs.toFixed(2)} N·s`) : r ? `标定${r.passed ? '通过' : '失败'}  ·  位移 ${r.checks.glideXM.actual.toFixed(3)} m  ·  落体 ${r.checks.dropYM.actual.toFixed(3)} m  ·  ${r.steps} 步 / 1 s`
       : '正在采样 Box2D：滑行 / 落体 / 旋转';
     const drag = this.router.drag;
     if (drag) {

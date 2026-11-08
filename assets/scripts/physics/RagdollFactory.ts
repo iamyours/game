@@ -1,5 +1,6 @@
 import { BoxCollider2D, CircleCollider2D, Color, ERigidBody2DType, Graphics, HingeJoint2D, Node, PhysicsSystem2D, RigidBody2D, Vec2 } from 'cc';
 import { PhysicsAdapter as Physics } from './PhysicsAdapter';
+import { armVisualLayout } from '../domain/archery';
 import type { RigBodyDefinition, RigDefinition, RigBodyId } from './RigDefinition';
 
 export interface RagdollInstanceSnapshot {
@@ -36,7 +37,19 @@ function tint(hex: string): Color { return new Color().fromHEX(hex); }
 function areaM2(body: RigBodyDefinition): number {
   return body.shape === 'circle' ? Math.PI * (body.sizeM[0] / 2) ** 2 : body.sizeM[0] * body.sizeM[1];
 }
-function configureGraphics(graphics: Graphics, body: RigBodyDefinition, hex: string): void {
+function configureGraphics(graphics: Graphics, body: RigBodyDefinition, hex: string, rig: RigDefinition): void {
+  const arm = armVisualLayout(rig, body);
+  if (arm) {
+    graphics.strokeColor = tint(hex);
+    graphics.lineWidth = Physics.units(arm.widthM);
+    graphics.moveTo(Physics.units(arm.proximal[0]), Physics.units(arm.proximal[1]));
+    graphics.lineTo(Physics.units(arm.distal[0]), Physics.units(arm.distal[1]));
+    graphics.stroke();
+    graphics.fillColor = tint(hex);
+    for (const point of [arm.proximal, arm.distal]) graphics.circle(Physics.units(point[0]), Physics.units(point[1]), Physics.units(arm.widthM / 2));
+    graphics.fill();
+    return;
+  }
   graphics.fillColor = tint(hex);
   if (body.shape === 'circle') {
     graphics.circle(0, 0, Physics.units(body.sizeM[0] / 2));
@@ -211,7 +224,7 @@ export class RagdollFactory {
         (collider as BoxCollider2D).size.set(Physics.units(bodyDefinition.sizeM[0]), Physics.units(bodyDefinition.sizeM[1]));
       }
       collider.apply();
-      configureGraphics(node.addComponent(Graphics), bodyDefinition, hex);
+      configureGraphics(node.addComponent(Graphics), bodyDefinition, hex, this.definition);
       bodyNodes.set(bodyDefinition.id, node);
       bodies.set(bodyDefinition.id, body);
     }

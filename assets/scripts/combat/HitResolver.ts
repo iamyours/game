@@ -1,5 +1,6 @@
 import { PhysicsAdapter as Physics } from '../physics/PhysicsAdapter';
 import { resolveDamage, type DamageResult } from '../domain/damage';
+import { planReaction, type JointReaction } from '../domain/reaction';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import type { HitCandidate } from './ProjectileSystem';
 import type { RigidBody2D } from 'cc';
@@ -10,7 +11,7 @@ export interface ActorCombatState {
   hp: number;
   armor: number;
   hits: number;
-  lastHit: (HitCandidate & { result: DamageResult; zone: Zone; impulseNs: number }) | null;
+  lastHit: (HitCandidate & { result: DamageResult; zone: Zone; impulseNs: number; jointReaction: readonly JointReaction[] }) | null;
 }
 
 /** Runtime damage and one local impulse, applied only after a physics step. */
@@ -32,7 +33,10 @@ export class HitResolver {
     const impulseNs = length > 0 ? Math.min(candidate.arrow.impulseNs, this.config.reaction.maxSingleImpulseNs,
       state.id === 'PlayerRagdoll' ? this.config.reaction.playerMaxIncomingImpulseNs : Infinity) : 0;
     if (length > 0) Physics.applyImpulse(targetBody, x / length * impulseNs, y / length * impulseNs, candidate.pointM.x, candidate.pointM.y);
-    state.lastHit = { ...candidate, result, zone, impulseNs };
+    const seed = this.config.arrows.find(a => a.id === candidate.arrow.id)!;
+    const jointReaction = planReaction(candidate.partId, this.config.reaction.profiles[candidate.arrow.id],
+      impulseNs / seed.impulseNs, state.id === 'PlayerRagdoll' ? this.config.player.armRecoveryRangeSec : undefined);
+    state.lastHit = { ...candidate, result, zone, impulseNs, jointReaction };
     this.onReaction(state, candidate.partId);
   }
 }

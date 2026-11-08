@@ -2,7 +2,7 @@
   "generatedFrom": "configs/combat.seed.json",
   "sourceKind": "unverified_seed",
   "runtimeVerified": false,
-  "seedHash": "3f8df825a95d73528bd772961f4c50fa6b762e21b16f4802e179cb63ff783a62",
+  "seedHash": "12ef421c583864bcdea50cb8aa4a41c8ee071228a5eb61de0164474b216e7df1",
   "data": {
     "configVersion": 2,
     "status": "seed_requires_runtime_calibration",
@@ -145,6 +145,23 @@
         "multiActorPenetration": false
       }
     ],
+    "arcade": {
+      "respawnSec": 1.2,
+      "cleanupSec": 3.5,
+      "spawnX_M": [
+        16.8,
+        20.5
+      ],
+      "surfaceY_M": [
+        3,
+        6.3
+      ],
+      "platformWidthM": [
+        1.6,
+        2.8
+      ],
+      "headshotLethal": true
+    },
     "reaction": {
       "impulseCalibrationRequired": true,
       "maxSingleImpulseNs": 4,

@@ -3,7 +3,7 @@
   "configVersion": 2,
   "sourceKind": "unverified_seed",
   "runtimeVerified": false,
-  "seedHash": "3f8df825a95d73528bd772961f4c50fa6b762e21b16f4802e179cb63ff783a62",
+  "seedHash": "12ef421c583864bcdea50cb8aa4a41c8ee071228a5eb61de0164474b216e7df1",
   "resources": [
     "config/combat",
     "config/rig",

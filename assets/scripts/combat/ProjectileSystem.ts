@@ -44,6 +44,15 @@ export class ProjectileSystem {
   }
   public get count(): number { return this.flying.size; }
   public get embeddedCount(): number { return this.embedded.length; }
+  public registerActor(actor: RagdollInstance): void {
+    for (const [partId, body] of actor.bodies) this.targets.set(body.node, { targetId: actor.id, partId, body });
+  }
+  public unregisterActor(actor: RagdollInstance): void {
+    for (const body of actor.bodies.values()) this.targets.delete(body.node);
+    for (let i = this.embedded.length - 1; i >= 0; i--) if (this.embedded[i]!.target === actor.id) {
+      this.embedded[i]!.node.destroy(); this.embedded.splice(i, 1);
+    }
+  }
 
   public beginStep(id: number): void {
     this.stepId = id;

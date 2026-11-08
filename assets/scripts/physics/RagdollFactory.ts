@@ -29,6 +29,7 @@ export interface RagdollInstance {
   reset(): void;
   snapshot(): RagdollInstanceSnapshot;
   destroy(): void;
+  severHead(): void;
 }
 
 type CollisionMatrix = { readonly [key: string]: number };
@@ -67,6 +68,13 @@ function configureGraphics(graphics: Graphics, body: RigBodyDefinition, hex: str
 
 class RagdollInstanceImpl implements RagdollInstance {
   private destroyed = false;
+  public severHead(): void {
+    const neck = (this.joints as Map<string, HingeJoint2D>).get('neck');
+    if (!neck) return;
+    neck.enabled = false;
+    neck.destroy();
+    (this.joints as Map<string, HingeJoint2D>).delete('neck');
+  }
   public constructor(
     public readonly id: string,
     public readonly root: Node,
@@ -146,6 +154,7 @@ class RagdollInstanceImpl implements RagdollInstance {
     }
     let maxJointErrorM = 0;
     for (const joint of this.definition.jointDefinitions) {
+      if (!this.joints.has(joint.id)) continue;
       const parent = this.bodies.get(joint.parentId);
       const child = this.bodies.get(joint.childId);
       if (!parent || !child) { finite = false; continue; }
@@ -254,6 +263,11 @@ export class RagdollFactory {
   }
 
   public get activeInstances(): readonly RagdollInstance[] { return this.instances; }
+  public remove(actor: RagdollInstance): void {
+    const index = this.instances.findIndex(a => a === actor);
+    if (index < 0) return;
+    this.instances.splice(index, 1); actor.destroy();
+  }
   public resetAll(): void { for (const instance of this.instances) instance.reset(); }
   public dispose(): void {
     if (this.disposed) return;

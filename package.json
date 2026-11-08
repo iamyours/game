@@ -23,7 +23,8 @@
     "test:web:t004": "node scripts/verify-t004-web.mjs",
     "test:web:release": "node scripts/verify-t004-web.mjs --release-only",
     "handoff:report": "node scripts/handoff.mjs",
-    "test:web:arm-impact": "node scripts/verify-arm-impact-web.mjs"
+    "test:web:arm-impact": "node scripts/verify-arm-impact-web.mjs",
+    "test:web:arcade": "node scripts/verify-arcade-web.mjs"
   },
   "devDependencies": {
     "@types/node": "24.0.0",

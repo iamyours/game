@@ -273,5 +273,22 @@
     "armMaxSpeedDegPerSec": 360,
     "gripReadyToleranceM": 0.16,
     "minPowerRatio": 0.35
+  },
+  "arcade": {
+    "respawnSec": 1.2,
+    "cleanupSec": 3.5,
+    "spawnX_M": [
+      16.8,
+      20.5
+    ],
+    "surfaceY_M": [
+      3,
+      6.3
+    ],
+    "platformWidthM": [
+      1.6,
+      2.8
+    ],
+    "headshotLethal": true
   }
 }

@@ -3,7 +3,7 @@ import type { BootManifest } from './BootManifest.js';
 import type { RigDefinition } from '../physics/RigDefinition.js';
 
 type Combat = SeedPack['combat'];
-export type CombatLabConfig = Pick<Combat, 'bowControl' | 'viewport' | 'input' | 'physics' | 'arrows' | 'player' | 'enemies' | 'damage' | 'reaction' | 'limits'>;
+export type CombatLabConfig = Pick<Combat, 'arcade' | 'run' | 'bowControl' | 'viewport' | 'input' | 'physics' | 'arrows' | 'player' | 'enemies' | 'damage' | 'reaction' | 'limits'>;
 export type PhysicsLabConfig = CombatLabConfig & { readonly rig: RigDefinition };
 
 /** Build-time schema/seed drift checks validate the payload; Boot rejects a mismatched resource pack. */

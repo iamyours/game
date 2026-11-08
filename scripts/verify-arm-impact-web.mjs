@@ -10,7 +10,7 @@ const report = { passed: false, time: new Date().toISOString(), scope: 'Real Box
 page.on('pageerror', e => report.errors.push(String(e)));
 page.on('console', m => { if (m.type() === 'error') report.errors.push(m.text()); });
 try {
-  await page.goto(process.env.T004_URL || 'http://127.0.0.1:7458/');
+  await page.goto(process.env.T004_URL || 'http://127.0.0.1:7458/?practice=1');
   await page.waitForFunction(() => Boolean(window.System));
   await page.waitForFunction(async () => {
     const cc = await System.import('cc');

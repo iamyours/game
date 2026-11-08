@@ -112,3 +112,6 @@ T002_EVIDENCE_DIR=evidence/T004/bow-draw/t002-regression npm run test:web:t002
 
 ## 受限驱动迭代（2026-11-08）
 基线3760c6d；npm run verify退出0（106项）。node --check scripts/verify-t004-web.mjs退出0；引擎文件仅语法/import检查。Creator与真实声明仍缺失，typecheck:engine/build:web退出2。证据 evidence/T004/limited-drive；本次无新引擎运行PASS。
+
+## D023 连续对战代码（2026-11-08）
+基线4a54674，109项便携检查通过；新ArcadeBattle与接线仅语法检查。默认URL进入连续对战；旧回归默认URL改为?practice=1。新增test:web:arcade，未运行。typecheck:engine/build:web返回2（缺Creator/导入声明）；evidence/arcade记录实际范围，不复用旧启动烟测宣称本模式通过。

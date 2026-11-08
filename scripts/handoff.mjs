@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
@@ -9,7 +9,7 @@ const files = [...new Set(git('ls-files', '--cached', '--others', '--exclude-sta
   .filter(p => /^(assets|configs|scripts|tools|tests|settings|build-templates)\//.test(p) || /^(package(-lock)?\.json|tsconfig.*\.json|AGENTS\.md)$/.test(p)).sort();
 const hashes = Object.fromEntries(files.filter(p => existsSync(resolve(root, p)))
   .map(p => [p, createHash('sha256').update(readFileSync(resolve(root, p))).digest('hex')]));
-const taskIds = Array.from({ length: 18 }, (_, i) => `T${String(i + 1).padStart(3, '0')}`);
+const taskIds = readdirSync(resolve(root, 'tasks')).filter(p => /^T[0-9]{3}\.md$/.test(p)).map(p => p.slice(0, -3)).sort();
 const tasks = taskIds.map(id => {
   const body = readFileSync(resolve(root, 'tasks', id + '.md'), 'utf8');
   return { id, state: /状态：([A-Z_]+)/.exec(body)?.[1] ?? 'UNKNOWN' };

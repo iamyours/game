@@ -85,3 +85,6 @@ InputRouter.drawProgress 由设计坐标拖距映射而非计时自动填满；S
 
 ### D022 倒地与受限关节
 受限关节按合法角度区间追目标，不取穿过停止角的整圈捷径。显式倒地状态将躯干、髋膝的主动马达最大扭矩与速度归零，仅保留双臂世界瞄准；不自动起身、不自动识别倒地。死亡双臂也停止。真实物理稳定和倒地射击仍按AC04验证，详见 docs/LIMITED_DRIVE_FIX.md。
+
+### 连续对战接线（D023）
+PhysicsLab默认创建ArcadeBattle，?practice=1保持旧靶场。ArcadeBattle在唯一PhysicsAdapter固定步中推进EnemyAttack/ArcadeCycle，after-step切换死亡平台为动态、断颈、生成掉弓与回收旧actor。ProjectileSystem支持注册/注销动态目标；RagdollFactory支持移除实例，避免死亡实例永久留在工厂。血条/伤标只读实际身体位置。ArcadeRules负责有限状态计时、去重及静态可达平台候选，不能代替真实物理验收。

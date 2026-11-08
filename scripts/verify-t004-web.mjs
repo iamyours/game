@@ -38,7 +38,7 @@ const reset = async () => {
   return wait(v => v.stepId >= r.stepId + 140 && v.pose.hands.ready, 'settle after reset');
 };
 try {
-  await page.goto(process.env.T004_URL || 'http://127.0.0.1:7458/');
+  await page.goto(process.env.T004_URL || 'http://127.0.0.1:7458/?practice=1');
   await page.waitForFunction(() => Boolean(window.System));
   report.runtime = await page.evaluate(async () => {
     const cc = await System.import('cc'), end = performance.now() + 20000;

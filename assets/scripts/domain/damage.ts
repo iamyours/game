@@ -12,6 +12,10 @@ export interface DamageResult {
   hpDamage: number;
   remainingArmor: number;
 }
+/** Endless mode: only an actual damaging enemy-head hit is lethal; armor may absorb it. */
+export function lethalHeadshot(result: DamageResult, currentHp: number, enabledEnemyHead: boolean): DamageResult {
+  return enabledEnemyHead && result.hpDamage > 0 ? { ...result, hpDamage: currentHp } : result;
+}
 
 export function resolveDamage(input: DamageInput): DamageResult {
   for (const [key, value] of Object.entries(input)) {

@@ -6,7 +6,7 @@ const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ||
   '/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs');
 
 const out = resolve(process.env.T003_EVIDENCE_DIR || fileURLToPath(new URL('../evidence/T003/', import.meta.url)));
-const url = process.env.T003_URL || 'http://127.0.0.1:7458/';
+const url = process.env.T003_URL || 'http://127.0.0.1:7458/?practice=1';
 const chrome = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const browser = await chromium.launch({ headless: process.env.HEADED !== '1', executablePath: chrome });
 const page = await browser.newPage({ viewport: { width: 1440, height: 810 } });

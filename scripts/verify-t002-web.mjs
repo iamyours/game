@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ||
   '/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs');
 const out = resolve(process.env.T002_EVIDENCE_DIR || fileURLToPath(new URL('../evidence/T002/', import.meta.url)));
-const url = process.env.T002_URL || 'http://127.0.0.1:7458/';
+const url = process.env.T002_URL || 'http://127.0.0.1:7458/?practice=1';
 const chrome = process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const headed = process.env.HEADED === '1';
 const profile = headed ? await mkdtemp(join(tmpdir(), 'storm-archers-chrome-')) : null;

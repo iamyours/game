@@ -18,7 +18,7 @@ const wait = async (predicate, label) => {
 const actor = s => s.combat.find(value => value.id === 'EnemyRagdoll');
 const center = (s, r) => [(r.left + r.right) / 2 * 1440 / s.width, (r.top + r.bottom) / 2 * 810 / s.height];
 try {
-  await page.goto(process.env.T004_URL || 'http://127.0.0.1:7458/');
+  await page.goto(process.env.T004_URL || 'http://127.0.0.1:7458/?practice=1');
   await page.waitForFunction(() => Boolean(window.System));
   report.runtime = await page.evaluate(async () => {
     const cc = await System.import('cc');

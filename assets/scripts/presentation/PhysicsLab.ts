@@ -11,6 +11,7 @@ import { PoseController, type PoseName } from '../physics/PoseController';
 import { ProjectileSystem, TIP_OFFSET_M } from '../combat/ProjectileSystem';
 import { HitResolver, type ActorCombatState } from '../combat/HitResolver';
 import { LabViewport } from './LabViewport';
+import { ArcadeBattle } from '../combat/ArcadeBattle';
 import { CharacterSkin } from './CharacterSkin';
 
 const { ccclass } = _decorator;
@@ -45,6 +46,8 @@ function fill(g: Graphics, x: number, y: number, w: number, h: number, hex: stri
 @ccclass('StormArchersPhysicsLab')
 export class PhysicsLab extends Component {
   private physics: Physics | null = null;
+  private arcade: ArcadeBattle | null = null;
+  private arcadeMode = typeof location === 'undefined' || new URLSearchParams(location.search).get('practice') !== '1';
   private probe!: CalibrationProbe;
   private router!: InputRouter;
   private viewport!: LabViewport;
@@ -111,14 +114,14 @@ export class PhysicsLab extends Component {
       initialRad: Physics.radians(config.input.initialAimDeg), minRad: Physics.radians(config.input.minAimDeg),
       maxRad: Physics.radians(config.input.maxAimDeg), firstShotDelaySec: config.input.firstShotDelaySec,
       pullBackToAim: config.input.pullBackToAim, fullDrawDistanceDesign: config.input.fullDrawDistanceDesign }, config.arrows);
-    this.drawRuler(world);
+    if (!this.arcadeMode) this.drawRuler(world);
     // Native fixtures capture their collision mask when created. Configure it first,
     // including when setup runs on an already-active scene (editor/re-entry).
     this.ragdollFactory = new RagdollFactory(config.rig);
     this.buildPlatforms(world, config.rig.collisionGroups.platform);
     this.ragdolls = [
       this.ragdollFactory.spawn(world, 'PlayerRagdoll', [3.5, 3.41], '#63C6C9'),
-      this.ragdollFactory.spawn(world, 'EnemyRagdoll', [18, 3.41], '#E98575'),
+      ...(!this.arcadeMode ? [this.ragdollFactory.spawn(world, 'EnemyRagdoll', [18, 3.41], '#E98575')] : []),
     ];
     this.skins = this.ragdolls.map(actor => new CharacterSkin(actor, config.rig));
     this.skins.forEach((skin, index) => {
@@ -127,7 +130,7 @@ export class PhysicsLab extends Component {
       });
     });
     this.playerAim = new AimController(this.ragdolls[0], new PoseController(this.ragdolls[0], config.rig, config.bowControl));
-    this.enemyAim = new AimController(this.ragdolls[1], new PoseController(this.ragdolls[1], config.rig, config.bowControl));
+    this.enemyAim = this.arcadeMode ? this.playerAim : new AimController(this.ragdolls[1]!, new PoseController(this.ragdolls[1]!, config.rig, config.bowControl));
     this.playerAim.setPose('standing');
     this.enemyAim.setPose('standing');
     this.combatStates = new Map([
@@ -136,22 +139,26 @@ export class PhysicsLab extends Component {
     ]);
     this.hitResolver = new HitResolver(this.combatStates, config, (state) => {
       const aim = state.id === 'PlayerRagdoll' ? this.playerAim : this.enemyAim;
+      this.arcade?.hit(state, state.lastHit!.partId);
       if (state.hp <= 0) aim.setAlive(false);
       else if (state.lastHit) aim.registerHit(state.lastHit.jointReaction);
       this.dirty = true;
-    });
+    }, this.arcadeMode && config.arcade.headshotLethal);
+    if (this.arcadeMode) this.combatStates.delete('EnemyRagdoll');
     this.projectiles = new ProjectileSystem(world, config, this.ragdolls, (candidate, targetBody) => this.hitResolver.resolve(candidate, targetBody));
+    if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; });
     this.probe = new CalibrationProbe(world, config.physics);
+    if (this.arcadeMode) for (const name of ['GlideBody', 'DropBody']) { const g = world.getChildByName(name)?.getComponent(Graphics); if (g) g.enabled = false; }
     this.aim = child(world, 'AimPreview').addComponent(Graphics);
     this.overlay = child(canvas.node, 'PhysicsLabHUD');
     this.hud = child(this.overlay, 'TouchZones').addComponent(Graphics);
-    this.title = label(this.overlay, 'Title', 42, '风暴弓手  /  PhysicsLab');
+    this.title = label(this.overlay, 'Title', 42, this.arcadeMode ? '风暴弓手 · 连续对战' : '风暴弓手 / PhysicsLab');
     this.metrics = label(this.overlay, 'Metrics', 26);
     this.aimLabel = label(this.overlay, 'AimLabel', 28);
     this.switchLabel = label(this.overlay, 'ArrowSwitch', 30);
     this.pauseLabel = label(this.overlay, 'Pause', 30);
     this.resetLabel = label(this.overlay, 'Reset', 30, '重置');
-    this.poseButtons = (['standing', 'staggered', 'downed'] as const).map((pose, i) => ({
+    this.poseButtons = (this.arcadeMode ? [] : ['standing', 'staggered', 'downed'] as const).map((pose, i) => ({
       pose, label: label(this.overlay, `Pose_${pose}`, 25, ['站立重置', '后仰测试', '倒地测试'][i]), rect: empty,
     }));
     this.notice = label(this.overlay, 'Notice', 36);
@@ -173,7 +180,7 @@ export class PhysicsLab extends Component {
   public update(dt: number): void {
     this.physics?.advance(dt, this.beforeStep, this.afterStep);
     if (this.dirty && this.physics) { this.dirty = false; this.drawHUD(); }
-    if (this.physics) this.drawAim();
+    if (this.physics) { this.drawAim(); this.arcade?.draw(); }
   }
 
   public onDestroy(): void {
@@ -186,6 +193,7 @@ export class PhysicsLab extends Component {
     game.off(Game.EVENT_SHOW, this.show, this);
     if (typeof window !== 'undefined') window.removeEventListener('blur', this.cancel);
     this.projectiles?.clear();
+    this.arcade?.dispose();
     for (const skin of this.skins) skin.dispose();
     this.ragdollFactory?.dispose();
     this.overlay?.destroy();
@@ -198,7 +206,7 @@ export class PhysicsLab extends Component {
     const { worldWidthM, worldHeightM, worldCenterM: [cx, cy] } = this.config.viewport;
     const topLeft = v.worldToUI(cx - worldWidthM / 2, cy + worldHeightM / 2);
     const bottomRight = v.worldToUI(cx + worldWidthM / 2, cy - worldHeightM / 2);
-    return { seedHash: this.seedHash, calibration: this.probe.result, stepId: this.physics?.steps,
+    return { arcade: this.arcade?.snapshot ?? null, seedHash: this.seedHash, calibration: this.probe.result, stepId: this.physics?.steps,
       autoSimulation: PhysicsSystem2D.instance.autoSimulation, shots: this.shots, lastShot: this.lastShot,
       lastAttempt: this.lastAttempt, lastReleaseResult: this.router.lastReleaseResult,
       aimId: this.router.aimId, aimDeg: Physics.degrees(this.router.aimRad), arrow: this.router.selectedArrow.id,
@@ -238,7 +246,7 @@ export class PhysicsLab extends Component {
   }
 
   private countRigidBodies(): number {
-    return this.ragdolls.reduce((count, ragdoll) => count + ragdoll.bodies.size, 0) + 5 + (this.projectiles?.count ?? 0);
+    return this.ragdolls.reduce((count, ragdoll) => count + ragdoll.bodies.size, 0) + (this.arcade ? 3 + this.arcade.snapshot.platformCount + this.arcade.snapshot.dropCount : 5) + (this.projectiles?.count ?? 0);
   }
 
   private countHingeJoints(): number {
@@ -251,8 +259,10 @@ export class PhysicsLab extends Component {
     this.playerAim.setWorldAim(shot?.aimRad ?? this.router.aimRad);
     this.playerAim.setDraw(this.router.aimId !== null || shot !== null, shot ? shot.strength : this.router.drawProgress);
     this.playerAim.step(dt);
-    this.enemyAim.setWorldAim(0);
-    this.enemyAim.step(dt);
+    if (this.arcade) {
+      this.arcade.beforeStep(dt);
+      if (this.combatStates.get('PlayerRagdoll')!.hp <= 0) { this.router.cancel(); return; }
+    } else { this.enemyAim.setWorldAim(0); this.enemyAim.step(dt); }
     if (!shot) return;
     if (!this.playerAim.handsSnapshot.ready) {
       this.lastAttempt = { stepId, result: 'hands-unready' };
@@ -280,13 +290,20 @@ export class PhysicsLab extends Component {
     const prior = this.probe.result;
     this.probe.afterStep(stepId);
     this.projectiles.afterStep();
+    this.arcade?.afterStep();
+    if (this.arcade) {
+      if (this.combatStates.get('PlayerRagdoll')!.hp <= 0) this.playerAim.setAlive(false);
+      this.dirty = true;
+    }
     if (this.resetRequested) {
       this.resetRequested = false; this.demoRequested = null;
       this.projectiles.clear();
-      this.ragdollFactory?.resetAll();
-      for (const state of this.combatStates.values()) { state.hp = state.id === 'PlayerRagdoll' ? this.config.player.hp : (this.config.enemies[0]?.hp ?? 60); state.armor = state.id === 'PlayerRagdoll' ? 0 : (this.config.enemies[0]?.helmetDurability ?? 0); state.hits = 0; state.lastHit = null; }
+      if (this.arcade) { this.ragdolls[0]!.reset(); this.arcade.reset(); }
+      else this.ragdollFactory?.resetAll();
+      for (const state of this.combatStates.values()) { if (this.arcade && state.id !== 'PlayerRagdoll') continue; state.hp = state.id === 'PlayerRagdoll' ? this.config.player.hp : (this.config.enemies[0]?.hp ?? 60); state.armor = state.id === 'PlayerRagdoll' ? 0 : (this.config.enemies[0]?.helmetDurability ?? 0); state.hits = 0; state.lastHit = null; }
       this.router.cancel();
       this.playerAim.reset(); this.enemyAim.reset();
+      if (this.arcade) this.enemyAim.setWorldAim(Math.PI - 0.2);
       this.shots = 0; this.lastShot = null; this.lastAttempt = null; this.resetCount += 1; this.dirty = true;
     }
     if (this.demoRequested) {
@@ -418,17 +435,20 @@ export class PhysicsLab extends Component {
     this.pauseLabel.string = this.manualPause ? '继续' : '暂停';
     this.switchLabel.string = `切箭 · ${arrowNames[id] ?? id}`;
     this.switchLabel.color = color(tint);
-    const enemy = this.combatStates.get('EnemyRagdoll');
+    const enemy = this.combatStates.get(this.arcade?.snapshot.enemyId ?? 'EnemyRagdoll');
     this.aimLabel.string = `拖动拉弓 · 松手放箭   力度 ${Math.round(this.router.drawProgress * 100)}%   ${Physics.degrees(this.router.aimRad).toFixed(1)}°   ·   发射 ${this.shots}   ·   敌人 ${enemy?.hp ?? 0} HP / ${enemy?.hits ?? 0} 命中`;
     const release = this.router.lastReleaseResult;
     const result = release === 'too-short' ? '按住时间太短' : release === 'cooldown' ? '射击冷却中' :
       release === 'queued' && this.lastAttempt ? ({ 'hands-unready': '双手尚未到位，请调整瞄准',
         'muzzle-blocked': '弓口被身体或平台挡住，请调整角度', 'arrow-limit': '在途箭已达上限', fired: '已放箭' })[this.lastAttempt.result] : '';
     if (result) this.aimLabel.string += `   ·   ${result}`;
+    if (this.arcade) this.aimLabel.string = `拖动拉弓 · 松手放箭  ${Math.round(this.router.drawProgress * 100)}%  · 击败 ${this.arcade.score}  · 生命 ${this.combatStates.get('PlayerRagdoll')!.hp}`;
     const hit = enemy?.lastHit;
     const r = this.probe.result;
     this.metrics.string = hit ? (enemy.hp === 0 ? '靶手已击倒 · 点重置再试' : `${arrowNames[hit.arrow.id]} · 命中${({ head: '头部', torso: '躯干', limb: '四肢' })[hit.zone]}  ·  -${hit.result.hpDamage} HP · ${hit.impulseNs.toFixed(2)} N·s`) : r ? `标定${r.passed ? '通过' : '失败'}  ·  位移 ${r.checks.glideXM.actual.toFixed(3)} m  ·  落体 ${r.checks.dropYM.actual.toFixed(3)} m  ·  ${r.steps} 步 / 1 s`
       : '正在采样 Box2D：滑行 / 落体 / 旋转';
+    if (this.arcade) this.metrics.string = this.arcade.snapshot.telegraph ? '敌人正在拉弓' : '爆头一击致命 · 躲不过的箭需要抢先击倒敌人';
+    if (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0) this.metrics.string = `你已倒下 · 击败 ${this.arcade.score} 名敌人 · 点重置再来`;
     const drag = this.router.drag;
     if (drag) {
       const origin = this.viewport.toLocal(drag.origin), p = this.viewport.toLocal(drag.point);
@@ -447,7 +467,7 @@ export class PhysicsLab extends Component {
   private drawAim(): void {
     const g = this.aim;
     g.clear();
-    if (this.viewport.portrait || this.manualPause || this.hidden) return;
+    if (this.viewport.portrait || this.manualPause || this.hidden || (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0)) return;
     const arrow = this.config.arrows.find(value => value.id === this.router.selectedArrow.id)!;
     const socket = { ...this.playerAim.bowSocket(), angleRad: this.router.aimRad };
     const dx = Math.cos(socket.angleRad), dy = Math.sin(socket.angleRad);
@@ -501,7 +521,7 @@ export class PhysicsLab extends Component {
       { id: 'enemy_low', x: 18, surfaceY: 3, width: 3 },
       { id: 'enemy_high', x: 20, surfaceY: 6, width: 3 },
     ];
-    for (const platform of platforms) {
+    for (const platform of platforms.filter(p => !this.arcadeMode || p.id === 'player_main')) {
       const node = child(world, `Platform_${platform.id}`);
       Physics.place(node, platform.x, platform.surfaceY - 0.3);
       const body = node.addComponent(RigidBody2D);
@@ -528,7 +548,7 @@ export class PhysicsLab extends Component {
     for (let x = 0; x <= 24; x++) { g.moveTo(u(x), u(-1.75)); g.lineTo(u(x), u(11.75)); }
     for (let y = -1; y <= 11; y++) { g.moveTo(0, u(y)); g.lineTo(u(24), u(y)); }
     g.stroke();
-    for (const [x, y, w] of [[3.5, 3, 5], [18, 3, 3], [20, 6, 3]]) {
+    for (const [x, y, w] of (this.arcadeMode ? [[3.5, 3, 5]] : [[3.5, 3, 5], [18, 3, 3], [20, 6, 3]])) {
       fill(g, u(x - w / 2), u(y - 0.28), u(w), u(0.28), '#496272');
     }
     g.strokeColor = color('#A17C4A');

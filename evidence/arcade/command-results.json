@@ -1,0 +1,24 @@
+{
+  "baseRevision": "4a54674a8b18d84470f76880aeb92b6f77b78ea1",
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run env:check",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 2
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 2
+    }
+  ],
+  "tests": 109,
+  "webArcade": "NOT_RUN",
+  "runtimeVerified": false
+}

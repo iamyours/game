@@ -86,6 +86,8 @@ export const combatSchema = z.object({
     sameStepMutualDeath: z.literal('lose'), deadBodyTakesDamage: z.literal(false),
   }).strict(),
   arrows: z.array(arrow).length(3),
+  arcade: z.object({ respawnSec: positive, cleanupSec: positive, spawnX_M: ordered(positive),
+    surfaceY_M: ordered(positive), platformWidthM: ordered(positive), headshotLethal: z.boolean() }).strict(),
   reaction: z.object({
     impulseCalibrationRequired: z.literal(true), maxSingleImpulseNs: positive,
     playerMaxIncomingImpulseNs: positive, enemyArmTraumaToDisarm: positive,

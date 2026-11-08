@@ -5,7 +5,7 @@ currentMilestone: M1
 currentTask: T004
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003
-sourceRevision: Git main @ aba46c0；首次导入提交与 origin/main 一致
+sourceRevision: 本轮基线 main @ 1906406；后续源码与验证记录见关联提交
 configVersion: 2
 runtimeVerified: 否（T003 左右骨架 WebGL 已实测；完整玩法种子未验收）
 feelGateG1: NOT_RUN
@@ -34,3 +34,9 @@ selectedTapTapPath: Android APK 默认方案，待 T016 核实
 先补 T004 的三姿态实射验收，再完善 T005/T006；T007 装备脱落/坠台未开始。T008/G1、真机及渠道未运行，完整种子 `runtimeVerified` 仍为 false；不提前扩关。
 
 最后更新：2026 年 11 月 8 日。
+
+## 参考视频复盘与拒射诊断迭代（2026-11-08）
+- 复盘 `docs/VID_20261108_174221.mp4` 与当前实现，见 `docs/REFERENCE_REVIEW.md`。明确未完成：倒地实射、局部降权、死亡关闭驱动、掉落/出界闭环。
+- T004 新增松手拒射原因、步号和 UI 提示，保持不穿身/穿台、不延迟补射；方向提示从约 0.819 秒纠正为 PRD 的 0.15 秒。
+- 当前 Linux 环境 `npm run verify` 退出 0，76 项测试通过；引擎声明/Creator 缺失，`typecheck:engine` 与 `build:web` 均 BLOCKED（退出 2），不得沿用旧机运行结果宣称本次物理通过。
+- T004 仍 IN_PROGRESS，AC04 与 G1 不放行。首轮补丁代码已完成，待在 Creator 3.8.8 构建后复测三姿态；证据见 `evidence/T004/reference-review/`。

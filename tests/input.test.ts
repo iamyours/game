@@ -51,6 +51,24 @@ test('短点未完成最小拉弓时长不发射；刚满门槛后松手才发�
   assert.equal(r.step(dt)?.arrowId, 'normal');
 });
 
+test('拒射原因区分短点和冷却，取消清除反馈且不会延迟补射', () => {
+  const r = new InputRouter(rules, arrows);
+  r.press(1, left, layout); r.release(1, left, layout);
+  assert.equal(r.lastReleaseResult, 'too-short');
+  assert.deepEqual(simulate(r, 120), []);
+  r.press(2, left, layout); simulate(r, 8); r.release(2, left, layout);
+  assert.equal(r.lastReleaseResult, 'queued');
+  assert.ok(r.step(dt));
+  r.press(3, left, layout); simulate(r, 8); r.release(3, left, layout);
+  assert.equal(r.lastReleaseResult, 'cooldown');
+  assert.deepEqual(simulate(r, 120), []);
+  r.cancel();
+  assert.equal(r.lastReleaseResult, 'none');
+  r.press(4, left, layout); simulate(r, 8); r.release(4, left, layout);
+  r.cancel();
+  assert.equal(r.step(dt), null);
+});
+
 test('死区保留方向，设计坐标 y 翻转，移出热区仍由原触点控制且角度限幅', () => {
   const r = new InputRouter(rules, arrows);
   r.press(7, left, layout); r.move(7, { x: 106, y: 194 });

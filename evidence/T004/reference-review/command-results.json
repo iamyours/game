@@ -1,0 +1,24 @@
+{
+  "baseRevision": "190640685abcb0b921b501be7e92ea9fd02c4bd4",
+  "sourceState": "working tree changes recorded in associated commit",
+  "engineVersionRequired": "3.8.8",
+  "verify": {
+    "exitCode": 0,
+    "tests": 76
+  },
+  "commands": [
+    {
+      "command": "npm run env:check",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 2
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 2
+    }
+  ],
+  "runtime": "BLOCKED: no Creator executable or editor-generated declarations"
+}

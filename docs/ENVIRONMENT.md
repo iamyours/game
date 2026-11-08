@@ -91,3 +91,9 @@ T002_EVIDENCE_DIR=evidence/T004/bow-draw/t002-regression npm run test:web:t002
 ```
 
 站台测试覆盖 Boot 重载、创建瞬间的原生夹具掩码、30 秒静置、额外 3600 固定步和 20 次重置；拉弓烟测分别用向前、向后真实鼠标拖动命中靶手，并检查连射间再次拉弦和松手停射。实测结论见 `evidence/T004/bow-draw/verification.md`，不替代手机或三姿态验收。
+
+## 本轮远程开发环境（2026-11-08）
+- Linux，Node 24.22.1 / npm 11.9.0；干净拉取基线 `1906406`，npm ci --ignore-scripts 退出 0。
+- 没有 Creator 3.8.8 与 temp/declarations，不复用上述 macOS 的验收结论。env:check 退出 0 但输出 blockers；typecheck:engine / build:web 退出 2。
+- tsx CLI 启动 IPC socket 遇到 EPERM；npm 脚本改用同一已锁定依赖的 node --import tsx。npm run verify 随后退出 0，76 项测试通过。
+- 本轮证据位于 evidence/T004/reference-review；未产生新的 WebGL 构建或物理录像。

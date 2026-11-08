@@ -8,10 +8,10 @@
     "npm": ">=10 <12"
   },
   "scripts": {
-    "check:config": "tsx tools/config/cli.ts check",
-    "config:generate": "tsx tools/config/cli.ts generate",
-    "config:check-generated": "tsx tools/config/cli.ts check-generated",
-    "test:unit": "tsx --test tests/*.test.ts tests/*.test.mjs",
+    "check:config": "node --import tsx tools/config/cli.ts check",
+    "config:generate": "node --import tsx tools/config/cli.ts generate",
+    "config:check-generated": "node --import tsx tools/config/cli.ts check-generated",
+    "test:unit": "node --import tsx --test tests/*.test.ts tests/*.test.mjs",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "typecheck:engine": "node scripts/creator.mjs typecheck",
     "verify": "node scripts/verify.mjs",

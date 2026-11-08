@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { applyDrawStrength, armGeometry, solveArm } from '../assets/scripts/domain/archery.js';
+import { aimHintPoints, applyDrawStrength, armGeometry, solveArm } from '../assets/scripts/domain/archery.js';
 import { readRigDefinition } from '../assets/scripts/physics/RigDefinition.js';
 import { readBootManifest } from '../assets/scripts/core/BootManifest.js';
 import { loadSeedPack, renderGenerated } from '../tools/config/files.js';
@@ -11,6 +11,18 @@ async function setup() {
   const rig = readRigDefinition(JSON.parse(generated.get('rig.json')!), manifest);
   return { rig, bow: pack.combat.bowControl };
 }
+
+test('方向提示仅覆盖离弦后 0.15 秒，不泄露整段落点；保留重力与力度差异', () => {
+  const origin = { x: 4, y: 5 }, dt = 1 / 60;
+  const full = aimHintPoints(origin, 0, 18, [0, -9.8], dt, 0.31);
+  const light = aimHintPoints(origin, 0, 6.3, [0, -9.8], dt, 0.31);
+  const last = full.at(-1)!;
+  assert.ok(Math.abs(last.x - (4 + 0.31 + 18 * 0.15)) < 1e-9);
+  assert.ok(Math.abs(last.y - (5 - 9.8 * 0.15 * (0.15 + dt) / 2)) < 1e-9);
+  assert.ok(last.x < 8, '13–17 米交战距离不应被整条落点线揭示');
+  assert.ok(light.at(-1)!.x < last.x);
+  assert.ok(full.every(p => p.y < origin.y && Number.isFinite(p.x)));
+});
 
 test('双臂 IK 使用实际锚点，两个手在拉弦全程可达且肘保留弯曲', async () => {
   const { rig, bow } = await setup();

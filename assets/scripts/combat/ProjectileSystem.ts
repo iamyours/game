@@ -61,8 +61,13 @@ export class ProjectileSystem {
       !Physics.raycastM(socket, end, this.mask).some(hit => blocks(hit.collider));
   }
 
+  public launchBlockReason(shooter: string, socket: BowSocketSnapshot): 'arrow-limit' | 'muzzle-blocked' | null {
+    if (this.count >= this.config.limits.maxFlyingArrows) return 'arrow-limit';
+    return this.muzzleClear(shooter, socket) ? null : 'muzzle-blocked';
+  }
+
   public fire(shooter: string, socket: BowSocketSnapshot, arrow: ProjectileArrowConfig): number | null {
-    if (this.count >= this.config.limits.maxFlyingArrows || !this.muzzleClear(shooter, socket)) return null;
+    if (this.launchBlockReason(shooter, socket) !== null) return null;
     const slot = this.spare.pop() ?? this.createSlot();
     const point = this.tip(socket, TIP_OFFSET_M);
     Physics.place(slot.node, point.x, point.y);

@@ -29,6 +29,8 @@ export class InputRouter {
   private pendingRelease: ShotIntent | null = null;
   private blocked = false;
   private direction: number;
+  private releaseResult: 'none' | 'queued' | 'too-short' | 'cooldown' = 'none';
+  public get lastReleaseResult() { return this.releaseResult; }
 
   public constructor(private readonly rules: AimRules, private readonly arrows: readonly ArrowCadence[]) {
     if (arrows.length === 0) throw new Error('至少装备一种箭');
@@ -56,6 +58,7 @@ export class InputRouter {
       this.switchTouch = id;
     } else if (this.aimTouch === null && contains(layout.aim, point)) {
       this.aimTouch = { id, origin: point, point, dragDirection: null };
+      this.releaseResult = 'none';
       this.drawStartAt = this.elapsed;
       this.firstShotAt = this.elapsed + this.rules.firstShotDelaySec;
     }
@@ -78,6 +81,9 @@ export class InputRouter {
       this.move(id, point);
       if (!this.blocked && this.elapsed + 1e-9 >= Math.max(this.firstShotAt, this.cooldownUntil)) {
         this.pendingRelease = { arrowId: this.selectedArrow.id, aimRad: this.direction, strength: this.drawProgress };
+        this.releaseResult = 'queued';
+      } else if (!this.blocked) {
+        this.releaseResult = this.elapsed + 1e-9 < this.firstShotAt ? 'too-short' : 'cooldown';
       }
       this.aimTouch = null;
     }
@@ -87,6 +93,7 @@ export class InputRouter {
   }
 
   public cancel(): void {
+    this.releaseResult = 'none';
     this.aimTouch = null;
     this.switchTouch = null;
     this.firstShotAt = 0;

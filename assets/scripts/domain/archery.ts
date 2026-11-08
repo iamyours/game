@@ -16,6 +16,19 @@ const rad = (v: number) => v * Math.PI / 180;
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 export const wrapRad = (v: number) => Math.atan2(Math.sin(v), Math.cos(v));
 
+/** A short direction hint, never a full landing solution. Matches fixed-step gravity. */
+export const AIM_HINT_SECONDS = 0.15;
+export function aimHintPoints(socket: PointM, angleRad: number, speedMps: number,
+  gravityMps2: readonly [number, number], fixedStepSec: number, tipOffsetM: number): readonly PointM[] {
+  return Array.from({ length: 5 }, (_, i) => {
+    const t = AIM_HINT_SECONDS * (i + 1) / 5;
+    const reach = tipOffsetM + speedMps * t;
+    const gravityTime = t * (t + fixedStepSec) / 2;
+    return { x: socket.x + Math.cos(angleRad) * reach + gravityMps2[0] * gravityTime,
+      y: socket.y + Math.sin(angleRad) * reach + gravityMps2[1] * gravityTime };
+  });
+}
+
 /** Link vectors come from the same anchors as native hinges, not sprite bounds. */
 export function armGeometry(rig: RigDefinition, side: ArmSide): ArmGeometry {
   const shoulder = rig.jointDefinitions.find(j => j.id === `${side}Shoulder`)!;

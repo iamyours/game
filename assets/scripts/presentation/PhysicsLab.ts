@@ -1,4 +1,4 @@
-import { applyDrawStrength } from '../domain/archery';
+import { aimHintPoints, applyDrawStrength } from '../domain/archery';
 import { _decorator, BoxCollider2D, Camera, Canvas, Color, Component, ERigidBody2DType, Game, Graphics, Label, Layers, Node,
   PhysicsSystem2D, RenderRoot2D, RigidBody2D, game, input, Input, profiler, screen, view, type EventTouch } from 'cc';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
@@ -66,6 +66,7 @@ export class PhysicsLab extends Component {
   private manualPause = false;
   private hidden = false;
   private shots = 0;
+  private lastAttempt: { stepId: number; result: 'hands-unready' | 'arrow-limit' | 'muzzle-blocked' | 'fired' } | null = null;
   private lastShot: (ShotIntent & { stepId: number; socket: ReturnType<AimController['bowSocket']>;
     hands: PoseController['handsSnapshot']; drawAmount: number; speedMps: number }) | null = null;
   private dirty = true;
@@ -190,6 +191,7 @@ export class PhysicsLab extends Component {
     const bottomRight = v.worldToUI(cx + worldWidthM / 2, cy - worldHeightM / 2);
     return { seedHash: this.seedHash, calibration: this.probe.result, stepId: this.physics?.steps,
       autoSimulation: PhysicsSystem2D.instance.autoSimulation, shots: this.shots, lastShot: this.lastShot,
+      lastAttempt: this.lastAttempt, lastReleaseResult: this.router.lastReleaseResult,
       aimId: this.router.aimId, aimDeg: Physics.degrees(this.router.aimRad), arrow: this.router.selectedArrow.id,
       drawProgress: this.router.drawProgress, paused: this.manualPause, hidden: this.hidden, portrait: v.portrait, layout: this.layout,
       poseButtons: this.poseButtons.map(({ pose, rect }) => ({ pose, rect })),
@@ -242,14 +244,26 @@ export class PhysicsLab extends Component {
     this.playerAim.step(dt);
     this.enemyAim.setWorldAim(0);
     this.enemyAim.step(dt);
-    if (!shot || !this.playerAim.handsSnapshot.ready) return;
+    if (!shot) return;
+    if (!this.playerAim.handsSnapshot.ready) {
+      this.lastAttempt = { stepId, result: 'hands-unready' };
+      this.dirty = true;
+      return;
+    }
     const arrow = this.config.arrows.find((value) => value.id === shot.arrowId);
     if (!arrow) return;
     const socket = this.playerAim.bowSocket();
+    const blocked = this.projectiles.launchBlockReason('PlayerRagdoll', socket);
+    if (blocked) {
+      this.lastAttempt = { stepId, result: blocked };
+      this.dirty = true;
+      return;
+    }
     const launchArrow = applyDrawStrength(arrow, shot.strength, this.config.bowControl.minPowerRatio);
     const shotId = this.projectiles.fire('PlayerRagdoll', { ...socket, angleRad: shot.aimRad }, launchArrow);
     if (shotId !== null) { this.lastShot = { ...shot, stepId, socket, hands: this.playerAim.handsSnapshot,
-      drawAmount: this.playerAim.poseSnapshot.drawAmount, speedMps: launchArrow.speedMps }; this.shots += 1; }
+      drawAmount: this.playerAim.poseSnapshot.drawAmount, speedMps: launchArrow.speedMps }; this.shots += 1;
+      this.lastAttempt = { stepId, result: 'fired' }; }
     this.dirty = true;
   };
 
@@ -264,7 +278,7 @@ export class PhysicsLab extends Component {
       for (const state of this.combatStates.values()) { state.hp = state.id === 'PlayerRagdoll' ? this.config.player.hp : (this.config.enemies[0]?.hp ?? 60); state.armor = state.id === 'PlayerRagdoll' ? 0 : (this.config.enemies[0]?.helmetDurability ?? 0); state.hits = 0; state.lastHit = null; }
       this.router.cancel();
       this.playerAim.reset(); this.enemyAim.reset();
-      this.shots = 0; this.lastShot = null; this.resetCount += 1; this.dirty = true;
+      this.shots = 0; this.lastShot = null; this.lastAttempt = null; this.resetCount += 1; this.dirty = true;
     }
     if (this.demoRequested) {
       const pose = this.demoRequested;
@@ -397,6 +411,11 @@ export class PhysicsLab extends Component {
     this.switchLabel.color = color(tint);
     const enemy = this.combatStates.get('EnemyRagdoll');
     this.aimLabel.string = `拖动拉弓 · 松手放箭   力度 ${Math.round(this.router.drawProgress * 100)}%   ${Physics.degrees(this.router.aimRad).toFixed(1)}°   ·   发射 ${this.shots}   ·   敌人 ${enemy?.hp ?? 0} HP / ${enemy?.hits ?? 0} 命中`;
+    const release = this.router.lastReleaseResult;
+    const result = release === 'too-short' ? '按住时间太短' : release === 'cooldown' ? '射击冷却中' :
+      release === 'queued' && this.lastAttempt ? ({ 'hands-unready': '双手尚未到位，请调整瞄准',
+        'muzzle-blocked': '弓口被身体或平台挡住，请调整角度', 'arrow-limit': '在途箭已达上限', fired: '已放箭' })[this.lastAttempt.result] : '';
+    if (result) this.aimLabel.string += `   ·   ${result}`;
     const hit = enemy?.lastHit;
     const r = this.probe.result;
     this.metrics.string = hit ? (enemy.hp === 0 ? '靶手已击倒 · 点重置再试' : `命中${({ head: '头部', torso: '躯干', limb: '四肢' })[hit.zone]}  ·  -${hit.result.hpDamage} HP`) : r ? `标定${r.passed ? '通过' : '失败'}  ·  位移 ${r.checks.glideXM.actual.toFixed(3)} m  ·  落体 ${r.checks.dropYM.actual.toFixed(3)} m  ·  ${r.steps} 步 / 1 s`
@@ -425,14 +444,14 @@ export class PhysicsLab extends Component {
     const dx = Math.cos(socket.angleRad), dy = Math.sin(socket.angleRad);
     this.drawBow(g, socket, dx, dy, arrowTints[arrow.id]);
     const clear = this.projectiles.muzzleClear('PlayerRagdoll', socket);
-    g.fillColor = color(clear ? arrowTints[arrow.id] : '#FF645E');
+    g.fillColor = color(!clear ? '#FF645E' : !this.playerAim.handsSnapshot.ready ? '#F0A84B' : arrowTints[arrow.id]);
     g.circle(Physics.units(socket.x), Physics.units(socket.y), Physics.units(0.08));
-    if (clear) for (let i = 1; i <= 13; i++) {
-      const t = i * 0.063;
+    if (clear && this.router.aimId !== null) {
       const launchArrow = applyDrawStrength(arrow, this.router.drawProgress, this.config.bowControl.minPowerRatio);
-      const reach = TIP_OFFSET_M + launchArrow.speedMps * t;
-      const y = socket.y + dy * reach + this.config.physics.gravityMps2[1] * t * (t + this.config.physics.fixedTimeStepSec) / 2;
-      g.circle(Physics.units(socket.x + dx * reach), Physics.units(y), Physics.units(i % 3 === 0 ? 0.041 : 0.026));
+      for (const point of aimHintPoints(socket, socket.angleRad, launchArrow.speedMps,
+        this.config.physics.gravityMps2, this.config.physics.fixedTimeStepSec, TIP_OFFSET_M)) {
+        g.circle(Physics.units(point.x), Physics.units(point.y), Physics.units(0.035));
+      }
     }
     g.fill();
   }

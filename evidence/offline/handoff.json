@@ -1,0 +1,218 @@
+{
+  "generatedAt": "2026-11-08T10:43:37.574Z",
+  "sourceRevision": "5008d42fcd4df2efd2f33125e50f330c6e6f5ff4",
+  "dirty": true,
+  "sourceHash": "4132545f8f45194f7f2a429d1eea09682f5331bc1b61eeb050415b1d5e0661ed",
+  "engine": "3.8.8",
+  "seedHash": "9fbd932d2de2ce3ff9e602724e933653d047b03d73188c834d68cd466265a829",
+  "sourceFiles": {
+    "AGENTS.md": "0b9124f5ec9600b167a409171226405eb3e750ceeda3368e72144c6386d7aa16",
+    "assets/resources.meta": "5b911376fdef5355f14f251c47cef1d5f480fe15b4b4bad8286e77bf0a6d47c9",
+    "assets/resources/characters/README.md": "cc68107477ac5aed4ae09f7c77fe1cab2f7be126286f7743a78d37832b585a0e",
+    "assets/resources/characters/enemy-atlas.png": "3a830c8e3780bb5c7bcf29cb6812c854966ef9c59269514f4ea4932120be62ee",
+    "assets/resources/characters/enemy-frames.json": "f0d33c6c0a6fe15bac408dab30a3c390eb79e7fb04290ae74a54fda327dee420",
+    "assets/resources/characters/hero-atlas.png": "3770152d3e04360cfac34ecda7f0e51a5db7d2a26dc2794c74db8e864de0a18d",
+    "assets/resources/characters/hero-frames.json": "6d8a6fc000c4cc0c0acffe51e577e55a4590736e4a0f57110f362e6100e1dd88",
+    "assets/resources/config.meta": "5a492a8fb2dfd397d4c224c60cced69f2643a0dccdd4de96adf34f5ee4305082",
+    "assets/resources/config/combat.json": "4302c7de580c4b94b8d7c4492a33eef7e0ac5c7f843c2e01caaad91e6cd0cf43",
+    "assets/resources/config/combat.json.meta": "c804c0b98ff7cdf00d41ec183b566786b485630821509268e0a7c18f9c469484",
+    "assets/resources/config/levels.json": "9a22b95f1addbe57ea14015b965d79e78a5af2ebe3c707b2fbc66890950984a6",
+    "assets/resources/config/levels.json.meta": "9a2f47605ee14e2116da76176c4ef758ff40d3a5345666e918cf8c2cf57d2108",
+    "assets/resources/config/manifest.json": "11b7fef25b8fecfc5f5947ce45ed1548ca326224f56c3f89e2c439b4cfe2c9c4",
+    "assets/resources/config/manifest.json.meta": "9e168766ef1f84633aa3f7f5e74fdeb08be6bac085124751b04a248b87148f81",
+    "assets/resources/config/platform.json": "c01095c68d8c6bc0aee899c015a90f42ae279351403ddb506a2b1d769b53b0d1",
+    "assets/resources/config/platform.json.meta": "33ad0865f9620e2eeedbe13549495996131e616a9088f68e72dd594aac338ba3",
+    "assets/resources/config/rig.json": "60818f37ba95b4099d84bf1703c9481ef96f8c42f8c6658ef4f63b6977039f95",
+    "assets/resources/config/rig.json.meta": "668fcf835bf63d6e64256a6b842d204f8d9df8d81756bf3860692d85ae0b4820",
+    "assets/scenes.meta": "a181456dad08f6eca7f83e14df3827f30f3651841ea1e8ccbc6483201ade1099",
+    "assets/scenes/Boot.scene": "1198c9541bacc02f94c2ac49f7e13e9244ad5eaed5f9ba86bab310900205c389",
+    "assets/scenes/Boot.scene.meta": "82e04ac305c514abff3cc6b116c705abb70b1eb21934196534af0aa9b6d86aa5",
+    "assets/scenes/README.md": "25ee275358e645ddc28e1ba97b71a16adb157aed030bd0ddc95f0718f0d32188",
+    "assets/scenes/README.md.meta": "705c6c8267d1bd83b82ca1d9afd7ab4c2e63d2f787f873af57fea3fe28830457",
+    "assets/scripts.meta": "674f2e77196f0e5250c516a77de5221cbc37339f323cd70724848da59a833d2a",
+    "assets/scripts/combat.meta": "624dfe97f3977aa2c1d641843a6a01f5e7acb6e812fd0d820a804e613b7b4077",
+    "assets/scripts/combat/HitResolver.ts": "f6672fc44840ab626902c098bd3b2be4240e8df69ba8eed8ff155da677b6ecf6",
+    "assets/scripts/combat/HitResolver.ts.meta": "cdf86790a607343b39fb5fdf4e015525f173c4aadff24d8c33464e74224a8d0d",
+    "assets/scripts/combat/ProjectileSystem.ts": "eb819499e77f5265714cf44a3e658851d77fa7b83d7ae7b0f73db1968d286229",
+    "assets/scripts/combat/ProjectileSystem.ts.meta": "ca03daaba492e2ca58939011a79d9404227293c471ee81482e6a6bef4cfcfcd9",
+    "assets/scripts/core.meta": "e32c3f2421388a65cab1489ef0b5d5404d045739c8f7217be819ba2d290c5821",
+    "assets/scripts/core/Boot.ts": "437e2bc261763949a72374e15ab8c680553d3674061bfda156f05f93900de494",
+    "assets/scripts/core/Boot.ts.meta": "64888ebfc5db021768b26f2ce9202583a3a4596b8ad5f4da5ea3230371a35fd1",
+    "assets/scripts/core/BootManifest.ts": "11bd3d9dba29eeb6042ab832c5f808c075684d50a146a48117d6de216a0efe68",
+    "assets/scripts/core/BootManifest.ts.meta": "ace542e24917d93e5020bcf9ef47f871697cba06c6df5eff1000417b541160ad",
+    "assets/scripts/core/BootRuntime.ts": "14578b0e29753279170aaef5eed9467489d7a18c428204f472585218ec0f06a7",
+    "assets/scripts/core/BootRuntime.ts.meta": "65b2e92c1e931fa0aca569c002219c8ca71394fe327a17c89662fc4e35b622dd",
+    "assets/scripts/core/PhysicsLabConfig.ts": "4080f7acf9ba20c8af321c540e667f8e86536e2bdca16aa7065e3c4fc68c5358",
+    "assets/scripts/core/PhysicsLabConfig.ts.meta": "e17f6bc93b7d4184b349ffd96765be591da47666e69c2253c8a58fc5a8b98789",
+    "assets/scripts/domain.meta": "a1766b7007b261bfd59236ac41a11ae588adef9c637a2a2945735b1d6e2288bf",
+    "assets/scripts/domain/BattleRules.ts": "96044739e549f26aa4e450467c1d3b612d94968b8f3299853238fe0177d26ebe",
+    "assets/scripts/domain/FixedStepClock.ts": "26b05aaf109aec58f776d027e8d01970158bc91051d90d5d2debf499149ac52a",
+    "assets/scripts/domain/FixedStepClock.ts.meta": "5eee7d0f64b4b4a3b9b01c5b28caff121bf38897532d0d81b4cbeddcb9571cd2",
+    "assets/scripts/domain/PageFlow.ts": "76d2f2e8b951a90aa69543b9fcf010e7b3708ba20ecb3d72dbaaeccb0003d597",
+    "assets/scripts/domain/PickupRules.ts": "2fcb826cf058264f614e3b0b6a314d4fd2b437fd7f6bcd15f68e85bad7cefeb0",
+    "assets/scripts/domain/RunSession.ts": "30fec645031c0eec2567750a8aecaefa3e2c95c2f7b086468b4f2ffb9cacd64e",
+    "assets/scripts/domain/RuntimeDiagnostics.ts": "cade4a983448f5d20fcfe680d357cc3f37178aeb205b1325e55a3c418d8873b9",
+    "assets/scripts/domain/SaveRepository.ts": "8ca9c22e0db7e4ee9b23aa3f14a4e29cbc48b8c6824d35b65dfc8d85341b6983",
+    "assets/scripts/domain/archery.ts": "6c41b386a2871c485a6b96e434d3a61d1f89ee070b9dd988a00d0c217865ba76",
+    "assets/scripts/domain/archery.ts.meta": "a94531a686675c51d39de51dba4ef9f8770e6cf7a365d7e29e6856bae8e670d8",
+    "assets/scripts/domain/damage.ts": "922ede74980bf8b132a9e36db288fe3566bfeb306d7ec39d32d1901bf3bcd889",
+    "assets/scripts/domain/damage.ts.meta": "dff36f1a6e312e9ee94fbe3e2cf68061c673b04703af1e98b186cba61aad704b",
+    "assets/scripts/input.meta": "8beaf09bb707014bfe447d442abeedc8db8b9cf2a6a2c8bb08b5bc606a020397",
+    "assets/scripts/input/InputRouter.ts": "109a875db274cc76b4b591efa4178f11ba9cd488e125925169c04a8e5f89d745",
+    "assets/scripts/input/InputRouter.ts.meta": "31ab2d2a9ff57ddd9fa43b0809be93dd5c339054ad45a347ad949e73bbd98804",
+    "assets/scripts/physics.meta": "b6a0efe8682e14848bfb6e846ba08559a40e752d3ccb97088b7377dc2224e84e",
+    "assets/scripts/physics/AimController.ts": "c20ff078ef5cca62eee98ff22f35a0f1a151ceda9780dc3329495fb7f932b114",
+    "assets/scripts/physics/AimController.ts.meta": "616106beb04ad66c3d076784c9b3096a58b0496e6990715f2cba7cf1293caf18",
+    "assets/scripts/physics/CalibrationProbe.ts": "93e736563a0ae4d15cbfb0e91219c5b40a62ecd76792d0d78d9e417e7ee6fc24",
+    "assets/scripts/physics/CalibrationProbe.ts.meta": "7c3ecd86a3832612cee88e5ab5d8f2969a82cc2f04209f29d5e56c022195d02a",
+    "assets/scripts/physics/PhysicsAdapter.ts": "4ddce12066a8b17eb45768b5831ee923c89bfe8c0f52831e434844b7dbb8b31e",
+    "assets/scripts/physics/PhysicsAdapter.ts.meta": "4d9a0630875b71ef5e48645d1a39c86137db36cf4bdb3c1fb1d9d9445c71565d",
+    "assets/scripts/physics/PoseController.ts": "d2c504e5a02885850345ad9db979816d6a20ca3f24751f8cfb1f51bfdcc0acaa",
+    "assets/scripts/physics/PoseController.ts.meta": "ac578420091e7f355813b37ed98f106ec98a46e9a61dd26510f7bfb79042718c",
+    "assets/scripts/physics/RagdollFactory.ts": "407db2ba8dd8bf4c87779aa3d972bcd443276ddacce87d4b3d7889aa211853ea",
+    "assets/scripts/physics/RagdollFactory.ts.meta": "6fbaa65eeb5ad4d72c70ed0bdffad17d264a3cb6afd904b5e0a13b828b224ebc",
+    "assets/scripts/physics/RigDefinition.ts": "c6bb20c9584a3dd057ccc1da3d6e50ae6f5b7a9da041aaf948fdafe230a3a785",
+    "assets/scripts/physics/RigDefinition.ts.meta": "405f43dad640786a3a8703c42679d1c578dda1ef640af5db5da93809a08af8c5",
+    "assets/scripts/presentation.meta": "d35825f46c13d747d82949585a25999ad17398ba0933e65f3b90d85a00e8c350",
+    "assets/scripts/presentation/CharacterSkin.ts": "064df667d64873c99f1f13622903e7eb9a9eeb2065e6528323ba63f90592e174",
+    "assets/scripts/presentation/LabViewport.ts": "d5b3d76c90b30b4b0abd2c892c2e8811a425dfcac43b88839146ffc9325c6e6d",
+    "assets/scripts/presentation/LabViewport.ts.meta": "6caf32ca8534798fe01e6f39483e0e6422fe7f39b1a7e4006fe8f2313ebc441d",
+    "assets/scripts/presentation/PhysicsLab.ts": "f8e39d56d021c1ada050b2a64ea95508702b48913e55f70e66e318548b5f032a",
+    "assets/scripts/presentation/PhysicsLab.ts.meta": "ad8550ee87eb01d3579c3b6fa1975f37e6cad94e6968b0dfc6d4c22b5e057511",
+    "build-templates/web-desktop/index.ejs": "7e94d3b23761ec6cf49738279f4a5e99c6bef139a015e711af5e1872bf204308",
+    "build-templates/web-desktop/index.js.ejs": "3261e8abcc144e24c35964cf792c2b3c9e6c595b4ea02f35e0c2f06951ae3f2f",
+    "configs/README.md": "46556871a4a36b3ca81bd851a3881e2010ed70fedf389179265676d09322ade2",
+    "configs/combat.seed.json": "17aac355219530e6665790badc5b09df9a62674b441746069ce4ad2439c8ada1",
+    "configs/engine.lock.json": "74e8cd5685bc174f7860cab1c14c220ed143c6e8a24581135150c3bffa0d56bb",
+    "configs/levels.seed.json": "5c51ef0ad4bcfc7f308b19ecb6e015243ac5668613ee63887bd249237c469bc6",
+    "configs/platform.seed.json": "ab4147a99f3953d40ac6b964082e1b11b6a4a85a9389d46f3c552cbe06dab4e3",
+    "configs/rig.seed.json": "3c95b6b66678c87c2b92726b36a69355051e4154d8d227c19c4efb9817a0527d",
+    "package-lock.json": "f9a060c18dfbf2d1eedc50c40d5123a624a134d19f8a87905ec478be97ca3f5a",
+    "package.json": "5987f71774178294005eb35703c5e9741ce7f683551cc693c20e6d4d7dfc7131",
+    "scripts/creator-support.mjs": "65a6e3881bacba54083fab4dd866abff0cbd6d89be8f885caa682e4a7f652e49",
+    "scripts/creator.mjs": "b49581c6408240d6a25229479c829781b351b22484f91bff5c0684b9c385422f",
+    "scripts/handoff.mjs": "e8302307f461b9395a43d16d6c52ab1f6070bbe6551ba020fff75727571a8086",
+    "scripts/snapshot-t002.mjs": "a4a99b2587060f4838811fdfb910e2ea708cba75b2f7dc9be3331bdc10dacece",
+    "scripts/snapshot-t003.mjs": "0448bcef024624e8f5e2d5dc7d56af7dd1c3f4abb491a09e95570d35b932e80b",
+    "scripts/verify-t002-web.mjs": "72b67374448b5d97757d846b07f548973ac91af8115f8fa687146b06bcdb064e",
+    "scripts/verify-t003-web.mjs": "cfdba661b5c17ff78d72ee27c03ea0167b8f4bf622643601057b10c4fd0e8990",
+    "scripts/verify-t004-t006-web.mjs": "c60a83394f7193f890e3d322e113e647d790249933a63ebbdd5b4ce073b61857",
+    "scripts/verify-t004-web.mjs": "d78ef9b7ae25166219baae5263ef9639ab448bc47a5414550fcd39ded531f4cd",
+    "scripts/verify.mjs": "674d01f4f67cd0be5bcfd75364edca765b3a76eb85354e757db453cef06dcb5b",
+    "settings/v2/packages/builder.json": "07518c5603d9e18b194d8abfafc9ec709ed7749ca7b4222940de7f4e1a22c6eb",
+    "settings/v2/packages/cocos-service.json": "9314672608271981a777c6ee6abc63cf9e0a58e9d5f304684a8996ea74dc7a4d",
+    "settings/v2/packages/device.json": "93af91e0b90038cedc84d08651f845e1c2e2ae460321c19f083c27a178e451f8",
+    "settings/v2/packages/engine.json": "4f3ab4457fee5624da55da063d3e3025a58fb590309833155e1d28b891157121",
+    "settings/v2/packages/information.json": "cbb733c8bf691ac9d561469cf945b21a23328e68fa694d75ab9f844f1866d754",
+    "settings/v2/packages/program.json": "d914f9f19ffe02724337936d8c7907798c8666566902b78243eb1aa8da0baedd",
+    "settings/v2/packages/project.json": "da960d11ebacdef13fa6b0da14fb997e66f1293e84372ac1d302af4f4942708d",
+    "tests/archery.test.ts": "28d4d67da8bc8db1f451c78023219285c1fe8061eebd7c85aaf52d5003895731",
+    "tests/boot.test.ts": "4a6b51377901b6a53b1da2251e4da6bc7f6717458c69453276615380a51b0e96",
+    "tests/character-assets.test.ts": "1462d445d963f71e3fffe8308389b7e276b1379367f0e934185634299b0145b7",
+    "tests/combatRules.test.ts": "dc0edc8899d31686f6145b996a887790642b163ebf5016f4f3ea4d8f338079c9",
+    "tests/config.test.ts": "ab65d00c73dedb0fd8456572cc7850227c481e666c48a7b7b28f9a56ddaf98f2",
+    "tests/creator.test.mjs": "358399500ae119e4daf87f1cd48bd0b5715aa61ff05c25f0c661c3dab4284770",
+    "tests/future-rules.test.ts": "f2b0721a3a3eee1d7505a87f550c6723ca5ecc080298549793eec3ef7a7904f2",
+    "tests/input.test.ts": "aba9667d34dcec3b6ed068e331106b33c2f0a8dbb6c002b8e3eeb316d093559e",
+    "tests/lab-config.test.ts": "dd5fedcb220d0edd77e1bc28a3c4ff7c9c4909b0c0e0e470e5709ead8152521b",
+    "tests/save.test.ts": "bd63bfaa26ef318017e7fd8fb6dd691f8e69a05b90e97e49e5e872d66e3aa1b2",
+    "tools/config/cli.ts": "ae608b7f177de8b0958cdb14c64d70996014ba7adbda46c347f8a90a3776a0fa",
+    "tools/config/files.ts": "f847350c22e0a8d20ba429cccc0814c604773b4efabe213ebef533c3eb296145",
+    "tools/config/schema.ts": "6816a7e58eaf446872d3decaa31d67441efd6c30b3fd644557443a1226287f06",
+    "tools/config/validate.ts": "bf18be1e570a66bfca958ffafb8e86b5fde07e8903aa5e8e330afd174dbb54bb",
+    "tsconfig.creator.json": "e4c8017b95ff89e794bc2f2f217f593559e4ea05db45cf9e17b704a2c5178e93",
+    "tsconfig.json": "08e75704b9e519ba5846a64ad9546bdd29f27dd0cd94c8781fd227314662d891"
+  },
+  "tasks": [
+    {
+      "id": "T001",
+      "state": "DONE"
+    },
+    {
+      "id": "T002",
+      "state": "DONE"
+    },
+    {
+      "id": "T003",
+      "state": "DONE"
+    },
+    {
+      "id": "T004",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": "T005",
+      "state": "DONE"
+    },
+    {
+      "id": "T006",
+      "state": "DONE"
+    },
+    {
+      "id": "T007",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "T008",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "T009",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": "T010",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": "T011",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": "T012",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": "T013",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": "T014",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": "T015",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "T016",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "T017",
+      "state": "NOT_STARTED"
+    },
+    {
+      "id": "T018",
+      "state": "IN_PROGRESS"
+    }
+  ],
+  "assetsAwaitingEditorMeta": [
+    "assets/resources/characters/README.md",
+    "assets/resources/characters/enemy-atlas.png",
+    "assets/resources/characters/enemy-frames.json",
+    "assets/resources/characters/hero-atlas.png",
+    "assets/resources/characters/hero-frames.json",
+    "assets/scripts/domain/BattleRules.ts",
+    "assets/scripts/domain/PageFlow.ts",
+    "assets/scripts/domain/PickupRules.ts",
+    "assets/scripts/domain/RunSession.ts",
+    "assets/scripts/domain/RuntimeDiagnostics.ts",
+    "assets/scripts/domain/SaveRepository.ts",
+    "assets/scripts/presentation/CharacterSkin.ts"
+  ],
+  "localEditorImportPresent": false,
+  "localWebOutputPresent": false,
+  "acceptance": "NOT_EVALUATED",
+  "note": "Inventory only. Files or historical PASS records do not prove this revision builds or runs. Import new assets in Creator 3.8.8, commit generated meta, then rebuild and validate."
+}

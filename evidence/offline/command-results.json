@@ -1,0 +1,32 @@
+{
+  "baseRevision": "5008d42fcd4df2efd2f33125e50f330c6e6f5ff4",
+  "configVersion": 2,
+  "engineRequired": "3.8.8",
+  "portableVerify": {
+    "exitCode": 0,
+    "tests": 94
+  },
+  "skinSyntax": {
+    "exitCode": 0,
+    "scope": "transpile syntax only; not engine typing"
+  },
+  "handoffReport": {
+    "exitCode": 0,
+    "acceptance": "NOT_EVALUATED"
+  },
+  "commands": [
+    {
+      "command": "npm run env:check",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 2
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 2
+    }
+  ],
+  "runtimeVerified": false
+}

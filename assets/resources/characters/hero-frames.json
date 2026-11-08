@@ -1,0 +1,204 @@
+{
+  "version": 1,
+  "texture": "characters/hero-atlas/texture",
+  "imageSize": [
+    1254,
+    1254
+  ],
+  "sha256": "3770152d3e04360cfac34ecda7f0e51a5db7d2a26dc2794c74db8e864de0a18d",
+  "coordinateOrigin": "top-left",
+  "frames": {
+    "head": {
+      "rect": [
+        59,
+        75,
+        193,
+        195
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "chest": {
+      "rect": [
+        391,
+        70,
+        160,
+        204
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "pelvis": {
+      "rect": [
+        705,
+        129,
+        156,
+        103
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "leftUpperArm": {
+      "rect": [
+        1060,
+        88,
+        74,
+        166
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "leftForearm": {
+      "rect": [
+        121,
+        405,
+        70,
+        164
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "rightUpperArm": {
+      "rect": [
+        433,
+        402,
+        74,
+        167
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "rightForearm": {
+      "rect": [
+        748,
+        405,
+        70,
+        164
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "leftThigh": {
+      "rect": [
+        1051,
+        370,
+        92,
+        224
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "leftShin": {
+      "rect": [
+        117,
+        687,
+        77,
+        216
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "rightThigh": {
+      "rect": [
+        424,
+        684,
+        92,
+        225
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "rightShin": {
+      "rect": [
+        744,
+        687,
+        77,
+        216
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "bow": {
+      "rect": [
+        1059,
+        665,
+        97,
+        256
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "normal": {
+      "rect": [
+        43,
+        1070,
+        228,
+        56
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "impact": {
+      "rect": [
+        355,
+        1056,
+        231,
+        81
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "piercing": {
+      "rect": [
+        668,
+        1070,
+        231,
+        55
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "helmet": {
+      "rect": [
+        998,
+        1031,
+        199,
+        126
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    }
+  }
+}

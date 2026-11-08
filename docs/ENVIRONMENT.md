@@ -97,3 +97,6 @@ T002_EVIDENCE_DIR=evidence/T004/bow-draw/t002-regression npm run test:web:t002
 - 没有 Creator 3.8.8 与 temp/declarations，不复用上述 macOS 的验收结论。env:check 退出 0 但输出 blockers；typecheck:engine / build:web 退出 2。
 - tsx CLI 启动 IPC socket 遇到 EPERM；npm 脚本改用同一已锁定依赖的 node --import tsx。npm run verify 随后退出 0，76 项测试通过。
 - 本轮证据位于 evidence/T004/reference-review；未产生新的 WebGL 构建或物理录像。
+
+## 独立工作与角色图集检查（2026-11-08）
+本轮基线 `5008d42`。94 项无引擎测试、配置/漂移、便携类型检查通过；CharacterSkin / PhysicsLab 新接入仅通过 TypeScript transpile 语法检查，非引擎检查。新增命令 `npm run handoff:report`，输出源码哈希、任务状态及待编辑器生成 meta 的清单，acceptance 始终 NOT_EVALUATED。两张 PNG 为 1254×1254 RGBA，alpha 范围 0–255，逐片边界及 SHA-256 有测试。Creator/真实声明缺失，未增加引擎构建或 WebGL PASS。详见 evidence/offline 与 docs/OFFLINE_HANDOFF.md。

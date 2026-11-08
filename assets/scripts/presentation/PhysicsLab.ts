@@ -11,6 +11,7 @@ import { PoseController, type PoseName } from '../physics/PoseController';
 import { ProjectileSystem, TIP_OFFSET_M } from '../combat/ProjectileSystem';
 import { HitResolver, type ActorCombatState } from '../combat/HitResolver';
 import { LabViewport } from './LabViewport';
+import { CharacterSkin } from './CharacterSkin';
 
 const { ccclass } = _decorator;
 const color = (hex: string): Color => new Color().fromHEX(hex);
@@ -72,6 +73,7 @@ export class PhysicsLab extends Component {
   private dirty = true;
   private ragdollFactory: RagdollFactory | null = null;
   private ragdolls: RagdollInstance[] = [];
+  private skins: CharacterSkin[] = [];
   private playerAim!: AimController;
   private enemyAim!: AimController;
   private projectiles!: ProjectileSystem;
@@ -118,6 +120,12 @@ export class PhysicsLab extends Component {
       this.ragdollFactory.spawn(world, 'PlayerRagdoll', [3.5, 3.41], '#63C6C9'),
       this.ragdollFactory.spawn(world, 'EnemyRagdoll', [18, 3.41], '#E98575'),
     ];
+    this.skins = this.ragdolls.map(actor => new CharacterSkin(actor, config.rig));
+    this.skins.forEach((skin, index) => {
+      void skin.load(index === 0 ? 'hero' : 'enemy').catch(error => {
+        console.warn('[PhysicsLab] 角色图片加载失败，保留灰盒：', error);
+      });
+    });
     this.playerAim = new AimController(this.ragdolls[0], new PoseController(this.ragdolls[0], config.rig, config.bowControl));
     this.enemyAim = new AimController(this.ragdolls[1], new PoseController(this.ragdolls[1], config.rig, config.bowControl));
     this.playerAim.setPose('standing');
@@ -178,6 +186,7 @@ export class PhysicsLab extends Component {
     game.off(Game.EVENT_SHOW, this.show, this);
     if (typeof window !== 'undefined') window.removeEventListener('blur', this.cancel);
     this.projectiles?.clear();
+    for (const skin of this.skins) skin.dispose();
     this.ragdollFactory?.dispose();
     this.overlay?.destroy();
     this.physics?.dispose();

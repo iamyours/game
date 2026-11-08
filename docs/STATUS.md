@@ -40,3 +40,8 @@ selectedTapTapPath: Android APK 默认方案，待 T016 核实
 - T004 新增松手拒射原因、步号和 UI 提示，保持不穿身/穿台、不延迟补射；方向提示从约 0.819 秒纠正为 PRD 的 0.15 秒。
 - 当前 Linux 环境 `npm run verify` 退出 0，76 项测试通过；引擎声明/Creator 缺失，`typecheck:engine` 与 `build:web` 均 BLOCKED（退出 2），不得沿用旧机运行结果宣称本次物理通过。
 - T004 仍 IN_PROGRESS，AC04 与 G1 不放行。首轮补丁代码已完成，待在 Creator 3.8.8 构建后复测三姿态；证据见 `evidence/T004/reference-review/`。
+
+## 独立规则与角色素材（2026-11-08）
+基线 main @ 5008d42。按用户 D017 授权提前完成无引擎子项：敌人攻击调度/预测瞄准、体力与共享冷却、三关九波/清箭事件、补给、页面状态、存档迁移/解锁/去重、生命周期与性能采样、交接清单工具。新增规则均未挂到 PhysicsLab，正式游戏流程待 G1。
+按 D018 提前生成两套原创透明 RGBA 角色图集、32 个部件和描述表；CharacterSkin 已接到 PhysicsLab，以真实物理节点的子 Sprite 替换灰盒显示，加载失败回退。弓箭/头盔切片提供素材但未接装备表现。
+本轮 94 项测试、配置/漂移和便携 TypeScript 检查 PASS；新引擎适配代码仅检查 TS 语法，缺 Creator 和真实声明，未构建或运行。新资源/脚本 meta 待真实导入。T009/10/11/12/13/14/18 为 IN_PROGRESS（独立子项 CODE_READY），T015/16/17 保持 NOT_STARTED；T004/AC04/G1 仍未放行。证据：evidence/offline/verification.md；接入清单：docs/OFFLINE_HANDOFF.md。

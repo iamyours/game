@@ -69,3 +69,13 @@ Boot 成功加载同哈希 manifest/combat 后程序生成 `PhysicsLab/World` �
 
 ### 空间力度
 InputRouter.drawProgress 由设计坐标拖距映射而非计时自动填满；ShotIntent 冻结 strength。`domain/archery.applyDrawStrength` 是预览和实射唯一力度映射，生成独立的本箭配置（速度、基础伤害、冲量），HitResolver 使用该配置，不改共享种子。最小按住时间与冷却不代表力度。
+
+### 已实现的独立规则与视觉适配
+- domain/BattleRules：ShotBudget、AttackSlots、EnemyAttack、ballisticAngles/predictAim；只接受固定步与值类型，不引入第二套物理世界。
+- domain/RunSession：三波、draining、波间、安全清箭事件、同一步失败优先与唯一终态。
+- domain/PickupRules：有界补给、TTL、阵营与单次收取；可达点由真实世界提供。
+- domain/SaveRepository、PageFlow：存档迁移、去重、失败重试及页面状态；StoragePort 由平台注入。
+- domain/RuntimeDiagnostics：生命周期清输入与时间重置契约、有限采样/30 次重开趋势；无真实样本时不输出 PASS。
+- presentation/CharacterSkin：动态加载 Texture2D 和切片描述；Sprite 仅挂在物理节点子层，显示尺寸来自 RigDefinition，保留灰盒回退。
+
+除 CharacterSkin 外，以上新模块尚未接入 Boot/PhysicsLab，不能与已有 InputRouter 冷却叠加运行。接入步骤及边界见 OFFLINE_HANDOFF.md。

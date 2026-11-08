@@ -1,5 +1,5 @@
 import type { SeedPack } from '../../../tools/config/schema.js';
-import { validTime } from './BattleRules.js';
+import { validTime } from './BattleRules';
 
 type Level = SeedPack['levels']['levels'][number];
 export type RunPhase = 'fighting' | 'draining' | 'transition' | 'won' | 'lost';

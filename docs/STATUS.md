@@ -5,7 +5,7 @@ currentMilestone: M1
 currentTask: T004
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003
-sourceRevision: 本轮基线 main @ 1906406；后续源码与验证记录见关联提交
+sourceRevision: 本轮基线 main @ 2c8290f + Creator 编译修复提交；远端待推送
 configVersion: 2
 runtimeVerified: 否（T003 左右骨架 WebGL 已实测；完整玩法种子未验收）
 feelGateG1: NOT_RUN
@@ -45,3 +45,9 @@ selectedTapTapPath: Android APK 默认方案，待 T016 核实
 基线 main @ 5008d42。按用户 D017 授权提前完成无引擎子项：敌人攻击调度/预测瞄准、体力与共享冷却、三关九波/清箭事件、补给、页面状态、存档迁移/解锁/去重、生命周期与性能采样、交接清单工具。新增规则均未挂到 PhysicsLab，正式游戏流程待 G1。
 按 D018 提前生成两套原创透明 RGBA 角色图集、32 个部件和描述表；CharacterSkin 已接到 PhysicsLab，以真实物理节点的子 Sprite 替换灰盒显示，加载失败回退。弓箭/头盔切片提供素材但未接装备表现。
 本轮 94 项测试、配置/漂移和便携 TypeScript 检查 PASS；新引擎适配代码仅检查 TS 语法，缺 Creator 和真实声明，未构建或运行。新资源/脚本 meta 待真实导入。T009/10/11/12/13/14/18 为 IN_PROGRESS（独立子项 CODE_READY），T015/16/17 保持 NOT_STARTED；T004/AC04/G1 仍未放行。证据：evidence/offline/verification.md；接入清单：docs/OFFLINE_HANDOFF.md。
+
+## Creator 编译修复（2026-11-08）
+- 真机环境 Creator 3.8.8 导入后发现：新增规则使用 `./BattleRules.js` 等运行时导入时，Cocos QuickCompiler 未映射到 `.ts`；`CharacterSkin` 的资源类型与 `Asset.addRef()` 声明也不兼容。已改为编辑器兼容的无扩展名 assets 导入、运行时 Texture2D 校验并修正引用持有方式。
+- `npx tsc --project tsconfig.creator.json --noEmit`、`npx tsc --project tsconfig.json --noEmit` 与 `npm run verify` 均退出 0；94 项测试通过。
+- 在干净临时 worktree 中重跑 Creator 3.8.8 `npm run build:web`，包装器退出 0、Creator 原始成功码 36；产物随后通过 WebGL 2 启动烟测，Boot 创建 PhysicsLab，`b2PhysicsWorld` 正常，无页面错误或失败请求。
+- 新脚本与角色资源的 `.meta` 已由本机 Creator 生成并随本次修复提交。关闭修复前卡住的旧编辑器实例后，当前工作区也完成标准构建和启动烟测；这不替代 T004/AC04 或 G1。证据见 `evidence/T004/creator-compile-fix/`。

@@ -17,7 +17,11 @@ export class CharacterSkin {
   public async load(skin: 'hero' | 'enemy'): Promise<void> {
     const [texture, spec] = await Promise.all([
       new Promise<Texture2D>((resolve, reject) => resources.load(`characters/${skin}-atlas/texture`, Texture2D,
-        (error, asset) => error ? reject(error) : resolve(asset))),
+        (error, asset) => {
+          if (error) return reject(error);
+          if (!(asset instanceof Texture2D)) return reject(new Error('角色图集资源类型无效'));
+          resolve(asset);
+        })),
       new Promise<AtlasSpec>((resolve, reject) => resources.load(`characters/${skin}-frames`, JsonAsset,
         (error, asset) => error ? reject(error) : resolve(asset.json as AtlasSpec))),
     ]);
@@ -29,7 +33,8 @@ export class CharacterSkin {
         frame.rect[0] < 0 || frame.rect[1] < 0 || frame.rect[0] + frame.rect[2] > texture.width ||
         frame.rect[1] + frame.rect[3] > texture.height) throw new Error(`角色切片无效：${part.id}`);
     }
-    this.texture = texture.addRef();
+    texture.addRef();
+    this.texture = texture;
     // Validate all frames before touching the existing grey-box fallback.
     for (const part of this.rig.bodyDefinitions) {
       const body = this.actor.bodyNodes.get(part.id)!;

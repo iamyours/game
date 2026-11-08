@@ -64,3 +64,6 @@ PhysicsAdapter 的手动步必须同时维护锁定引擎的反馈保护：物�
 
 ## D019 存档与波间规则细化
 2026-11-08。本地 v1 增加 settlements（runId/levelId/outcome）用于持久化结算去重；不会保存刚体状态。支持明确约定的 v0 completedLevels/soundEnabled 迁移，该格式是本轮兼容契约，不声称曾有已发布旧版。坏档/迁移先保留原文；备份失败禁止覆盖原档；未来版本只读，避免降级损坏。波清后进入 draining，先禁止新射击并等待在途敌箭产生真实后果，再清空残余箭、进入 1.5 秒波间；同一步玩家死亡优先失败。
+
+## D020 Creator assets 导入与双环境类型检查
+2026-11-08。Cocos Creator 3.8.8 QuickCompiler 不把 `assets` 内运行时相对导入的 `.js` 说明符映射到对应 `.ts` 文件；运行时依赖统一使用无扩展名路径，类型专用导入除外。便携 Node 检查改用 ESNext + Bundler，继续通过 `node --import tsx` 执行测试。`Texture2D` 加载结果必须做运行时类型校验，`addRef()` 的声明返回 `Asset` 时不得直接赋给纹理字段。该兼容修复不改变发布范围、物理规则或验收状态。

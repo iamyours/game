@@ -1,6 +1,6 @@
 import type { SeedPack } from '../../../tools/config/schema.js';
-import { RunSession } from './RunSession.js';
-import { SaveRepository } from './SaveRepository.js';
+import { RunSession } from './RunSession';
+import { SaveRepository } from './SaveRepository';
 
 /** Engine-independent navigation; UI and world mounting remain adapter responsibilities. */
 export class PageFlow {

@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "date": "2026-11-08",
+  "creatorVersion": "3.8.8",
+  "browser": "Chrome 150.0.7871.125",
+  "buildWrapperExitCode": 0,
+  "creatorRawExitCode": 36,
+  "buildSource": "current workspace build/web-desktop",
+  "runtime": {
+    "scene": "Boot",
+    "physicsLabCreated": true,
+    "physicsWorld": "b2PhysicsWorld",
+    "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  "scope": "compiled WebGL startup only; not T004/AC04, G1, device or feel acceptance"
+}

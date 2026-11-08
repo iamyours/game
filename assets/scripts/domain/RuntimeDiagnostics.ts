@@ -1,4 +1,4 @@
-import { validTime } from './BattleRules.js';
+import { validTime } from './BattleRules';
 
 export interface LifecyclePort { clearInput(): void; setPaused(value: boolean): void; resetTime(): void }
 /** Host callbacks forward events here; resume never resumes a held/released shot. */

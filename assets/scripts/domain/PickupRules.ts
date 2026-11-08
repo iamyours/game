@@ -1,5 +1,5 @@
 import type { SeedPack } from '../../../tools/config/schema.js';
-import { randomUnit, validTime } from './BattleRules.js';
+import { randomUnit, validTime } from './BattleRules';
 
 export interface Pickup { readonly id: number; readonly kind: 'red' | 'green'; readonly x: number; readonly y: number; readonly expiresAt: number }
 /** Reachability and line-of-sight are supplied by the world, never guessed here. */

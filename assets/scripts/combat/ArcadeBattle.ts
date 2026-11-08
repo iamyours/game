@@ -101,7 +101,7 @@ export class ArcadeBattle {
     const corpses = this.enemies.filter(e => e.deadAt !== null);
     while (corpses.length > this.cfg.limits.maxCorpses) this.remove(corpses.shift()!);
     for (let i = this.drops.length - 1; i >= 0; i--) if (this.drops[i]!.until <= this.elapsed) {
-      this.drops[i]!.node.destroy(); this.drops.splice(i, 1);
+      P.retire(this.drops[i]!.node); this.drops.splice(i, 1);
     }
     if (player.hp > 0 && !this.current && this.elapsed >= this.spawnRetryAt &&
       (this.initialSpawnPending || this.cycle.canSpawn(true))) this.spawn();
@@ -121,7 +121,7 @@ export class ArcadeBattle {
   }
   public reset(): void {
     for (const enemy of [...this.enemies]) this.remove(enemy);
-    for (const drop of this.drops) drop.node.destroy(); this.drops.length = 0;
+    for (const drop of this.drops) P.retire(drop.node); this.drops.length = 0;
     this.injuries.clear(); this.fatalHeads.clear(); this.enemyShots = this.rejectedShots = 0;
     this.cycle.reset(); this.spawnRetryAt = 0; this.initialSpawnPending = true;
     this.clearPickups(); this.pickupRules = new PickupRules(this.cfg.pickups, Math.random);
@@ -134,12 +134,12 @@ export class ArcadeBattle {
   public dispose(): void {
     this.clearPickups();
     for (const enemy of [...this.enemies]) this.remove(enemy);
-    for (const drop of this.drops) drop.node.destroy(); this.drops.length = 0;
+    for (const drop of this.drops) P.retire(drop.node); this.drops.length = 0;
     this.graphics.node.destroy();
   }
   private clearPickups(): void {
     this.pickupRules.clear();
-    for (const node of this.pickupNodes.values()) { this.projectiles.unregisterPickup(node); node.destroy(); }
+    for (const node of this.pickupNodes.values()) { this.projectiles.unregisterPickup(node); P.retire(node); }
     this.pickupNodes.clear();
   }
   private stepPickups(dt: number): void {
@@ -147,7 +147,7 @@ export class ArcadeBattle {
     const pickup = this.pickupRules.step(dt, true, () => this.pickupPoint());
     const retained = new Set(this.pickupRules.snapshot.map(p => p.id));
     for (const [id, node] of this.pickupNodes) if (!retained.has(id)) {
-      this.projectiles.unregisterPickup(node); node.destroy(); this.pickupNodes.delete(id);
+      this.projectiles.unregisterPickup(node); P.retire(node); this.pickupNodes.delete(id);
     }
     if (!pickup) return;
     const node = new Node(`Pickup_${pickup.id}`); node.layer = this.world.layer; node.parent = this.world;
@@ -162,7 +162,7 @@ export class ArcadeBattle {
       if (this.states.get(this.player.id)!.hp <= 0) return;
       const effect = this.pickupRules.collect(pickup.id, 'player');
       if (effect) this.onPickup(effect);
-      this.projectiles.unregisterPickup(node); node.destroy(); this.pickupNodes.delete(pickup.id);
+      this.projectiles.unregisterPickup(node); P.retire(node); this.pickupNodes.delete(pickup.id);
     });
   }
   private pickupPoint(): { x: number; y: number } | null {
@@ -252,7 +252,7 @@ export class ArcadeBattle {
     const g = node.addComponent(Graphics); g.strokeColor = new Color(230, 170, 85, 255); g.lineWidth = P.units(0.05);
     g.moveTo(0, P.units(-0.35)); g.quadraticCurveTo(P.units(0.35), 0, 0, P.units(0.35)); g.stroke();
     const v = enemy.actor.bodies.get('rightForearm')!.linearVelocity; P.setVelocity(bow, v.x, v.y, 2);
-    while (this.drops.length >= this.cfg.limits.maxPhysicalEquipmentDrops) this.drops.shift()!.node.destroy();
+    while (this.drops.length >= this.cfg.limits.maxPhysicalEquipmentDrops) P.retire(this.drops.shift()!.node);
     this.drops.push({ node, until: this.elapsed + this.cfg.arcade.cleanupSec });
 
   }
@@ -260,7 +260,7 @@ export class ArcadeBattle {
     const index = this.enemies.indexOf(enemy);
     if (index < 0) return;
     this.enemies.splice(index, 1);
-    this.projectiles.unregisterActor(enemy.actor); enemy.skin.dispose(); this.factory.remove(enemy.actor); enemy.platform.destroy();
+    this.projectiles.unregisterActor(enemy.actor); enemy.skin.dispose(); this.factory.remove(enemy.actor); P.retire(enemy.platform);
     this.states.delete(enemy.actor.id); this.injuries.delete(enemy.actor.id); this.fatalHeads.delete(enemy.actor.id);
     const i = this.actors.indexOf(enemy.actor); if (i >= 0) this.actors.splice(i, 1);
     if (!this.current) this.onSpawn(null);

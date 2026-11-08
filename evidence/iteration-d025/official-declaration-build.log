@@ -1,0 +1,42 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cocos-creator@3.8.8 build:declaration
+> npm run build:const && node ./scripts/build-declarations
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cocos-creator@3.8.8 build:const
+> node ./scripts/build-const.js
+
+==================== Build const ====================
+
+Generate consts.d.ts: /tmp/cocos-engine-3.8.8/@types/consts.d.ts
+
+==================== Build declarations ====================
+Typescript version: 4.9.5
+With index: true
+With exports: false
+With editor exports: true
+Unbundled will write to: /tmp/cocos-engine-3.8.8/__dts_before_bundle
+Generating...
+It's 11/8/2026, 11:49:38 PM, we're still doing the hack for spine-core.d.ts
+Bundling...
+DeprecationWarning: '' has been deprecated since v4.0.0. Use the appropriate method on 'ts.factory' or the 'factory' supplied by your transformation context instead.
+Failed to resolve type import("../foundation/node-shell").NodeInputPath, There is no symbol info.
+DeprecationWarning: 'createIndexSignature' has been deprecated since v4.8.0. Decorators are no longer supported for this function. Callers should switch to an overload that does not accept a 'decorators' parameter.
+Don't know how to handle type `#${string}`(Syntax Kind: TemplateLiteralType)
+Failed to resolve type import('pal/audio/type').AudioLoadOptions, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioLoadOptions, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioLoadOptions, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioType, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioState, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioPCMDataView, There is no symbol info.
+Don't know how to handle type `${x}`(Syntax Kind: TemplateLiteralType)
+Don't know how to handle type `${x}`(Syntax Kind: TemplateLiteralType)
+Failed to resolve type import('pal/input/input-source').InputSourceButton, There is no symbol info.
+Failed to resolve type import('pal/input/input-source').InputSourceDpad, There is no symbol info.
+Failed to resolve type import('pal/input/input-source').InputSourceStick, There is no symbol info.
+Failed to resolve type import('pal/input/input-source').InputSourcePosition, There is no symbol info.
+Failed to resolve type import('pal/input/input-source').InputSourceOrientation, There is no symbol info.
+Don't know how to handle element enable of interface
+Don't know how to handle element enable of interface

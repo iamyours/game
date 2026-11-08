@@ -176,7 +176,7 @@ class RagdollInstanceImpl implements RagdollInstance {
   public destroy(): void {
     if (this.destroyed) return;
     this.destroyed = true;
-    this.root.destroy();
+    Physics.retire(this.root);
   }
 }
 

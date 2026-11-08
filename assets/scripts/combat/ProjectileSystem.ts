@@ -3,6 +3,7 @@ import { PhysicsAdapter as Physics } from '../physics/PhysicsAdapter';
 import type { BowSocketSnapshot } from '../physics/AimController';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import type { RagdollInstance } from '../physics/RagdollFactory';
+import { eventCallbackCount } from '../domain/RuntimeDiagnostics';
 
 type Point = { x: number; y: number };
 export type ProjectileArrowConfig = PhysicsLabConfig['arrows'][number];
@@ -16,7 +17,8 @@ interface Flight {
   id: number; slot: Slot; arrow: ProjectileArrowConfig; shooter: string;
   previous: Point; velocity: Point; born: number; angle: number;
 }
-interface Slot { node: Node; body: RigidBody2D; graphics: Graphics; flight?: Flight }
+type ContactCallback = (self: Collider2D, other: Collider2D, contact: IPhysics2DContact | null) => void;
+interface Slot { node: Node; body: RigidBody2D; collider: Collider2D; graphics: Graphics; onContact: ContactCallback | null; flight?: Flight }
 const palette: Record<string, string> = { normal: '#F7C66F', impact: '#F29983', piercing: '#BCAEF6' };
 function drawArrow(g: Graphics, id: string): void {
   g.clear(); g.strokeColor = new Color().fromHEX(palette[id] ?? '#F7C66F'); g.lineWidth = Physics.units(0.035);
@@ -46,6 +48,15 @@ export class ProjectileSystem {
   public get count(): number { return this.flying.size; }
   public get embeddedCount(): number { return this.embedded.length; }
   public get poolSize(): number { return this.flying.size + this.spare.length; }
+  public get contactListenerCount(): number | null {
+    let total = 0;
+    for (const slot of [...this.spare, ...Array.from(this.flying.values(), flight => flight.slot)]) {
+      const count = eventCallbackCount(slot.collider, { callback: slot.onContact });
+      if (count === null) return null;
+      total += count;
+    }
+    return total;
+  }
   public registerPickup(node: Node, collect: () => void): void { this.pickups.set(node.name, { node, collect }); }
   public unregisterPickup(node: Node): void { this.pickups.delete(node.name); }
   public registerActor(actor: RagdollInstance): void {
@@ -133,6 +144,15 @@ export class ProjectileSystem {
     this.embedded.length = this.queue.length = 0;
   }
 
+  public dispose(): void {
+    this.clear();
+    for (const slot of this.spare) {
+      if (slot.onContact) slot.collider.off(Contact2DType.BEGIN_CONTACT, slot.onContact);
+      Physics.retire(slot.node);
+    }
+    this.spare.length = 0; this.targets.clear(); this.pickups.clear();
+  }
+
   private get mask(): number { return this.config.rig.collisionGroups.platform | this.config.rig.collisionGroups.ragdoll; }
   private tip(socket: BowSocketSnapshot, length: number): Point {
     return { x: socket.x + Math.cos(socket.angleRad) * length, y: socket.y + Math.sin(socket.angleRad) * length };
@@ -150,8 +170,8 @@ export class ProjectileSystem {
     const collider = node.addComponent(CircleCollider2D);
     collider.group = body.group; collider.radius = Physics.units(0.035); collider.density = 0.5; collider.friction = 0;
     const visual = new Node('Shaft'); visual.layer = node.layer; visual.parent = node;
-    const slot: Slot = { node, body, graphics: visual.addComponent(Graphics) };
-    collider.on(Contact2DType.BEGIN_CONTACT, (self: Collider2D, other: Collider2D, contact: IPhysics2DContact | null) => {
+    const slot: Slot = { node, body, collider, graphics: visual.addComponent(Graphics), onContact: null };
+    slot.onContact = (self: Collider2D, other: Collider2D, contact: IPhysics2DContact | null) => {
       const shot = slot.flight;
       if (!shot || !contact) return;
       const { points, normal } = contact.getWorldManifold();
@@ -161,7 +181,8 @@ export class ProjectileSystem {
       const travel = Math.hypot(shot.velocity.x, shot.velocity.y) * this.config.physics.fixedTimeStepSec;
       const fraction = Math.min(1, Math.hypot(point.x - shot.previous.x, point.y - shot.previous.y) / Math.max(1e-6, travel));
       this.enqueue(shot, other, point, { x: normal.x * sign, y: normal.y * sign }, 'contact', fraction);
-    });
+    };
+    collider.on(Contact2DType.BEGIN_CONTACT, slot.onContact);
     return slot;
   }
   private enqueue(shot: Flight, collider: Collider2D, pointM: Point, normal: Point, source: HitCandidate['source'], fraction: number): void {

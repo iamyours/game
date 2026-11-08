@@ -1,0 +1,13 @@
+{
+  "version": "3.8.8",
+  "repository": "https://github.com/cocos/cocos-engine.git",
+  "tag": "3.8.8",
+  "commit": "411f98df047c25902f93440d4b22925c2fb65461",
+  "external": {
+    "repository": "https://github.com/cocos/cocos-engine-external.git",
+    "tag": "v3.8.8-2",
+    "commit": "c16ca649a9ab3c40543e989609c34d7bcecf8b7e"
+  },
+  "declarationCommand": "npm run build:declaration",
+  "note": "Optional official-source API typing only. This does not replace the Creator 3.8.8 project import, generated meta, editor typecheck, build or runtime evidence. Do not change the project's engine.lock.json based on this check."
+}

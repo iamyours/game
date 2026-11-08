@@ -57,6 +57,13 @@ export class PhysicsAdapter {
     body.linearVelocity = new Vec2(xMps, yMps);
     body.angularVelocity = radiansPerSec;
   }
+  /** Called only outside a native step. Stop colliders now; Node.destroy itself is frame-deferred. */
+  public static retire(node: Node): void {
+    if (!node.isValid) return;
+    node.active = false;
+    node.destroy();
+  }
+
   public static applyImpulse(body: RigidBody2D, xNs: number, yNs: number, worldXM: number, worldYM: number): void {
     body.applyLinearImpulse(new Vec2(xNs, yNs), new Vec2(this.units(worldXM), this.units(worldYM)), true);
   }

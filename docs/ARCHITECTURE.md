@@ -1,3 +1,9 @@
+# D025 生命周期与验证补充
+
+PhysicsAdapter.retire在native step之外先设node.active=false，再调用帧末destroy。ProjectileSystem.dispose显式解除池槽接触监听，释放节点和索引；重开仍clear复用池。
+RuntimeDiagnostics.eventCallbackCount只读锁定版本Eventify结构，对本lab拥有的input/view/game回调与箭池接触回调分别计数，未知返回null，排除DOM/OS。PhysicsLab和稳定性脚本记录该scope，不使用静态常量表示实际数量。
+官方源码API检查见docs/ENGINE_SOURCE_CHECK.md，完全独立于Creator生成配置与构建路径。
+
 # D024 当前接线索引
 
 以下为当前范围，后文“除CharacterSkin外均未接线”等为历史记录：

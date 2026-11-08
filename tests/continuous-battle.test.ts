@@ -136,3 +136,20 @@ test('敌人骨架在米制配置镜像，关节锚点/限位及握点一致，�
   assert.equal(base.bodyDefinitions[0]!.massKg * cfg.arcade.heavyMassMultiplier, rig.bodyDefinitions[0]!.massKg);
   assert.throws(() => variantRig(base, NaN));
 });
+
+test('监听采样读取实际callback表，区分其他拥有者、取消槽和未知后端', async () => {
+  const { eventCallbackCount } = await import('../assets/scripts/domain/RuntimeDiagnostics.js');
+  const owner = {}, other = {}, first = () => {}, second = () => {};
+  const source = { _eventTarget: { _callbackTable: {
+    touch: { callbackInfos: [{ target: owner, callback: first }, null, { target: other, callback: second }] },
+    hide: { callbackInfos: [{ target: owner, callback: first }] },
+  } } };
+  assert.equal(eventCallbackCount(source), 3);
+  assert.equal(eventCallbackCount(source, { owner }), 2);
+  assert.equal(eventCallbackCount(source, { callback: second }), 1);
+  source._eventTarget._callbackTable.hide.callbackInfos.length = 0;
+  assert.equal(eventCallbackCount(source, { owner }), 1);
+  assert.equal(eventCallbackCount({}), null);
+  assert.equal(eventCallbackCount({ _callbackTable: { bad: {} } }), null);
+  assert.equal(eventCallbackCount({ _callbackTable: {} }), 0);
+});

@@ -1,15 +1,23 @@
-# 当前状态（D024）
+# 当前状态（D025）
 
-version: V2.1
+version: V2.2
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: main b121eb7基础上的D024修改；当前源码文件哈希见evidence/iteration-d024/source-manifest.json
+sourceRevision: D024已推送main 2fcf37c；本轮D025文件哈希见evidence/iteration-d025/source-manifest.json
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（缺当前Creator构建与试玩）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D025 继续执行结果
+
+D024已先推送至main 2fcf37c。随后修复延迟销毁残留碰撞、显式释放箭池回调/索引，并增加本lab拥有的Cocos回调实际计数和销毁验收脚本。T005/T006当前任务卡状态已纠正为IN_PROGRESS。
+
+新增typecheck:engine-source：119项便携检查、28脚本语法及官方3.8.8源码生成声明的项目API类型检查通过。官方源提交、external版本、声明哈希和生成器警告均保存，未伪造Creator导入。详情docs/ENGINE_SOURCE_CHECK.md、evidence/iteration-d025。
+
+实际Creator typecheck/build和arcade/stability仍因缺编辑器/当前构建退出2。Cocos监听观测范围只含本lab和箭池，DOM/OS未覆盖。T008/G1、T014实际15分钟/30次重开、T015/T016渠道、T017/T018发布验收仍BLOCKED或IN_PROGRESS；未把代码检查当作运行通过。
 
 ## 本轮已执行
 

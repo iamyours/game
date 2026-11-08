@@ -1,5 +1,27 @@
 import { validTime } from './BattleRules';
 
+/** Read-only, feature-detected 3.8.8 Eventify inventory. This excludes browser/OS listeners. */
+export function eventCallbackCount(source: unknown, filter: { owner?: unknown; callback?: unknown } = {}): number | null {
+  if (!source || typeof source !== 'object') return null;
+  const wrapper = source as { _eventTarget?: unknown; _callbackTable?: unknown };
+  const target = wrapper._eventTarget ?? source;
+  if (!target || typeof target !== 'object') return null;
+  const table = (target as { _callbackTable?: unknown })._callbackTable;
+  if (!table || typeof table !== 'object' || Array.isArray(table)) return null;
+  let count = 0;
+  for (const list of Object.values(table)) {
+    if (!list || typeof list !== 'object' || !('callbackInfos' in list) || !Array.isArray(list.callbackInfos)) return null;
+    for (const info of list.callbackInfos) {
+      if (info === null) continue;
+      if (!info || typeof info !== 'object' || typeof info.callback !== 'function') return null;
+      if ('owner' in filter && info.target !== filter.owner) continue;
+      if ('callback' in filter && info.callback !== filter.callback) continue;
+      count++;
+    }
+  }
+  return count;
+}
+
 export interface LifecyclePort { clearInput(): void; setPaused(value: boolean): void; resetTime(): void }
 /** Host callbacks forward events here; resume never resumes a held/released shot. */
 export class LifecycleRules {
@@ -59,7 +81,8 @@ export class RuntimeDiagnostics {
   }
   private check(sample: RuntimeSample): void {
     validTime(sample.frameMs);
-    for (const n of [sample.bodies, sample.joints, sample.listeners]) if (n !== null && (!Number.isInteger(n) || n < 0)) throw new Error('资源计数无效');
+    for (const n of [sample.bodies, sample.joints]) if (!Number.isInteger(n) || n < 0) throw new Error('资源计数无效');
+    if (sample.listeners !== null && (!Number.isInteger(sample.listeners) || sample.listeners < 0)) throw new Error('监听计数无效');
     if (sample.memoryBytes !== null) validTime(sample.memoryBytes);
   }
 }

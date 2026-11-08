@@ -118,3 +118,6 @@ T002_EVIDENCE_DIR=evidence/T004/bow-draw/t002-regression npm run test:web:t002
 
 ## D024 当前Linux执行环境（2026-11-08）
 main b121eb7克隆到工作区并按锁文件安装依赖；118项便携检查通过、28脚本语法通过。未发现Creator3.8.8，也没有temp/tsconfig.cocos.json；typecheck:engine/build:web均退出2。运行与稳定性脚本因缺当前构建退出2（BLOCKED）。旧macOS编辑器与构建证据仅适用各自历史源码。原生工具链、微信宿主和真机也不在本环境，不能执行渠道放行。日志evidence/iteration-d024；后续命令docs/CONTINUOUS_HANDOFF.md。
+
+## D025 官方源码API检查
+实际克隆官方engine 3.8.8及其external v3.8.8-2，在工程外运行原声明生成脚本，再执行typecheck:engine-source：项目API类型检查通过。119项便携检查与28脚本语法通过。未修改项目engine.lock；Creator导入/构建与运行仍缺环境。官方声明生成器有警告，日志和哈希见evidence/iteration-d025；复现docs/ENGINE_SOURCE_CHECK.md。

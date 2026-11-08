@@ -15,7 +15,7 @@ import { ArcadeBattle } from '../combat/ArcadeBattle';
 import { CharacterSkin } from './CharacterSkin';
 import { ShotBudget, type ShotRejection } from '../domain/BattleRules';
 import { ArcadeRecordRepository } from '../domain/SaveRepository';
-import { RuntimeDiagnostics } from '../domain/RuntimeDiagnostics';
+import { eventCallbackCount, RuntimeDiagnostics } from '../domain/RuntimeDiagnostics';
 
 const { ccclass } = _decorator;
 const color = (hex: string): Color => new Color().fromHEX(hex);
@@ -214,7 +214,7 @@ export class PhysicsLab extends Component {
       if (counts) {
         const memoryBytes = typeof performance === 'undefined' ? null :
           (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize ?? null;
-        const sample = { ...counts, frameMs: dt * 1000, memoryBytes, listeners: null };
+        const sample = { ...counts, frameMs: dt * 1000, memoryBytes, listeners: this.listenerCounts().cocosTotal };
         this.diagnostics.sample(sample);
         if (this.restartSampleStep !== null && this.physics!.steps >= this.restartSampleStep) {
           this.diagnostics.restart(sample); this.restartSampleStep = null;
@@ -238,7 +238,7 @@ export class PhysicsLab extends Component {
     this.records?.flush();
     this.soundSource?.stop();
     for (const clip of this.audioClips.values()) clip.decRef(); this.audioClips.clear();
-    this.projectiles?.clear();
+    this.projectiles?.dispose();
     this.arcade?.dispose();
     for (const skin of this.skins) skin.dispose();
     this.ragdollFactory?.dispose();
@@ -255,7 +255,7 @@ export class PhysicsLab extends Component {
     return { arcade: this.arcade?.snapshot ?? null, stamina: this.shotBudget.stamina, cooldownSec: this.shotBudget.cooldownSec,
       records: this.records.snapshot, saveStatus: this.records.lastWrite, diagnostics: this.diagnostics.report(),
       nativeCounts: this.physics?.nativeCounts() ?? null, projectilePoolSize: this.projectiles?.poolSize ?? 0,
-      soundRect: this.soundRect, seedHash: this.seedHash, calibration: this.probe.result, stepId: this.physics?.steps,
+      listenerCounts: this.listenerCounts(), soundRect: this.soundRect, seedHash: this.seedHash, calibration: this.probe.result, stepId: this.physics?.steps,
       autoSimulation: PhysicsSystem2D.instance.autoSimulation, shots: this.shots, lastShot: this.lastShot,
       lastAttempt: this.lastAttempt, lastReleaseResult: this.router.lastReleaseResult,
       aimId: this.router.aimId, aimDeg: Physics.degrees(this.router.aimRad), arrow: this.router.selectedArrow.id,
@@ -297,6 +297,14 @@ export class PhysicsLab extends Component {
   private countRigidBodies(): number {
     return this.physics?.nativeCounts()?.bodies ?? this.node.getComponentsInChildren(RigidBody2D)
       .filter(body => body.enabled && body.node.activeInHierarchy).length;
+  }
+
+  private listenerCounts() {
+    const counts = [input, view, game].map(target => eventCallbackCount(target, { owner: this }));
+    const globals = counts.every(n => n !== null) ? (counts as number[]).reduce((sum, n) => sum + n, 0) : null;
+    const contacts = this.projectiles.contactListenerCount;
+    return { scope: 'Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded',
+      globals, contacts, cocosTotal: globals === null || contacts === null ? null : globals + contacts };
   }
 
   private countHingeJoints(): number {

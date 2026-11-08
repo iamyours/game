@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 const out=process.env.ARCADE_STABILITY_EVIDENCE_DIR || 'evidence/arcade/stability';
 await mkdir(out,{recursive:true});
-const report={passed:false,status:'NOT_RUN',scope:'Real Creator/Box2D lifecycle stress with injected head hits and HP refills; not manual combat, projectile collision or G1',listenerCoverage:'NOT_MEASURED',errors:[],restarts:[],samples:[]};
+const report={passed:false,status:'NOT_RUN',scope:'Real Creator/Box2D lifecycle stress with injected head hits and HP refills; not manual combat, projectile collision or G1',listenerCoverage:'Cocos callbacks owned by lab + projectile pool; browser/OS excluded',errors:[],restarts:[],samples:[]};
 const save=()=>writeFile(out+'/verification.json',JSON.stringify(report,null,2)+'\n');
 if(!process.env.ARCADE_URL && !existsSync('build/web-desktop/index.html')){
  report.status='BLOCKED';report.reason='Current Creator Web build missing';await save();console.error(report.reason);process.exit(2);
@@ -25,10 +25,15 @@ try{
   await page.waitForTimeout(800);
   const s=await page.evaluate(()=>window.arcadeStress.lab.snapshot());assert.ok(s.nativeCounts,'Native Box2D counts are required');
   assert.ok(s.rig.ragdolls.every(a=>a.finite));assert.equal(s.arcade.score,0);
-  report.restarts.push({native:s.nativeCounts,pool:s.projectilePoolSize});
+  report.restarts.push({native:s.nativeCounts,pool:s.projectilePoolSize,listeners:s.listenerCounts});
+  if(s.listenerCounts.contacts!==null)assert.equal(s.listenerCounts.contacts,s.projectilePoolSize,'箭池每槽仅一个实际接触监听');
  }
  assert.equal(new Set(report.restarts.map(r=>r.native.joints)).size,1,'重开关节数应回到同一基线');
  assert.ok(Math.max(...report.restarts.map(r=>r.native.bodies))-Math.min(...report.restarts.map(r=>r.native.bodies))<=1,'重开刚体不持续增长');
+ const globals=report.restarts.map(r=>r.listeners.globals);
+ if(globals.every(n=>n!==null))assert.equal(new Set(globals).size,1,'重开不叠加全局监听');
+ else report.listenerCoverage='UNAVAILABLE: backend callback tables not exposed';
+ if(report.restarts.some(r=>r.listeners.cocosTotal===null))report.listenerCoverage='PARTIAL: some Cocos callback tables unavailable';
  const started=Date.now();let injectedId=1000000;
  while(Date.now()-started<durationMs){
   const s=await page.evaluate(shotId=>{
@@ -42,12 +47,23 @@ try{
   },injectedId++);
   assert.ok(s.nativeCounts);assert.ok(s.nativeCounts.bodies<=110);assert.ok(s.rig.ragdolls.every(a=>a.finite));
   if(report.samples.length>=1000)report.samples.shift();
-  report.samples.push({elapsedMs:Date.now()-started,native:s.nativeCounts,arcade:s.arcade,pool:s.projectilePoolSize});
+  report.samples.push({elapsedMs:Date.now()-started,native:s.nativeCounts,arcade:s.arcade,pool:s.projectilePoolSize,listeners:s.listenerCounts});
+  if(s.listenerCounts.contacts!==null)assert.equal(s.listenerCounts.contacts,s.projectilePoolSize);
   if(report.samples.length%30===0)await save();
   await page.waitForTimeout(1000);
  }
  report.diagnostics=await page.evaluate(()=>window.arcadeStress.lab.snapshot().diagnostics);
- report.durationMs=Date.now()-started;report.status='MEASURED_LIFECYCLE_CHECKS_PASSED';report.passed=true;
+ report.durationMs=Date.now()-started;
+ await page.evaluate(()=>window.arcadeStress.lab.node.destroy());
+ await page.waitForTimeout(250);
+ report.disposal=await page.evaluate(()=>{
+  const {lab,cc}=window.arcadeStress;
+  return {listeners:lab.listenerCounts(),bodies:cc.PhysicsSystem2D.instance.physicsWorld._world.GetBodyCount(),
+   joints:cc.PhysicsSystem2D.instance.physicsWorld._world.GetJointCount()};
+ });
+ if(report.disposal.listeners.cocosTotal!==null)assert.equal(report.disposal.listeners.cocosTotal,0);
+ assert.equal(report.disposal.joints,0);assert.ok(report.disposal.bodies<=1,'销毁场景后仅允许Box2D内部ground body');
+report.status='MEASURED_LIFECYCLE_CHECKS_PASSED';report.passed=true;
  assert.deepEqual(report.errors,[]);
-} catch(error){report.status='FAILED';report.failure=String(error);process.exitCode=1;}
+} catch(error){report.passed=false;report.status='FAILED';report.failure=String(error);process.exitCode=1;}
 finally{await save();await browser?.close();}

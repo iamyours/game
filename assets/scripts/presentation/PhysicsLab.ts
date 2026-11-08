@@ -1,6 +1,6 @@
 import { aimHintPoints, applyDrawStrength } from '../domain/archery';
-import { _decorator, BoxCollider2D, Camera, Canvas, Color, Component, ERigidBody2DType, Game, Graphics, Label, Layers, Node,
-  PhysicsSystem2D, RenderRoot2D, RigidBody2D, game, input, Input, profiler, screen, view, type EventTouch } from 'cc';
+import { _decorator, AudioClip, AudioSource, BoxCollider2D, Camera, Canvas, Color, Component, ERigidBody2DType, Game, Graphics, Label, Layers, Node,
+  PhysicsSystem2D, RenderRoot2D, RigidBody2D, game, input, Input, profiler, resources, screen, sys, view, isValid, type EventTouch } from 'cc';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import { contains, InputRouter, type InputLayout, type Point, type Rect, type ShotIntent } from '../input/InputRouter';
 import { PhysicsAdapter as Physics } from '../physics/PhysicsAdapter';
@@ -13,6 +13,9 @@ import { HitResolver, type ActorCombatState } from '../combat/HitResolver';
 import { LabViewport } from './LabViewport';
 import { ArcadeBattle } from '../combat/ArcadeBattle';
 import { CharacterSkin } from './CharacterSkin';
+import { ShotBudget, type ShotRejection } from '../domain/BattleRules';
+import { ArcadeRecordRepository } from '../domain/SaveRepository';
+import { RuntimeDiagnostics } from '../domain/RuntimeDiagnostics';
 
 const { ccclass } = _decorator;
 const color = (hex: string): Color => new Color().fromHEX(hex);
@@ -70,7 +73,7 @@ export class PhysicsLab extends Component {
   private manualPause = false;
   private hidden = false;
   private shots = 0;
-  private lastAttempt: { stepId: number; result: 'hands-unready' | 'arrow-limit' | 'muzzle-blocked' | 'fired' } | null = null;
+  private lastAttempt: { stepId: number; result: 'hands-unready' | 'arrow-limit' | 'muzzle-blocked' | 'fired' | ShotRejection } | null = null;
   private lastShot: (ShotIntent & { stepId: number; socket: ReturnType<AimController['bowSocket']>;
     hands: PoseController['handsSnapshot']; drawAmount: number; speedMps: number }) | null = null;
   private dirty = true;
@@ -87,9 +90,30 @@ export class PhysicsLab extends Component {
   private poseButtons: { pose: PoseName; label: Label; rect: Rect }[] = [];
   private poseTouch: { id: number; index: number } | null = null;
   private resetCount = 0;
+  private shotBudget!: ShotBudget;
+  private records!: ArcadeRecordRepository;
+  private soundLabel!: Label;
+  private soundRect: Rect = empty;
+  private soundTouch: number | null = null;
+  private soundSource!: AudioSource;
+  private readonly audioClips = new Map<string, AudioClip>();
+  private readonly lastSoundSteps = new Map<string, number>();
+  private readonly diagnostics = new RuntimeDiagnostics();
+  private recordPendingAt: number | null = null;
+  private restartSampleStep: number | null = null;
+  private resultRecorded = false;
+  private disposed = false;
 
   public setup(canvas: Canvas, config: PhysicsLabConfig, seedHash: string): void {
     this.config = config;
+    this.shotBudget = new ShotBudget(config.player);
+    this.records = new ArcadeRecordRepository(sys.localStorage);
+    this.soundSource = this.node.addComponent(AudioSource);
+    if (this.arcadeMode) for (const kind of ['shot', 'hit', 'drop']) resources.load(`audio/${kind}`, AudioClip, (error, clip) => {
+      if (error) { console.warn('[Audio]', error); return; }
+      if (this.disposed || !isValid(this.node)) return;
+      clip.addRef(); this.audioClips.set(kind, clip);
+    });
     this.seedHash = seedHash;
     const uiCamera = canvas.cameraComponent;
     if (!uiCamera) throw new Error('Boot Canvas 缺少 UI 相机');
@@ -113,11 +137,12 @@ export class PhysicsLab extends Component {
     this.router = new InputRouter({ deadzoneDesign: config.input.deadzoneDesign,
       initialRad: Physics.radians(config.input.initialAimDeg), minRad: Physics.radians(config.input.minAimDeg),
       maxRad: Physics.radians(config.input.maxAimDeg), firstShotDelaySec: config.input.firstShotDelaySec,
-      pullBackToAim: config.input.pullBackToAim, fullDrawDistanceDesign: config.input.fullDrawDistanceDesign }, config.arrows);
+      pullBackToAim: config.input.pullBackToAim, fullDrawDistanceDesign: config.input.fullDrawDistanceDesign }, config.arrows, this.arcadeMode);
     if (!this.arcadeMode) this.drawRuler(world);
     // Native fixtures capture their collision mask when created. Configure it first,
     // including when setup runs on an already-active scene (editor/re-entry).
     this.ragdollFactory = new RagdollFactory(config.rig);
+    if (this.arcadeMode) this.drawBackdrop(world);
     this.buildPlatforms(world, config.rig.collisionGroups.platform);
     this.ragdolls = [
       this.ragdollFactory.spawn(world, 'PlayerRagdoll', [3.5, 3.41], '#63C6C9'),
@@ -140,13 +165,17 @@ export class PhysicsLab extends Component {
     this.hitResolver = new HitResolver(this.combatStates, config, (state) => {
       const aim = state.id === 'PlayerRagdoll' ? this.playerAim : this.enemyAim;
       this.arcade?.hit(state, state.lastHit!.partId);
+      this.playSound('hit');
       if (state.hp <= 0) aim.setAlive(false);
       else if (state.lastHit) aim.registerHit(state.lastHit.jointReaction);
       this.dirty = true;
     }, this.arcadeMode && config.arcade.headshotLethal);
     if (this.arcadeMode) this.combatStates.delete('EnemyRagdoll');
     this.projectiles = new ProjectileSystem(world, config, this.ragdolls, (candidate, targetBody) => this.hitResolver.resolve(candidate, targetBody));
-    if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; });
+    if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; }, kind => this.playSound(kind), effect => {
+      const player = this.combatStates.get('PlayerRagdoll')!;
+      player.hp = Math.min(config.player.hp, player.hp + effect.hp); this.shotBudget.restore(effect.stamina);
+    });
     this.probe = new CalibrationProbe(world, config.physics);
     if (this.arcadeMode) for (const name of ['GlideBody', 'DropBody']) { const g = world.getChildByName(name)?.getComponent(Graphics); if (g) g.enabled = false; }
     this.aim = child(world, 'AimPreview').addComponent(Graphics);
@@ -157,7 +186,8 @@ export class PhysicsLab extends Component {
     this.aimLabel = label(this.overlay, 'AimLabel', 28);
     this.switchLabel = label(this.overlay, 'ArrowSwitch', 30);
     this.pauseLabel = label(this.overlay, 'Pause', 30);
-    this.resetLabel = label(this.overlay, 'Reset', 30, '重置');
+    this.resetLabel = label(this.overlay, 'Reset', 30, '重开');
+    this.soundLabel = label(this.overlay, 'Sound', 26);
     this.poseButtons = (this.arcadeMode ? [] : ['standing', 'staggered', 'downed'] as const).map((pose, i) => ({
       pose, label: label(this.overlay, `Pose_${pose}`, 25, ['站立重置', '后仰测试', '倒地测试'][i]), rect: empty,
     }));
@@ -179,11 +209,24 @@ export class PhysicsLab extends Component {
 
   public update(dt: number): void {
     this.physics?.advance(dt, this.beforeStep, this.afterStep);
+    if (this.arcadeMode && !this.hidden && !this.manualPause && !this.viewport.portrait) {
+      const counts = this.physics?.nativeCounts();
+      if (counts) {
+        const memoryBytes = typeof performance === 'undefined' ? null :
+          (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize ?? null;
+        const sample = { ...counts, frameMs: dt * 1000, memoryBytes, listeners: null };
+        this.diagnostics.sample(sample);
+        if (this.restartSampleStep !== null && this.physics!.steps >= this.restartSampleStep) {
+          this.diagnostics.restart(sample); this.restartSampleStep = null;
+        }
+      }
+    }
     if (this.dirty && this.physics) { this.dirty = false; this.drawHUD(); }
     if (this.physics) { this.drawAim(); this.arcade?.draw(); }
   }
 
   public onDestroy(): void {
+    this.disposed = true;
     view.off('canvas-resize', this.resize, this);
     input.off(Input.EventType.TOUCH_START, this.press, this);
     input.off(Input.EventType.TOUCH_MOVE, this.move, this);
@@ -192,6 +235,9 @@ export class PhysicsLab extends Component {
     game.off(Game.EVENT_HIDE, this.hide, this);
     game.off(Game.EVENT_SHOW, this.show, this);
     if (typeof window !== 'undefined') window.removeEventListener('blur', this.cancel);
+    this.records?.flush();
+    this.soundSource?.stop();
+    for (const clip of this.audioClips.values()) clip.decRef(); this.audioClips.clear();
     this.projectiles?.clear();
     this.arcade?.dispose();
     for (const skin of this.skins) skin.dispose();
@@ -206,7 +252,10 @@ export class PhysicsLab extends Component {
     const { worldWidthM, worldHeightM, worldCenterM: [cx, cy] } = this.config.viewport;
     const topLeft = v.worldToUI(cx - worldWidthM / 2, cy + worldHeightM / 2);
     const bottomRight = v.worldToUI(cx + worldWidthM / 2, cy - worldHeightM / 2);
-    return { arcade: this.arcade?.snapshot ?? null, seedHash: this.seedHash, calibration: this.probe.result, stepId: this.physics?.steps,
+    return { arcade: this.arcade?.snapshot ?? null, stamina: this.shotBudget.stamina, cooldownSec: this.shotBudget.cooldownSec,
+      records: this.records.snapshot, saveStatus: this.records.lastWrite, diagnostics: this.diagnostics.report(),
+      nativeCounts: this.physics?.nativeCounts() ?? null, projectilePoolSize: this.projectiles?.poolSize ?? 0,
+      soundRect: this.soundRect, seedHash: this.seedHash, calibration: this.probe.result, stepId: this.physics?.steps,
       autoSimulation: PhysicsSystem2D.instance.autoSimulation, shots: this.shots, lastShot: this.lastShot,
       lastAttempt: this.lastAttempt, lastReleaseResult: this.router.lastReleaseResult,
       aimId: this.router.aimId, aimDeg: Physics.degrees(this.router.aimRad), arrow: this.router.selectedArrow.id,
@@ -246,7 +295,8 @@ export class PhysicsLab extends Component {
   }
 
   private countRigidBodies(): number {
-    return this.ragdolls.reduce((count, ragdoll) => count + ragdoll.bodies.size, 0) + (this.arcade ? 3 + this.arcade.snapshot.platformCount + this.arcade.snapshot.dropCount : 5) + (this.projectiles?.count ?? 0);
+    return this.physics?.nativeCounts()?.bodies ?? this.node.getComponentsInChildren(RigidBody2D)
+      .filter(body => body.enabled && body.node.activeInHierarchy).length;
   }
 
   private countHingeJoints(): number {
@@ -256,6 +306,8 @@ export class PhysicsLab extends Component {
   private beforeStep = (dt: number, stepId: number): void => {
     this.projectiles.beginStep(stepId);
     const shot = this.router.step(dt);
+    if (this.arcadeMode) this.shotBudget.step(dt, this.router.aimId !== null || shot !== null,
+      this.combatStates.get('PlayerRagdoll')!.hp > 0);
     this.playerAim.setWorldAim(shot?.aimRad ?? this.router.aimRad);
     this.playerAim.setDraw(this.router.aimId !== null || shot !== null, shot ? shot.strength : this.router.drawProgress);
     this.playerAim.step(dt);
@@ -279,10 +331,14 @@ export class PhysicsLab extends Component {
       return;
     }
     const launchArrow = applyDrawStrength(arrow, shot.strength, this.config.bowControl.minPowerRatio);
+    if (this.arcadeMode) {
+      const rejection = this.shotBudget.release(arrow, { active: true, alive: true, armed: true, launchClear: true });
+      if (rejection) { this.lastAttempt = { stepId, result: rejection }; this.dirty = true; return; }
+    }
     const shotId = this.projectiles.fire('PlayerRagdoll', { ...socket, angleRad: shot.aimRad }, launchArrow);
     if (shotId !== null) { this.lastShot = { ...shot, stepId, socket, hands: this.playerAim.handsSnapshot,
       drawAmount: this.playerAim.poseSnapshot.drawAmount, speedMps: launchArrow.speedMps }; this.shots += 1;
-      this.lastAttempt = { stepId, result: 'fired' }; }
+      this.lastAttempt = { stepId, result: 'fired' }; this.playSound('shot'); }
     this.dirty = true;
   };
 
@@ -292,7 +348,15 @@ export class PhysicsLab extends Component {
     this.projectiles.afterStep();
     this.arcade?.afterStep();
     if (this.arcade) {
-      if (this.combatStates.get('PlayerRagdoll')!.hp <= 0) this.playerAim.setAlive(false);
+      if (this.arcade.score > this.records.snapshot.bestScore && this.recordPendingAt === null) this.recordPendingAt = stepId;
+      const dead = this.combatStates.get('PlayerRagdoll')!.hp <= 0;
+      if (dead) {
+        this.playerAim.setAlive(false);
+        if (!this.resultRecorded) { this.records.record(this.arcade.score); this.resultRecorded = true; }
+      }
+      if (this.recordPendingAt !== null && stepId >= this.recordPendingAt) {
+        this.records.record(this.arcade.score); this.recordPendingAt = null;
+      }
       this.dirty = true;
     }
     if (this.resetRequested) {
@@ -302,6 +366,9 @@ export class PhysicsLab extends Component {
       else this.ragdollFactory?.resetAll();
       for (const state of this.combatStates.values()) { if (this.arcade && state.id !== 'PlayerRagdoll') continue; state.hp = state.id === 'PlayerRagdoll' ? this.config.player.hp : (this.config.enemies[0]?.hp ?? 60); state.armor = state.id === 'PlayerRagdoll' ? 0 : (this.config.enemies[0]?.helmetDurability ?? 0); state.hits = 0; state.lastHit = null; }
       this.router.cancel();
+      this.shotBudget.reset(); this.resultRecorded = false; this.recordPendingAt = null;
+      this.lastSoundSteps.clear(); this.restartSampleStep = stepId + 60;
+      this.records.flush();
       this.playerAim.reset(); this.enemyAim.reset();
       if (this.arcade) this.enemyAim.setWorldAim(Math.PI - 0.2);
       this.shots = 0; this.lastShot = null; this.lastAttempt = null; this.resetCount += 1; this.dirty = true;
@@ -324,7 +391,8 @@ export class PhysicsLab extends Component {
       const point = this.viewport.fromUILocation(touch.getUILocation());
       if (contains(this.pauseRect, point)) {
         if (this.pauseId === null) this.pauseId = touch.getID();
-      } else if (contains(this.resetRect, point)) this.resetTouch = touch.getID();
+      } else if (this.arcadeMode && contains(this.soundRect, point)) this.soundTouch = touch.getID();
+      else if (contains(this.resetRect, point)) this.resetTouch = touch.getID();
       else if (this.poseButtons.some(button => contains(button.rect, point))) {
         this.poseTouch = { id: touch.getID(), index: this.poseButtons.findIndex(button => contains(button.rect, point)) };
       } else this.router.press(touch.getID(), point, this.layout);
@@ -341,6 +409,12 @@ export class PhysicsLab extends Component {
       if (this.pauseId === touch.getID()) {
         this.pauseId = null;
         if (contains(this.pauseRect, point)) { this.manualPause = !this.manualPause; this.syncPause(); }
+      } else if (this.soundTouch === touch.getID()) {
+        this.soundTouch = null;
+        if (contains(this.soundRect, point)) {
+          this.records.setSound(!this.records.snapshot.soundEnabled);
+          if (!this.records.snapshot.soundEnabled) this.soundSource.stop();
+        }
       } else if (this.resetTouch === touch.getID()) {
         this.resetTouch = null;
         if (contains(this.resetRect, point)) { this.manualPause = false; this.syncPause(); this.resetRagdolls(); }
@@ -353,18 +427,19 @@ export class PhysicsLab extends Component {
     this.dirty = true;
   }
   private cancel = (): void => {
-    this.pauseId = this.resetTouch = null;
+    this.pauseId = this.resetTouch = this.soundTouch = null;
     this.poseTouch = null;
     this.router.cancel();
     this.dirty = true;
   };
-  private hide(): void { this.hidden = true; this.syncPause(); }
+  private hide(): void { this.records.flush(); this.soundSource.stop(); this.hidden = true; this.syncPause(); }
   private show(): void { this.hidden = false; this.syncPause(); }
   private syncPause(): void {
     this.cancel();
     const blocked = this.hidden || this.manualPause || this.viewport.portrait;
     this.router.setBlocked(blocked);
     this.physics?.setPaused(blocked);
+    if (blocked) this.soundSource.stop();
   }
 
   private resize(): void {
@@ -391,6 +466,8 @@ export class PhysicsLab extends Component {
     this.placeLabel(this.switchLabel, midpoint(this.layout.arrowSwitch));
     this.resetRect = { ...this.pauseRect, left: this.pauseRect.left - switchW - 12, right: this.pauseRect.left - 12 };
     this.placeLabel(this.resetLabel, midpoint(this.resetRect));
+    this.soundRect = { ...this.resetRect, left: this.resetRect.left - switchW - 12, right: this.resetRect.left - 12 };
+    this.placeLabel(this.soundLabel, midpoint(this.soundRect));
     this.placeLabel(this.pauseLabel, midpoint(this.pauseRect));
     for (const [index, button] of this.poseButtons.entries()) {
       button.rect = { left: x(0.46 + index * 0.12), right: x(0.57 + index * 0.12),
@@ -413,6 +490,8 @@ export class PhysicsLab extends Component {
     const { portrait } = this.viewport;
     for (const l of [this.title, this.metrics, this.aimLabel, this.pauseLabel, this.resetLabel]) l.node.active = !portrait;
     for (const button of this.poseButtons) button.label.node.active = !portrait;
+    this.soundLabel.node.active = !portrait && this.arcadeMode;
+    this.soundLabel.string = this.records.snapshot.soundEnabled ? '音效 开' : '音效 关';
     this.switchLabel.node.active = !portrait && this.router.canSwitch;
     this.notice.node.active = portrait || this.manualPause;
     this.notice.fontSize = portrait ? Math.max(36, 24 * screen.devicePixelRatio / view.getScaleX()) : 36;
@@ -426,6 +505,7 @@ export class PhysicsLab extends Component {
     box(this.layout.aim, '#203A4CE8');
     box(this.pauseRect, '#294657');
     box(this.resetRect, '#294657');
+    if (this.arcadeMode) box(this.soundRect, '#294657');
     for (const button of this.poseButtons) box(button.rect, '#294657');
     if (this.router.canSwitch) box(this.layout.arrowSwitch, '#294657');
     if (this.manualPause) box({ left: this.viewport.width / 2 - 310, right: this.viewport.width / 2 + 310,
@@ -440,15 +520,17 @@ export class PhysicsLab extends Component {
     const release = this.router.lastReleaseResult;
     const result = release === 'too-short' ? '按住时间太短' : release === 'cooldown' ? '射击冷却中' :
       release === 'queued' && this.lastAttempt ? ({ 'hands-unready': '双手尚未到位，请调整瞄准',
-        'muzzle-blocked': '弓口被身体或平台挡住，请调整角度', 'arrow-limit': '在途箭已达上限', fired: '已放箭' })[this.lastAttempt.result] : '';
+        'muzzle-blocked': '弓口被身体或平台挡住，请调整角度', 'arrow-limit': '在途箭已达上限', fired: '已放箭', exhausted: '体力不足', cooldown: '射击冷却中',
+         dead: '你已倒下', inactive: '', disarmed: '弓已脱落', blocked: '弓口被挡住' })[this.lastAttempt.result] : '';
     if (result) this.aimLabel.string += `   ·   ${result}`;
-    if (this.arcade) this.aimLabel.string = `拖动拉弓 · 松手放箭  ${Math.round(this.router.drawProgress * 100)}%  · 击败 ${this.arcade.score}  · 生命 ${this.combatStates.get('PlayerRagdoll')!.hp}`;
+    if (this.arcade) this.aimLabel.string = `拖动拉弓 · 松手放箭  ${Math.round(this.router.drawProgress * 100)}%  · 击败 ${this.arcade.score}  · 生命 ${this.combatStates.get('PlayerRagdoll')!.hp}  · 体力 ${Math.floor(this.shotBudget.stamina)}  · 最佳 ${this.records.snapshot.bestScore}` + (result ? `  · ${result}` : '');
     const hit = enemy?.lastHit;
     const r = this.probe.result;
     this.metrics.string = hit ? (enemy.hp === 0 ? '靶手已击倒 · 点重置再试' : `${arrowNames[hit.arrow.id]} · 命中${({ head: '头部', torso: '躯干', limb: '四肢' })[hit.zone]}  ·  -${hit.result.hpDamage} HP · ${hit.impulseNs.toFixed(2)} N·s`) : r ? `标定${r.passed ? '通过' : '失败'}  ·  位移 ${r.checks.glideXM.actual.toFixed(3)} m  ·  落体 ${r.checks.dropYM.actual.toFixed(3)} m  ·  ${r.steps} 步 / 1 s`
       : '正在采样 Box2D：滑行 / 落体 / 旋转';
     if (this.arcade) this.metrics.string = this.arcade.snapshot.telegraph ? '敌人正在拉弓' : '爆头一击致命 · 躲不过的箭需要抢先击倒敌人';
     if (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0) this.metrics.string = `你已倒下 · 击败 ${this.arcade.score} 名敌人 · 点重置再来`;
+    if (this.arcade && !this.records.lastWrite.ok) this.metrics.string += ' · 本地记录未保存，重开时重试';
     const drag = this.router.drag;
     if (drag) {
       const origin = this.viewport.toLocal(drag.origin), p = this.viewport.toLocal(drag.point);
@@ -513,6 +595,30 @@ export class PhysicsLab extends Component {
       g.lineTo(tip.x, tip.y);
       g.stroke();
     }
+  }
+
+  private playSound(kind: 'shot' | 'hit' | 'drop'): void {
+    if (!this.arcadeMode || !this.records.snapshot.soundEnabled || this.hidden || this.manualPause) return;
+    const clip = this.audioClips.get(kind), step = this.physics?.steps ?? 0;
+    if (!clip || step - (this.lastSoundSteps.get(kind) ?? -100) < 3) return;
+    this.lastSoundSteps.set(kind, step);
+    this.soundSource.stop(); this.soundSource.clip = clip; this.soundSource.volume = kind === 'shot' ? 0.25 : 0.4;
+    this.soundSource.play();
+  }
+
+  private drawBackdrop(world: Node): void {
+    const g = child(world, 'RuinsBackdrop').addComponent(Graphics);
+    // Low-contrast original silhouettes leave limbs, arrows and the fall space readable.
+    fill(g, Physics.units(-4), Physics.units(-4), Physics.units(32), Physics.units(18), '#172D3A');
+    g.fillColor = color('#203D4A');
+    for (const [x, y, w, h] of [[1, -3, 1.5, 6], [7, -3, 1.2, 4.2], [14, -3, 1.8, 5], [22, -3, 1.2, 7]])
+      g.rect(Physics.units(x!), Physics.units(y!), Physics.units(w!), Physics.units(h!));
+    g.fill();
+    g.fillColor = color('#43616B');
+    for (let i = 0; i < 22; i++) {
+      g.circle(Physics.units((i * 7.3) % 26), Physics.units(1 + (i * 3.7) % 10), Physics.units(0.018));
+    }
+    g.fill();
   }
 
   private buildPlatforms(world: Node, platformGroup: number): void {

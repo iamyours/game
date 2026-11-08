@@ -62,6 +62,7 @@ export const combatSchema = z.object({
     hideSwitchWhenOneArrow: z.literal(true), jumpEnabled: z.literal(false),
   }).strict(),
   bowControl: z.object({
+    fallTiltDeg: positive.min(35).max(90), fallConfirmSec: positive.max(0.5),
     minPowerRatio: positive.max(1),
     bowArmReachM: positive.max(0.6), braceDepthM: positive.max(0.6),
     drawTravelM: positive.max(0.4), bowHalfHeightM: positive.max(0.8),
@@ -87,7 +88,10 @@ export const combatSchema = z.object({
   }).strict(),
   arrows: z.array(arrow).length(3),
   arcade: z.object({ respawnSec: positive, cleanupSec: positive, spawnX_M: ordered(positive),
-    surfaceY_M: ordered(positive), platformWidthM: ordered(positive), headshotLethal: z.boolean() }).strict(),
+    surfaceY_M: ordered(positive), platformWidthM: ordered(positive), headshotLethal: z.boolean(),
+    rockingChance: ratio, platformTiltDeg: nonnegative.max(8), platformPeriodSec: positive.min(3),
+    heavyMassMultiplier: positive.min(1).max(2), heavyChance: ratio,
+  }).strict(),
   reaction: z.object({
     impulseCalibrationRequired: z.literal(true), maxSingleImpulseNs: positive,
     playerMaxIncomingImpulseNs: positive, enemyArmTraumaToDisarm: positive,

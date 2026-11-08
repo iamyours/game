@@ -22,12 +22,13 @@ export class AimController {
   public setDraw(drawing: boolean, progress: number): void { this.pose.setDraw(drawing, progress); }
   public registerHit(reactions: readonly JointReaction[]): void { this.pose.registerHit(reactions); }
   public setAlive(alive: boolean): void { this.pose.setAlive(alive); }
+  public setArmed(armed: boolean): void { this.pose.setArmed(armed); }
   public get handsSnapshot() { return this.pose.handsSnapshot; }
   public step(dt: number): void { this.pose.step(dt); }
   public get poseSnapshot(): PoseControllerSnapshot { return this.pose.snapshot; }
 
   public bowSocket(): BowSocketSnapshot {
-    const point = this.ragdoll.worldPointM('rightForearm', [0.12, -0.07]);
+    const point = this.ragdoll.worldPointM('rightForearm', [0.12 * (this.ragdoll.definition.facing ?? 1), -0.07]);
     return { x: point.x, y: point.y, angleRad: this.pose.snapshot.aimRad };
   }
 }

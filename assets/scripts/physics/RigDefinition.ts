@@ -47,6 +47,7 @@ export interface RigJointDefinition {
 }
 
 export interface RigDefinition {
+  readonly facing?: 1 | -1;
   readonly configVersion: 2;
   readonly heightM: number;
   readonly massKg: number;
@@ -63,6 +64,17 @@ export interface RigDefinition {
   readonly adjacentSelfCollision: false;
   readonly otherSelfCollisionInitially: false;
   readonly downedAliveCanAim: true;
+}
+
+/** Mirror authored metres/anchors/limits at construction; physical nodes never use negative scale. */
+export function variantRig(rig: RigDefinition, massMultiplier = 1, facing: 1 | -1 = 1): RigDefinition {
+  if (!Number.isFinite(massMultiplier) || massMultiplier < 1 || massMultiplier > 2) throw new Error('质量倍率超出范围');
+  const mirror = (p: readonly [number, number]): readonly [number, number] => [p[0] * facing, p[1]];
+  return { ...rig, facing, massKg: rig.massKg * massMultiplier, neutralMotorTorqueNm: rig.neutralMotorTorqueNm * massMultiplier,
+    bodyDefinitions: rig.bodyDefinitions.map(b => ({ ...b, positionM: mirror(b.positionM), massKg: b.massKg * massMultiplier })),
+    jointDefinitions: rig.jointDefinitions.map(j => ({ ...j, parentAnchorM: mirror(j.parentAnchorM), childAnchorM: mirror(j.childAnchorM),
+      limitsDeg: facing === 1 ? j.limitsDeg : [-j.limitsDeg[1], -j.limitsDeg[0]] })),
+  };
 }
 
 function object(value: unknown): Record<string, unknown> {

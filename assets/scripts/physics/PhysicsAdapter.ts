@@ -90,6 +90,15 @@ export class PhysicsAdapter {
 
   public get steps(): number { return this.stepId; }
 
+  /** Locked 3.8.8 Box2D-JS instrumentation; unsupported backends report unknown. */
+  public nativeCounts(): { bodies: number; joints: number } | null {
+    const world = (this.system.physicsWorld as unknown as { _world?: {
+      GetBodyCount?: () => number; GetJointCount?: () => number;
+    } })._world;
+    if (typeof world?.GetBodyCount !== 'function' || typeof world?.GetJointCount !== 'function') return null;
+    return { bodies: world.GetBodyCount(), joints: world.GetJointCount() };
+  }
+
   public setPaused(paused: boolean): void {
     if (this.paused === paused) return;
     this.paused = paused;

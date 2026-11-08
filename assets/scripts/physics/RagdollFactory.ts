@@ -2,6 +2,7 @@ import { BoxCollider2D, CircleCollider2D, Color, ERigidBody2DType, Graphics, Hin
 import { PhysicsAdapter as Physics } from './PhysicsAdapter';
 import { armVisualLayout, limitedJointMotorSpeed } from '../domain/archery';
 import type { RigBodyDefinition, RigDefinition, RigBodyId } from './RigDefinition';
+import { variantRig } from './RigDefinition';
 
 export interface RagdollInstanceSnapshot {
   readonly id: string;
@@ -16,6 +17,7 @@ export interface RagdollInstanceSnapshot {
 }
 
 export interface RagdollInstance {
+  readonly definition: RigDefinition;
   readonly id: string;
   readonly root: Node;
   readonly bodyNodes: ReadonlyMap<RigBodyId, Node>;
@@ -81,7 +83,7 @@ class RagdollInstanceImpl implements RagdollInstance {
     public readonly bodyNodes: ReadonlyMap<RigBodyId, Node>,
     public readonly bodies: ReadonlyMap<RigBodyId, RigidBody2D>,
     public readonly joints: ReadonlyMap<string, HingeJoint2D>,
-    private readonly definition: RigDefinition,
+    public readonly definition: RigDefinition,
     private readonly initialPositionM: readonly [number, number],
   ) {}
 
@@ -168,7 +170,7 @@ class RagdollInstanceImpl implements RagdollInstance {
     }
     return { id: this.id, bodyCount: this.bodies.size, jointCount: this.joints.size,
       bodyIds: this.definition.bodyDefinitions.map((body) => body.id),
-      jointIds: this.definition.jointDefinitions.map((joint) => joint.id), positionsM, massesKg, maxJointErrorM, finite };
+      jointIds: [...this.joints.keys()], positionsM, massesKg, maxJointErrorM, finite };
   }
 
   public destroy(): void {
@@ -202,8 +204,10 @@ export class RagdollFactory {
     matrix[String(definition.collisionGroups.projectile)] = definition.collisionGroups.platform | definition.collisionGroups.ragdoll;
   }
 
-  public spawn(parent: Node, id: string, positionM: readonly [number, number], hex: string): RagdollInstance {
+  public spawn(parent: Node, id: string, positionM: readonly [number, number], hex: string, massMultiplier = 1, facing: 1 | -1 = 1): RagdollInstance {
     if (this.disposed) throw new Error('RagdollFactory 已释放');
+    if (!Number.isFinite(massMultiplier) || massMultiplier < 1 || massMultiplier > 2) throw new Error('质量倍率超出范围');
+    const definition = variantRig(this.definition, massMultiplier, facing);
     if (this.instances.some((instance) => instance.id === id)) throw new Error(`重复的 ragdoll ID：${id}`);
     const root = new Node(id);
     root.layer = parent.layer;
@@ -211,7 +215,7 @@ export class RagdollFactory {
     Physics.place(root, positionM[0], positionM[1]);
     const bodyNodes = new Map<RigBodyId, Node>();
     const bodies = new Map<RigBodyId, RigidBody2D>();
-    for (const bodyDefinition of this.definition.bodyDefinitions) {
+    for (const bodyDefinition of definition.bodyDefinitions) {
       const node = new Node(bodyDefinition.id);
       node.layer = parent.layer;
       node.parent = root;
@@ -233,12 +237,12 @@ export class RagdollFactory {
         (collider as BoxCollider2D).size.set(Physics.units(bodyDefinition.sizeM[0]), Physics.units(bodyDefinition.sizeM[1]));
       }
       collider.apply();
-      configureGraphics(node.addComponent(Graphics), bodyDefinition, hex, this.definition);
+      configureGraphics(node.addComponent(Graphics), bodyDefinition, hex, definition);
       bodyNodes.set(bodyDefinition.id, node);
       bodies.set(bodyDefinition.id, body);
     }
     const joints = new Map<string, HingeJoint2D>();
-    for (const jointDefinition of this.definition.jointDefinitions) {
+    for (const jointDefinition of definition.jointDefinitions) {
       const parentBody = bodies.get(jointDefinition.parentId);
       const childBody = bodies.get(jointDefinition.childId);
       if (!parentBody || !childBody) throw new Error(`关节 ${jointDefinition.id} 引用不存在的刚体`);
@@ -252,12 +256,12 @@ export class RagdollFactory {
       joint.upperAngle = jointDefinition.limitsDeg[1];
       // T003 holds the neutral authored pose; T004 will replace this with active posture control.
       joint.enableMotor = true;
-      joint.maxMotorTorque = this.definition.neutralMotorTorqueNm;
+      joint.maxMotorTorque = definition.neutralMotorTorqueNm;
       joint.motorSpeed = 0;
       joint.apply();
       joints.set(jointDefinition.id, joint);
     }
-    const instance = new RagdollInstanceImpl(id, root, bodyNodes, bodies, joints, this.definition, positionM);
+    const instance = new RagdollInstanceImpl(id, root, bodyNodes, bodies, joints, definition, positionM);
     this.instances.push(instance);
     return instance;
   }

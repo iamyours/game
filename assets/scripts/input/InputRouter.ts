@@ -32,7 +32,8 @@ export class InputRouter {
   private releaseResult: 'none' | 'queued' | 'too-short' | 'cooldown' = 'none';
   public get lastReleaseResult() { return this.releaseResult; }
 
-  public constructor(private readonly rules: AimRules, private readonly arrows: readonly ArrowCadence[]) {
+  public constructor(private readonly rules: AimRules, private readonly arrows: readonly ArrowCadence[],
+    private readonly externalCadence = false) {
     if (arrows.length === 0) throw new Error('至少装备一种箭');
     this.direction = rules.initialRad;
   }
@@ -113,7 +114,7 @@ export class InputRouter {
     this.pendingRelease = null;
     if (!shot) return null; // Holding, even at full draw, NEVER emits an arrow.
     const arrow = this.arrows.find(value => value.id === shot.arrowId)!;
-    this.cooldownUntil = this.elapsed + arrow.intervalSec;
+    if (!this.externalCadence) this.cooldownUntil = this.elapsed + arrow.intervalSec;
     return shot;
   }
 }

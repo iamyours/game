@@ -1,0 +1,58 @@
+[
+  {
+    "name": "verify",
+    "chunk_id": "cdfd38",
+    "wall_time_seconds": 5.5634028220000005,
+    "exit_code": 0,
+    "original_token_count": 0,
+    "output": ""
+  },
+  {
+    "name": "syntax",
+    "chunk_id": "720a8f",
+    "wall_time_seconds": 0.81890792,
+    "exit_code": 0,
+    "original_token_count": 0,
+    "output": ""
+  },
+  {
+    "name": "env",
+    "chunk_id": "6c4e96",
+    "wall_time_seconds": 0.176474604,
+    "exit_code": 0,
+    "original_token_count": 0,
+    "output": ""
+  },
+  {
+    "name": "typecheck-engine",
+    "chunk_id": "615219",
+    "wall_time_seconds": 0.217789478,
+    "exit_code": 2,
+    "original_token_count": 0,
+    "output": ""
+  },
+  {
+    "name": "build-web",
+    "chunk_id": "1967b3",
+    "wall_time_seconds": 0.252367682,
+    "exit_code": 2,
+    "original_token_count": 0,
+    "output": ""
+  },
+  {
+    "name": "arcade-runtime",
+    "chunk_id": "d46d36",
+    "wall_time_seconds": 0.220759483,
+    "exit_code": 2,
+    "original_token_count": 0,
+    "output": ""
+  },
+  {
+    "name": "stability-runtime",
+    "chunk_id": "7cb545",
+    "wall_time_seconds": 0.228425454,
+    "exit_code": 2,
+    "original_token_count": 0,
+    "output": ""
+  }
+]

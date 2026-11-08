@@ -272,7 +272,9 @@
     "releaseFollowPerSec": 9,
     "armMaxSpeedDegPerSec": 360,
     "gripReadyToleranceM": 0.16,
-    "minPowerRatio": 0.35
+    "minPowerRatio": 0.35,
+    "fallTiltDeg": 60,
+    "fallConfirmSec": 0.12
   },
   "arcade": {
     "respawnSec": 1.2,
@@ -289,6 +291,11 @@
       1.6,
       2.8
     ],
-    "headshotLethal": true
+    "headshotLethal": true,
+    "rockingChance": 0.35,
+    "platformTiltDeg": 5,
+    "platformPeriodSec": 6,
+    "heavyMassMultiplier": 1.35,
+    "heavyChance": 0.4
   }
 }

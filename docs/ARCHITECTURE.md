@@ -1,3 +1,16 @@
+# D024 当前接线索引
+
+以下为当前范围，后文“除CharacterSkin外均未接线”等为历史记录：
+
+- PoseController在同一固定步读取真实胸/骨盆位置和倾角，FallDetector锁存自然倒地；仍经受限马达和真实握点发射。
+- RagdollFactory通过variantRig在构造时镜像坐标/锚点/限位并调整质量，actor.definition是实际骨架。PoseController、AimController、CharacterSkin和伤标均使用该定义。
+- ArcadeBattle持有每敌人BowState，HitResolver回调触发活体失弓，after-step死亡时以同一掉弓状态去重；EnemyAttack接受真实armed，释放先查双手和弓口。
+- 连续模式InputRouter启用externalCadence，ShotBudget是唯一冷却/体力所有者；练习关仍保留原输入回归范围。
+- ArcadeBattle接PickupRules，ProjectileSystem注册原生传感器和收取回调；候选排序与单箭消费仍统一在after-step，敌箭经过传感器不收取。
+- ArcadeRecordRepository独立于历史SaveRepository/RunSession，不将连续对局硬接三关；Cocos sys.localStorage作为Web/原生/小游戏的存储入口，实际宿主仍待验。
+- PhysicsLab通过Cocos AudioSource播放可停止的短音效，资源显式addRef/decRef；Game生命周期、输入取消和安全区沿用现有适配。
+- PhysicsAdapter集中锁定Box2D-JS GetBodyCount/GetJointCount的观测，不支持时返回null。RuntimeDiagnostics接实际帧时与原生数量，监听/堆内存无法测量时保持unknown，不自动输出性能PASS。
+
 # 风暴弓手技术架构
 
 ## 十一 工程结构与模块职责

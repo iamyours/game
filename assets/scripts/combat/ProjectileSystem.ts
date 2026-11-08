@@ -33,6 +33,7 @@ export class ProjectileSystem {
   private readonly embedded: { target: string; node: Node }[] = [];
   private readonly queue: HitCandidate[] = [];
   private readonly targets = new Map<Node, { targetId: string; partId: string; body: RigidBody2D }>();
+  private readonly pickups = new Map<string, { node: Node; collect: () => void }>();
   private nextId = 1;
   private stepId = 0;
 
@@ -44,6 +45,9 @@ export class ProjectileSystem {
   }
   public get count(): number { return this.flying.size; }
   public get embeddedCount(): number { return this.embedded.length; }
+  public get poolSize(): number { return this.flying.size + this.spare.length; }
+  public registerPickup(node: Node, collect: () => void): void { this.pickups.set(node.name, { node, collect }); }
+  public unregisterPickup(node: Node): void { this.pickups.delete(node.name); }
   public registerActor(actor: RagdollInstance): void {
     for (const [partId, body] of actor.bodies) this.targets.set(body.node, { targetId: actor.id, partId, body });
   }
@@ -102,6 +106,8 @@ export class ProjectileSystem {
     for (const hit of this.queue) {
       const shot = this.flying.get(hit.shotId);
       if (!shot) continue; // First valid candidate consumes the shot, including terrain hits.
+      const pickup = this.pickups.get(hit.targetId);
+      if (pickup) { pickup.collect(); this.recycle(shot); continue; }
       const target = this.targets.get(this.world.getChildByName(hit.targetId)?.getChildByName(hit.partId) as Node)?.body;
       if (target) this.onHit(hit, target);
       const parent = target?.node ?? this.world.getChildByName(hit.targetId);
@@ -160,6 +166,7 @@ export class ProjectileSystem {
   }
   private enqueue(shot: Flight, collider: Collider2D, pointM: Point, normal: Point, source: HitCandidate['source'], fraction: number): void {
     const target = this.targets.get(collider.node);
+    if (this.pickups.has(collider.node.name) && shot.shooter !== 'PlayerRagdoll') return;
     if (target?.targetId === shot.shooter || (!target && collider.group !== this.config.rig.collisionGroups.platform)) return;
     this.queue.push({ shotId: shot.id, stepId: this.stepId, attackerId: shot.shooter, targetId: target?.targetId ?? collider.node.name,
       partId: target?.partId ?? 'platform', pointM, normal, source, fraction, incomingVelocityMps: shot.velocity, arrow: shot.arrow });

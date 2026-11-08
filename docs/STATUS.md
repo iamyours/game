@@ -1,15 +1,33 @@
-# 当前状态
+# 当前状态（D024）
 
-version: V2.0
-currentMilestone: M1
-currentTask: T004
+version: V2.1
+currentMilestone: CONTINUOUS_BATTLE
+currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
-completedTasks: T001 T002 T003
-sourceRevision: 本轮修复基线 main @ 3760c6d；修改及验证见关联提交
+completedTasks: T001 T002 T003（历史Web验收范围）
+sourceRevision: main b121eb7基础上的D024修改；当前源码文件哈希见evidence/iteration-d024/source-manifest.json
 configVersion: 2
-runtimeVerified: 否（T003 左右骨架 WebGL 已实测；完整玩法种子未验收）
-feelGateG1: NOT_RUN
-selectedTapTapPath: Android APK 默认方案，待 T016 核实
+runtimeVerified: false
+feelGateG1: BLOCKED（缺当前Creator构建与试玩）
+selectedTapTapPath: Android APK，未构建/真机验证
+
+## 本轮已执行
+
+任务表已统一连续对战，三关/解锁T021与装甲/掉盔T020延期；当前适用验收见docs/ACCEPTANCE.md和qa_cases.csv。
+核心实现已接入：自然倒地与双臂控制、敌人镜像骨架/握点/限位/IK、活体掉弓与死亡掉弓去重、双方真实发射条件、真实质量变体、运动学倾斜平台、出生占用检查、ShotBudget体力冷却、传感器补给、最高分/设置、背景/音效、尸体上限、重开唯一编号及原生数量采样。具体说明见docs/CONTINUOUS_HANDOFF.md。
+
+## 验证和未完成项
+
+118项规则/配置/输入/存档测试与便携TS通过，28个引擎侧脚本语法通过。当前Linux缺Creator3.8.8和真实编辑器导入，typecheck:engine/build:web退出2；当前运行/稳定性脚本缺构建退出2，均记录BLOCKED。没有本轮物理、G1、15分钟、30次重开或渠道通过证据。日志见evidence/iteration-d024。
+
+T004/005/006/007/009/010/011/012/013/014/019保持IN_PROGRESS（代码与运行验收拆分）；T008/015/016/017为BLOCKED；T018已整理本轮交接但仍待干净副本Creator构建。下一步是在Creator3.8.8导入当前源码和音频meta后按交接文档复验，失败回到对应物理任务修复。不能据纯规则测试把所有剩余任务标DONE。
+
+## 历史记录
+
+以下记录对应过去各轮源码，不能替代D024运行证据。
+
+<details>
+<summary>历史实现与验收记录</summary>
 
 ## 已完成
 - T001：Creator 3.8.8 实际安装、官方 2D 配置逐项合并、编辑器生成 Boot.scene/meta、实际类型声明和 WebGL 构建基线；未升级重建工程。
@@ -30,8 +48,8 @@ selectedTapTapPath: Android APK 默认方案，待 T016 核实
 - 按用户纠正改为按住只拉弓、拖动瞄准、松手单发；一直按住不自动射箭，取消/暂停/后台/重置不补发。拖动距离控制力度，收回可减力，长按不自动加力；速度、冲量、伤害和轨迹预览使用相同力度。右手持弓、左手拉弦，双臂由受限物理铰链马达配合。
 - 新增真实姿态演示按钮；修正物理节点角发布反写 Box2D 引发的双臂大角度失稳。最新检查及边界：`evidence/T004/release-to-fire/verification.md`。AC04–AC07 未正式通过；倒地测试仍存在放箭未成功的情况，不以站立测试代替三姿态验收。
 
-## 下一步
-先补 T004 的三姿态实射验收，再完善 T005/T006；T007 装备脱落/坠台未开始。T008/G1、真机及渠道未运行，完整种子 `runtimeVerified` 仍为 false；不提前扩关。
+## 当前下一步（D024）
+按docs/PLAN.md执行当前连续玩法；旧三关与装甲扩展分别延期至T021/T020。先实现自然倒地、活体掉弓、统一敌人发射条件，随后随机/倾斜平台和质量差异、三箭体力与补给、结果最高分/音效。T004–T019当前代码须在Creator 3.8.8重新构建验收；G1、性能和渠道未放行。
 
 最后更新：2026 年 11 月 8 日。
 
@@ -64,3 +82,5 @@ HitResolver→AimController→PoseController 已接分箭型/部位关节降权�
 ## D023 视频连续对战（2026-11-08）
 基线4a54674，已按用户新范围接入默认连续模式：敌人预测瞄准/蓄势/真实箭、头顶HP条与关节红标、致命爆头断颈、死亡平台/弓下落、随机平台与轻重敌人循环、玩家死亡后停止生成/射击、重置与资源回收。原靶场改为?practice=1，既有脚本默认URL已相应调整。新配置arcade统一记录重生/回收间隔和平台范围。
 109项便携规则回归通过，引擎相关新接线仅语法检查；Creator/声明缺失，未构建或验证此对战模式。T019为IN_PROGRESS（代码集成，运行BLOCKED），不宣称完整复刻、原作全部功能或G1通过。详见docs/ARCADE_MODE.md、evidence/arcade。
+
+</details>

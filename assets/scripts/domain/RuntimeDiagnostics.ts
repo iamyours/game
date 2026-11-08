@@ -15,7 +15,7 @@ export class LifecycleRules {
   }
 }
 
-export interface RuntimeSample { frameMs: number; bodies: number; joints: number; listeners: number; memoryBytes: number | null }
+export interface RuntimeSample { frameMs: number; bodies: number; joints: number; listeners: number | null; memoryBytes: number | null }
 /** Bounded collector; reports observations, never claims a device performance PASS. */
 export class RuntimeDiagnostics {
   private readonly samples: RuntimeSample[] = [];
@@ -43,9 +43,12 @@ export class RuntimeDiagnostics {
   public report() {
     const sorted = this.samples.map(s => s.frameMs).sort((a, b) => a - b);
     const percentile = (p: number) => sorted.length ? sorted[Math.max(0, Math.ceil(sorted.length * p) - 1)]! : null;
-    const growth = (key: 'bodies' | 'joints' | 'listeners') => this.restarts.length < 2 ? null
-      : this.restarts.slice(1).every((r, i) => r[key] >= this.restarts[i]![key]) &&
-        this.restarts.at(-1)![key] > this.restarts[0]![key];
+    const growth = (key: 'bodies' | 'joints' | 'listeners') => {
+      const values = this.restarts.map(r => r[key]);
+      if (values.length < 2 || values.some(v => v === null)) return null;
+      const known = values as number[];
+      return known.slice(1).every((v, i) => v >= known[i]!) && known.at(-1)! > known[0]!;
+    };
     return { totalSamples: this.count, retainedSamples: this.samples.length,
       observedDurationSec: this.totalFrameMs / 1000,
       meanFrameMs: this.count ? this.totalFrameMs / this.count : null,
@@ -56,7 +59,7 @@ export class RuntimeDiagnostics {
   }
   private check(sample: RuntimeSample): void {
     validTime(sample.frameMs);
-    for (const n of [sample.bodies, sample.joints, sample.listeners]) if (!Number.isInteger(n) || n < 0) throw new Error('资源计数无效');
+    for (const n of [sample.bodies, sample.joints, sample.listeners]) if (n !== null && (!Number.isInteger(n) || n < 0)) throw new Error('资源计数无效');
     if (sample.memoryBytes !== null) validTime(sample.memoryBytes);
   }
 }

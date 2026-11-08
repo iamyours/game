@@ -24,7 +24,9 @@
     "test:web:release": "node scripts/verify-t004-web.mjs --release-only",
     "handoff:report": "node scripts/handoff.mjs",
     "test:web:arm-impact": "node scripts/verify-arm-impact-web.mjs",
-    "test:web:arcade": "node scripts/verify-arcade-web.mjs"
+    "test:web:arcade": "node scripts/verify-arcade-web.mjs",
+    "test:web:arcade-stability": "node scripts/verify-arcade-stability-web.mjs",
+    "check:syntax": "node scripts/check-engine-syntax.mjs"
   },
   "devDependencies": {
     "@types/node": "24.0.0",

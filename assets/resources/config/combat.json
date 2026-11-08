@@ -2,7 +2,7 @@
   "generatedFrom": "configs/combat.seed.json",
   "sourceKind": "unverified_seed",
   "runtimeVerified": false,
-  "seedHash": "12ef421c583864bcdea50cb8aa4a41c8ee071228a5eb61de0164474b216e7df1",
+  "seedHash": "674d5b1dca19a6e4ced34244ec92fd3b40cd1949d59a7d0f0b0a32b9c3a5e398",
   "data": {
     "configVersion": 2,
     "status": "seed_requires_runtime_calibration",
@@ -63,6 +63,8 @@
       "jumpEnabled": false
     },
     "bowControl": {
+      "fallTiltDeg": 60,
+      "fallConfirmSec": 0.12,
       "minPowerRatio": 0.35,
       "bowArmReachM": 0.6,
       "braceDepthM": 0.55,
@@ -160,7 +162,12 @@
         1.6,
         2.8
       ],
-      "headshotLethal": true
+      "headshotLethal": true,
+      "rockingChance": 0.35,
+      "platformTiltDeg": 5,
+      "platformPeriodSec": 6,
+      "heavyMassMultiplier": 1.35,
+      "heavyChance": 0.4
     },
     "reaction": {
       "impulseCalibrationRequired": true,

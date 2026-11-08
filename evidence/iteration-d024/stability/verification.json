@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "status": "BLOCKED",
+  "scope": "Real Creator/Box2D lifecycle stress with injected head hits and HP refills; not manual combat, projectile collision or G1",
+  "listenerCoverage": "NOT_MEASURED",
+  "errors": [],
+  "restarts": [],
+  "samples": [],
+  "reason": "Current Creator Web build missing"
+}

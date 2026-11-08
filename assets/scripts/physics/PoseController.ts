@@ -4,6 +4,7 @@ import type { RigJointId, RigDefinition } from './RigDefinition';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import { armGeometry, solveArm, postureMotorAuthority, type ArmGeometry, type PhysicalPose } from '../domain/archery';
 import { ReactionWeights, type JointReaction } from '../domain/reaction';
+import { FallDetector } from '../domain/ArcadeRules';
 
 export type PoseName = PhysicalPose;
 
@@ -44,6 +45,8 @@ export class PoseController {
   private warmupRemaining = 0.5;
   private alive = true;
   private readonly reactions = new ReactionWeights();
+  private readonly fall = new FallDetector();
+  private armed = true;
 
   private drawing = false;
   private requestedDraw = 0;
@@ -60,7 +63,7 @@ export class PoseController {
   }
 
   public setDraw(drawing: boolean, progress: number): void {
-    this.drawing = drawing && this.alive;
+    this.drawing = drawing && this.alive && this.armed;
     this.requestedDraw = this.drawing ? Math.max(0, Math.min(1, progress)) : 0;
   }
 
@@ -75,7 +78,7 @@ export class PoseController {
     const bowErrorM = Math.hypot(bowGrip.x - bowTarget.x, bowGrip.y - bowTarget.y);
     const stringErrorM = Math.hypot(stringGrip.x - stringTarget.x, stringGrip.y - stringTarget.y);
     return { bowGrip, stringGrip, bowTarget, stringTarget, bowErrorM, stringErrorM,
-      ready: this.alive && this.warmupRemaining <= 0 && Math.max(bowErrorM, stringErrorM) <= this.bow.gripReadyToleranceM };
+      ready: this.alive && this.armed && this.warmupRemaining <= 0 && Math.max(bowErrorM, stringErrorM) <= this.bow.gripReadyToleranceM };
   }
 
   public get snapshot(): PoseControllerSnapshot {
@@ -90,7 +93,12 @@ export class PoseController {
     this.elapsed = this.armTraumaUntil = 0;
     this.armControlWeight = 1;
     this.warmupRemaining = 0.5;
-    this.alive = true; this.reactions.clear();
+    this.alive = this.armed = true; this.reactions.clear(); this.fall.reset();
+  }
+
+  public setArmed(armed: boolean): void {
+    this.armed = armed;
+    if (!armed) { this.drawing = false; this.drawAmount = this.requestedDraw = 0; }
   }
 
   public setPose(pose: PoseName): void {
@@ -124,6 +132,11 @@ export class PoseController {
 
   public step(dt: number): void {
     if (!this.alive) return;
+    const chestPosition = this.ragdoll.worldPointM('chest', [0, 0]);
+    const pelvisPosition = this.ragdoll.worldPointM('pelvis', [0, 0]);
+    if (this.pose !== 'downed' && this.fall.step(dt, Physics.radians(this.ragdoll.worldAngleDeg('chest')),
+      chestPosition.y - pelvisPosition.y, this.warmupRemaining <= 0,
+      this.bow.fallTiltDeg, this.bow.fallConfirmSec)) this.setPose('downed');
     this.reactions.step(dt);
     this.elapsed += dt;
     const change = this.requestedDraw - this.drawAmount;
@@ -138,16 +151,20 @@ export class PoseController {
     }
     if (this.elapsed >= this.armTraumaUntil) this.armControlWeight = 1;
     const targets = { ...POSES[this.pose] };
+    const facing = this.ragdoll.definition.facing ?? 1;
+    for (const joint of JOINTS) targets[joint] *= facing;
     const chestRad = Physics.radians(this.ragdoll.worldAngleDeg('chest'));
     const hands = this.handsSnapshot;
     const rightShoulder = this.ragdoll.worldPointM('chest', this.rightArm.shoulderAnchorM);
     const leftShoulder = this.ragdoll.worldPointM('chest', this.leftArm.shoulderAnchorM);
     const hold = solveArm(this.rightArm, rightShoulder, hands.bowTarget, chestRad);
     const pull = solveArm(this.leftArm, leftShoulder, hands.stringTarget, chestRad);
-    targets.rightShoulder = Physics.degrees(hold.shoulderRad);
-    targets.rightElbow = Physics.degrees(hold.elbowRad);
-    targets.leftShoulder = Physics.degrees(pull.shoulderRad);
-    targets.leftElbow = Physics.degrees(pull.elbowRad);
+    if (this.armed) {
+      targets.rightShoulder = Physics.degrees(hold.shoulderRad);
+      targets.rightElbow = Physics.degrees(hold.elbowRad);
+      targets.leftShoulder = Physics.degrees(pull.shoulderRad);
+      targets.leftElbow = Physics.degrees(pull.elbowRad);
+    }
     const controlTorque = Math.min(12, this.baseTorqueNm * 0.1);
     for (const jointId of JOINTS) {
       const arm = jointId.endsWith('Shoulder') || jointId.endsWith('Elbow');
@@ -159,7 +176,8 @@ export class PoseController {
 
   private controlWeight(joint: RigJointId): number {
     const arm = joint.endsWith('Shoulder') || joint.endsWith('Elbow');
-    return postureMotorAuthority(joint, this.pose, this.alive) * this.reactions.weight(joint) * (arm ? this.armControlWeight : 1);
+    return postureMotorAuthority(joint, this.pose, this.alive) * this.reactions.weight(joint) *
+      (arm ? this.armed ? this.armControlWeight : 0 : 1);
   }
 
   private balanceStandingChest(): void {

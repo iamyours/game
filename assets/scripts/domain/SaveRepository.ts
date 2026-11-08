@@ -2,6 +2,54 @@ import type { SeedPack } from '../../../tools/config/schema.js';
 
 type Level = SeedPack['levels']['levels'][number];
 export interface StoragePort { getItem(key: string): string | null; setItem(key: string, value: string): void }
+
+/** Endless mode owns a separate key; historical level progression is never overwritten. */
+export class ArcadeRecordRepository {
+  private data = { schemaVersion: 1, bestScore: 0, soundEnabled: true };
+  private dirty = false;
+  private blocked: WriteResult | null = null;
+  public lastWrite: WriteResult = { ok: true };
+  private recovery: string | null = null;
+  public constructor(private readonly storage: StoragePort) {
+    let raw: string | null;
+    try { raw = storage.getItem('storm-archers.arcade'); }
+    catch { this.lastWrite = this.blocked = { ok: false, reason: 'read-failed' }; return; }
+    if (raw === null) return;
+    try {
+      const value: unknown = JSON.parse(raw);
+      if (value && typeof value === 'object' && 'schemaVersion' in value &&
+        typeof value.schemaVersion === 'number' && value.schemaVersion > 1) {
+        this.lastWrite = this.blocked = { ok: false, reason: 'future-version' }; return;
+      }
+      if (!value || typeof value !== 'object' || !('schemaVersion' in value) || value.schemaVersion !== 1 ||
+        !('bestScore' in value) || !Number.isSafeInteger(value.bestScore) || Number(value.bestScore) < 0 ||
+        !('soundEnabled' in value) || typeof value.soundEnabled !== 'boolean') throw new Error('坏档');
+      this.data = { schemaVersion: 1, bestScore: Number(value.bestScore), soundEnabled: value.soundEnabled };
+    } catch { this.recovery = raw; this.dirty = true; }
+  }
+  public get snapshot() { return { ...this.data }; }
+  public record(score: number): WriteResult {
+    if (!Number.isSafeInteger(score) || score < 0) throw new Error('击败数必须是非负整数');
+    if (score > this.data.bestScore) { this.data.bestScore = score; this.dirty = true; }
+    return this.flush();
+  }
+  public setSound(enabled: boolean): WriteResult {
+    this.data.soundEnabled = enabled; this.dirty = true; return this.flush();
+  }
+  public flush(): WriteResult {
+    if (this.blocked) return this.lastWrite = this.blocked;
+    if (!this.dirty) return this.lastWrite;
+    if (this.recovery !== null) {
+      try {
+        const key = 'storm-archers.arcade.backup', previous = this.storage.getItem(key);
+        if (previous !== null && previous !== this.recovery) return this.lastWrite = { ok: false, reason: 'backup-failed' };
+        this.storage.setItem(key, this.recovery); this.recovery = null;
+      } catch { return this.lastWrite = { ok: false, reason: 'backup-failed' }; }
+    }
+    try { this.storage.setItem('storm-archers.arcade', JSON.stringify(this.data)); this.dirty = false; return this.lastWrite = { ok: true }; }
+    catch { return this.lastWrite = { ok: false, reason: 'write-failed' }; }
+  }
+}
 export interface SaveData {
   schemaVersion: 1;
   unlockedLevels: string[];

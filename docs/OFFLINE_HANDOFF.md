@@ -1,3 +1,9 @@
+# D024 接入状态更新
+
+当前代码已接EnemyAttack、ShotBudget、PickupRules、ArcadeRecordRepository、RuntimeDiagnostics和Cocos音效。下文为D017历史交付记录，不再据此重复接入。历史三关RunSession/PageFlow/关卡SaveRepository保留在T021；装甲掉盔在T020。
+
+本轮新增音频文件夹和3个WAV、原D023的ArcadeBattle/ArcadeRules如仍缺meta，必须由Creator3.8.8真实导入生成并提交。不要手写UUID。当前环境无Creator，无法生成这些导入记录或运行当前玩法。具体复验见docs/CONTINUOUS_HANDOFF.md。
+
 # 无引擎交付与 Cocos 接入清单
 
 日期：2026-11-08；本轮基线 `5008d42`，源码/资源清单见 evidence/offline/handoff.json。用户授权独立子项提前实现，完整任务仍保留引擎验收。

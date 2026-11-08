@@ -21,6 +21,7 @@ export function postureMotorAuthority(joint: RigJointId, pose: PhysicalPose, ali
   return joint.endsWith('Shoulder') || joint.endsWith('Elbow') ? 0.8 : 0;
 }
 export interface ArmGeometry {
+  readonly bendSign: 1 | -1;
   readonly shoulderAnchorM: readonly [number, number];
   readonly gripLocalM: readonly [number, number];
   readonly upperLengthM: number;
@@ -51,11 +52,11 @@ export function aimHintPoints(socket: PointM, angleRad: number, speedMps: number
 export function armGeometry(rig: RigDefinition, side: ArmSide): ArmGeometry {
   const shoulder = rig.jointDefinitions.find(j => j.id === `${side}Shoulder`)!;
   const elbow = rig.jointDefinitions.find(j => j.id === `${side}Elbow`)!;
-  const gripLocalM = [side === 'right' ? 0.12 : -0.12, -0.07] as const;
+  const gripLocalM = [(side === 'right' ? 0.12 : -0.12) * (rig.facing ?? 1), -0.07] as const;
   const upper = { x: elbow.parentAnchorM[0] - shoulder.childAnchorM[0],
     y: elbow.parentAnchorM[1] - shoulder.childAnchorM[1] };
   const fore = { x: gripLocalM[0] - elbow.childAnchorM[0], y: gripLocalM[1] - elbow.childAnchorM[1] };
-  return { shoulderAnchorM: shoulder.parentAnchorM, gripLocalM,
+  return { bendSign: rig.facing ?? 1, shoulderAnchorM: shoulder.parentAnchorM, gripLocalM,
     upperLengthM: Math.hypot(upper.x, upper.y), foreLengthM: Math.hypot(fore.x, fore.y),
     upperRestRad: Math.atan2(upper.y, upper.x), foreRestRad: Math.atan2(fore.y, fore.x),
     shoulderLimitsRad: [rad(shoulder.limitsDeg[0]), rad(shoulder.limitsDeg[1])],
@@ -83,7 +84,9 @@ export function solveArm(g: ArmGeometry, shoulder: PointM, target: PointM, chest
   const a = g.upperLengthM, b = g.foreLengthM;
   const restBend = wrapRad(g.foreRestRad - g.upperRestRad);
   const bend = Math.acos(clamp((dx * dx + dy * dy - a * a - b * b) / (2 * a * b), -1, 1));
-  const elbowRad = clamp(bend - restBend, Math.max(rad(8), g.elbowLimitsRad[0]), Math.min(rad(145), g.elbowLimitsRad[1]));
+  const elbowRad = clamp(g.bendSign * bend - restBend,
+    Math.max(rad(g.bendSign === 1 ? 8 : -145), g.elbowLimitsRad[0]),
+    Math.min(rad(g.bendSign === 1 ? 145 : -8), g.elbowLimitsRad[1]));
   const actualBend = elbowRad + restBend;
   const upperRad = Math.atan2(dy, dx) - Math.atan2(b * Math.sin(actualBend), a + b * Math.cos(actualBend));
   const shoulderRad = clamp(wrapRad(upperRad - g.upperRestRad - chestRad), ...g.shoulderLimitsRad);

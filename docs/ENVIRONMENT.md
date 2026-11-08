@@ -115,3 +115,6 @@ T002_EVIDENCE_DIR=evidence/T004/bow-draw/t002-regression npm run test:web:t002
 
 ## D023 连续对战代码（2026-11-08）
 基线4a54674，109项便携检查通过；新ArcadeBattle与接线仅语法检查。默认URL进入连续对战；旧回归默认URL改为?practice=1。新增test:web:arcade，未运行。typecheck:engine/build:web返回2（缺Creator/导入声明）；evidence/arcade记录实际范围，不复用旧启动烟测宣称本模式通过。
+
+## D024 当前Linux执行环境（2026-11-08）
+main b121eb7克隆到工作区并按锁文件安装依赖；118项便携检查通过、28脚本语法通过。未发现Creator3.8.8，也没有temp/tsconfig.cocos.json；typecheck:engine/build:web均退出2。运行与稳定性脚本因缺当前构建退出2（BLOCKED）。旧macOS编辑器与构建证据仅适用各自历史源码。原生工具链、微信宿主和真机也不在本环境，不能执行渠道放行。日志evidence/iteration-d024；后续命令docs/CONTINUOUS_HANDOFF.md。

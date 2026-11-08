@@ -14,7 +14,7 @@
 | 工程来源 | 已安装编辑器的官方 empty-2d 模板配置，逐项合并而非覆盖现有源码 |
 | 导入 | 真实编辑器生成 library、temp/declarations、资源 meta 和 Boot.scene |
 | 物理后端 | 编辑器日志确认切换至 Box2D；WebGL 运行对象为 b2PhysicsWorld；T002 已实跑标定与输入 |
-| Git | 当前目录不是 Git 仓库；未提交、推送或发布 |
+| Git | 已初始化 `main` 并跟踪 `origin/main`；首次导入提交 `aba46c0` 已于 2026-11-08 推送 GitHub；未发布 |
 
 安装包官方来源、本地 SHA-256 和签名信息见 `evidence/T001/installation/install.json` 与 `codesign-info.log`。本地计算的哈希用于标识安装包，不冒充厂商发布的校验值。
 

@@ -5,7 +5,7 @@ currentMilestone: M1
 currentTask: T004
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003
-sourceRevision: 未创建 Git；当前试玩构建指纹见 evidence/T004/release-to-fire/build-and-source-sha256.txt
+sourceRevision: Git main @ aba46c0；首次导入提交与 origin/main 一致
 configVersion: 2
 runtimeVerified: 否（T003 左右骨架 WebGL 已实测；完整玩法种子未验收）
 feelGateG1: NOT_RUN
@@ -20,6 +20,7 @@ selectedTapTapPath: Android APK 默认方案，待 T016 核实
 
 - T003：新增 `RigDefinition` 与 `RagdollFactory`，生成左右两个 11 刚体/10 铰链骨架；锚点、24 kg 质量分配、角度限位、中性马达和 ragdoll/platform 碰撞组来自生成配置；PhysicsLab 生成三块真实平台并支持 after-step 安全重置。
 - T003 WebGL/Box2D：同一 PhysicsLab 静置 30 秒采样 277 次，左右骨架均 11 刚体/10 关节，最大关节锚点误差 0.000016801 m，物理世界数量保持 27 刚体/20 关节；随后重置 20 次，数量仍为 27/20，无页面或控制台错误。AC03 Web 范围 PASS。
+- Git 基线：初始化 `main`，首次导入提交 `aba46c0` 已推送到 `git@github.com:iamyours/game.git`；本次提交前的 `npm run verify`、`npm run typecheck:engine` 与 `npm run env:check` 均退出 0。构建/导入缓存、运行配置和 SSH 私钥未纳入版本管理。
 
 ## 桌面 PhysicsLab 射箭练习版
 - T004 进行中：受限铰链马达跟随世界瞄准，握点来自真实右前臂，发射前检查身位与平台阻挡。真实受击后的后仰、倒地及继续射击尚待验收。

@@ -34,11 +34,14 @@ try {
         const actor = lab.ragdolls[1], body = actor.bodies.get(part);
         const p = body.getWorldPoint(new cc.Vec2(0, 3.2), new cc.Vec2());
         const before = { x: body.linearVelocity.x, y: body.linearVelocity.y };
+        const momentum = () => [...actor.bodies.values()].reduce((sum, b) => sum + b.getMass() * b.linearVelocity.x, 0);
+        const beforeMomentum = momentum();
         const arrow = lab.config.arrows.find(a => a.id === arrowId);
         lab.hitResolver.resolve({ shotId: 100000 + lab.physics.steps, stepId: lab.physics.steps, attackerId: 'PlayerRagdoll',
           targetId: actor.id, partId: part, pointM: { x: p.x / 32, y: p.y / 32 }, normal: { x: -1, y: 0 },
           incomingVelocityMps: { x: arrow.speedMps, y: 0 }, arrow, source: 'sweep', fraction: 0.5 }, body);
         const after = { x: body.linearVelocity.x, y: body.linearVelocity.y };
+        const deltaMomentum = momentum() - beforeMomentum;
         const hit = lab.snapshot().combat.find(a => a.id === actor.id).lastHit;
         const samples = [];
         for (let i = 0; i < 60; i++) {
@@ -46,15 +49,16 @@ try {
           if ([0, 5, 14, 29, 59].includes(i)) samples.push({ step: i + 1, pose: lab.enemyAim.poseSnapshot,
             positions: actor.snapshot().positionsM, finite: actor.snapshot().finite, anchorErrorM: actor.snapshot().maxJointErrorM });
         }
-        return { part, arrowId, mass: body.getMass(), deltaVx: after.x - before.x, hit, samples };
+        return { part, arrowId, deltaMomentum, mass: body.getMass(), deltaVx: after.x - before.x, hit, samples };
       }, { part, arrowId });
-      assert.ok(Math.abs(result.deltaVx * result.mass - result.hit.impulseNs) < 1e-4, '真实刚体即时 Δv×m 应等于配置冲量，不重复施力');
+      assert.ok(Math.abs(result.deltaMomentum - result.hit.impulseNs) < 1e-4, '全身即时动量增量等于唯一冲量预算，不重复施力');
+      assert.ok(Math.abs(result.deltaVx * result.mass - result.hit.localImpulseNs) < 1e-4, '命中部位只收到分配的局部冲量');
       assert.ok(result.samples.every(s => s.finite && s.anchorErrorM < 0.02));
       report.cases.push(result);
     }
     const cases = report.cases.filter(c => c.part === part);
     const normal = cases.find(c => c.arrowId === 'normal'), impact = cases.find(c => c.arrowId === 'impact'), piercing = cases.find(c => c.arrowId === 'piercing');
-    assert.ok(impact.deltaVx > normal.deltaVx && normal.deltaVx > piercing.deltaVx);
+    assert.ok(impact.deltaMomentum > normal.deltaMomentum && normal.deltaMomentum > piercing.deltaMomentum);
     assert.ok(impact.hit.jointReaction[0].weight < normal.hit.jointReaction[0].weight);
   }
   report.skins = await page.evaluate(() => {

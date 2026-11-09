@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { aimHintPoints, applyDrawStrength, armGeometry, solveArm, limitedJointMotorSpeed, postureMotorAuthority } from '../assets/scripts/domain/archery.js';
+import { aimHintPoints, applyDrawStrength, armGeometry, solveArm, limitedJointMotorSpeed, postureMotorAuthority, bowReleaseFlex } from '../assets/scripts/domain/archery.js';
 import { readRigDefinition } from '../assets/scripts/physics/RigDefinition.js';
 import { readBootManifest } from '../assets/scripts/core/BootManifest.js';
 import { loadSeedPack, renderGenerated } from '../tools/config/files.js';
@@ -11,6 +11,15 @@ async function setup() {
   const rig = readRigDefinition(JSON.parse(generated.get('rig.json')!), manifest);
   return { rig, bow: pack.combat.bowControl };
 }
+
+test('成功放箭后弓臂越过中立位并衰减，轻拉回弹更小，结束后静止', () => {
+  assert.equal(bowReleaseFlex(1, 0), 1);
+  assert.ok(bowReleaseFlex(1, 0.06) < 0, '弓臂应先向前回弹而非缓慢缩回');
+  assert.ok(Math.abs(bowReleaseFlex(0.35, 0.06)) < Math.abs(bowReleaseFlex(1, 0.06)));
+  assert.ok(Math.abs(bowReleaseFlex(1, 0.24)) < 0.03);
+  assert.equal(bowReleaseFlex(1, 0.35), 0);
+  assert.equal(bowReleaseFlex(1, Infinity), 0);
+});
 
 test('方向提示仅覆盖离弦后 0.15 秒，不泄露整段落点；保留重力与力度差异', () => {
   const origin = { x: 4, y: 5 }, dt = 1 / 60;

@@ -94,6 +94,7 @@ export const combatSchema = z.object({
   }).strict(),
   reaction: z.object({
     impulseCalibrationRequired: z.literal(true), maxSingleImpulseNs: positive,
+    localImpulseShare: positive.max(1), maxLocalDeltaMps: positive.max(5),
     playerMaxIncomingImpulseNs: positive, enemyArmTraumaToDisarm: positive,
     armTraumaSource: z.literal('ceil_zone_damage_before_armor'), armTraumaDecayPerSec: nonnegative,
     repeatDisarmAllowed: z.literal(false), liveLimbSevering: z.literal(false),

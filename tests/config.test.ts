@@ -45,7 +45,7 @@ const invalidCases: [string, (pack: SeedPack) => void, RegExp][] = [
   ['过大箭冲量', (p) => { p.combat.arrows[0]!.impulseNs = 100; }, /冲量超过/],
   ['过大体力消耗', (p) => { p.combat.arrows[0]!.staminaCost = 101; }, /体力消耗/],
   ['普通箭错误溢出', (p) => { p.combat.arrows[0]!.armorOverflow = true; }, /只有穿甲箭/],
-  ['过大玩家冲量上限', (p) => { p.combat.reaction.playerMaxIncomingImpulseNs = 5; }, /玩家冲量/],
+  ['过大玩家冲量上限', (p) => { p.combat.reaction.playerMaxIncomingImpulseNs = p.combat.reaction.maxSingleImpulseNs + 1; }, /玩家冲量/],
   ['出生点在出界线下', (p) => { p.levels.platforms[0]!.surfaceY_M = -10; }, /出界线/],
   ['常态预算超过峰值', (p) => { p.combat.limits.peakBodiesBudget = 60; }, /常态刚体/],
   ['单人插箭超过全场', (p) => { p.combat.limits.maxEmbeddedVisuals = 1; }, /单角色插箭/],

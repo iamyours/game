@@ -11,6 +11,7 @@ import { PoseController, type PoseName } from '../physics/PoseController';
 import { ProjectileSystem, TIP_OFFSET_M } from '../combat/ProjectileSystem';
 import { HitResolver, type ActorCombatState } from '../combat/HitResolver';
 import { LabViewport } from './LabViewport';
+import { drawWeaponBow } from './WeaponVisual';
 import { ArcadeBattle } from '../combat/ArcadeBattle';
 import { CharacterSkin } from './CharacterSkin';
 import { ShotBudget, type ShotRejection } from '../domain/BattleRules';
@@ -169,7 +170,7 @@ export class PhysicsLab extends Component {
       if (state.hp <= 0) aim.setAlive(false);
       else if (state.lastHit) aim.registerHit(state.lastHit.jointReaction);
       this.dirty = true;
-    }, this.arcadeMode && config.arcade.headshotLethal);
+    }, this.arcadeMode && config.arcade.headshotLethal, id => this.ragdolls.find(actor => actor.id === id)?.bodies.get('chest'));
     if (this.arcadeMode) this.combatStates.delete('EnemyRagdoll');
     this.projectiles = new ProjectileSystem(world, config, this.ragdolls, (candidate, targetBody) => this.hitResolver.resolve(candidate, targetBody));
     if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; }, kind => this.playSound(kind), effect => {
@@ -346,7 +347,7 @@ export class PhysicsLab extends Component {
     const shotId = this.projectiles.fire('PlayerRagdoll', { ...socket, angleRad: shot.aimRad }, launchArrow);
     if (shotId !== null) { this.lastShot = { ...shot, stepId, socket, hands: this.playerAim.handsSnapshot,
       drawAmount: this.playerAim.poseSnapshot.drawAmount, speedMps: launchArrow.speedMps }; this.shots += 1;
-      this.lastAttempt = { stepId, result: 'fired' }; this.playSound('shot'); }
+      this.lastAttempt = { stepId, result: 'fired' }; this.playerAim.releaseBow(); this.playSound('shot'); }
     this.dirty = true;
   };
 
@@ -560,8 +561,9 @@ export class PhysicsLab extends Component {
     if (this.viewport.portrait || this.manualPause || this.hidden || (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0)) return;
     const arrow = this.config.arrows.find(value => value.id === this.router.selectedArrow.id)!;
     const socket = { ...this.playerAim.bowSocket(), angleRad: this.router.aimRad };
-    const dx = Math.cos(socket.angleRad), dy = Math.sin(socket.angleRad);
-    this.drawBow(g, socket, dx, dy, arrowTints[arrow.id]);
+    const drawing = this.router.aimId !== null;
+    drawWeaponBow(g, socket, this.config.bowControl, arrow.id, this.playerAim.poseSnapshot.bowFlex,
+      drawing ? this.playerAim.handsSnapshot.stringGrip : undefined, drawing ? TIP_OFFSET_M : undefined);
     const clear = this.projectiles.muzzleClear('PlayerRagdoll', socket);
     g.fillColor = color(!clear ? '#FF645E' : !this.playerAim.handsSnapshot.ready ? '#F0A84B' : arrowTints[arrow.id]);
     g.circle(Physics.units(socket.x), Physics.units(socket.y), Physics.units(0.08));
@@ -573,36 +575,6 @@ export class PhysicsLab extends Component {
       }
     }
     g.fill();
-  }
-
-  private drawBow(g: Graphics, socket: Point, dx: number, dy: number, arrowTint: string): void {
-    const point = (forward: number, across: number) => ({
-      x: Physics.units(socket.x + dx * forward - dy * across),
-      y: Physics.units(socket.y + dy * forward + dx * across),
-    });
-    const top = point(-this.config.bowControl.braceDepthM, this.config.bowControl.bowHalfHeightM),
-      bottom = point(-this.config.bowControl.braceDepthM, -this.config.bowControl.bowHalfHeightM), center = point(0.36, 0);
-    const grip = this.playerAim.handsSnapshot.stringGrip;
-    const nock = { x: Physics.units(grip.x), y: Physics.units(grip.y) };
-    g.lineWidth = Physics.units(0.065);
-    g.strokeColor = color('#DDA460');
-    g.moveTo(top.x, top.y);
-    g.quadraticCurveTo(center.x, center.y, bottom.x, bottom.y);
-    g.stroke();
-    g.lineWidth = Physics.units(0.025);
-    g.strokeColor = color('#EAF4F7');
-    g.moveTo(top.x, top.y);
-    g.lineTo(nock.x, nock.y);
-    g.lineTo(bottom.x, bottom.y);
-    g.stroke();
-    if (this.router.aimId !== null) {
-      const tip = point(TIP_OFFSET_M, 0);
-      g.lineWidth = Physics.units(0.035);
-      g.strokeColor = color(arrowTint);
-      g.moveTo(nock.x, nock.y);
-      g.lineTo(tip.x, tip.y);
-      g.stroke();
-    }
   }
 
   private playSound(kind: 'shot' | 'hit' | 'drop'): void {

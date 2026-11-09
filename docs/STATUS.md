@@ -1,15 +1,21 @@
-# 当前状态（D026）
+# 当前状态（D029）
 
 version: V2.2
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: main 522963d；拉取后测试见 evidence/pull-test-20261109/verification.md
+sourceRevision: main 121c306 + D029武器反馈；本次验证见 evidence/bow-impact-20261110/verification.md
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（缺当前Creator构建与试玩）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D029 武器形变与击退（2026-11-10恢复并推送）
+
+基线main 121c306。已恢复三套大尺寸弓箭、蓄力弯曲、成功放箭回弹；满弓普通/冲击/穿甲总冲量12/22/8.5 N·s，局部与胸部共享一次预算，玩家上限保持2.4 N·s。详见docs/WEAPON_FEEL.md。
+
+恢复后122项规则/配置/便携类型测试通过；29个脚本语法通过。当前缺Creator和导入声明，真实击退/稳定性未验，G1不放行；新meta待真实导入生成。T004/T005/T006/T012保持IN_PROGRESS。证据evidence/bow-impact-20261110/verification.md。
 
 ## D028 最新代码编译运行（2026-11-09）
 

@@ -4,6 +4,12 @@ export interface PointM { readonly x: number; readonly y: number }
 export type ArmSide = 'left' | 'right';
 export type PhysicalPose = 'standing' | 'staggered' | 'downed';
 
+/** A release-only damped spring; cancellation never calls this animation. */
+export function bowReleaseFlex(strength: number, elapsedSec: number): number {
+  if (!Number.isFinite(elapsedSec) || elapsedSec < 0 || elapsedSec >= 0.35) return 0;
+  return Math.max(0, Math.min(1, strength)) * Math.exp(-15 * elapsedSec) * Math.cos(52 * elapsedSec);
+}
+
 /** A limited hinge must take the legal interval route, not a wrapped shortcut through its stops. */
 export function limitedJointMotorSpeed(currentDeg: number, targetDeg: number,
   limitsDeg: readonly [number, number], maxSpeedDegPerSec: number): number {

@@ -1,0 +1,21 @@
+{
+  "baseRevision": "121c3066d765cdc9704b11bbb71d28ebb3eec4bf",
+  "restoredFrom": "previous turn source patches; original local commit 2528a55 no longer available after environment change",
+  "commands": {
+    "npm run config:generate": 0,
+    "npm run verify": 0,
+    "npm run check:syntax": 0,
+    "node --check scripts/verify-t004-web.mjs": 0,
+    "node --check scripts/verify-arm-impact-web.mjs": 0,
+    "npm run typecheck:engine": 2,
+    "npm run build:web": 2
+  },
+  "unitTests": 122,
+  "runtime": "BLOCKED: Creator/editor import/current build missing",
+  "sha256": {
+    "configs/combat.seed.json": "4e80e129ac5199172720efb77602bd6c6156b109eb7f210197d3db191d2ec0c2",
+    "assets/scripts/presentation/WeaponVisual.ts": "2c86b7c38e523e6fd0db8398315de367ddccfb599007d3405d8c42774120836b",
+    "assets/scripts/combat/HitResolver.ts": "a0451bee642c51e6f58eb7d34e7ae09e8163bee57df3a9c0a00da515610b2975",
+    "assets/scripts/physics/PoseController.ts": "085f8995a4e3fd20e3f20dc4feded9401178da97dd8d3e45609e668d5974c036"
+  }
+}

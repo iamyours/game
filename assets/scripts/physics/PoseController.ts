@@ -2,7 +2,7 @@ import { PhysicsAdapter as Physics } from './PhysicsAdapter';
 import type { RagdollInstance } from './RagdollFactory';
 import type { RigJointId, RigDefinition } from './RigDefinition';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
-import { armGeometry, solveArm, postureMotorAuthority, type ArmGeometry, type PhysicalPose } from '../domain/archery';
+import { armGeometry, solveArm, postureMotorAuthority, bowReleaseFlex, type ArmGeometry, type PhysicalPose } from '../domain/archery';
 import { ReactionWeights, type JointReaction } from '../domain/reaction';
 import { FallDetector } from '../domain/ArcadeRules';
 
@@ -14,6 +14,7 @@ export interface PoseControllerSnapshot {
   readonly armControlWeight: number;
   readonly drawing: boolean;
   readonly drawAmount: number;
+  readonly bowFlex: number;
   readonly alive: boolean;
   readonly jointControlWeights: Readonly<Record<string, number>>;
 }
@@ -51,6 +52,8 @@ export class PoseController {
   private drawing = false;
   private requestedDraw = 0;
   private drawAmount = 0;
+  private releasedStrength = 0;
+  private releaseAge = Infinity;
   private readonly rightArm: ArmGeometry;
   private readonly leftArm: ArmGeometry;
   private readonly baseTorqueNm: number;
@@ -63,8 +66,15 @@ export class PoseController {
   }
 
   public setDraw(drawing: boolean, progress: number): void {
+    if (drawing && !this.drawing) { this.releasedStrength = 0; this.releaseAge = Infinity; }
     this.drawing = drawing && this.alive && this.armed;
     this.requestedDraw = this.drawing ? Math.max(0, Math.min(1, progress)) : 0;
+  }
+
+  public releaseBow(): void {
+    this.releasedStrength = this.drawAmount;
+    this.releaseAge = 0;
+    this.drawing = false; this.requestedDraw = 0;
   }
 
   public get handsSnapshot() {
@@ -84,12 +94,14 @@ export class PoseController {
   public get snapshot(): PoseControllerSnapshot {
     return { pose: this.pose, aimRad: this.aimRad, armControlWeight: this.armControlWeight,
       drawing: this.drawing, drawAmount: this.drawAmount, alive: this.alive,
+      bowFlex: this.drawing ? this.drawAmount : bowReleaseFlex(this.releasedStrength, this.releaseAge),
       jointControlWeights: Object.fromEntries(JOINTS.map(joint => [joint, this.controlWeight(joint)])) };
   }
 
   public reset(): void {
     this.pose = 'standing';
     this.drawing = false; this.requestedDraw = this.drawAmount = 0;
+    this.releasedStrength = 0; this.releaseAge = Infinity;
     this.elapsed = this.armTraumaUntil = 0;
     this.armControlWeight = 1;
     this.warmupRemaining = 0.5;
@@ -98,7 +110,7 @@ export class PoseController {
 
   public setArmed(armed: boolean): void {
     this.armed = armed;
-    if (!armed) { this.drawing = false; this.drawAmount = this.requestedDraw = 0; }
+    if (!armed) { this.drawing = false; this.drawAmount = this.requestedDraw = this.releasedStrength = 0; }
   }
 
   public setPose(pose: PoseName): void {
@@ -120,6 +132,7 @@ export class PoseController {
     this.alive = alive;
     if (!alive) {
       this.drawing = false; this.drawAmount = this.requestedDraw = 0;
+      this.releasedStrength = 0;
       for (const joint of JOINTS) this.ragdoll.setJointMotor(joint, 0, 0, 0);
     }
   }
@@ -139,6 +152,7 @@ export class PoseController {
       this.bow.fallTiltDeg, this.bow.fallConfirmSec)) this.setPose('downed');
     this.reactions.step(dt);
     this.elapsed += dt;
+    this.releaseAge += dt;
     const change = this.requestedDraw - this.drawAmount;
     const rate = change < 0 ? this.bow.releaseFollowPerSec : this.bow.drawFollowPerSec;
     this.drawAmount += Math.max(-rate * dt, Math.min(rate * dt, change));

@@ -14,7 +14,13 @@ const groups: Readonly<Record<string, readonly [readonly RigJointId[], readonly 
   rightThigh: [['rightHip', 'rightKnee'], ['waist']], rightShin: [['rightHip', 'rightKnee'], ['waist']],
 };
 
-/** Preserve per-arrow impulse. This only lets it propagate through temporarily softer joints. */
+/** Split ONE impulse budget. Small limbs keep a bounded local velocity kick; the remainder moves the torso. */
+export function splitHitImpulse(totalNs: number, massKg: number, localShare: number, maxLocalDeltaMps: number) {
+  const localNs = Math.min(totalNs * localShare, Math.max(0, massKg) * maxLocalDeltaMps);
+  return { localNs, torsoNs: totalNs - localNs };
+}
+
+/** Let the impulse propagate through temporarily softer joints. */
 export function planReaction(partId: string, profile: Profile, effectiveStrength: number,
   playerArmRecovery?: readonly [number, number]): readonly JointReaction[] {
   const group = groups[partId];

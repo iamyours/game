@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { planReaction, ReactionWeights } from '../assets/scripts/domain/reaction.js';
+import { planReaction, ReactionWeights, splitHitImpulse } from '../assets/scripts/domain/reaction.js';
 import { applyDrawStrength } from '../assets/scripts/domain/archery.js';
 import { loadSeedPack } from '../tools/config/files.js';
 import { validateSeedPack } from '../tools/config/validate.js';
@@ -65,4 +65,18 @@ test('配置拒绝缺箭型受击配置、负权重与无穷恢复时长', () =>
     (p: typeof pack) => { delete (p.combat.reaction.profiles as Partial<typeof config.reaction.profiles>).piercing; }]) {
     const copy = structuredClone(pack); mutation(copy); assert.throws(() => validateSeedPack(copy));
   }
+});
+
+
+test('击退只分配一次总冲量，轻量肢体的局部速度受限', () => {
+  for (const seed of config.arrows) for (const strength of [0, 0.5, 1]) {
+    const arrow = applyDrawStrength(seed, strength, config.bowControl.minPowerRatio);
+    for (const mass of [0.96, 1.92, 7.68]) {
+      const split = splitHitImpulse(arrow.impulseNs, mass, config.reaction.localImpulseShare, config.reaction.maxLocalDeltaMps);
+      assert.ok(Math.abs(split.localNs + split.torsoNs - arrow.impulseNs) < 1e-9);
+      assert.ok(split.localNs / mass <= config.reaction.maxLocalDeltaMps);
+      assert.ok(split.localNs > 0 && split.torsoNs > 0);
+    }
+  }
+  assert.equal(config.reaction.playerMaxIncomingImpulseNs, 2.4, '敌箭增大的武器外观不放大玩家承受的冲量上限');
 });

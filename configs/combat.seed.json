@@ -101,7 +101,7 @@
       "intervalSec": 0.55,
       "speedMps": 18,
       "staminaCost": 6,
-      "impulseNs": 1.8,
+      "impulseNs": 12,
       "armorDamageFactor": 1,
       "armorOverflow": false,
       "multiActorPenetration": false
@@ -112,7 +112,7 @@
       "intervalSec": 0.8,
       "speedMps": 17,
       "staminaCost": 10,
-      "impulseNs": 3.2,
+      "impulseNs": 22,
       "armorDamageFactor": 1,
       "armorOverflow": false,
       "multiActorPenetration": false
@@ -123,7 +123,7 @@
       "intervalSec": 0.75,
       "speedMps": 19,
       "staminaCost": 10,
-      "impulseNs": 1.4,
+      "impulseNs": 8.5,
       "armorDamageFactor": 2,
       "armorOverflow": true,
       "multiActorPenetration": false
@@ -131,7 +131,7 @@
   ],
   "reaction": {
     "impulseCalibrationRequired": true,
-    "maxSingleImpulseNs": 4,
+    "maxSingleImpulseNs": 24,
     "playerMaxIncomingImpulseNs": 2.4,
     "enemyArmTraumaToDisarm": 24,
     "armTraumaSource": "ceil_zone_damage_before_armor",
@@ -141,24 +141,26 @@
     "jointWeights": "tune_in_T004_T008",
     "profiles": {
       "normal": {
-        "localWeight": 0.25,
-        "neighborWeight": 0.75,
-        "recoverySec": 0.28,
-        "neighborRecoverySec": 0.18
+        "localWeight": 0.15,
+        "neighborWeight": 0.5,
+        "recoverySec": 0.4,
+        "neighborRecoverySec": 0.3
       },
       "impact": {
         "localWeight": 0.03,
-        "neighborWeight": 0.2,
-        "recoverySec": 0.75,
-        "neighborRecoverySec": 0.5
+        "neighborWeight": 0.15,
+        "recoverySec": 0.8,
+        "neighborRecoverySec": 0.6
       },
       "piercing": {
-        "localWeight": 0.45,
-        "neighborWeight": 0.9,
-        "recoverySec": 0.18,
-        "neighborRecoverySec": 0.12
+        "localWeight": 0.35,
+        "neighborWeight": 0.75,
+        "recoverySec": 0.25,
+        "neighborRecoverySec": 0.18
       }
-    }
+    },
+    "localImpulseShare": 0.45,
+    "maxLocalDeltaMps": 3
   },
   "enemies": [
     {
@@ -267,7 +269,7 @@
     "bowArmReachM": 0.6,
     "braceDepthM": 0.55,
     "drawTravelM": 0.2,
-    "bowHalfHeightM": 0.42,
+    "bowHalfHeightM": 0.64,
     "drawFollowPerSec": 12,
     "releaseFollowPerSec": 9,
     "armMaxSpeedDegPerSec": 360,

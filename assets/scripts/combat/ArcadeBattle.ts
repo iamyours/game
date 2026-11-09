@@ -10,7 +10,8 @@ import { PoseController } from '../physics/PoseController';
 import { CharacterSkin } from '../presentation/CharacterSkin';
 import type { RigBodyId } from '../physics/RigDefinition';
 import type { ActorCombatState } from './HitResolver';
-import { ProjectileSystem } from './ProjectileSystem';
+import { ProjectileSystem, TIP_OFFSET_M } from './ProjectileSystem';
+import { drawWeaponBow } from '../presentation/WeaponVisual';
 
 type Enemy = { actor: RagdollInstance; aim: AimController; skin: CharacterSkin; platform: Node;
   attack: EnemyAttack; spec: PhysicsLabConfig['enemies'][number]; hpMax: number; bow: BowState; heavy: boolean; rocking: boolean; bornAt: number; deadAt: number | null; telegraph: boolean };
@@ -81,7 +82,7 @@ export class ArcadeBattle {
         muzzleClear: this.projectiles.launchBlockReason(enemy.actor.id, socket) === null })) {
         const shot = this.projectiles.fire(enemy.actor.id, socket,
           { ...this.cfg.arrows[0]!, baseDamage: spec.arrowBaseDamage, speedMps: spec.speedMps });
-        if (shot !== null) { this.enemyShots += 1; this.onSound('shot'); }
+        if (shot !== null) { this.enemyShots += 1; enemy.aim.releaseBow(); this.onSound('shot'); }
       } else this.rejectedShots++;
       enemy.telegraph = false;
       enemy.aim.setDraw(false, 0);
@@ -247,10 +248,11 @@ export class ArcadeBattle {
     // A detached bow carries the real hand's position and velocity; no live limb is teleported.
     const socket = enemy.aim.bowSocket(), node = new Node('DroppedBow'); node.layer = this.world.layer; node.parent = this.world;
     P.place(node, socket.x, socket.y);
+    node.setRotationFromEuler(0, 0, P.degrees(socket.angleRad));
     const bow = node.addComponent(RigidBody2D); bow.type = ERigidBody2DType.Dynamic; bow.group = this.cfg.rig.collisionGroups.ragdoll;
-    const collider = node.addComponent(BoxCollider2D); collider.group = bow.group; collider.size.set(P.units(0.12), P.units(0.7)); collider.apply();
-    const g = node.addComponent(Graphics); g.strokeColor = new Color(230, 170, 85, 255); g.lineWidth = P.units(0.05);
-    g.moveTo(0, P.units(-0.35)); g.quadraticCurveTo(P.units(0.35), 0, 0, P.units(0.35)); g.stroke();
+    const collider = node.addComponent(BoxCollider2D); collider.group = bow.group;
+    collider.size.set(P.units(0.3), P.units(this.cfg.bowControl.bowHalfHeightM * 2)); collider.apply();
+    drawWeaponBow(node.addComponent(Graphics), { x: 0, y: 0, angleRad: 0 }, this.cfg.bowControl, 'normal', 0);
     const v = enemy.actor.bodies.get('rightForearm')!.linearVelocity; P.setVelocity(bow, v.x, v.y, 2);
     while (this.drops.length >= this.cfg.limits.maxPhysicalEquipmentDrops) P.retire(this.drops.shift()!.node);
     this.drops.push({ node, until: this.elapsed + this.cfg.arcade.cleanupSec });
@@ -284,13 +286,8 @@ export class ArcadeBattle {
       g.fillColor = new Color(38, 32, 43, 255); g.rect(P.units(head.x - 0.36), P.units(head.y + 0.37), P.units(0.72), P.units(0.08)); g.fill();
       g.fillColor = new Color(240, 74, 90, 255); g.rect(P.units(head.x - 0.35), P.units(head.y + 0.38), P.units(0.7 * Math.max(0, state.hp / max)), P.units(0.06)); g.fill();
       if (!enemy || !enemy.bow.armed) continue;
-      const s = enemy.aim.bowSocket(), dx = Math.cos(s.angleRad), dy = Math.sin(s.angleRad);
-      const p = (f: number, a: number) => ({ x: P.units(s.x + dx * f - dy * a), y: P.units(s.y + dy * f + dx * a) });
-      const top = p(-0.25, 0.4), bottom = p(-0.25, -0.4), middle = p(0.25, 0);
-      g.strokeColor = new Color(230, 170, 85, 255); g.lineWidth = P.units(0.05); g.moveTo(top.x, top.y); g.quadraticCurveTo(middle.x, middle.y, bottom.x, bottom.y); g.stroke();
-      const hand = enemy.aim.handsSnapshot.stringGrip;
-      g.strokeColor = enemy.telegraph ? new Color(255, 80, 70, 255) : Color.WHITE;
-      g.lineWidth = P.units(0.02); g.moveTo(top.x, top.y); g.lineTo(P.units(hand.x), P.units(hand.y)); g.lineTo(bottom.x, bottom.y); g.stroke();
+      drawWeaponBow(g, enemy.aim.bowSocket(), this.cfg.bowControl, 'normal', enemy.aim.poseSnapshot.bowFlex,
+        enemy.telegraph ? enemy.aim.handsSnapshot.stringGrip : undefined, enemy.telegraph ? TIP_OFFSET_M : undefined);
     }
   }
 }

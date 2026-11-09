@@ -1,3 +1,7 @@
+# D029 武器绘制与击退预算
+
+WeaponVisual共享玩家/敌人/掉落弓与搭箭/飞行/插箭绘制，只改变视觉路径。PoseController固定步计算bowFlex，成功发射显式releaseBow；取消/拒射不触发。HitResolver动态查询胸部，splitHitImpulse共享一次总预算，lastHit记录局部/胸部分配。ProjectileSystem保留单箭去重与after-step结算，物理节点不逐帧强改变换。详见WEAPON_FEEL.md。
+
 # D025 生命周期与验证补充
 
 PhysicsAdapter.retire在native step之外先设node.active=false，再调用帧末destroy。ProjectileSystem.dispose显式解除池槽接触监听，释放节点和索引；重开仍clear复用池。

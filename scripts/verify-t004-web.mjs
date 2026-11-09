@@ -76,6 +76,7 @@ try {
   const quiet = await wait(s => s.stepId > released.stepId + 50, 'release settle');
   assert.equal(quiet.shots, released.shots);
   assert.equal(quiet.pose.player.drawAmount, 0);
+  assert.equal(quiet.pose.player.bowFlex, 0, '回弹结束后弓臂应完全静止');
   report.cases.release = { shots: quiet.shots, drawAmount: quiet.pose.player.drawAmount, hands: quiet.pose.hands };
 
   for (const pose of (releaseOnly ? [] : ['standing', 'staggered', 'downed'])) {
@@ -123,6 +124,7 @@ try {
   await page.mouse.up();
   const cancelSettled = await wait(s => s.stepId > cancelled.stepId + 90, 'cancel settle');
   assert.equal(cancelSettled.shots, cancelled.shots);
+  assert.equal(cancelSettled.pose.player.bowFlex, 0, '取消拉弓不触发放箭回弹');
   report.cases.cancelNeverFires = true;
   report.cases.strength = [];
   for (const strength of [0.2, 0.6, 1]) {
@@ -134,6 +136,7 @@ try {
     const held = await wait(s => s.stepId >= idle.stepId + 80 && Math.abs(s.drawProgress - strength) < 0.001 &&
       Math.abs(s.pose.player.drawAmount - strength) < 0.001 && s.pose.hands.ready, 'spatial draw strength');
     assert.equal(held.shots, 0, '任何力度一直按住均不应发射');
+    assert.ok(Math.abs(held.pose.player.bowFlex - held.pose.player.drawAmount) < 0.001, '弓臂形变与实际蓄力一致');
     await page.screenshot({ path: `${out}/strength-${strength}.png` });
     await page.mouse.up();
     const fired = await wait(s => s.shots === 1, 'strength release');

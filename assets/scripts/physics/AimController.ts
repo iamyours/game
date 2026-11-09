@@ -20,6 +20,7 @@ export class AimController {
     this.pose.registerArmTrauma(durationSec, controlWeight);
   }
   public setDraw(drawing: boolean, progress: number): void { this.pose.setDraw(drawing, progress); }
+  public releaseBow(): void { this.pose.releaseBow(); }
   public registerHit(reactions: readonly JointReaction[]): void { this.pose.registerHit(reactions); }
   public setAlive(alive: boolean): void { this.pose.setAlive(alive); }
   public setArmed(armed: boolean): void { this.pose.setArmed(armed); }

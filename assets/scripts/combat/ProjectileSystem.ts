@@ -1,9 +1,10 @@
-import { CircleCollider2D, Color, Contact2DType, ERigidBody2DType, Graphics, Node, RigidBody2D, type Collider2D, type IPhysics2DContact } from 'cc';
+import { CircleCollider2D, Contact2DType, ERigidBody2DType, Graphics, Node, RigidBody2D, type Collider2D, type IPhysics2DContact } from 'cc';
 import { PhysicsAdapter as Physics } from '../physics/PhysicsAdapter';
 import type { BowSocketSnapshot } from '../physics/AimController';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import type { RagdollInstance } from '../physics/RagdollFactory';
 import { eventCallbackCount } from '../domain/RuntimeDiagnostics';
+import { drawWeaponArrow } from '../presentation/WeaponVisual';
 
 type Point = { x: number; y: number };
 export type ProjectileArrowConfig = PhysicsLabConfig['arrows'][number];
@@ -19,13 +20,9 @@ interface Flight {
 }
 type ContactCallback = (self: Collider2D, other: Collider2D, contact: IPhysics2DContact | null) => void;
 interface Slot { node: Node; body: RigidBody2D; collider: Collider2D; graphics: Graphics; onContact: ContactCallback | null; flight?: Flight }
-const palette: Record<string, string> = { normal: '#F7C66F', impact: '#F29983', piercing: '#BCAEF6' };
 function drawArrow(g: Graphics, id: string): void {
-  g.clear(); g.strokeColor = new Color().fromHEX(palette[id] ?? '#F7C66F'); g.lineWidth = Physics.units(0.035);
-  g.moveTo(Physics.units(-0.52), 0); g.lineTo(0, 0); g.stroke();
-  g.fillColor = g.strokeColor;
-  g.moveTo(0, 0); g.lineTo(Physics.units(-0.13), Physics.units(0.065));
-  g.lineTo(Physics.units(-0.13), Physics.units(-0.065)); g.close(); g.fill();
+  g.clear();
+  drawWeaponArrow(g, id, { x: 0, y: 0 }, 0);
 }
 
 /** Only the tip is physical; shaft orientation and embedded arrows are visual children. */

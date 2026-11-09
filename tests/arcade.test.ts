@@ -27,6 +27,13 @@ test('随机平台在约定范围，普通箭静态可达，随机源可重放',
  }
  assert.throws(() => chooseArcadeSpawn(cfg, () => NaN));
 });
+test('随机源连续落在不可达候选时仍回退到可达网格，不阻塞连续模式启动', () => {
+ const values = [0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99];
+ let i = 0;
+ const a = chooseArcadeSpawn(cfg, () => values[i++ % values.length]!);
+ assert.ok(a.x >= 16.8 && a.x <= 20.5);
+ assert.ok(a.y >= 3 && a.y <= 6.3);
+});
 test('爆头致命不作用于身体或被甲吸收的伤害，原伤害结果不变', () => {
  const hit = resolveDamage({baseDamage:18,zoneMultiplier:2,armor:0,armorDamageFactor:1,armorOverflow:false});
  assert.equal(lethalHeadshot(hit, 85, true).hpDamage, 85);

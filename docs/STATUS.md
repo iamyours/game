@@ -1,15 +1,37 @@
-# 当前状态（D025）
+# 当前状态（D026）
 
 version: V2.2
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: D024已推送main 2fcf37c；本轮D025文件哈希见evidence/iteration-d025/source-manifest.json
+sourceRevision: main 522963d；拉取后测试见 evidence/pull-test-20261109/verification.md
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（缺当前Creator构建与试玩）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D028 最新代码编译运行（2026-11-09）
+
+- 已执行 `git fetch origin --prune`：本地 `main` 与 `origin/main` 已同步，无新远端提交；未提交改动保留。
+- `npm run verify` 退出 0（120 项），`npm run build:web` 退出 0，生成当前 Web 产物。
+- 本地 HTTP 服务 `7458` 正在提供当前 `build/web-desktop`；浏览器启动检查无 pageerror，Creator 3.8.8、Box2D 校准、连续模式敌人生成均正常。`test:web:arcade` 退出 0。
+- 试玩地址和完整记录见 `evidence/latest-run-20261109/verification.md`。
+
+## D027 连续模式启动修复（2026-11-09）
+
+- 定位到 Cocos QuickCompiler 对 `Set` 迭代结果的运行时兼容问题：`ballisticAngles` 返回对象而非数值，导致随机平台全部判定不可达。已改为显式角度数组，并为随机出生增加确定性可达网格回退。
+- `npm run verify` 退出 0（120 项），`check:syntax` 退出 0（28 项），Web 构建退出 0。
+- `test:web:arcade` 在真实 Creator 3.8.8 / Box2D 下退出 0，连续模式启动、敌箭命中、掉弓、爆头断颈、平台重生和去重检查通过。
+- 5 秒 stability 烟测完成重开与销毁计数，但仍发现销毁后 `Cannot read properties of null (reading 'destroy')` 页面错误，稳定性不放行。详细证据：`evidence/fix-20261109/verification.md`。
+
+## D026 拉取后测试（2026-11-09）
+
+- 已安全拉取 `origin/main` 到 `522963d`：拉取前先 stash 用户改动，快进后恢复，无冲突；当前用户未提交修改仍保留。
+- 本机检测到锁定的 Cocos Creator 3.8.8，`npm run verify`、`npm run typecheck`、`npm run check:syntax` 均退出 0；`npm run build:web` 包装器退出 0并生成 `build/web-desktop/index.html`。
+- `npm run typecheck:engine-source` 退出 2，原因是当前 shell 未设置 `COCOS_ENGINE_SOURCE`。
+- 启动 HTTP 后实跑发现默认连续模式在 `ArcadeBattle.spawn()` 抛出“未找到可达的随机平台配置”，`test:web:arcade` 与稳定性测试均退出 1；practice 的 `test:web:t004` 也在 spatial draw strength 断言退出 1。
+- 本轮不放行 T004/T019/T008/G1；完整命令、退出码和现场现象见 `evidence/pull-test-20261109/verification.md`。下一步先修复随机平台初始化阻塞，再重跑连续模式与 PhysicsLab 回归。
 
 ## D025 继续执行结果
 

@@ -115,9 +115,13 @@ export function ballisticAngles(dx: number, dy: number, speedMps: number, gravit
   const x = Math.abs(dx), v2 = speedMps * speedMps;
   const discriminant = v2 * v2 - gravityMagnitude * (gravityMagnitude * x * x + 2 * dy * v2);
   if (!Number.isFinite(discriminant) || discriminant < 0) return [];
-  const angles = [Math.atan2(v2 - Math.sqrt(discriminant), gravityMagnitude * x),
-    Math.atan2(v2 + Math.sqrt(discriminant), gravityMagnitude * x)];
-  return [...new Set(angles.map(a => dx > 0 ? a : Math.PI - a))];
+  const low = Math.atan2(v2 - Math.sqrt(discriminant), gravityMagnitude * x);
+  const high = Math.atan2(v2 + Math.sqrt(discriminant), gravityMagnitude * x);
+  const first = dx > 0 ? low : Math.PI - low;
+  const second = dx > 0 ? high : Math.PI - high;
+  // Avoid Set/spread here: Cocos Creator's QuickCompiler can expose a non-standard
+  // iterator for Set in generated runtime code, turning numeric angles into objects.
+  return Math.abs(first - second) < 1e-12 ? [first] : [first, second];
 }
 
 /** Constant-velocity lead candidate, frozen on telegraph; unreachable/diverging solves skip fire. */

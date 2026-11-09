@@ -62,13 +62,29 @@ export function platformAngularVelocity(elapsed: number, amplitudeRad: number, p
   return amplitudeRad * (2 * Math.PI / periodSec) * Math.cos(elapsed * 2 * Math.PI / periodSec + phase);
 }
 export function chooseArcadeSpawn(cfg: PhysicsLabConfig, random: () => number) {
-  const range = (r: readonly [number, number]) => r[0] + randomUnit(random) * (r[1] - r[0]);
+  const range = (r: readonly [number, number], value: number) => r[0] + value * (r[1] - r[0]);
+  const minAim = cfg.input.minAimDeg * Math.PI / 180;
+  const maxAim = cfg.input.maxAimDeg * Math.PI / 180;
+  const speed = cfg.arrows[0]!.speedMps;
+  const gravity = Math.abs(cfg.physics.gravityMps2[1]);
+  const reachable = (x: number, y: number): boolean => ballisticAngles(x - 4.2, y + 1.4 - 4.8, speed, gravity)
+    .some(a => a >= minAim && a <= maxAim);
+  const candidate = (x: number, y: number, width: number) => ({ x, y, width });
+
+  // Prefer random placement, but do not let one unlucky/random sequence prevent the lab from booting.
   for (let i = 0; i < 16; i++) {
-    const x = range(cfg.arcade.spawnX_M), y = range(cfg.arcade.surfaceY_M), width = range(cfg.arcade.platformWidthM);
-    // Static candidate only; actual colliders/standing/aim still require engine checks.
-    const reachable = ballisticAngles(x - 4.2, y + 1.4 - 4.8, cfg.arrows[0]!.speedMps, Math.abs(cfg.physics.gravityMps2[1]))
-      .some(a => a >= cfg.input.minAimDeg * Math.PI / 180 && a <= cfg.input.maxAimDeg * Math.PI / 180);
-    if (reachable) return { x, y, width };
+    const x = range(cfg.arcade.spawnX_M, randomUnit(random));
+    const y = range(cfg.arcade.surfaceY_M, randomUnit(random));
+    const width = range(cfg.arcade.platformWidthM, randomUnit(random));
+    if (reachable(x, y)) return candidate(x, y, width);
   }
-  throw new Error('未找到可达的随机平台配置');
+
+  // The engine still performs native occupancy and line-of-fire checks. This deterministic grid only
+  // guarantees that a valid configured reachability pocket is found before those checks run.
+  const width = (cfg.arcade.platformWidthM[0] + cfg.arcade.platformWidthM[1]) / 2;
+  for (let yi = 0; yi <= 8; yi++) for (let xi = 0; xi <= 8; xi++) {
+    const x = range(cfg.arcade.spawnX_M, xi / 8), y = range(cfg.arcade.surfaceY_M, yi / 8);
+    if (reachable(x, y)) return candidate(x, y, width);
+  }
+  throw new Error('未找到可达的随机平台配置；请检查连续模式出生范围、箭速与瞄准角配置');
 }

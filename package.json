@@ -1,6 +1,6 @@
 {
   "name": "storm-archers",
-  "version": "0.1.0",
+  "version": "3.8.8",
   "private": true,
   "description": "风暴弓手 — Cocos Creator 3.8.8 PhysicsLab",
   "engines": {

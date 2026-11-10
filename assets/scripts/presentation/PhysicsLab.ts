@@ -12,6 +12,8 @@ import { ProjectileSystem, TIP_OFFSET_M } from '../combat/ProjectileSystem';
 import { HitResolver, type ActorCombatState } from '../combat/HitResolver';
 import { LabViewport } from './LabViewport';
 import { drawWeaponBow } from './WeaponVisual';
+import { ThunderBowSkin, ThunderWeaponAssets, thunderArrowLength } from './ThunderWeaponSkin';
+import { handDrawFlex, nockedArrowTip } from '../domain/weaponGeometry';
 import { ArcadeBattle } from '../combat/ArcadeBattle';
 import { CharacterSkin } from './CharacterSkin';
 import { ShotBudget, type ShotRejection } from '../domain/BattleRules';
@@ -76,7 +78,7 @@ export class PhysicsLab extends Component {
   private shots = 0;
   private lastAttempt: { stepId: number; result: 'hands-unready' | 'arrow-limit' | 'muzzle-blocked' | 'fired' | ShotRejection } | null = null;
   private lastShot: (ShotIntent & { stepId: number; socket: ReturnType<AimController['bowSocket']>;
-    hands: PoseController['handsSnapshot']; drawAmount: number; speedMps: number }) | null = null;
+    hands: PoseController['handsSnapshot']; launchTip: Point; drawAmount: number; speedMps: number }) | null = null;
   private dirty = true;
   private ragdollFactory: RagdollFactory | null = null;
   private ragdolls: RagdollInstance[] = [];
@@ -84,6 +86,8 @@ export class PhysicsLab extends Component {
   private playerAim!: AimController;
   private enemyAim!: AimController;
   private projectiles!: ProjectileSystem;
+  private weaponAssets!: ThunderWeaponAssets;
+  private playerBow!: ThunderBowSkin;
   private hitResolver!: HitResolver;
   private combatStates!: Map<string, ActorCombatState>;
   private resetRequested = false;
@@ -172,7 +176,10 @@ export class PhysicsLab extends Component {
       this.dirty = true;
     }, this.arcadeMode && config.arcade.headshotLethal, id => this.ragdolls.find(actor => actor.id === id)?.bodies.get('chest'));
     if (this.arcadeMode) this.combatStates.delete('EnemyRagdoll');
-    this.projectiles = new ProjectileSystem(world, config, this.ragdolls, (candidate, targetBody) => this.hitResolver.resolve(candidate, targetBody));
+    this.weaponAssets = new ThunderWeaponAssets();
+    this.playerBow = new ThunderBowSkin(world, this.weaponAssets);
+    void this.weaponAssets.load().catch(error => console.warn('[ThunderWeapon] 素材加载失败，保留程序武器：', error));
+    this.projectiles = new ProjectileSystem(world, config, this.ragdolls, (candidate, targetBody) => this.hitResolver.resolve(candidate, targetBody), this.weaponAssets);
     if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; }, kind => this.playSound(kind), effect => {
       const player = this.combatStates.get('PlayerRagdoll')!;
       player.hp = Math.min(config.player.hp, player.hp + effect.hp); this.shotBudget.restore(effect.stamina);
@@ -240,6 +247,8 @@ export class PhysicsLab extends Component {
     this.soundSource?.stop();
     for (const clip of this.audioClips.values()) clip.decRef(); this.audioClips.clear();
     this.projectiles?.dispose();
+    this.playerBow?.dispose();
+    this.weaponAssets?.dispose();
     this.arcade?.dispose();
     for (const skin of this.skins) skin.dispose();
     this.ragdollFactory?.dispose();
@@ -253,7 +262,7 @@ export class PhysicsLab extends Component {
     const { worldWidthM, worldHeightM, worldCenterM: [cx, cy] } = this.config.viewport;
     const topLeft = v.worldToUI(cx - worldWidthM / 2, cy + worldHeightM / 2);
     const bottomRight = v.worldToUI(cx + worldWidthM / 2, cy - worldHeightM / 2);
-    return { arcade: this.arcade?.snapshot ?? null, stamina: this.shotBudget.stamina, cooldownSec: this.shotBudget.cooldownSec,
+    return { thunderSkin: this.playerBow?.snapshot ?? null, arcade: this.arcade?.snapshot ?? null, stamina: this.shotBudget.stamina, cooldownSec: this.shotBudget.cooldownSec,
       records: this.records.snapshot, saveStatus: this.records.lastWrite, diagnostics: this.diagnostics.report(),
       nativeCounts: this.physics?.nativeCounts() ?? null, projectilePoolSize: this.projectiles?.poolSize ?? 0,
       listenerCounts: this.listenerCounts(), soundRect: this.soundRect, seedHash: this.seedHash, calibration: this.probe.result, stepId: this.physics?.steps,
@@ -333,7 +342,8 @@ export class PhysicsLab extends Component {
     const arrow = this.config.arrows.find((value) => value.id === shot.arrowId);
     if (!arrow) return;
     const socket = this.playerAim.bowSocket();
-    const blocked = this.projectiles.launchBlockReason('PlayerRagdoll', socket);
+    const launchTip = nockedArrowTip(this.playerAim.handsSnapshot.stringGrip, shot.aimRad, thunderArrowLength(arrow.id));
+    const blocked = this.projectiles.launchBlockReason('PlayerRagdoll', socket, launchTip);
     if (blocked) {
       this.lastAttempt = { stepId, result: blocked };
       this.dirty = true;
@@ -344,8 +354,8 @@ export class PhysicsLab extends Component {
       const rejection = this.shotBudget.release(arrow, { active: true, alive: true, armed: true, launchClear: true });
       if (rejection) { this.lastAttempt = { stepId, result: rejection }; this.dirty = true; return; }
     }
-    const shotId = this.projectiles.fire('PlayerRagdoll', { ...socket, angleRad: shot.aimRad }, launchArrow);
-    if (shotId !== null) { this.lastShot = { ...shot, stepId, socket, hands: this.playerAim.handsSnapshot,
+    const shotId = this.projectiles.fire('PlayerRagdoll', { ...socket, angleRad: shot.aimRad }, launchArrow, launchTip);
+    if (shotId !== null) { this.lastShot = { ...shot, stepId, socket, launchTip, hands: this.playerAim.handsSnapshot,
       drawAmount: this.playerAim.poseSnapshot.drawAmount, speedMps: launchArrow.speedMps }; this.shots += 1;
       this.lastAttempt = { stepId, result: 'fired' }; this.playerAim.releaseBow(); this.playSound('shot'); }
     this.dirty = true;
@@ -558,19 +568,26 @@ export class PhysicsLab extends Component {
   private drawAim(): void {
     const g = this.aim;
     g.clear();
-    if (this.viewport.portrait || this.manualPause || this.hidden || (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0)) return;
+    if (this.viewport.portrait || this.manualPause || this.hidden || (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0)) { this.playerBow.hide(); return; }
     const arrow = this.config.arrows.find(value => value.id === this.router.selectedArrow.id)!;
     const socket = { ...this.playerAim.bowSocket(), angleRad: this.router.aimRad };
     const drawing = this.router.aimId !== null;
-    drawWeaponBow(g, socket, this.config.bowControl, arrow.id, this.playerAim.poseSnapshot.bowFlex,
-      drawing ? this.playerAim.handsSnapshot.stringGrip : undefined, drawing ? TIP_OFFSET_M : undefined);
-    const clear = this.projectiles.muzzleClear('PlayerRagdoll', socket);
+    const hand = this.playerAim.handsSnapshot.stringGrip;
+    const pose = this.playerAim.poseSnapshot;
+    const followingHand = drawing || (!pose.bowReleasing && pose.drawAmount > 0.001);
+    const flex = followingHand ? handDrawFlex(socket, hand, this.config.bowControl.braceDepthM,
+      this.config.bowControl.drawTravelM, pose.drawAmount) : pose.bowFlex;
+    if (!this.playerBow.draw(socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing)) {
+      drawWeaponBow(g, socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing ? TIP_OFFSET_M : undefined);
+    }
+    const readyTip = drawing ? nockedArrowTip(hand, socket.angleRad, thunderArrowLength(arrow.id)) : undefined;
+    const clear = this.projectiles.muzzleClear('PlayerRagdoll', socket, readyTip);
     g.fillColor = color(!clear ? '#FF645E' : !this.playerAim.handsSnapshot.ready ? '#F0A84B' : arrowTints[arrow.id]);
     g.circle(Physics.units(socket.x), Physics.units(socket.y), Physics.units(0.08));
     if (clear && this.router.aimId !== null) {
       const launchArrow = applyDrawStrength(arrow, this.router.drawProgress, this.config.bowControl.minPowerRatio);
-      for (const point of aimHintPoints(socket, socket.angleRad, launchArrow.speedMps,
-        this.config.physics.gravityMps2, this.config.physics.fixedTimeStepSec, TIP_OFFSET_M)) {
+      for (const point of aimHintPoints(readyTip ?? socket, socket.angleRad, launchArrow.speedMps,
+        this.config.physics.gravityMps2, this.config.physics.fixedTimeStepSec, readyTip ? 0 : TIP_OFFSET_M)) {
         g.circle(Physics.units(point.x), Physics.units(point.y), Physics.units(0.035));
       }
     }

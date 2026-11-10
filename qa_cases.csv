@@ -35,3 +35,6 @@ AR08,T014,连续模式资源稳定,同构建15分钟连续对战和30次重开�
 WV01,T004,弓臂形变与回弹,轻拉/半弓/满弓；成功释放/取消/拒射,形变递增；仅成功释放回弹,Creator录像,NOT_RUN,D029,,Creator3.8.8待运行,evidence/bow-impact-20261110/verification.md,缺编辑器与构建
 WV02,T005 T012,三种大尺寸武器,切箭；搭箭/飞行/插箭/掉弓,轮廓可辨；尾羽清楚；箭尖握点一致,Creator截图与录像,NOT_RUN,D029,,Creator3.8.8待运行,evidence/bow-impact-20261109/weapon-shapes.png,离线预览不是引擎验收
 WV03,T006,共享击退预算,同部位同力度重置比较三箭与两种质量,一次预算；冲击最大；后移可见；关节稳定,原生动量采样与录像,NOT_RUN,D029,,Creator3.8.8待运行,scripts/verify-arm-impact-web.mjs,缺真实物理运行
+TW01,T004 T012,雷霆连续弓臂,轻拉/半弓/满弓/收回/取消/成功释放,握点固定；纹理连续；弦随真实手；取消回松仅成功回弹,Creator录像与快照,NOT_RUN,D030,,Creator3.8.8待复验,evidence/thunder-skin-20261111/draw-states.png,离线预览非引擎截图
+TW02,T005,箭尖与箭长,三箭种高低角及左右朝向；观察搭箭到飞行到插箭,长度不变；不跳位；实际尖出口身体/平台阻挡有效,原生采样与录像,NOT_RUN,D030,,Creator3.8.8待复验,scripts/verify-t004-web.mjs,缺当前引擎构建
+TW03,T012 T014,皮肤加载与生命周期,等纹理加载；箭池敌我复用；20次重开；销毁,加载后40片出现；无混色残留/额外原生体；纹理与帧释放；性能稳定,当前引擎与资源统计,NOT_RUN,D030,,Creator3.8.8待复验,docs/THUNDER_WEAPON.md,需实测40片开销

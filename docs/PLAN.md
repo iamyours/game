@@ -1,3 +1,7 @@
+# D030 雷霆机械武器接入
+
+T004/T005/T012已接雷霆机械透明弓箭、连续弯曲和统一发射尖。下一步在Creator3.8.8导入后做release/arm-impact/arcade/T003回归及低端设备性能，保持IN_PROGRESS与G1未放行。 细节见THUNDER_WEAPON.md。
+
 # D029 本轮反馈迭代
 
 T004/T005/T006/T012已恢复弓身形变、三形态、武器放大与共享击退预算代码。恢复后便携测试通过；下一次Creator构建需验证release/arm-impact/arcade及骨架稳定，再核对默认模式实射击退。当前任务保持IN_PROGRESS，G1不放行。

@@ -11,7 +11,8 @@ import { CharacterSkin } from '../presentation/CharacterSkin';
 import type { RigBodyId } from '../physics/RigDefinition';
 import type { ActorCombatState } from './HitResolver';
 import { ProjectileSystem, TIP_OFFSET_M } from './ProjectileSystem';
-import { drawWeaponBow } from '../presentation/WeaponVisual';
+import { drawWeaponBow, WEAPON_STYLES } from '../presentation/WeaponVisual';
+import { nockedArrowTip } from '../domain/weaponGeometry';
 
 type Enemy = { actor: RagdollInstance; aim: AimController; skin: CharacterSkin; platform: Node;
   attack: EnemyAttack; spec: PhysicsLabConfig['enemies'][number]; hpMax: number; bow: BowState; heavy: boolean; rocking: boolean; bornAt: number; deadAt: number | null; telegraph: boolean };
@@ -77,11 +78,12 @@ export class ArcadeBattle {
     enemy.aim.step(dt);
     if (release) {
       const socket = enemy.aim.bowSocket();
+      const launchTip = nockedArrowTip(enemy.aim.handsSnapshot.stringGrip, socket.angleRad, WEAPON_STYLES.normal.arrowLength);
       if (canRelease({ alive: player.hp > 0 && state.hp > 0, armed: enemy.bow.armed,
         handsReady: enemy.aim.handsSnapshot.ready,
-        muzzleClear: this.projectiles.launchBlockReason(enemy.actor.id, socket) === null })) {
+        muzzleClear: this.projectiles.launchBlockReason(enemy.actor.id, socket, launchTip) === null })) {
         const shot = this.projectiles.fire(enemy.actor.id, socket,
-          { ...this.cfg.arrows[0]!, baseDamage: spec.arrowBaseDamage, speedMps: spec.speedMps });
+          { ...this.cfg.arrows[0]!, baseDamage: spec.arrowBaseDamage, speedMps: spec.speedMps }, launchTip);
         if (shot !== null) { this.enemyShots += 1; enemy.aim.releaseBow(); this.onSound('shot'); }
       } else this.rejectedShots++;
       enemy.telegraph = false;

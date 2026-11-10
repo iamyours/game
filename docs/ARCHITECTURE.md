@@ -1,3 +1,7 @@
+# D030 雷霆机械武器接入
+
+ThunderWeaponAssets集中加载/持有两纹理与41个共享帧；ThunderBowSkin以40片连续剪切实现纹理弯曲，分解为两层纯视觉节点变换。weaponGeometry提供纯几何。ProjectileSystem支持可选实际launchTip并从握点检查出口，池槽与插箭复用ThunderArrowSkin。 细节见THUNDER_WEAPON.md。
+
 # D029 武器绘制与击退预算
 
 WeaponVisual共享玩家/敌人/掉落弓与搭箭/飞行/插箭绘制，只改变视觉路径。PoseController固定步计算bowFlex，成功发射显式releaseBow；取消/拒射不触发。HitResolver动态查询胸部，splitHitImpulse共享一次总预算，lastHit记录局部/胸部分配。ProjectileSystem保留单箭去重与after-step结算，物理节点不逐帧强改变换。详见WEAPON_FEEL.md。

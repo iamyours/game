@@ -1,0 +1,30 @@
+{
+  "baseRevision": "25c0a0aa9c99d3f36c61ca10e4533f714e2f4c77",
+  "scope": "D030 source/portable geometry/alpha asset validation/offline sprite preview; NOT Creator API typing/build/Box2D/performance",
+  "commands": {
+    "npm run verify": 0,
+    "npm run check:syntax": 0,
+    "node --check scripts/verify-t004-web.mjs": 0,
+    "node --check scripts/render-thunder-preview.mjs": 0,
+    "node --import tsx scripts/render-thunder-preview.mjs": 0,
+    "npm run env:check": 0,
+    "npm run typecheck:engine": 2,
+    "npm run build:web": 2
+  },
+  "unitTests": 129,
+  "syntaxFiles": 31,
+  "assets": {
+    "assets/resources/weapons/thunder-bow.png": {
+      "bytes": 542050,
+      "sha256": "ae0193f0b42fb13a0ad826a14ec17fd8f98745a74f9f48f4e21e6228d460e691",
+      "alphaMin": 0,
+      "alphaMax": 255
+    },
+    "assets/resources/weapons/thunder-arrow.png": {
+      "bytes": 461283,
+      "sha256": "6701d6476e17fee0b5101e08e467149618fdfd95c44f1654e88b2ce2d00e198d",
+      "alphaMin": 0,
+      "alphaMax": 255
+    }
+  }
+}

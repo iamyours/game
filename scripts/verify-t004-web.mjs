@@ -70,6 +70,8 @@ try {
   assert.ok(Math.max(...drawing.map(s => s.stringErrorM)) < 0.2, '弓弦手须持续靠近目标，不得大幅甩动');
   assert.ok(drawing.every(s => Number.isFinite(s.pullDepthM) && s.bowErrorM < 0.18), '持弓手保持目标而非随弦一起后拉');
   await wait(s => s.pose.player.drawAmount > 0.95 && s.pose.hands.ready, 'full draw snapshot');
+  const skinReady = await wait(s => s.thunderSkin?.loaded && s.thunderSkin.strips === 40, '雷霆分段素材加载');
+  assert.ok(skinReady.thunderSkin.visible && skinReady.thunderSkin.tipM);
   await page.screenshot({ path: `${out}/two-hand-draw.png` });
   await page.mouse.up();
   const released = await wait(s => s.shots === start.shots + 1, '松手单发');
@@ -148,6 +150,9 @@ try {
     assert.ok(physical, '应观察到真实飞行刚体');
     assert.ok(Math.abs(physical.vx / Math.cos(fired.lastShot.aimRad) - fired.lastShot.speedMps) < 0.01);
     assert.ok(Math.abs(fired.lastShot.strength - strength) < 0.001);
+    const last = fired.lastShot, hand = last.hands.stringGrip;
+    const shaftLength = Math.hypot(last.launchTip.x - hand.x, last.launchTip.y - hand.y);
+    assert.ok(Math.abs(shaftLength - 0.96) < 1e-6, '普通箭发射点与真实拉弦手保持固定箭长');
     report.cases.strength.push({ strength, actualDraw: held.pose.player.drawAmount, shot: fired.lastShot, physical });
   }
   for (let i = 1; i < report.cases.strength.length; i++) {

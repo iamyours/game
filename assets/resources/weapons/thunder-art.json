@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "sourceLibraryId": "libfile_d27431b3c2d88191bd7b8302b19d42fc",
+  "coordinateOrigin": "top-left",
+  "bow": {
+    "imageSize": [
+      1254,
+      1254
+    ],
+    "rect": [
+      355,
+      30,
+      565,
+      1185
+    ],
+    "grip": [
+      432,
+      636
+    ],
+    "upperTip": [
+      810,
+      125
+    ],
+    "lowerTip": [
+      810,
+      1105
+    ],
+    "strips": 40
+  },
+  "arrow": {
+    "imageSize": [
+      2172,
+      724
+    ],
+    "rect": [
+      60,
+      224,
+      2055,
+      268
+    ]
+  },
+  "sha256": {
+    "thunder-bow": "ae0193f0b42fb13a0ad826a14ec17fd8f98745a74f9f48f4e21e6228d460e691",
+    "thunder-arrow": "6701d6476e17fee0b5101e08e467149618fdfd95c44f1654e88b2ce2d00e198d"
+  }
+}

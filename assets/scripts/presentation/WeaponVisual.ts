@@ -1,6 +1,7 @@
 import { Color, type Graphics } from 'cc';
 import { PhysicsAdapter as P } from '../physics/PhysicsAdapter';
 import type { PointM } from '../domain/archery';
+import { nockedArrowTip } from '../domain/weaponGeometry';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 
 // All coordinates are metres. Only visual paths change; the grip and physical arrow tip stay fixed.
@@ -65,9 +66,7 @@ export function drawWeaponBow(g: Graphics, socket: PointM & { angleRad: number }
   const gripA = p(0, -0.1), gripB = p(0, 0.1);
   g.strokeColor = tint('#694D40'); g.lineWidth = P.units(0.11); g.moveTo(gripA.x, gripA.y); g.lineTo(gripB.x, gripB.y); g.stroke();
   if (nockedTipOffsetM !== undefined && stringGrip) {
-    const tip = { x: socket.x + dx * nockedTipOffsetM, y: socket.y + dy * nockedTipOffsetM };
-    // Keep the nocked shaft connected to the actual pulling hand.
-    const angle = Math.atan2(tip.y - stringGrip.y, tip.x - stringGrip.x);
-    drawWeaponArrow(g, id, tip, angle, Math.hypot(tip.x - stringGrip.x, tip.y - stringGrip.y));
+    const tip = nockedArrowTip(stringGrip, socket.angleRad, styleFor(id).arrowLength);
+    drawWeaponArrow(g, id, tip, socket.angleRad);
   }
 }

@@ -15,6 +15,7 @@ export interface PoseControllerSnapshot {
   readonly drawing: boolean;
   readonly drawAmount: number;
   readonly bowFlex: number;
+  readonly bowReleasing: boolean;
   readonly alive: boolean;
   readonly jointControlWeights: Readonly<Record<string, number>>;
 }
@@ -94,7 +95,8 @@ export class PoseController {
   public get snapshot(): PoseControllerSnapshot {
     return { pose: this.pose, aimRad: this.aimRad, armControlWeight: this.armControlWeight,
       drawing: this.drawing, drawAmount: this.drawAmount, alive: this.alive,
-      bowFlex: this.drawing ? this.drawAmount : bowReleaseFlex(this.releasedStrength, this.releaseAge),
+      bowFlex: this.drawing || this.releaseAge >= 0.35 ? this.drawAmount : bowReleaseFlex(this.releasedStrength, this.releaseAge),
+      bowReleasing: this.releaseAge < 0.35 && this.releasedStrength > 0,
       jointControlWeights: Object.fromEntries(JOINTS.map(joint => [joint, this.controlWeight(joint)])) };
   }
 

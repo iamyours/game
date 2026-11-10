@@ -1,15 +1,21 @@
-# 当前状态（D029）
+# 当前状态（D030）
 
 version: V2.2
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: main 121c306 + D029武器反馈；本次验证见 evidence/bow-impact-20261110/verification.md
+sourceRevision: main 25c0a0a + D030雷霆皮肤；本次证据见 evidence/thunder-skin-20261111/verification.md
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（缺当前Creator构建与试玩）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D030 雷霆机械皮肤与连续拉弓（2026-11-11）
+
+玩家已接入雷霆机械透明弓箭：固定握把的40片连续变形、真实拉弦手限幅、动态弦、成功释放回弹/取消回松。箭长固定，搭箭/提示/真实发射统一箭尖；敌人发射同步消除尖位置跳变。资源加载失败回退原武器。
+
+129项便携测试与31脚本语法通过，离线纹理变形预览已检查。当前缺Creator导入声明/可执行程序，typecheck:engine和build:web退出2；本轮引擎API、物理与性能未验，G1不放行。详情docs/THUNDER_WEAPON.md，证据evidence/thunder-skin-20261111/verification.md。
 
 ## D029 武器形变与击退（2026-11-10恢复并推送）
 

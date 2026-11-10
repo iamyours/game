@@ -5,6 +5,7 @@ import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import type { RagdollInstance } from '../physics/RagdollFactory';
 import { eventCallbackCount } from '../domain/RuntimeDiagnostics';
 import { drawWeaponArrow } from '../presentation/WeaponVisual';
+import { ThunderArrowSkin, type ThunderWeaponAssets } from '../presentation/ThunderWeaponSkin';
 
 type Point = { x: number; y: number };
 export type ProjectileArrowConfig = PhysicsLabConfig['arrows'][number];
@@ -19,7 +20,7 @@ interface Flight {
   previous: Point; velocity: Point; born: number; angle: number;
 }
 type ContactCallback = (self: Collider2D, other: Collider2D, contact: IPhysics2DContact | null) => void;
-interface Slot { node: Node; body: RigidBody2D; collider: Collider2D; graphics: Graphics; onContact: ContactCallback | null; flight?: Flight }
+interface Slot { node: Node; body: RigidBody2D; collider: Collider2D; graphics: Graphics; skin: ThunderArrowSkin | null; onContact: ContactCallback | null; flight?: Flight }
 function drawArrow(g: Graphics, id: string): void {
   g.clear();
   drawWeaponArrow(g, id, { x: 0, y: 0 }, 0);
@@ -37,7 +38,7 @@ export class ProjectileSystem {
   private stepId = 0;
 
   public constructor(private readonly world: Node, private readonly config: PhysicsLabConfig,
-    actors: readonly RagdollInstance[], private readonly onHit: (candidate: HitCandidate, target: RigidBody2D) => void) {
+    actors: readonly RagdollInstance[], private readonly onHit: (candidate: HitCandidate, target: RigidBody2D) => void, private readonly weaponAssets?: ThunderWeaponAssets) {
     for (const actor of actors) for (const [partId, body] of actor.bodies) {
       this.targets.set(body.node, { targetId: actor.id, partId, body });
     }
@@ -71,8 +72,11 @@ export class ProjectileSystem {
     for (const shot of this.flying.values()) this.sample(shot);
   }
 
-  public muzzleClear(shooter: string, socket: BowSocketSnapshot): boolean {
-    const end = this.tip(socket, TIP_OFFSET_M + 0.06);
+  public muzzleClear(shooter: string, socket: BowSocketSnapshot, launchTip?: Point): boolean {
+    const tip = launchTip ?? this.tip(socket, TIP_OFFSET_M);
+    if (![tip.x, tip.y].every(Number.isFinite) || (tip.x - socket.x) * Math.cos(socket.angleRad) +
+      (tip.y - socket.y) * Math.sin(socket.angleRad) < 0) return false;
+    const end = { x: tip.x + Math.cos(socket.angleRad) * 0.06, y: tip.y + Math.sin(socket.angleRad) * 0.06 };
     const blocks = (collider: Collider2D): boolean => {
       const target = this.targets.get(collider.node);
       return collider.group === this.config.rig.collisionGroups.platform ||
@@ -82,19 +86,22 @@ export class ProjectileSystem {
       !Physics.raycastM(socket, end, this.mask).some(hit => blocks(hit.collider));
   }
 
-  public launchBlockReason(shooter: string, socket: BowSocketSnapshot): 'arrow-limit' | 'muzzle-blocked' | null {
+  public launchBlockReason(shooter: string, socket: BowSocketSnapshot, launchTip?: Point): 'arrow-limit' | 'muzzle-blocked' | null {
     if (this.count >= this.config.limits.maxFlyingArrows) return 'arrow-limit';
-    return this.muzzleClear(shooter, socket) ? null : 'muzzle-blocked';
+    return this.muzzleClear(shooter, socket, launchTip) ? null : 'muzzle-blocked';
   }
 
-  public fire(shooter: string, socket: BowSocketSnapshot, arrow: ProjectileArrowConfig): number | null {
-    if (this.launchBlockReason(shooter, socket) !== null) return null;
+  public fire(shooter: string, socket: BowSocketSnapshot, arrow: ProjectileArrowConfig, launchTip?: Point): number | null {
+    if (this.launchBlockReason(shooter, socket, launchTip) !== null) return null;
     const slot = this.spare.pop() ?? this.createSlot();
-    const point = this.tip(socket, TIP_OFFSET_M);
+    const point = launchTip ?? this.tip(socket, TIP_OFFSET_M);
     Physics.place(slot.node, point.x, point.y);
     slot.node.active = true;
     slot.graphics.node.setRotationFromEuler(0, 0, Physics.degrees(socket.angleRad));
-    drawArrow(slot.graphics, arrow.id);
+    const skinned = shooter === 'PlayerRagdoll' && slot.skin?.show(arrow.id);
+    if (shooter !== 'PlayerRagdoll') slot.skin?.hide();
+    slot.graphics.enabled = !skinned;
+    if (!skinned) drawArrow(slot.graphics, arrow.id);
     const shot = { id: this.nextId++, slot, shooter, arrow, previous: point, born: this.stepId, angle: socket.angleRad,
       velocity: { x: Math.cos(socket.angleRad) * arrow.speedMps, y: Math.sin(socket.angleRad) * arrow.speedMps } };
     slot.flight = shot;
@@ -167,7 +174,7 @@ export class ProjectileSystem {
     const collider = node.addComponent(CircleCollider2D);
     collider.group = body.group; collider.radius = Physics.units(0.035); collider.density = 0.5; collider.friction = 0;
     const visual = new Node('Shaft'); visual.layer = node.layer; visual.parent = node;
-    const slot: Slot = { node, body, collider, graphics: visual.addComponent(Graphics), onContact: null };
+    const slot: Slot = { node, body, collider, graphics: visual.addComponent(Graphics), skin: this.weaponAssets ? new ThunderArrowSkin(visual, this.weaponAssets) : null, onContact: null };
     slot.onContact = (self: Collider2D, other: Collider2D, contact: IPhysics2DContact | null) => {
       const shot = slot.flight;
       if (!shot || !contact) return;
@@ -204,7 +211,8 @@ export class ProjectileSystem {
     Physics.place(node, hit.pointM.x, hit.pointM.y);
     node.setRotationFromEuler(0, 0, Physics.degrees(Math.atan2(hit.incomingVelocityMps.y, hit.incomingVelocityMps.x)));
     node.setParent(parent, true);
-    drawArrow(node.addComponent(Graphics), hit.arrow.id);
+    const skin = hit.attackerId === 'PlayerRagdoll' && this.weaponAssets ? new ThunderArrowSkin(node, this.weaponAssets) : null;
+    if (!skin?.show(hit.arrow.id)) drawArrow(node.addComponent(Graphics), hit.arrow.id);
     this.embedded.push({ target: hit.targetId, node });
   }
 }

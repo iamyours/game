@@ -1,0 +1,78 @@
+[
+  {
+    "command": "npm run env:check",
+    "exitCode": 0,
+    "startedAt": "2026-11-12T23:39:36.291553",
+    "finishedAt": "2026-11-12T23:39:40.227499"
+  },
+  {
+    "command": "npm run verify",
+    "exitCode": 0,
+    "startedAt": "2026-11-12T23:39:40.228219",
+    "finishedAt": "2026-11-12T23:39:53.527381"
+  },
+  {
+    "command": "npm run typecheck:engine",
+    "exitCode": 0,
+    "startedAt": "2026-11-12T23:39:53.528425",
+    "finishedAt": "2026-11-12T23:39:56.885935"
+  },
+  {
+    "command": "npm run check:syntax",
+    "exitCode": 0,
+    "startedAt": "2026-11-12T23:39:56.887645",
+    "finishedAt": "2026-11-12T23:39:58.711324"
+  },
+  {
+    "command": "npm run build:web",
+    "exitCode": 0,
+    "startedAt": "2026-11-12T23:39:58.711945",
+    "finishedAt": "2026-11-12T23:42:22.586227"
+  },
+  {
+    "command": "ARCADE_EVIDENCE_DIR=evidence/pull-test-20261112/arcade npm run test:web:arcade",
+    "exitCode": 0,
+    "startedAt": "2026-11-12T23:42:24.178702",
+    "finishedAt": "2026-11-12T23:42:43.032173"
+  },
+  {
+    "command": "ARM_IMPACT_EVIDENCE_DIR=evidence/pull-test-20261112/arm-impact npm run test:web:arm-impact",
+    "exitCode": 1,
+    "startedAt": "2026-11-12T23:42:43.033370",
+    "finishedAt": "2026-11-12T23:42:48.872407"
+  },
+  {
+    "command": "T004_POSE_EVIDENCE_DIR=evidence/pull-test-20261112/t004 npm run test:web:t004",
+    "exitCode": 1,
+    "startedAt": "2026-11-12T23:42:48.873370",
+    "finishedAt": "2026-11-12T23:43:47.165116"
+  },
+  {
+    "command": "ARCADE_STRESS_DURATION_MS=60000 ARCADE_STABILITY_EVIDENCE_DIR=evidence/pull-test-20261112/stability npm run test:web:arcade-stability",
+    "exitCode": 1,
+    "startedAt": "2026-11-12T23:43:47.165944",
+    "finishedAt": "2026-11-12T23:45:30.186802"
+  },
+  {
+    "command": "node evidence/pull-test-20261112/skin-smoke.mjs",
+    "exitCode": 0,
+    "note": "First harness attempt failed (utility-world readiness); corrected main-world polling then passed. skin-verification.json is the corrected run."
+  },
+  {
+    "command": "ARM_IMPACT_EVIDENCE_DIR=evidence/pull-test-20261112/arm-impact-retry npm run test:web:arm-impact",
+    "exitCode": 1,
+    "note": "Main-world harness fix; joint anchor assertion failed, first 10 cases retained."
+  },
+  {
+    "command": "ARM_IMPACT_EVIDENCE_DIR=evidence/pull-test-20261112/arm-impact-final npm run test:web:arm-impact",
+    "exitCode": 1,
+    "startedAt": "2026-11-12T23:46:22.872079",
+    "finishedAt": "2026-11-12T23:46:34.059997"
+  },
+  {
+    "command": "node --check scripts/verify-arm-impact-web.mjs",
+    "exitCode": 0,
+    "startedAt": "2026-11-12T23:46:34.060096",
+    "finishedAt": "2026-11-12T23:46:34.129261"
+  }
+]

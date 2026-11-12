@@ -1,15 +1,23 @@
-# 当前状态（D030）
+# 当前状态（D031）
 
 version: V2.2
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: main 25c0a0a + D030雷霆皮肤；本次证据见 evidence/thunder-skin-20261111/verification.md
+sourceRevision: main 623e72d + 本机测试脚本修正；本次证据见 evidence/pull-test-20261112/verification.md
 configVersion: 2
 runtimeVerified: false
-feelGateG1: BLOCKED（缺当前Creator构建与试玩）
+feelGateG1: BLOCKED（当前构建可运行；力度、受击关节与销毁回归未通过，完整试玩待验）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D031 拉取后本机测试（2026-11-12）
+
+- `main` 已从 `121c306` 安全快进至远端 `623e72d`；原未跟踪证据保留，未提交或推送。真实 Creator 3.8.8 已导入并生成新增资源的7个合法 meta。
+- 129项便携测试、真实引擎类型、31脚本语法与当前 Web 构建均退出0。连续模式原生回归退出0；雷霆皮肤40片加载、手驱动形变及按住不射/释放单发烟测通过（WebGL2 / Box2D）。
+- T004 在60%力度实际约59.53%的严格断言处超时；受击脚本上下文修正后，`leftShin/impact` 第60步锚点误差0.03438m超出0.02m；30次重开+60秒压力测试销毁后仍出现11个 null destroy 页面异常。三个命令均退出1，不放行物理稳定性和G1。
+- 已修正受击测试的 Playwright 上下文引用并保存失败样本；游戏规则与阈值未改。构建有日志诊断，非零告警。15分钟、真机与渠道未验。
+- 完整命令/版本/退出码/截图：`evidence/pull-test-20261112/verification.md`。本机入口 `http://127.0.0.1:7458/`，练习加 `?practice=1`。
 
 ## D030 雷霆机械皮肤与连续拉弓（2026-11-11）
 

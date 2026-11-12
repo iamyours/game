@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-12T23:47:10.045845+08:00",
+  "revision": "623e72da3388f4f70f26f37c2295be8a7c327360",
+  "originMain": "623e72da3388f4f70f26f37c2295be8a7c327360",
+  "platform": "macOS-12.7.4-x86_64-i386-64bit-Mach-O",
+  "node": "v24.13.0",
+  "creator": "3.8.8",
+  "typescript": "5.9.3",
+  "physics": "Box2D 2D / b2PhysicsWorld",
+  "files": {
+    "build/web-desktop/index.html": {
+      "sha256": "bf8fa1c7bf448f0d50ecbe94005e7355e6d615851e79e9822f9801c83695c123",
+      "bytes": 1220
+    },
+    "build/web-desktop/assets/main/index.js": {
+      "sha256": "0d7a30deeab39c0240dae9752eba009c5d17ff7cd369729398d41023cf6485d0",
+      "bytes": 291958
+    },
+    "configs/engine.lock.json": {
+      "sha256": "74e8cd5685bc174f7860cab1c14c220ed143c6e8a24581135150c3bffa0d56bb",
+      "bytes": 417
+    },
+    "assets/resources/config/manifest.json": {
+      "sha256": "ac2a97c9e611c9a688658cc0d24c050ce84ec4d4822644f4a93bd38552726dae",
+      "bytes": 576
+    }
+  },
+  "originalUntracked": [
+    "evidence/T004/creator-compile-fix/web-runtime.png",
+    "evidence/arcade/runtime/",
+    "evidence/arcade/stability/"
+  ],
+  "generatedMeta": [
+    "assets/resources/weapons.meta",
+    "assets/scripts/domain/weaponGeometry.ts.meta",
+    "assets/scripts/presentation/WeaponVisual.ts.meta",
+    "assets/scripts/presentation/ThunderWeaponSkin.ts.meta",
+    "assets/resources/weapons/thunder-art.json.meta",
+    "assets/resources/weapons/thunder-arrow.png.meta",
+    "assets/resources/weapons/thunder-bow.png.meta"
+  ]
+}

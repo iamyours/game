@@ -12,12 +12,22 @@ page.on('console', m => { if (m.type() === 'error') report.errors.push(m.text())
 try {
   await page.goto(process.env.T004_URL || 'http://127.0.0.1:7458/?practice=1');
   await page.waitForFunction(() => Boolean(window.System));
-  await page.waitForFunction(async () => {
-    const cc = await System.import('cc');
-    const lab = cc.director.getScene()?.getChildByName('PhysicsLab')?.getComponent('StormArchersPhysicsLab');
-    if (!lab || lab.snapshot().stepId < 180 || !lab.ragdolls.every(r => r.bodyNodes.get('head').getChildByName('Skin_head'))) return false;
-    window.armImpact = { lab, cc }; return true;
-  }, null, { timeout: 30000 });
+  // Keep the scene reference in the same main world as the later evaluations.
+  // waitForFunction runs in Playwright's utility world and cannot publish it here.
+  const readyDeadline = Date.now() + 30000;
+  let ready = false;
+  while (Date.now() < readyDeadline) {
+    ready = await page.evaluate(async () => {
+      if (!window.System) return false;
+      const cc = await System.import('cc');
+      const lab = cc.director.getScene()?.getChildByName('PhysicsLab')?.getComponent('StormArchersPhysicsLab');
+      if (!lab || lab.snapshot().stepId < 180 || !lab.ragdolls.every(r => r.bodyNodes.get('head').getChildByName('Skin_head'))) return false;
+      window.armImpact = { lab, cc }; return true;
+    });
+    if (ready) break;
+    await page.waitForTimeout(30);
+  }
+  assert.ok(ready, 'PhysicsLab and character skins must be ready in the main world');
   report.runtime = await page.evaluate(() => ({ version: window.armImpact.cc.VERSION,
     backend: window.armImpact.cc.PhysicsSystem2D.instance.physicsWorld.constructor.name,
     seedHash: window.armImpact.lab.snapshot().seedHash }));
@@ -51,10 +61,11 @@ try {
         }
         return { part, arrowId, deltaMomentum, mass: body.getMass(), deltaVx: after.x - before.x, hit, samples };
       }, { part, arrowId });
+      report.cases.push(result);
       assert.ok(Math.abs(result.deltaMomentum - result.hit.impulseNs) < 1e-4, '全身即时动量增量等于唯一冲量预算，不重复施力');
       assert.ok(Math.abs(result.deltaVx * result.mass - result.hit.localImpulseNs) < 1e-4, '命中部位只收到分配的局部冲量');
-      assert.ok(result.samples.every(s => s.finite && s.anchorErrorM < 0.02));
-      report.cases.push(result);
+      assert.ok(result.samples.every(s => s.finite && s.anchorErrorM < 0.02),
+        `${part}/${arrowId}: finite bodies and joint anchor error < 0.02m; max=${Math.max(...result.samples.map(s => s.anchorErrorM))}`);
     }
     const cases = report.cases.filter(c => c.part === part);
     const normal = cases.find(c => c.arrowId === 'normal'), impact = cases.find(c => c.arrowId === 'impact'), piercing = cases.find(c => c.arrowId === 'piercing');

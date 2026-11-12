@@ -1,0 +1,4777 @@
+{
+  "passed": false,
+  "time": "2026-11-12T15:46:25.612Z",
+  "scope": "Real Box2D: skin endpoints and isolated same-point hit response. Injects after-step hit snapshots; does NOT verify projectile collision, AC04 or G1.",
+  "errors": [],
+  "cases": [
+    {
+      "part": "head",
+      "arrowId": "normal",
+      "deltaMomentum": 11.99999972125693,
+      "mass": 1.9200000000001265,
+      "deltaVx": 2.812499901279807,
+      "hit": {
+        "shotId": 100362,
+        "stepId": 362,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "head",
+        "pointM": {
+          "x": 18.140285505001074,
+          "y": 5.134707154595445
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 18,
+          "y": 0
+        },
+        "arrow": {
+          "id": "normal",
+          "baseDamage": 18,
+          "intervalSec": 0.55,
+          "speedMps": 18,
+          "staminaCost": 6,
+          "impulseNs": 12,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 36,
+          "armorDamage": 0,
+          "hpDamage": 36,
+          "remainingArmor": 0
+        },
+        "zone": "head",
+        "impulseNs": 12,
+        "localImpulseNs": 5.4,
+        "torsoImpulseNs": 6.6,
+        "jointReaction": [
+          {
+            "joint": "neck",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.4
+          },
+          {
+            "joint": "waist",
+            "weight": 0.5,
+            "recoverySec": 0.3
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.18541666666666667,
+              "waist": 0.5277777777777778,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.172779083251953,
+              "y": 5.026337623596191
+            },
+            "chest": {
+              "x": 18.053691864013672,
+              "y": 4.533273220062256
+            },
+            "pelvis": {
+              "x": 18.000574111938477,
+              "y": 4.096461772918701
+            },
+            "leftUpperArm": {
+              "x": 18.031333923339844,
+              "y": 4.62824821472168
+            },
+            "leftForearm": {
+              "x": 18.262678146362305,
+              "y": 4.621067047119141
+            },
+            "rightUpperArm": {
+              "x": 18.585424423217773,
+              "y": 4.596941947937012
+            },
+            "rightForearm": {
+              "x": 18.818397521972656,
+              "y": 4.604486465454102
+            },
+            "leftThigh": {
+              "x": 17.84813117980957,
+              "y": 3.7583489418029785
+            },
+            "leftShin": {
+              "x": 17.849178314208984,
+              "y": 3.318350076675415
+            },
+            "rightThigh": {
+              "x": 18.146865844726562,
+              "y": 3.7539007663726807
+            },
+            "rightShin": {
+              "x": 18.14571189880371,
+              "y": 3.313971996307373
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0011535086776249051
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.3625,
+              "waist": 0.6666666666666666,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.313400268554688,
+              "y": 4.974929332733154
+            },
+            "chest": {
+              "x": 18.09919548034668,
+              "y": 4.525628089904785
+            },
+            "pelvis": {
+              "x": 18.008686065673828,
+              "y": 4.09838342666626
+            },
+            "leftUpperArm": {
+              "x": 18.089542388916016,
+              "y": 4.623988628387451
+            },
+            "leftForearm": {
+              "x": 18.317626953125,
+              "y": 4.592279434204102
+            },
+            "rightUpperArm": {
+              "x": 18.639556884765625,
+              "y": 4.535717964172363
+            },
+            "rightForearm": {
+              "x": 18.87234115600586,
+              "y": 4.526841163635254
+            },
+            "leftThigh": {
+              "x": 17.85621452331543,
+              "y": 3.7595043182373047
+            },
+            "leftShin": {
+              "x": 17.852787017822266,
+              "y": 3.3195180892944336
+            },
+            "rightThigh": {
+              "x": 18.155277252197266,
+              "y": 3.7572543621063232
+            },
+            "rightShin": {
+              "x": 18.150196075439453,
+              "y": 3.3175649642944336
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0002809526517841832
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.6812499999999999,
+              "waist": 0.9166666666666666,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.504486083984375,
+              "y": 4.875837326049805
+            },
+            "chest": {
+              "x": 18.185510635375977,
+              "y": 4.479944705963135
+            },
+            "pelvis": {
+              "x": 17.998794555664062,
+              "y": 4.09938907623291
+            },
+            "leftUpperArm": {
+              "x": 18.216062545776367,
+              "y": 4.581269264221191
+            },
+            "leftForearm": {
+              "x": 18.414989471435547,
+              "y": 4.444751262664795
+            },
+            "rightUpperArm": {
+              "x": 18.72111701965332,
+              "y": 4.3454365730285645
+            },
+            "rightForearm": {
+              "x": 18.94920539855957,
+              "y": 4.29590368270874
+            },
+            "leftThigh": {
+              "x": 17.848176956176758,
+              "y": 3.759694814682007
+            },
+            "leftShin": {
+              "x": 17.848434448242188,
+              "y": 3.319697141647339
+            },
+            "rightThigh": {
+              "x": 18.147485733032227,
+              "y": 3.7582526206970215
+            },
+            "rightShin": {
+              "x": 18.146671295166016,
+              "y": 3.3179640769958496
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0006330085997341319
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.845773696899414,
+              "y": 4.651895999908447
+            },
+            "chest": {
+              "x": 18.398290634155273,
+              "y": 4.407308101654053
+            },
+            "pelvis": {
+              "x": 18.0783634185791,
+              "y": 4.138371467590332
+            },
+            "leftUpperArm": {
+              "x": 18.473323822021484,
+              "y": 4.486896514892578
+            },
+            "leftForearm": {
+              "x": 18.574203491210938,
+              "y": 4.262831211090088
+            },
+            "rightUpperArm": {
+              "x": 18.885122299194336,
+              "y": 4.1209492683410645
+            },
+            "rightForearm": {
+              "x": 19.10838508605957,
+              "y": 4.0531487464904785
+            },
+            "leftThigh": {
+              "x": 17.81096839904785,
+              "y": 3.87233304977417
+            },
+            "leftShin": {
+              "x": 17.63435935974121,
+              "y": 3.4693329334259033
+            },
+            "rightThigh": {
+              "x": 18.15793228149414,
+              "y": 3.7578845024108887
+            },
+            "rightShin": {
+              "x": 18.149431228637695,
+              "y": 3.317899465560913
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0009771657182983593
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.142742156982422,
+              "y": 3.301593780517578
+            },
+            "chest": {
+              "x": 18.81184196472168,
+              "y": 3.6741526126861572
+            },
+            "pelvis": {
+              "x": 18.52452278137207,
+              "y": 3.9787437915802
+            },
+            "leftUpperArm": {
+              "x": 18.936269760131836,
+              "y": 3.525906562805176
+            },
+            "leftForearm": {
+              "x": 18.767059326171875,
+              "y": 3.346893787384033
+            },
+            "rightUpperArm": {
+              "x": 18.890161514282227,
+              "y": 3.262835741043091
+            },
+            "rightForearm": {
+              "x": 19.115324020385742,
+              "y": 3.2185275554656982
+            },
+            "leftThigh": {
+              "x": 18.249637603759766,
+              "y": 4.101109981536865
+            },
+            "leftShin": {
+              "x": 17.8609619140625,
+              "y": 3.897362470626831
+            },
+            "rightThigh": {
+              "x": 18.220415115356445,
+              "y": 3.7447564601898193
+            },
+            "rightShin": {
+              "x": 18.083812713623047,
+              "y": 3.3565757274627686
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0009737141202819856
+        }
+      ]
+    },
+    {
+      "part": "head",
+      "arrowId": "impact",
+      "deltaMomentum": 22.000000372896128,
+      "mass": 1.9200000000001265,
+      "deltaVx": 2.999999901279807,
+      "hit": {
+        "shotId": 100603,
+        "stepId": 603,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "head",
+        "pointM": {
+          "x": 18.140285505001074,
+          "y": 5.134707154595445
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 17,
+          "y": 0
+        },
+        "arrow": {
+          "id": "impact",
+          "baseDamage": 12,
+          "intervalSec": 0.8,
+          "speedMps": 17,
+          "staminaCost": 10,
+          "impulseNs": 22,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 24,
+          "armorDamage": 0,
+          "hpDamage": 24,
+          "remainingArmor": 0
+        },
+        "zone": "head",
+        "impulseNs": 22,
+        "localImpulseNs": 5.76000000000038,
+        "torsoImpulseNs": 16.23999999999962,
+        "jointReaction": [
+          {
+            "joint": "neck",
+            "weight": 0.030000000000000027,
+            "recoverySec": 0.8
+          },
+          {
+            "joint": "waist",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.6
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.050208333333333355,
+              "waist": 0.17361111111111113,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.1810302734375,
+              "y": 5.027318000793457
+            },
+            "chest": {
+              "x": 18.063209533691406,
+              "y": 4.533324718475342
+            },
+            "pelvis": {
+              "x": 18.006851196289062,
+              "y": 4.097006320953369
+            },
+            "leftUpperArm": {
+              "x": 18.040971755981445,
+              "y": 4.627544403076172
+            },
+            "leftForearm": {
+              "x": 18.272212982177734,
+              "y": 4.617847442626953
+            },
+            "rightUpperArm": {
+              "x": 18.595579147338867,
+              "y": 4.594412803649902
+            },
+            "rightForearm": {
+              "x": 18.828550338745117,
+              "y": 4.6012163162231445
+            },
+            "leftThigh": {
+              "x": 17.851587295532227,
+              "y": 3.7603111267089844
+            },
+            "leftShin": {
+              "x": 17.848331451416016,
+              "y": 3.3203318119049072
+            },
+            "rightThigh": {
+              "x": 18.149993896484375,
+              "y": 3.752925395965576
+            },
+            "rightShin": {
+              "x": 18.146774291992188,
+              "y": 3.3135030269622803
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0009604856161535576
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.15125,
+              "waist": 0.2916666666666667,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.384174346923828,
+              "y": 4.963959693908691
+            },
+            "chest": {
+              "x": 18.14865493774414,
+              "y": 4.52587366104126
+            },
+            "pelvis": {
+              "x": 18.04436683654785,
+              "y": 4.103024482727051
+            },
+            "leftUpperArm": {
+              "x": 18.14384651184082,
+              "y": 4.624957084655762
+            },
+            "leftForearm": {
+              "x": 18.370861053466797,
+              "y": 4.579897403717041
+            },
+            "rightUpperArm": {
+              "x": 18.689313888549805,
+              "y": 4.51196813583374
+            },
+            "rightForearm": {
+              "x": 18.921689987182617,
+              "y": 4.492640495300293
+            },
+            "leftThigh": {
+              "x": 17.882959365844727,
+              "y": 3.76410174369812
+            },
+            "leftShin": {
+              "x": 17.8550968170166,
+              "y": 3.324985980987549
+            },
+            "rightThigh": {
+              "x": 18.18474006652832,
+              "y": 3.7622766494750977
+            },
+            "rightShin": {
+              "x": 18.162458419799805,
+              "y": 3.322763204574585
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00022233253453499192
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.33312499999999995,
+              "waist": 0.5041666666666667,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.695281982421875,
+              "y": 4.786258220672607
+            },
+            "chest": {
+              "x": 18.313732147216797,
+              "y": 4.4511799812316895
+            },
+            "pelvis": {
+              "x": 18.082515716552734,
+              "y": 4.104179382324219
+            },
+            "leftUpperArm": {
+              "x": 18.358810424804688,
+              "y": 4.545658588409424
+            },
+            "leftForearm": {
+              "x": 18.52698516845703,
+              "y": 4.370336532592773
+            },
+            "rightUpperArm": {
+              "x": 18.829341888427734,
+              "y": 4.244558334350586
+            },
+            "rightForearm": {
+              "x": 19.05125617980957,
+              "y": 4.170103073120117
+            },
+            "leftThigh": {
+              "x": 17.90831184387207,
+              "y": 3.772338628768921
+            },
+            "leftShin": {
+              "x": 17.864669799804688,
+              "y": 3.334514617919922
+            },
+            "rightThigh": {
+              "x": 18.2082576751709,
+              "y": 3.7579259872436523
+            },
+            "rightShin": {
+              "x": 18.17100715637207,
+              "y": 3.319674491882324
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00013898523233530033
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.14887237548828,
+              "y": 4.376468181610107
+            },
+            "chest": {
+              "x": 18.647146224975586,
+              "y": 4.285435199737549
+            },
+            "pelvis": {
+              "x": 18.259361267089844,
+              "y": 4.129370212554932
+            },
+            "leftUpperArm": {
+              "x": 18.75241470336914,
+              "y": 4.337206840515137
+            },
+            "leftForearm": {
+              "x": 18.78615951538086,
+              "y": 4.093649387359619
+            },
+            "rightUpperArm": {
+              "x": 19.069355010986328,
+              "y": 3.9146907329559326
+            },
+            "rightForearm": {
+              "x": 19.29096031188965,
+              "y": 3.841310501098633
+            },
+            "leftThigh": {
+              "x": 17.922998428344727,
+              "y": 3.9580798149108887
+            },
+            "leftShin": {
+              "x": 17.63204574584961,
+              "y": 3.6280086040496826
+            },
+            "rightThigh": {
+              "x": 18.224851608276367,
+              "y": 3.740565299987793
+            },
+            "rightShin": {
+              "x": 18.142030715942383,
+              "y": 3.313624620437622
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.001791458707397119
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.294660568237305,
+              "y": 3.200969696044922
+            },
+            "chest": {
+              "x": 18.890262603759766,
+              "y": 3.504321575164795
+            },
+            "pelvis": {
+              "x": 18.496963500976562,
+              "y": 3.663271903991699
+            },
+            "leftUpperArm": {
+              "x": 18.976171493530273,
+              "y": 3.5027406215667725
+            },
+            "leftForearm": {
+              "x": 18.949241638183594,
+              "y": 3.3127455711364746
+            },
+            "rightUpperArm": {
+              "x": 19.13534164428711,
+              "y": 3.239664077758789
+            },
+            "rightForearm": {
+              "x": 19.351076126098633,
+              "y": 3.339806318283081
+            },
+            "leftThigh": {
+              "x": 18.153919219970703,
+              "y": 3.7564454078674316
+            },
+            "leftShin": {
+              "x": 17.730501174926758,
+              "y": 3.6367971897125244
+            },
+            "rightThigh": {
+              "x": 18.166593551635742,
+              "y": 3.4928462505340576
+            },
+            "rightShin": {
+              "x": 17.963050842285156,
+              "y": 3.334470272064209
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0006799396282192446
+        }
+      ]
+    },
+    {
+      "part": "head",
+      "arrowId": "piercing",
+      "deltaMomentum": 8.499999911186462,
+      "mass": 1.9200000000001265,
+      "deltaVx": 1.9921875204890966,
+      "hit": {
+        "shotId": 100844,
+        "stepId": 844,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "head",
+        "pointM": {
+          "x": 18.140285505001074,
+          "y": 5.134707154595445
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 19,
+          "y": 0
+        },
+        "arrow": {
+          "id": "piercing",
+          "baseDamage": 16,
+          "intervalSec": 0.75,
+          "speedMps": 19,
+          "staminaCost": 10,
+          "impulseNs": 8.5,
+          "armorDamageFactor": 2,
+          "armorOverflow": true,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 32,
+          "armorDamage": 0,
+          "hpDamage": 32,
+          "remainingArmor": 0
+        },
+        "zone": "head",
+        "impulseNs": 8.5,
+        "localImpulseNs": 3.825,
+        "torsoImpulseNs": 4.675,
+        "jointReaction": [
+          {
+            "joint": "neck",
+            "weight": 0.35,
+            "recoverySec": 0.25
+          },
+          {
+            "joint": "waist",
+            "weight": 0.75,
+            "recoverySec": 0.18
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.3933333333333333,
+              "waist": 0.7731481481481481,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.157711029052734,
+              "y": 5.030255317687988
+            },
+            "chest": {
+              "x": 18.051834106445312,
+              "y": 4.532602787017822
+            },
+            "pelvis": {
+              "x": 17.99932861328125,
+              "y": 4.096227645874023
+            },
+            "leftUpperArm": {
+              "x": 18.029682159423828,
+              "y": 4.628270626068115
+            },
+            "leftForearm": {
+              "x": 18.261037826538086,
+              "y": 4.621556282043457
+            },
+            "rightUpperArm": {
+              "x": 18.58368492126465,
+              "y": 4.597246170043945
+            },
+            "rightForearm": {
+              "x": 18.816648483276367,
+              "y": 4.605022430419922
+            },
+            "leftThigh": {
+              "x": 17.84731101989746,
+              "y": 3.7580409049987793
+            },
+            "leftShin": {
+              "x": 17.848936080932617,
+              "y": 3.3180439472198486
+            },
+            "rightThigh": {
+              "x": 18.146146774291992,
+              "y": 3.7538936138153076
+            },
+            "rightShin": {
+              "x": 18.145427703857422,
+              "y": 3.3139586448669434
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0005677185776370686
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.61,
+              "waist": 0.8888888888888888,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.264944076538086,
+              "y": 4.9930877685546875
+            },
+            "chest": {
+              "x": 18.080846786499023,
+              "y": 4.529245376586914
+            },
+            "pelvis": {
+              "x": 18.007612228393555,
+              "y": 4.097315788269043
+            },
+            "leftUpperArm": {
+              "x": 18.065242767333984,
+              "y": 4.626541614532471
+            },
+            "leftForearm": {
+              "x": 18.295713424682617,
+              "y": 4.604099273681641
+            },
+            "rightUpperArm": {
+              "x": 18.61705780029297,
+              "y": 4.562129497528076
+            },
+            "rightForearm": {
+              "x": 18.85004234313965,
+              "y": 4.558009147644043
+            },
+            "leftThigh": {
+              "x": 17.854219436645508,
+              "y": 3.7593839168548584
+            },
+            "leftShin": {
+              "x": 17.851865768432617,
+              "y": 3.319390058517456
+            },
+            "rightThigh": {
+              "x": 18.153156280517578,
+              "y": 3.755086660385132
+            },
+            "rightShin": {
+              "x": 18.14912223815918,
+              "y": 3.3150722980499268
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00014035649290723725
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.371631622314453,
+              "y": 4.959659576416016
+            },
+            "chest": {
+              "x": 18.13640022277832,
+              "y": 4.508607387542725
+            },
+            "pelvis": {
+              "x": 18.001859664916992,
+              "y": 4.097471237182617
+            },
+            "leftUpperArm": {
+              "x": 18.13960838317871,
+              "y": 4.605796813964844
+            },
+            "leftForearm": {
+              "x": 18.359594345092773,
+              "y": 4.517515659332275
+            },
+            "rightUpperArm": {
+              "x": 18.67955780029297,
+              "y": 4.456220626831055
+            },
+            "rightForearm": {
+              "x": 18.91118621826172,
+              "y": 4.428916931152344
+            },
+            "leftThigh": {
+              "x": 17.84970474243164,
+              "y": 3.7594339847564697
+            },
+            "leftShin": {
+              "x": 17.849641799926758,
+              "y": 3.319434881210327
+            },
+            "rightThigh": {
+              "x": 18.148948669433594,
+              "y": 3.755305051803589
+            },
+            "rightShin": {
+              "x": 18.14763832092285,
+              "y": 3.3151493072509766
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0001578388511835524
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.638357162475586,
+              "y": 4.761726379394531
+            },
+            "chest": {
+              "x": 18.248838424682617,
+              "y": 4.432577133178711
+            },
+            "pelvis": {
+              "x": 17.9910945892334,
+              "y": 4.104861736297607
+            },
+            "leftUpperArm": {
+              "x": 18.309152603149414,
+              "y": 4.526839256286621
+            },
+            "leftForearm": {
+              "x": 18.458032608032227,
+              "y": 4.331842422485352
+            },
+            "rightUpperArm": {
+              "x": 18.76474952697754,
+              "y": 4.212247848510742
+            },
+            "rightForearm": {
+              "x": 18.990093231201172,
+              "y": 4.15090274810791
+            },
+            "leftThigh": {
+              "x": 17.81609344482422,
+              "y": 3.784963369369507
+            },
+            "leftShin": {
+              "x": 17.803089141845703,
+              "y": 3.345155715942383
+            },
+            "rightThigh": {
+              "x": 18.124040603637695,
+              "y": 3.747851848602295
+            },
+            "rightShin": {
+              "x": 18.133028030395508,
+              "y": 3.3092200756073
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0012325828695608308
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.16929817199707,
+              "y": 4.017058849334717
+            },
+            "chest": {
+              "x": 18.670076370239258,
+              "y": 4.112543106079102
+            },
+            "pelvis": {
+              "x": 18.251449584960938,
+              "y": 4.140120983123779
+            },
+            "leftUpperArm": {
+              "x": 18.818918228149414,
+              "y": 4.100301265716553
+            },
+            "leftForearm": {
+              "x": 18.774248123168945,
+              "y": 3.8581347465515137
+            },
+            "rightUpperArm": {
+              "x": 18.965883255004883,
+              "y": 3.662442445755005
+            },
+            "rightForearm": {
+              "x": 19.184322357177734,
+              "y": 3.580303430557251
+            },
+            "leftThigh": {
+              "x": 17.903141021728516,
+              "y": 4.090879440307617
+            },
+            "leftShin": {
+              "x": 17.56937599182129,
+              "y": 3.8041718006134033
+            },
+            "rightThigh": {
+              "x": 18.153322219848633,
+              "y": 3.761741876602173
+            },
+            "rightShin": {
+              "x": 18.138996124267578,
+              "y": 3.321122169494629
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0014074473464376095
+        }
+      ]
+    },
+    {
+      "part": "chest",
+      "arrowId": "normal",
+      "deltaMomentum": 11.999999592029125,
+      "mass": 7.679999546637908,
+      "deltaVx": 1.5625000391155481,
+      "hit": {
+        "shotId": 101085,
+        "stepId": 1085,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "chest",
+        "pointM": {
+          "x": 18.06233553427247,
+          "y": 4.630699589229206
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 18,
+          "y": 0
+        },
+        "arrow": {
+          "id": "normal",
+          "baseDamage": 18,
+          "intervalSec": 0.55,
+          "speedMps": 18,
+          "staminaCost": 6,
+          "impulseNs": 12,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 18,
+          "armorDamage": 0,
+          "hpDamage": 18,
+          "remainingArmor": 0
+        },
+        "zone": "torso",
+        "impulseNs": 12,
+        "localImpulseNs": 12,
+        "torsoImpulseNs": 0,
+        "jointReaction": [
+          {
+            "joint": "waist",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.4
+          },
+          {
+            "joint": "neck",
+            "weight": 0.5,
+            "recoverySec": 0.3
+          },
+          {
+            "joint": "leftHip",
+            "weight": 0.5,
+            "recoverySec": 0.3
+          },
+          {
+            "joint": "rightHip",
+            "weight": 0.5,
+            "recoverySec": 0.3
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.5277777777777778,
+              "waist": 0.18541666666666667,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.5277777777777778,
+              "leftKnee": 1,
+              "rightHip": 0.5277777777777778,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.13471221923828,
+              "y": 5.036053657531738
+            },
+            "chest": {
+              "x": 18.058990478515625,
+              "y": 4.531983375549316
+            },
+            "pelvis": {
+              "x": 18.00155258178711,
+              "y": 4.096734523773193
+            },
+            "leftUpperArm": {
+              "x": 18.038169860839844,
+              "y": 4.627902507781982
+            },
+            "leftForearm": {
+              "x": 18.269386291503906,
+              "y": 4.617354869842529
+            },
+            "rightUpperArm": {
+              "x": 18.592487335205078,
+              "y": 4.591436386108398
+            },
+            "rightForearm": {
+              "x": 18.825342178344727,
+              "y": 4.598516464233398
+            },
+            "leftThigh": {
+              "x": 17.8486328125,
+              "y": 3.7586255073547363
+            },
+            "leftShin": {
+              "x": 17.849336624145508,
+              "y": 3.3186259269714355
+            },
+            "rightThigh": {
+              "x": 18.147249221801758,
+              "y": 3.7538771629333496
+            },
+            "rightShin": {
+              "x": 18.145811080932617,
+              "y": 3.3139758110046387
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0010094415333344116
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.6666666666666666,
+              "waist": 0.3625,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.6666666666666666,
+              "leftKnee": 1,
+              "rightHip": 0.6666666666666666,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.225187301635742,
+              "y": 5.022610187530518
+            },
+            "chest": {
+              "x": 18.105606079101562,
+              "y": 4.527200698852539
+            },
+            "pelvis": {
+              "x": 18.020841598510742,
+              "y": 4.0983076095581055
+            },
+            "leftUpperArm": {
+              "x": 18.093626022338867,
+              "y": 4.624629974365234
+            },
+            "leftForearm": {
+              "x": 18.323444366455078,
+              "y": 4.590240478515625
+            },
+            "rightUpperArm": {
+              "x": 18.64310646057129,
+              "y": 4.539913177490234
+            },
+            "rightForearm": {
+              "x": 18.875978469848633,
+              "y": 4.527035713195801
+            },
+            "leftThigh": {
+              "x": 17.865903854370117,
+              "y": 3.7597579956054688
+            },
+            "leftShin": {
+              "x": 17.856842041015625,
+              "y": 3.3198513984680176
+            },
+            "rightThigh": {
+              "x": 18.16508674621582,
+              "y": 3.756964921951294
+            },
+            "rightShin": {
+              "x": 18.154464721679688,
+              "y": 3.316833019256592
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0002646811693551402
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.9166666666666666,
+              "waist": 0.6812499999999999,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.9166666666666666,
+              "leftKnee": 1,
+              "rightHip": 0.9166666666666666,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.4365234375,
+              "y": 4.93379020690918
+            },
+            "chest": {
+              "x": 18.178476333618164,
+              "y": 4.493935585021973
+            },
+            "pelvis": {
+              "x": 18.012584686279297,
+              "y": 4.09932804107666
+            },
+            "leftUpperArm": {
+              "x": 18.198060989379883,
+              "y": 4.594862461090088
+            },
+            "leftForearm": {
+              "x": 18.406612396240234,
+              "y": 4.475143909454346
+            },
+            "rightUpperArm": {
+              "x": 18.71845817565918,
+              "y": 4.392683029174805
+            },
+            "rightForearm": {
+              "x": 18.9481258392334,
+              "y": 4.351362705230713
+            },
+            "leftThigh": {
+              "x": 17.858665466308594,
+              "y": 3.7605204582214355
+            },
+            "leftShin": {
+              "x": 17.85358428955078,
+              "y": 3.320549726486206
+            },
+            "rightThigh": {
+              "x": 18.158092498779297,
+              "y": 3.7574543952941895
+            },
+            "rightShin": {
+              "x": 18.151222229003906,
+              "y": 3.3172879219055176
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0005551559999460122
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.79277992248535,
+              "y": 4.6983208656311035
+            },
+            "chest": {
+              "x": 18.364362716674805,
+              "y": 4.421631336212158
+            },
+            "pelvis": {
+              "x": 18.061613082885742,
+              "y": 4.1332807540893555
+            },
+            "leftUpperArm": {
+              "x": 18.432188034057617,
+              "y": 4.50515079498291
+            },
+            "leftForearm": {
+              "x": 18.54563331604004,
+              "y": 4.287264347076416
+            },
+            "rightUpperArm": {
+              "x": 18.852210998535156,
+              "y": 4.1415534019470215
+            },
+            "rightForearm": {
+              "x": 19.071205139160156,
+              "y": 4.060695171356201
+            },
+            "leftThigh": {
+              "x": 17.816425323486328,
+              "y": 3.849745512008667
+            },
+            "leftShin": {
+              "x": 17.67889404296875,
+              "y": 3.431793212890625
+            },
+            "rightThigh": {
+              "x": 18.154809951782227,
+              "y": 3.7580175399780273
+            },
+            "rightShin": {
+              "x": 18.148698806762695,
+              "y": 3.3172261714935303
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0008901757453072275
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.18691062927246,
+              "y": 3.4654483795166016
+            },
+            "chest": {
+              "x": 18.799421310424805,
+              "y": 3.7797186374664307
+            },
+            "pelvis": {
+              "x": 18.465225219726562,
+              "y": 4.030313968658447
+            },
+            "leftUpperArm": {
+              "x": 18.93458366394043,
+              "y": 3.6664724349975586
+            },
+            "leftForearm": {
+              "x": 18.78338623046875,
+              "y": 3.472008228302002
+            },
+            "rightUpperArm": {
+              "x": 18.897783279418945,
+              "y": 3.3129544258117676
+            },
+            "rightForearm": {
+              "x": 19.110023498535156,
+              "y": 3.2221577167510986
+            },
+            "leftThigh": {
+              "x": 18.164684295654297,
+              "y": 4.1184401512146
+            },
+            "leftShin": {
+              "x": 17.78812026977539,
+              "y": 3.8924267292022705
+            },
+            "rightThigh": {
+              "x": 18.19989585876465,
+              "y": 3.7504615783691406
+            },
+            "rightShin": {
+              "x": 18.095645904541016,
+              "y": 3.3436219692230225
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0021687338676632324
+        }
+      ]
+    },
+    {
+      "part": "chest",
+      "arrowId": "impact",
+      "deltaMomentum": 22.00000022241695,
+      "mass": 7.679999546637908,
+      "deltaVx": 2.864583531394601,
+      "hit": {
+        "shotId": 101326,
+        "stepId": 1326,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "chest",
+        "pointM": {
+          "x": 18.06233553427247,
+          "y": 4.630699589229206
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 17,
+          "y": 0
+        },
+        "arrow": {
+          "id": "impact",
+          "baseDamage": 12,
+          "intervalSec": 0.8,
+          "speedMps": 17,
+          "staminaCost": 10,
+          "impulseNs": 22,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 12,
+          "armorDamage": 0,
+          "hpDamage": 12,
+          "remainingArmor": 0
+        },
+        "zone": "torso",
+        "impulseNs": 22,
+        "localImpulseNs": 22,
+        "torsoImpulseNs": 0,
+        "jointReaction": [
+          {
+            "joint": "waist",
+            "weight": 0.030000000000000027,
+            "recoverySec": 0.8
+          },
+          {
+            "joint": "neck",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.6
+          },
+          {
+            "joint": "leftHip",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.6
+          },
+          {
+            "joint": "rightHip",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.6
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.17361111111111113,
+              "waist": 0.050208333333333355,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.17361111111111113,
+              "leftKnee": 1,
+              "rightHip": 0.17361111111111113,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.13882064819336,
+              "y": 5.035496234893799
+            },
+            "chest": {
+              "x": 18.07018280029297,
+              "y": 4.531909942626953
+            },
+            "pelvis": {
+              "x": 18.0046329498291,
+              "y": 4.097712516784668
+            },
+            "leftUpperArm": {
+              "x": 18.05130958557129,
+              "y": 4.627460956573486
+            },
+            "leftForearm": {
+              "x": 18.282100677490234,
+              "y": 4.611185073852539
+            },
+            "rightUpperArm": {
+              "x": 18.607120513916016,
+              "y": 4.586298942565918
+            },
+            "rightForearm": {
+              "x": 18.84008026123047,
+              "y": 4.595149040222168
+            },
+            "leftThigh": {
+              "x": 17.85043716430664,
+              "y": 3.759608268737793
+            },
+            "leftShin": {
+              "x": 17.849822998046875,
+              "y": 3.319608688354492
+            },
+            "rightThigh": {
+              "x": 18.148740768432617,
+              "y": 3.7539000511169434
+            },
+            "rightShin": {
+              "x": 18.146244049072266,
+              "y": 3.3139712810516357
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0017561314807930056
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.2916666666666667,
+              "waist": 0.15125,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.2916666666666667,
+              "leftKnee": 1,
+              "rightHip": 0.2916666666666667,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.2650146484375,
+              "y": 5.007128715515137
+            },
+            "chest": {
+              "x": 18.164695739746094,
+              "y": 4.519956111907959
+            },
+            "pelvis": {
+              "x": 18.049236297607422,
+              "y": 4.101162910461426
+            },
+            "leftUpperArm": {
+              "x": 18.164419174194336,
+              "y": 4.620092868804932
+            },
+            "leftForearm": {
+              "x": 18.39033317565918,
+              "y": 4.56251859664917
+            },
+            "rightUpperArm": {
+              "x": 18.706707000732422,
+              "y": 4.491211414337158
+            },
+            "rightForearm": {
+              "x": 18.93912124633789,
+              "y": 4.467150688171387
+            },
+            "leftThigh": {
+              "x": 17.88880157470703,
+              "y": 3.7629098892211914
+            },
+            "leftShin": {
+              "x": 17.864530563354492,
+              "y": 3.323580026626587
+            },
+            "rightThigh": {
+              "x": 18.188814163208008,
+              "y": 3.760335922241211
+            },
+            "rightShin": {
+              "x": 18.164209365844727,
+              "y": 3.3203492164611816
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0006798462762716903
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.5041666666666667,
+              "waist": 0.33312499999999995,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.5041666666666667,
+              "leftKnee": 1,
+              "rightHip": 0.5041666666666667,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.638608932495117,
+              "y": 4.846960067749023
+            },
+            "chest": {
+              "x": 18.31407356262207,
+              "y": 4.456719398498535
+            },
+            "pelvis": {
+              "x": 18.08968734741211,
+              "y": 4.105955123901367
+            },
+            "leftUpperArm": {
+              "x": 18.361854553222656,
+              "y": 4.553769588470459
+            },
+            "leftForearm": {
+              "x": 18.5347900390625,
+              "y": 4.382632255554199
+            },
+            "rightUpperArm": {
+              "x": 18.836572647094727,
+              "y": 4.263341426849365
+            },
+            "rightForearm": {
+              "x": 19.061464309692383,
+              "y": 4.199905872344971
+            },
+            "leftThigh": {
+              "x": 17.91992950439453,
+              "y": 3.768392324447632
+            },
+            "leftShin": {
+              "x": 17.877302169799805,
+              "y": 3.3304617404937744
+            },
+            "rightThigh": {
+              "x": 18.21956443786621,
+              "y": 3.7637815475463867
+            },
+            "rightShin": {
+              "x": 18.176849365234375,
+              "y": 3.325601816177368
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.001233965999123208
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.13105010986328,
+              "y": 4.355813026428223
+            },
+            "chest": {
+              "x": 18.626401901245117,
+              "y": 4.282347202301025
+            },
+            "pelvis": {
+              "x": 18.229923248291016,
+              "y": 4.148819446563721
+            },
+            "leftUpperArm": {
+              "x": 18.736949920654297,
+              "y": 4.327803134918213
+            },
+            "leftForearm": {
+              "x": 18.758588790893555,
+              "y": 4.082794666290283
+            },
+            "rightUpperArm": {
+              "x": 19.030467987060547,
+              "y": 3.8929996490478516
+            },
+            "rightForearm": {
+              "x": 19.24955940246582,
+              "y": 3.8125720024108887
+            },
+            "leftThigh": {
+              "x": 17.928293228149414,
+              "y": 3.966496467590332
+            },
+            "leftShin": {
+              "x": 17.73287582397461,
+              "y": 3.572272777557373
+            },
+            "rightThigh": {
+              "x": 18.20606803894043,
+              "y": 3.7541186809539795
+            },
+            "rightShin": {
+              "x": 18.163808822631836,
+              "y": 3.317986249923706
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0017516366552290175
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.250347137451172,
+              "y": 3.187230348587036
+            },
+            "chest": {
+              "x": 18.94976806640625,
+              "y": 3.583144426345825
+            },
+            "pelvis": {
+              "x": 18.689075469970703,
+              "y": 3.9098408222198486
+            },
+            "leftUpperArm": {
+              "x": 19.029293060302734,
+              "y": 3.4982638359069824
+            },
+            "leftForearm": {
+              "x": 18.87335205078125,
+              "y": 3.339019536972046
+            },
+            "rightUpperArm": {
+              "x": 19.025150299072266,
+              "y": 3.2356414794921875
+            },
+            "rightForearm": {
+              "x": 19.25713348388672,
+              "y": 3.23559832572937
+            },
+            "leftThigh": {
+              "x": 18.423486709594727,
+              "y": 4.058323860168457
+            },
+            "leftShin": {
+              "x": 18.00455093383789,
+              "y": 3.9238548278808594
+            },
+            "rightThigh": {
+              "x": 18.364994049072266,
+              "y": 3.7031025886535645
+            },
+            "rightShin": {
+              "x": 18.156982421875,
+              "y": 3.333352565765381
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00009012408555012561
+        }
+      ]
+    },
+    {
+      "part": "chest",
+      "arrowId": "piercing",
+      "deltaMomentum": 8.500000103815216,
+      "mass": 7.679999546637908,
+      "deltaVx": 1.1067709121853113,
+      "hit": {
+        "shotId": 101567,
+        "stepId": 1567,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "chest",
+        "pointM": {
+          "x": 18.06233553427247,
+          "y": 4.630699589229206
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 19,
+          "y": 0
+        },
+        "arrow": {
+          "id": "piercing",
+          "baseDamage": 16,
+          "intervalSec": 0.75,
+          "speedMps": 19,
+          "staminaCost": 10,
+          "impulseNs": 8.5,
+          "armorDamageFactor": 2,
+          "armorOverflow": true,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 16,
+          "armorDamage": 0,
+          "hpDamage": 16,
+          "remainingArmor": 0
+        },
+        "zone": "torso",
+        "impulseNs": 8.5,
+        "localImpulseNs": 8.5,
+        "torsoImpulseNs": 0,
+        "jointReaction": [
+          {
+            "joint": "waist",
+            "weight": 0.35,
+            "recoverySec": 0.25
+          },
+          {
+            "joint": "neck",
+            "weight": 0.75,
+            "recoverySec": 0.18
+          },
+          {
+            "joint": "leftHip",
+            "weight": 0.75,
+            "recoverySec": 0.18
+          },
+          {
+            "joint": "rightHip",
+            "weight": 0.75,
+            "recoverySec": 0.18
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.7731481481481481,
+              "waist": 0.3933333333333333,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.7731481481481481,
+              "leftKnee": 1,
+              "rightHip": 0.7731481481481481,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.13397979736328,
+              "y": 5.035738945007324
+            },
+            "chest": {
+              "x": 18.054954528808594,
+              "y": 4.53193998336792
+            },
+            "pelvis": {
+              "x": 18.0003719329834,
+              "y": 4.096286296844482
+            },
+            "leftUpperArm": {
+              "x": 18.033470153808594,
+              "y": 4.627993106842041
+            },
+            "leftForearm": {
+              "x": 18.264785766601562,
+              "y": 4.619610786437988
+            },
+            "rightUpperArm": {
+              "x": 18.587553024291992,
+              "y": 4.5944647789001465
+            },
+            "rightForearm": {
+              "x": 18.820484161376953,
+              "y": 4.601799964904785
+            },
+            "leftThigh": {
+              "x": 17.84796714782715,
+              "y": 3.7582242488861084
+            },
+            "leftShin": {
+              "x": 17.849159240722656,
+              "y": 3.3182260990142822
+            },
+            "rightThigh": {
+              "x": 18.146732330322266,
+              "y": 3.75376296043396
+            },
+            "rightShin": {
+              "x": 18.145647048950195,
+              "y": 3.313908815383911
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0006530484509558316
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0.8888888888888888,
+              "waist": 0.61,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.8888888888888888,
+              "leftKnee": 1,
+              "rightHip": 0.8888888888888888,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.19809913635254,
+              "y": 5.026732921600342
+            },
+            "chest": {
+              "x": 18.086503982543945,
+              "y": 4.529103755950928
+            },
+            "pelvis": {
+              "x": 18.01324462890625,
+              "y": 4.097208023071289
+            },
+            "leftUpperArm": {
+              "x": 18.07085609436035,
+              "y": 4.626248359680176
+            },
+            "leftForearm": {
+              "x": 18.301565170288086,
+              "y": 4.602450847625732
+            },
+            "rightUpperArm": {
+              "x": 18.622480392456055,
+              "y": 4.5609211921691895
+            },
+            "rightForearm": {
+              "x": 18.855592727661133,
+              "y": 4.555391311645508
+            },
+            "leftThigh": {
+              "x": 17.858989715576172,
+              "y": 3.7592263221740723
+            },
+            "leftShin": {
+              "x": 17.853927612304688,
+              "y": 3.3192553520202637
+            },
+            "rightThigh": {
+              "x": 18.15789222717285,
+              "y": 3.7551369667053223
+            },
+            "rightShin": {
+              "x": 18.151548385620117,
+              "y": 3.3151676654815674
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00009438704117510695
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.326534271240234,
+              "y": 4.982840061187744
+            },
+            "chest": {
+              "x": 18.129899978637695,
+              "y": 4.51227331161499
+            },
+            "pelvis": {
+              "x": 18.00429344177246,
+              "y": 4.097212314605713
+            },
+            "leftUpperArm": {
+              "x": 18.12936782836914,
+              "y": 4.608662128448486
+            },
+            "leftForearm": {
+              "x": 18.35184669494629,
+              "y": 4.530093669891357
+            },
+            "rightUpperArm": {
+              "x": 18.673267364501953,
+              "y": 4.473583221435547
+            },
+            "rightForearm": {
+              "x": 18.90534210205078,
+              "y": 4.450430393218994
+            },
+            "leftThigh": {
+              "x": 17.8516845703125,
+              "y": 3.7592828273773193
+            },
+            "leftShin": {
+              "x": 17.850120544433594,
+              "y": 3.3192877769470215
+            },
+            "rightThigh": {
+              "x": 18.151073455810547,
+              "y": 3.755030393600464
+            },
+            "rightShin": {
+              "x": 18.148908615112305,
+              "y": 3.314911127090454
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00012467456213823732
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.597774505615234,
+              "y": 4.783812999725342
+            },
+            "chest": {
+              "x": 18.223922729492188,
+              "y": 4.436920166015625
+            },
+            "pelvis": {
+              "x": 17.978771209716797,
+              "y": 4.099682807922363
+            },
+            "leftUpperArm": {
+              "x": 18.281152725219727,
+              "y": 4.533681392669678
+            },
+            "leftForearm": {
+              "x": 18.43951416015625,
+              "y": 4.346684455871582
+            },
+            "rightUpperArm": {
+              "x": 18.746395111083984,
+              "y": 4.233752250671387
+            },
+            "rightForearm": {
+              "x": 18.97327423095703,
+              "y": 4.178184986114502
+            },
+            "leftThigh": {
+              "x": 17.817556381225586,
+              "y": 3.7733957767486572
+            },
+            "leftShin": {
+              "x": 17.82558250427246,
+              "y": 3.3334693908691406
+            },
+            "rightThigh": {
+              "x": 18.12027359008789,
+              "y": 3.747706651687622
+            },
+            "rightShin": {
+              "x": 18.1332950592041,
+              "y": 3.3091788291931152
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0012355901926121536
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.139535903930664,
+              "y": 4.083399295806885
+            },
+            "chest": {
+              "x": 18.634931564331055,
+              "y": 4.14851188659668
+            },
+            "pelvis": {
+              "x": 18.21567726135254,
+              "y": 4.14603328704834
+            },
+            "leftUpperArm": {
+              "x": 18.78180503845215,
+              "y": 4.147511959075928
+            },
+            "leftForearm": {
+              "x": 18.752033233642578,
+              "y": 3.9030861854553223
+            },
+            "rightUpperArm": {
+              "x": 18.954774856567383,
+              "y": 3.7100205421447754
+            },
+            "rightForearm": {
+              "x": 19.174800872802734,
+              "y": 3.632235288619995
+            },
+            "leftThigh": {
+              "x": 17.865156173706055,
+              "y": 4.078192710876465
+            },
+            "leftShin": {
+              "x": 17.53573226928711,
+              "y": 3.786508083343506
+            },
+            "rightThigh": {
+              "x": 18.141807556152344,
+              "y": 3.7613325119018555
+            },
+            "rightShin": {
+              "x": 18.141206741333008,
+              "y": 3.3204288482666016
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.001374087438291935
+        }
+      ]
+    },
+    {
+      "part": "rightForearm",
+      "arrowId": "normal",
+      "deltaMomentum": 11.999999759875314,
+      "mass": 0.9600000261005597,
+      "deltaVx": 2.9999999161809683,
+      "hit": {
+        "shotId": 101808,
+        "stepId": 1808,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "rightForearm",
+        "pointM": {
+          "x": 18.73190784920485,
+          "y": 4.667856160126793
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 18,
+          "y": 0
+        },
+        "arrow": {
+          "id": "normal",
+          "baseDamage": 18,
+          "intervalSec": 0.55,
+          "speedMps": 18,
+          "staminaCost": 6,
+          "impulseNs": 12,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 12,
+          "armorDamage": 0,
+          "hpDamage": 12,
+          "remainingArmor": 0
+        },
+        "zone": "limb",
+        "impulseNs": 12,
+        "localImpulseNs": 2.880000078301679,
+        "torsoImpulseNs": 9.119999921698321,
+        "jointReaction": [
+          {
+            "joint": "rightShoulder",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.4
+          },
+          {
+            "joint": "rightElbow",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.4
+          },
+          {
+            "joint": "waist",
+            "weight": 0.5,
+            "recoverySec": 0.3
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.5277777777777778,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.18541666666666667,
+              "rightElbow": 0.18541666666666667,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.13546371459961,
+              "y": 5.035844802856445
+            },
+            "chest": {
+              "x": 18.05706024169922,
+              "y": 4.531915664672852
+            },
+            "pelvis": {
+              "x": 18.003677368164062,
+              "y": 4.0959625244140625
+            },
+            "leftUpperArm": {
+              "x": 18.03471565246582,
+              "y": 4.62739896774292
+            },
+            "leftForearm": {
+              "x": 18.266033172607422,
+              "y": 4.620097637176514
+            },
+            "rightUpperArm": {
+              "x": 18.592388153076172,
+              "y": 4.60676908493042
+            },
+            "rightForearm": {
+              "x": 18.83289909362793,
+              "y": 4.596883296966553
+            },
+            "leftThigh": {
+              "x": 17.84964942932129,
+              "y": 3.7587573528289795
+            },
+            "leftShin": {
+              "x": 17.849594116210938,
+              "y": 3.3187575340270996
+            },
+            "rightThigh": {
+              "x": 18.14830780029297,
+              "y": 3.752593994140625
+            },
+            "rightShin": {
+              "x": 18.146093368530273,
+              "y": 3.313302993774414
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0011668768183004724
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.6666666666666666,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.3625,
+              "rightElbow": 0.3625,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.196231842041016,
+              "y": 5.034712791442871
+            },
+            "chest": {
+              "x": 18.10019302368164,
+              "y": 4.533840179443359
+            },
+            "pelvis": {
+              "x": 18.037721633911133,
+              "y": 4.0997161865234375
+            },
+            "leftUpperArm": {
+              "x": 18.08669090270996,
+              "y": 4.6404523849487305
+            },
+            "leftForearm": {
+              "x": 18.324092864990234,
+              "y": 4.608523368835449
+            },
+            "rightUpperArm": {
+              "x": 18.632442474365234,
+              "y": 4.574888706207275
+            },
+            "rightForearm": {
+              "x": 18.87069320678711,
+              "y": 4.522531509399414
+            },
+            "leftThigh": {
+              "x": 17.879117965698242,
+              "y": 3.761664390563965
+            },
+            "leftShin": {
+              "x": 17.862089157104492,
+              "y": 3.3219943046569824
+            },
+            "rightThigh": {
+              "x": 18.178192138671875,
+              "y": 3.7579634189605713
+            },
+            "rightShin": {
+              "x": 18.16009521484375,
+              "y": 3.3180408477783203
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00033515255232913443
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.9166666666666666,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.6812499999999999,
+              "rightElbow": 0.6812499999999999,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.313682556152344,
+              "y": 5.017977237701416
+            },
+            "chest": {
+              "x": 18.170930862426758,
+              "y": 4.528364181518555
+            },
+            "pelvis": {
+              "x": 18.0792293548584,
+              "y": 4.101316452026367
+            },
+            "leftUpperArm": {
+              "x": 18.155826568603516,
+              "y": 4.618795394897461
+            },
+            "leftForearm": {
+              "x": 18.378416061401367,
+              "y": 4.5170464515686035
+            },
+            "rightUpperArm": {
+              "x": 18.67824935913086,
+              "y": 4.472697734832764
+            },
+            "rightForearm": {
+              "x": 18.896831512451172,
+              "y": 4.37947940826416
+            },
+            "leftThigh": {
+              "x": 17.91273307800293,
+              "y": 3.763880968093872
+            },
+            "leftShin": {
+              "x": 17.875930786132812,
+              "y": 3.325422763824463
+            },
+            "rightThigh": {
+              "x": 18.212268829345703,
+              "y": 3.759934186935425
+            },
+            "rightShin": {
+              "x": 18.174806594848633,
+              "y": 3.3215153217315674
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00015291811821693962
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.563907623291016,
+              "y": 4.893345355987549
+            },
+            "chest": {
+              "x": 18.263303756713867,
+              "y": 4.481352806091309
+            },
+            "pelvis": {
+              "x": 18.072546005249023,
+              "y": 4.102811336517334
+            },
+            "leftUpperArm": {
+              "x": 18.27591323852539,
+              "y": 4.569417953491211
+            },
+            "leftForearm": {
+              "x": 18.44046401977539,
+              "y": 4.386582851409912
+            },
+            "rightUpperArm": {
+              "x": 18.79213523864746,
+              "y": 4.33203649520874
+            },
+            "rightForearm": {
+              "x": 19.017318725585938,
+              "y": 4.268401622772217
+            },
+            "leftThigh": {
+              "x": 17.906755447387695,
+              "y": 3.765425443649292
+            },
+            "leftShin": {
+              "x": 17.873361587524414,
+              "y": 3.3266944885253906
+            },
+            "rightThigh": {
+              "x": 18.20638084411621,
+              "y": 3.760629177093506
+            },
+            "rightShin": {
+              "x": 18.172523498535156,
+              "y": 3.3216781616210938
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0004677820473127989
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.074392318725586,
+              "y": 4.25128698348999
+            },
+            "chest": {
+              "x": 18.564817428588867,
+              "y": 4.237329959869385
+            },
+            "pelvis": {
+              "x": 18.154468536376953,
+              "y": 4.156611919403076
+            },
+            "leftUpperArm": {
+              "x": 18.701828002929688,
+              "y": 4.264161586761475
+            },
+            "leftForearm": {
+              "x": 18.709760665893555,
+              "y": 4.018064022064209
+            },
+            "rightUpperArm": {
+              "x": 18.94432830810547,
+              "y": 3.8368842601776123
+            },
+            "rightForearm": {
+              "x": 19.168277740478516,
+              "y": 3.7715256214141846
+            },
+            "leftThigh": {
+              "x": 17.800369262695312,
+              "y": 4.042703151702881
+            },
+            "leftShin": {
+              "x": 17.472929000854492,
+              "y": 3.7487950325012207
+            },
+            "rightThigh": {
+              "x": 18.130407333374023,
+              "y": 3.7618017196655273
+            },
+            "rightShin": {
+              "x": 18.142118453979492,
+              "y": 3.3217363357543945
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0011605413347190612
+        }
+      ]
+    },
+    {
+      "part": "rightForearm",
+      "arrowId": "impact",
+      "deltaMomentum": 22.000000390263143,
+      "mass": 0.9600000261005597,
+      "deltaVx": 2.9999999161809683,
+      "hit": {
+        "shotId": 102049,
+        "stepId": 2049,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "rightForearm",
+        "pointM": {
+          "x": 18.73190784920485,
+          "y": 4.667856160126793
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 17,
+          "y": 0
+        },
+        "arrow": {
+          "id": "impact",
+          "baseDamage": 12,
+          "intervalSec": 0.8,
+          "speedMps": 17,
+          "staminaCost": 10,
+          "impulseNs": 22,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 8,
+          "armorDamage": 0,
+          "hpDamage": 8,
+          "remainingArmor": 0
+        },
+        "zone": "limb",
+        "impulseNs": 22,
+        "localImpulseNs": 2.880000078301679,
+        "torsoImpulseNs": 19.119999921698323,
+        "jointReaction": [
+          {
+            "joint": "rightShoulder",
+            "weight": 0.030000000000000027,
+            "recoverySec": 0.8
+          },
+          {
+            "joint": "rightElbow",
+            "weight": 0.030000000000000027,
+            "recoverySec": 0.8
+          },
+          {
+            "joint": "waist",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.6
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.17361111111111113,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.050208333333333355,
+              "rightElbow": 0.050208333333333355,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.140058517456055,
+              "y": 5.036437034606934
+            },
+            "chest": {
+              "x": 18.067279815673828,
+              "y": 4.531954288482666
+            },
+            "pelvis": {
+              "x": 18.009546279907227,
+              "y": 4.096485614776611
+            },
+            "leftUpperArm": {
+              "x": 18.045299530029297,
+              "y": 4.626583576202393
+            },
+            "leftForearm": {
+              "x": 18.276426315307617,
+              "y": 4.616148471832275
+            },
+            "rightUpperArm": {
+              "x": 18.60389518737793,
+              "y": 4.604382514953613
+            },
+            "rightForearm": {
+              "x": 18.844242095947266,
+              "y": 4.596004962921143
+            },
+            "leftThigh": {
+              "x": 17.852785110473633,
+              "y": 3.7606663703918457
+            },
+            "leftShin": {
+              "x": 17.848464965820312,
+              "y": 3.3206942081451416
+            },
+            "rightThigh": {
+              "x": 18.151308059692383,
+              "y": 3.751607894897461
+            },
+            "rightShin": {
+              "x": 18.14742088317871,
+              "y": 3.3128085136413574
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0011935774862934635
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.2916666666666667,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.15125,
+              "rightElbow": 0.15125,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.264970779418945,
+              "y": 5.029867649078369
+            },
+            "chest": {
+              "x": 18.15001106262207,
+              "y": 4.533206939697266
+            },
+            "pelvis": {
+              "x": 18.06954002380371,
+              "y": 4.103002548217773
+            },
+            "leftUpperArm": {
+              "x": 18.142311096191406,
+              "y": 4.639983654022217
+            },
+            "leftForearm": {
+              "x": 18.377437591552734,
+              "y": 4.593976974487305
+            },
+            "rightUpperArm": {
+              "x": 18.694408416748047,
+              "y": 4.579467296600342
+            },
+            "rightForearm": {
+              "x": 18.931529998779297,
+              "y": 4.510315418243408
+            },
+            "leftThigh": {
+              "x": 17.902175903320312,
+              "y": 3.765381336212158
+            },
+            "leftShin": {
+              "x": 17.86321258544922,
+              "y": 3.3271102905273438
+            },
+            "rightThigh": {
+              "x": 18.203914642333984,
+              "y": 3.761106491088867
+            },
+            "rightShin": {
+              "x": 18.170583724975586,
+              "y": 3.321547746658325
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0008215026837272648
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.5041666666666667,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.33312499999999995,
+              "rightElbow": 0.33312499999999995,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.523012161254883,
+              "y": 4.964599609375
+            },
+            "chest": {
+              "x": 18.296785354614258,
+              "y": 4.507557392120361
+            },
+            "pelvis": {
+              "x": 18.150875091552734,
+              "y": 4.1019182205200195
+            },
+            "leftUpperArm": {
+              "x": 18.298446655273438,
+              "y": 4.59913969039917
+            },
+            "leftForearm": {
+              "x": 18.498790740966797,
+              "y": 4.458516597747803
+            },
+            "rightUpperArm": {
+              "x": 18.812057495117188,
+              "y": 4.390454292297363
+            },
+            "rightForearm": {
+              "x": 19.025856018066406,
+              "y": 4.279658794403076
+            },
+            "leftThigh": {
+              "x": 17.96876335144043,
+              "y": 3.7658376693725586
+            },
+            "leftShin": {
+              "x": 17.89116096496582,
+              "y": 3.332735300064087
+            },
+            "rightThigh": {
+              "x": 18.270736694335938,
+              "y": 3.762234687805176
+            },
+            "rightShin": {
+              "x": 18.198820114135742,
+              "y": 3.3280375003814697
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0006263102060101266
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.8583333333333333,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.6362499999999999,
+              "rightElbow": 0.6362499999999999,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.0273380279541,
+              "y": 4.608117580413818
+            },
+            "chest": {
+              "x": 18.571828842163086,
+              "y": 4.378746509552002
+            },
+            "pelvis": {
+              "x": 18.239212036132812,
+              "y": 4.124207973480225
+            },
+            "leftUpperArm": {
+              "x": 18.607494354248047,
+              "y": 4.450462818145752
+            },
+            "leftForearm": {
+              "x": 18.65436553955078,
+              "y": 4.208925247192383
+            },
+            "rightUpperArm": {
+              "x": 18.991731643676758,
+              "y": 4.016323566436768
+            },
+            "rightForearm": {
+              "x": 19.175067901611328,
+              "y": 3.8694536685943604
+            },
+            "leftThigh": {
+              "x": 17.976821899414062,
+              "y": 3.8645613193511963
+            },
+            "leftShin": {
+              "x": 17.82797622680664,
+              "y": 3.4505019187927246
+            },
+            "rightThigh": {
+              "x": 18.25600242614746,
+              "y": 3.748112916946411
+            },
+            "rightShin": {
+              "x": 18.15904426574707,
+              "y": 3.322087049484253
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0014032893979418818
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.373933792114258,
+              "y": 3.2647359371185303
+            },
+            "chest": {
+              "x": 18.91366958618164,
+              "y": 3.4526376724243164
+            },
+            "pelvis": {
+              "x": 18.49104881286621,
+              "y": 3.4764530658721924
+            },
+            "leftUpperArm": {
+              "x": 19.113765716552734,
+              "y": 3.4338152408599854
+            },
+            "leftForearm": {
+              "x": 19.180133819580078,
+              "y": 3.206869125366211
+            },
+            "rightUpperArm": {
+              "x": 19.251338958740234,
+              "y": 3.235126495361328
+            },
+            "rightForearm": {
+              "x": 19.48168182373047,
+              "y": 3.32175612449646
+            },
+            "leftThigh": {
+              "x": 18.122581481933594,
+              "y": 3.6215145587921143
+            },
+            "leftShin": {
+              "x": 17.727249145507812,
+              "y": 3.814603567123413
+            },
+            "rightThigh": {
+              "x": 18.244525909423828,
+              "y": 3.354860544204712
+            },
+            "rightShin": {
+              "x": 18.054765701293945,
+              "y": 3.340930461883545
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00001026737978173533
+        }
+      ]
+    },
+    {
+      "part": "rightForearm",
+      "arrowId": "piercing",
+      "deltaMomentum": 8.499999813897762,
+      "mass": 0.9600000261005597,
+      "deltaVx": 2.9999999161809683,
+      "hit": {
+        "shotId": 102290,
+        "stepId": 2290,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "rightForearm",
+        "pointM": {
+          "x": 18.73190784920485,
+          "y": 4.667856160126793
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 19,
+          "y": 0
+        },
+        "arrow": {
+          "id": "piercing",
+          "baseDamage": 16,
+          "intervalSec": 0.75,
+          "speedMps": 19,
+          "staminaCost": 10,
+          "impulseNs": 8.5,
+          "armorDamageFactor": 2,
+          "armorOverflow": true,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 11,
+          "armorDamage": 0,
+          "hpDamage": 11,
+          "remainingArmor": 0
+        },
+        "zone": "limb",
+        "impulseNs": 8.5,
+        "localImpulseNs": 2.880000078301679,
+        "torsoImpulseNs": 5.619999921698321,
+        "jointReaction": [
+          {
+            "joint": "rightShoulder",
+            "weight": 0.35,
+            "recoverySec": 0.25
+          },
+          {
+            "joint": "rightElbow",
+            "weight": 0.35,
+            "recoverySec": 0.25
+          },
+          {
+            "joint": "waist",
+            "weight": 0.75,
+            "recoverySec": 0.18
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.7731481481481481,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.3933333333333333,
+              "rightElbow": 0.3933333333333333,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.132347106933594,
+              "y": 5.035983562469482
+            },
+            "chest": {
+              "x": 18.053951263427734,
+              "y": 4.532045364379883
+            },
+            "pelvis": {
+              "x": 18.001848220825195,
+              "y": 4.095919132232666
+            },
+            "leftUpperArm": {
+              "x": 18.031444549560547,
+              "y": 4.627686500549316
+            },
+            "leftForearm": {
+              "x": 18.262834548950195,
+              "y": 4.621295928955078
+            },
+            "rightUpperArm": {
+              "x": 18.587879180908203,
+              "y": 4.604773044586182
+            },
+            "rightForearm": {
+              "x": 18.827234268188477,
+              "y": 4.597102642059326
+            },
+            "leftThigh": {
+              "x": 17.848432540893555,
+              "y": 3.7584967613220215
+            },
+            "leftShin": {
+              "x": 17.849184036254883,
+              "y": 3.318497657775879
+            },
+            "rightThigh": {
+              "x": 18.147153854370117,
+              "y": 3.7528076171875
+            },
+            "rightShin": {
+              "x": 18.14565658569336,
+              "y": 3.3134078979492188
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.000853171982704057
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.8888888888888888,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 0.61,
+              "rightElbow": 0.61,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.173810958862305,
+              "y": 5.035181999206543
+            },
+            "chest": {
+              "x": 18.0841064453125,
+              "y": 4.533133506774902
+            },
+            "pelvis": {
+              "x": 18.02576446533203,
+              "y": 4.098161220550537
+            },
+            "leftUpperArm": {
+              "x": 18.066041946411133,
+              "y": 4.6336541175842285
+            },
+            "leftForearm": {
+              "x": 18.30135726928711,
+              "y": 4.611170291900635
+            },
+            "rightUpperArm": {
+              "x": 18.613365173339844,
+              "y": 4.575340270996094
+            },
+            "rightForearm": {
+              "x": 18.850255966186523,
+              "y": 4.5465617179870605
+            },
+            "leftThigh": {
+              "x": 17.86879539489746,
+              "y": 3.760711908340454
+            },
+            "leftShin": {
+              "x": 17.8577823638916,
+              "y": 3.320850133895874
+            },
+            "rightThigh": {
+              "x": 18.167783737182617,
+              "y": 3.7558271884918213
+            },
+            "rightShin": {
+              "x": 18.155508041381836,
+              "y": 3.3159842491149902
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00010440502416668278
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.256444931030273,
+              "y": 5.02040433883667
+            },
+            "chest": {
+              "x": 18.123531341552734,
+              "y": 4.528028964996338
+            },
+            "pelvis": {
+              "x": 18.037965774536133,
+              "y": 4.099114894866943
+            },
+            "leftUpperArm": {
+              "x": 18.10951042175293,
+              "y": 4.622591495513916
+            },
+            "leftForearm": {
+              "x": 18.340436935424805,
+              "y": 4.557249546051025
+            },
+            "rightUpperArm": {
+              "x": 18.658329010009766,
+              "y": 4.5340142250061035
+            },
+            "rightForearm": {
+              "x": 18.891939163208008,
+              "y": 4.5081868171691895
+            },
+            "leftThigh": {
+              "x": 17.878503799438477,
+              "y": 3.7616865634918213
+            },
+            "leftShin": {
+              "x": 17.86168098449707,
+              "y": 3.3220083713531494
+            },
+            "rightThigh": {
+              "x": 18.17789649963379,
+              "y": 3.7566614151000977
+            },
+            "rightShin": {
+              "x": 18.160388946533203,
+              "y": 3.3170695304870605
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00020076177948220622
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.378419876098633,
+              "y": 4.962854862213135
+            },
+            "chest": {
+              "x": 18.152915954589844,
+              "y": 4.505418300628662
+            },
+            "pelvis": {
+              "x": 18.010604858398438,
+              "y": 4.098361492156982
+            },
+            "leftUpperArm": {
+              "x": 18.160808563232422,
+              "y": 4.604352951049805
+            },
+            "leftForearm": {
+              "x": 18.376758575439453,
+              "y": 4.499294757843018
+            },
+            "rightUpperArm": {
+              "x": 18.699920654296875,
+              "y": 4.450461387634277
+            },
+            "rightForearm": {
+              "x": 18.932418823242188,
+              "y": 4.429393768310547
+            },
+            "leftThigh": {
+              "x": 17.85777473449707,
+              "y": 3.7595467567443848
+            },
+            "leftShin": {
+              "x": 17.852998733520508,
+              "y": 3.319573402404785
+            },
+            "rightThigh": {
+              "x": 18.157527923583984,
+              "y": 3.75722599029541
+            },
+            "rightShin": {
+              "x": 18.151029586791992,
+              "y": 3.3170762062072754
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00020352496664110382
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.858558654785156,
+              "y": 4.642106533050537
+            },
+            "chest": {
+              "x": 18.407928466796875,
+              "y": 4.403291702270508
+            },
+            "pelvis": {
+              "x": 18.08304214477539,
+              "y": 4.14089822769165
+            },
+            "leftUpperArm": {
+              "x": 18.50594139099121,
+              "y": 4.487061500549316
+            },
+            "leftForearm": {
+              "x": 18.619043350219727,
+              "y": 4.2685546875
+            },
+            "rightUpperArm": {
+              "x": 18.907075881958008,
+              "y": 4.139333724975586
+            },
+            "rightForearm": {
+              "x": 19.137229919433594,
+              "y": 4.101480484008789
+            },
+            "leftThigh": {
+              "x": 17.799442291259766,
+              "y": 3.8856918811798096
+            },
+            "leftShin": {
+              "x": 17.58441734313965,
+              "y": 3.501812219619751
+            },
+            "rightThigh": {
+              "x": 18.15900993347168,
+              "y": 3.759111166000366
+            },
+            "rightShin": {
+              "x": 18.1490421295166,
+              "y": 3.3193771839141846
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0005678440630614138
+        }
+      ]
+    },
+    {
+      "part": "leftShin",
+      "arrowId": "normal",
+      "deltaMomentum": 11.999999899094027,
+      "mass": 1.4399999800221668,
+      "deltaVx": 3.000000077765435,
+      "hit": {
+        "shotId": 102531,
+        "stepId": 2531,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "leftShin",
+        "pointM": {
+          "x": 17.847943316839306,
+          "y": 3.417341626635422
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 18,
+          "y": 0
+        },
+        "arrow": {
+          "id": "normal",
+          "baseDamage": 18,
+          "intervalSec": 0.55,
+          "speedMps": 18,
+          "staminaCost": 6,
+          "impulseNs": 12,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 12,
+          "armorDamage": 0,
+          "hpDamage": 12,
+          "remainingArmor": 0
+        },
+        "zone": "limb",
+        "impulseNs": 12,
+        "localImpulseNs": 4.3199999400665,
+        "torsoImpulseNs": 7.6800000599335,
+        "jointReaction": [
+          {
+            "joint": "leftHip",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.4
+          },
+          {
+            "joint": "leftKnee",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.4
+          },
+          {
+            "joint": "waist",
+            "weight": 0.5,
+            "recoverySec": 0.3
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.5277777777777778,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.18541666666666667,
+              "leftKnee": 0.18541666666666667,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.131990432739258,
+              "y": 5.036124229431152
+            },
+            "chest": {
+              "x": 18.054304122924805,
+              "y": 4.53207540512085
+            },
+            "pelvis": {
+              "x": 18.003433227539062,
+              "y": 4.095852375030518
+            },
+            "leftUpperArm": {
+              "x": 18.03156852722168,
+              "y": 4.627596378326416
+            },
+            "leftForearm": {
+              "x": 18.26298713684082,
+              "y": 4.621484756469727
+            },
+            "rightUpperArm": {
+              "x": 18.585552215576172,
+              "y": 4.5983686447143555
+            },
+            "rightForearm": {
+              "x": 18.818613052368164,
+              "y": 4.605613708496094
+            },
+            "leftThigh": {
+              "x": 17.85610008239746,
+              "y": 3.758974313735962
+            },
+            "leftShin": {
+              "x": 17.869720458984375,
+              "y": 3.319185972213745
+            },
+            "rightThigh": {
+              "x": 18.148883819580078,
+              "y": 3.753338098526001
+            },
+            "rightShin": {
+              "x": 18.146276473999023,
+              "y": 3.313714027404785
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0005268085783686756
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.6666666666666666,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.3625,
+              "leftKnee": 0.3625,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.17765235900879,
+              "y": 5.034487247467041
+            },
+            "chest": {
+              "x": 18.087648391723633,
+              "y": 4.532491683959961
+            },
+            "pelvis": {
+              "x": 18.02923583984375,
+              "y": 4.097528457641602
+            },
+            "leftUpperArm": {
+              "x": 18.068010330200195,
+              "y": 4.630001544952393
+            },
+            "leftForearm": {
+              "x": 18.29930305480957,
+              "y": 4.619840621948242
+            },
+            "rightUpperArm": {
+              "x": 18.62103843688965,
+              "y": 4.588447570800781
+            },
+            "rightForearm": {
+              "x": 18.85409927368164,
+              "y": 4.592792987823486
+            },
+            "leftThigh": {
+              "x": 17.87906265258789,
+              "y": 3.7594940662384033
+            },
+            "leftShin": {
+              "x": 17.88630485534668,
+              "y": 3.3195550441741943
+            },
+            "rightThigh": {
+              "x": 18.170412063598633,
+              "y": 3.7552988529205322
+            },
+            "rightShin": {
+              "x": 18.156721115112305,
+              "y": 3.3156723976135254
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.000433592132499756
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.9166666666666666,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.6812499999999999,
+              "leftKnee": 0.6812499999999999,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.267719268798828,
+              "y": 5.016872882843018
+            },
+            "chest": {
+              "x": 18.128162384033203,
+              "y": 4.526338577270508
+            },
+            "pelvis": {
+              "x": 18.039047241210938,
+              "y": 4.098565101623535
+            },
+            "leftUpperArm": {
+              "x": 18.11594009399414,
+              "y": 4.621837615966797
+            },
+            "leftForearm": {
+              "x": 18.34519386291504,
+              "y": 4.580148696899414
+            },
+            "rightUpperArm": {
+              "x": 18.66788673400879,
+              "y": 4.538521766662598
+            },
+            "rightForearm": {
+              "x": 18.90085220336914,
+              "y": 4.529148101806641
+            },
+            "leftThigh": {
+              "x": 17.887895584106445,
+              "y": 3.7603883743286133
+            },
+            "leftShin": {
+              "x": 17.890762329101562,
+              "y": 3.3203980922698975
+            },
+            "rightThigh": {
+              "x": 18.179649353027344,
+              "y": 3.7568509578704834
+            },
+            "rightShin": {
+              "x": 18.16159439086914,
+              "y": 3.317225694656372
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.00005047439821116341
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.42701530456543,
+              "y": 4.938283443450928
+            },
+            "chest": {
+              "x": 18.17197036743164,
+              "y": 4.496637344360352
+            },
+            "pelvis": {
+              "x": 18.010732650756836,
+              "y": 4.09945821762085
+            },
+            "leftUpperArm": {
+              "x": 18.187963485717773,
+              "y": 4.5962677001953125
+            },
+            "leftForearm": {
+              "x": 18.398658752441406,
+              "y": 4.482894420623779
+            },
+            "rightUpperArm": {
+              "x": 18.718772888183594,
+              "y": 4.416455268859863
+            },
+            "rightForearm": {
+              "x": 18.950637817382812,
+              "y": 4.391911029815674
+            },
+            "leftThigh": {
+              "x": 17.865060806274414,
+              "y": 3.7610270977020264
+            },
+            "leftShin": {
+              "x": 17.880542755126953,
+              "y": 3.3213000297546387
+            },
+            "rightThigh": {
+              "x": 18.157743453979492,
+              "y": 3.757814884185791
+            },
+            "rightShin": {
+              "x": 18.15278434753418,
+              "y": 3.317692756652832
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0001578377160761295
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 1,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 1,
+              "leftKnee": 1,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.95565414428711,
+              "y": 4.5616774559021
+            },
+            "chest": {
+              "x": 18.481910705566406,
+              "y": 4.3728179931640625
+            },
+            "pelvis": {
+              "x": 18.130178451538086,
+              "y": 4.147242546081543
+            },
+            "leftUpperArm": {
+              "x": 18.592124938964844,
+              "y": 4.4462809562683105
+            },
+            "leftForearm": {
+              "x": 18.684001922607422,
+              "y": 4.217982769012451
+            },
+            "rightUpperArm": {
+              "x": 18.960878372192383,
+              "y": 4.076961994171143
+            },
+            "rightForearm": {
+              "x": 19.190519332885742,
+              "y": 4.036085605621338
+            },
+            "leftThigh": {
+              "x": 17.81666374206543,
+              "y": 3.927488327026367
+            },
+            "leftShin": {
+              "x": 17.552101135253906,
+              "y": 3.5759117603302
+            },
+            "rightThigh": {
+              "x": 18.17535400390625,
+              "y": 3.75803279876709
+            },
+            "rightShin": {
+              "x": 18.154998779296875,
+              "y": 3.3184053897857666
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0006805533917386124
+        }
+      ]
+    },
+    {
+      "part": "leftShin",
+      "arrowId": "impact",
+      "deltaMomentum": 22.000000529481852,
+      "mass": 1.4399999800221668,
+      "deltaVx": 3.000000077765435,
+      "hit": {
+        "shotId": 102772,
+        "stepId": 2772,
+        "attackerId": "PlayerRagdoll",
+        "targetId": "EnemyRagdoll",
+        "partId": "leftShin",
+        "pointM": {
+          "x": 17.847943316839306,
+          "y": 3.417341626635422
+        },
+        "normal": {
+          "x": -1,
+          "y": 0
+        },
+        "incomingVelocityMps": {
+          "x": 17,
+          "y": 0
+        },
+        "arrow": {
+          "id": "impact",
+          "baseDamage": 12,
+          "intervalSec": 0.8,
+          "speedMps": 17,
+          "staminaCost": 10,
+          "impulseNs": 22,
+          "armorDamageFactor": 1,
+          "armorOverflow": false,
+          "multiActorPenetration": false
+        },
+        "source": "sweep",
+        "fraction": 0.5,
+        "result": {
+          "zoneDamage": 8,
+          "armorDamage": 0,
+          "hpDamage": 8,
+          "remainingArmor": 0
+        },
+        "zone": "limb",
+        "impulseNs": 22,
+        "localImpulseNs": 4.3199999400665,
+        "torsoImpulseNs": 17.680000059933498,
+        "jointReaction": [
+          {
+            "joint": "leftHip",
+            "weight": 0.030000000000000027,
+            "recoverySec": 0.8
+          },
+          {
+            "joint": "leftKnee",
+            "weight": 0.030000000000000027,
+            "recoverySec": 0.8
+          },
+          {
+            "joint": "waist",
+            "weight": 0.15000000000000002,
+            "recoverySec": 0.6
+          }
+        ]
+      },
+      "samples": [
+        {
+          "step": 1,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.17361111111111113,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.050208333333333355,
+              "leftKnee": 0.050208333333333355,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.138078689575195,
+              "y": 5.036801338195801
+            },
+            "chest": {
+              "x": 18.064064025878906,
+              "y": 4.532297134399414
+            },
+            "pelvis": {
+              "x": 18.00929832458496,
+              "y": 4.096427917480469
+            },
+            "leftUpperArm": {
+              "x": 18.041364669799805,
+              "y": 4.626864433288574
+            },
+            "leftForearm": {
+              "x": 18.27265739440918,
+              "y": 4.618203163146973
+            },
+            "rightUpperArm": {
+              "x": 18.59589958190918,
+              "y": 4.595746994018555
+            },
+            "rightForearm": {
+              "x": 18.828935623168945,
+              "y": 4.602275371551514
+            },
+            "leftThigh": {
+              "x": 17.85953140258789,
+              "y": 3.7608518600463867
+            },
+            "leftShin": {
+              "x": 17.874727249145508,
+              "y": 3.3211159706115723
+            },
+            "rightThigh": {
+              "x": 18.151947021484375,
+              "y": 3.752009153366089
+            },
+            "rightShin": {
+              "x": 18.14803123474121,
+              "y": 3.3131065368652344
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.001079790103230573
+        },
+        {
+          "step": 6,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.2916666666666667,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.15125,
+              "leftKnee": 0.15125,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.244083404541016,
+              "y": 5.030406951904297
+            },
+            "chest": {
+              "x": 18.133628845214844,
+              "y": 4.532541751861572
+            },
+            "pelvis": {
+              "x": 18.06121253967285,
+              "y": 4.100656509399414
+            },
+            "leftUpperArm": {
+              "x": 18.118181228637695,
+              "y": 4.630041599273682
+            },
+            "leftForearm": {
+              "x": 18.348783493041992,
+              "y": 4.607044219970703
+            },
+            "rightUpperArm": {
+              "x": 18.66971206665039,
+              "y": 4.564255714416504
+            },
+            "rightForearm": {
+              "x": 18.90277862548828,
+              "y": 4.558957576751709
+            },
+            "leftThigh": {
+              "x": 17.921403884887695,
+              "y": 3.7618086338043213
+            },
+            "leftShin": {
+              "x": 17.948043823242188,
+              "y": 3.322624921798706
+            },
+            "rightThigh": {
+              "x": 18.198640823364258,
+              "y": 3.760056495666504
+            },
+            "rightShin": {
+              "x": 18.168685913085938,
+              "y": 3.320465564727783
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0006121409223503309
+        },
+        {
+          "step": 15,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.5041666666666667,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.33312499999999995,
+              "leftKnee": 0.33312499999999995,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.47274398803711,
+              "y": 4.969221115112305
+            },
+            "chest": {
+              "x": 18.252948760986328,
+              "y": 4.509019374847412
+            },
+            "pelvis": {
+              "x": 18.113866806030273,
+              "y": 4.100579738616943
+            },
+            "leftUpperArm": {
+              "x": 18.258777618408203,
+              "y": 4.606751441955566
+            },
+            "leftForearm": {
+              "x": 18.477293014526367,
+              "y": 4.514888286590576
+            },
+            "rightUpperArm": {
+              "x": 18.795299530029297,
+              "y": 4.446275234222412
+            },
+            "rightForearm": {
+              "x": 19.026447296142578,
+              "y": 4.414933681488037
+            },
+            "leftThigh": {
+              "x": 17.964012145996094,
+              "y": 3.7608346939086914
+            },
+            "leftShin": {
+              "x": 17.96573257446289,
+              "y": 3.32083797454834
+            },
+            "rightThigh": {
+              "x": 18.242137908935547,
+              "y": 3.7613863945007324
+            },
+            "rightShin": {
+              "x": 18.18712615966797,
+              "y": 3.3246750831604004
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0001684350212318312
+        },
+        {
+          "step": 30,
+          "pose": {
+            "pose": "standing",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 1,
+              "waist": 0.8583333333333333,
+              "leftShoulder": 1,
+              "leftElbow": 1,
+              "rightShoulder": 1,
+              "rightElbow": 1,
+              "leftHip": 0.6362499999999999,
+              "leftKnee": 0.6362499999999999,
+              "rightHip": 1,
+              "rightKnee": 1
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 18.91337013244629,
+              "y": 4.641235828399658
+            },
+            "chest": {
+              "x": 18.464834213256836,
+              "y": 4.398515224456787
+            },
+            "pelvis": {
+              "x": 18.142976760864258,
+              "y": 4.1325507164001465
+            },
+            "leftUpperArm": {
+              "x": 18.541292190551758,
+              "y": 4.477437973022461
+            },
+            "leftForearm": {
+              "x": 18.642459869384766,
+              "y": 4.253755569458008
+            },
+            "rightUpperArm": {
+              "x": 18.94682502746582,
+              "y": 4.104411602020264
+            },
+            "rightForearm": {
+              "x": 19.168439865112305,
+              "y": 4.031027793884277
+            },
+            "leftThigh": {
+              "x": 17.934972763061523,
+              "y": 3.8528974056243896
+            },
+            "leftShin": {
+              "x": 17.912263870239258,
+              "y": 3.413484811782837
+            },
+            "rightThigh": {
+              "x": 18.201717376708984,
+              "y": 3.7533297538757324
+            },
+            "rightShin": {
+              "x": 18.16155433654785,
+              "y": 3.3151590824127197
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.0011481640914719532
+        },
+        {
+          "step": 60,
+          "pose": {
+            "pose": "downed",
+            "aimRad": 0,
+            "armControlWeight": 1,
+            "drawing": false,
+            "drawAmount": 0,
+            "alive": true,
+            "bowFlex": 0,
+            "bowReleasing": false,
+            "jointControlWeights": {
+              "neck": 0,
+              "waist": 0,
+              "leftShoulder": 0.8,
+              "leftElbow": 0.8,
+              "rightShoulder": 0.8,
+              "rightElbow": 0.8,
+              "leftHip": 0,
+              "leftKnee": 0,
+              "rightHip": 0,
+              "rightKnee": 0
+            }
+          },
+          "positions": {
+            "head": {
+              "x": 19.18497085571289,
+              "y": 3.1871190071105957
+            },
+            "chest": {
+              "x": 18.904129028320312,
+              "y": 3.5601844787597656
+            },
+            "pelvis": {
+              "x": 18.66168785095215,
+              "y": 3.9013009071350098
+            },
+            "leftUpperArm": {
+              "x": 19.011369705200195,
+              "y": 3.3878674507141113
+            },
+            "leftForearm": {
+              "x": 18.843746185302734,
+              "y": 3.232985019683838
+            },
+            "rightUpperArm": {
+              "x": 18.96930503845215,
+              "y": 3.2333085536956787
+            },
+            "rightForearm": {
+              "x": 19.20539665222168,
+              "y": 3.231933355331421
+            },
+            "leftThigh": {
+              "x": 18.40009117126465,
+              "y": 4.092862606048584
+            },
+            "leftShin": {
+              "x": 17.962791442871094,
+              "y": 4.0450334548950195
+            },
+            "rightThigh": {
+              "x": 18.328054428100586,
+              "y": 3.7126290798187256
+            },
+            "rightShin": {
+              "x": 18.140405654907227,
+              "y": 3.3477392196655273
+            }
+          },
+          "finite": true,
+          "anchorErrorM": 0.03438462958951669
+        }
+      ]
+    }
+  ],
+  "runtime": {
+    "version": "3.8.8",
+    "backend": "b2PhysicsWorld",
+    "seedHash": "925eda6ab0b61a9f98dacb75e37cc42d6b52d207813b010fda21939cd39cf9c9"
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: leftShin/impact: finite bodies and joint anchor error < 0.02m; max=0.03438462958951669"
+}

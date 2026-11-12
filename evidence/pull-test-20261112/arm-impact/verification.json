@@ -1,0 +1,8 @@
+{
+  "passed": false,
+  "time": "2026-11-12T15:42:46.138Z",
+  "scope": "Real Box2D: skin endpoints and isolated same-point hit response. Injects after-step hit snapshots; does NOT verify projectile collision, AC04 or G1.",
+  "errors": [],
+  "cases": [],
+  "failure": "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'cc')\n    at eval (eval at evaluate (:311:30), <anonymous>:1:36)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+}

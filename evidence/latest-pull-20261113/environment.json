@@ -1,0 +1,32 @@
+{
+  "sourceRevision": "d1bbbb24c7c399809f59aef1e06cdaaa9990d265",
+  "fetchedOriginMain": "d1bbbb24c7c399809f59aef1e06cdaaa9990d265",
+  "remoteFreshnessVerified": true,
+  "syncMethod": "fetch origin --prune over authenticated SSH443 via existing local SOCKS proxy, strict known host key; git merge --ff-only origin/main",
+  "prePullRevision": "6795b5da288e9d4e083ce26fb00545e65a6c17a8",
+  "creator": "3.8.8",
+  "typescript": "5.9.3",
+  "node": "v24.13.0",
+  "npm": "11.6.2",
+  "generatedMetas": [
+    "assets/resources/audio/hit-critical.wav.meta",
+    "assets/resources/audio/hit-heavy.wav.meta",
+    "assets/resources/characters/enemy-ruins-v2-frames.json.meta",
+    "assets/resources/characters/enemy-ruins-v2.png.meta",
+    "assets/resources/characters/hero-ruins-v2-frames.json.meta",
+    "assets/resources/characters/hero-ruins-v2.png.meta",
+    "assets/resources/scenery.meta",
+    "assets/resources/scenery/ruins-art-v2.json.meta",
+    "assets/resources/scenery/ruins-platform-v2.png.meta",
+    "assets/resources/scenery/storm-ruins-v2.png.meta",
+    "assets/scripts/domain/BattleLayout.ts.meta",
+    "assets/scripts/domain/BattleLoadout.ts.meta",
+    "assets/scripts/domain/ProjectilePresentation.ts.meta",
+    "assets/scripts/domain/RunProgression.ts.meta",
+    "assets/scripts/presentation/BattleArt.ts.meta",
+    "assets/scripts/presentation/RuinsArtAssets.ts.meta"
+  ],
+  "oldRevisionEvidence": "evidence/pull-test-20261113; 6795b5d only, not latest revision acceptance",
+  "buildIndexSha256": "d38c458cd3466e43dde6a5e343ac1a07fb41fb5b389f9c4ed45cc39ab6b2436a",
+  "chrome": "150.0.7871.125"
+}

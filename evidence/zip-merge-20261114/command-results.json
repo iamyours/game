@@ -1,0 +1,43 @@
+[
+  {
+    "command": "npm run verify",
+    "exitCode": 0,
+    "detail": "179 tests; configuration/generated/portable types"
+  },
+  {
+    "command": "npm run check:syntax",
+    "exitCode": 0,
+    "detail": "38 scripts"
+  },
+  {
+    "command": "npm run typecheck:engine",
+    "exitCode": 0
+  },
+  {
+    "command": "npm run build:web",
+    "exitCode": 0,
+    "creatorRawExitCode": 36
+  },
+  {
+    "command": "npm run typecheck:engine (after import)",
+    "exitCode": 0
+  },
+  {
+    "command": "npm run env:check",
+    "exitCode": 0
+  },
+  {
+    "command": "python3 scripts/check-expedition-assets.py",
+    "exitCode": 1,
+    "detail": "numpy unavailable; decoding QA not run"
+  },
+  {
+    "command": "curl HTTP startup probe",
+    "exitCode": 7,
+    "detail": "HTTP 000 immediately after spawning; subsequent probe HTTP 200"
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0
+  }
+]

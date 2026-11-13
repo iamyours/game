@@ -1,5 +1,6 @@
-import { Graphics, JsonAsset, Node, Rect, Size, Sprite, SpriteFrame, Texture2D, UITransform, isValid, resources } from 'cc';
+import { Color, Graphics, JsonAsset, Node, Rect, Size, Sprite, SpriteFrame, Texture2D, UITransform, isValid, resources } from 'cc';
 import { PhysicsAdapter as P } from '../physics/PhysicsAdapter';
+import type { BiomeId } from '../domain/Expedition';
 
 interface Bounds { left: number; right: number; bottom: number; top: number }
 interface ArtSpec { assets: {
@@ -18,6 +19,8 @@ export class RuinsArtAssets {
   private background: Node | null = null;
   private backgroundAspect = 16 / 9;
   private bounds: Bounds | null = null;
+  private biome: BiomeId = 'storm';
+  private readonly variants = new Map<BiomeId, Promise<SpriteFrame | null>>();
 
   public attachBackdrop(parent: Node): void {
     void this.load().then(pack => {
@@ -26,10 +29,41 @@ export class RuinsArtAssets {
       this.background = node;
       this.backgroundAspect = pack.spec.assets.background.imageSize[0] / pack.spec.assets.background.imageSize[1];
       this.fitBackdrop();
+      this.applyBiome();
     });
   }
 
   public resize(bounds: Bounds): void { this.bounds = { ...bounds }; this.fitBackdrop(); }
+
+  public setBiome(id: BiomeId): void {
+    if (this.biome === id) return;
+    this.biome = id; this.applyBiome();
+    for (const visual of this.visuals) if (visual.name.startsWith('PaintedPlatform_') && isValid(visual)) this.tintPlatform(visual);
+  }
+
+  private tintPlatform(node: Node): void {
+    node.getComponent(Sprite)!.color = new Color().fromHEX(this.biome === 'frost' ? '#B9D3FF' : this.biome === 'ember' ? '#F4BE91' : '#FFFFFF');
+  }
+
+  private applyBiome(): void {
+    if (!this.background || this.disposed) return;
+    const id = this.biome;
+    if (!this.variants.has(id)) {
+      if (id === 'storm') this.variants.set(id, this.load().then(pack => pack?.background ?? null));
+      else this.variants.set(id, new Promise(resolve => resources.load(`scenery/${id === 'frost' ? 'frost-sanctum-v1' : 'ember-citadel-v1'}/texture`, Texture2D, (error, texture) => {
+        if (this.disposed) return resolve(null);
+        if (error || !(texture instanceof Texture2D)) { console.warn('[Biome] 场景加载失败，保留现有背景', error); return resolve(null); }
+        texture.addRef(); this.textures.push(texture);
+        const frame = new SpriteFrame(); frame.texture = texture; frame.rect = new Rect(0, 0, texture.width, texture.height);
+        frame.originalSize = new Size(texture.width, texture.height); frame.packable = false; this.frames.push(frame); resolve(frame);
+      })));
+    }
+    void this.variants.get(id)!.then(frame => {
+      if (!frame || this.disposed || this.biome !== id || !this.background || !isValid(this.background)) return;
+      this.background.getComponent(Sprite)!.spriteFrame = frame;
+      this.backgroundAspect = frame.rect.width / frame.rect.height; this.fitBackdrop();
+    });
+  }
 
   public attachPlatform(parent: Node, widthM: number): void {
     void this.load().then(pack => {
@@ -42,6 +76,7 @@ export class RuinsArtAssets {
         const node = this.sprite(parent, `PaintedPlatform_${i}`, pack.platform[i]!);
         node.setPosition(P.units(x + width / 2), 0);
         node.getComponent(UITransform)!.setContentSize(P.units(width), P.units(0.6));
+        this.tintPlatform(node);
         x += width;
       }
       const fallback = parent.getComponent(Graphics); if (fallback) fallback.enabled = false;
@@ -50,6 +85,7 @@ export class RuinsArtAssets {
 
   public dispose(): void {
     this.disposed = true; this.background = null;
+    this.variants.clear();
     for (const node of this.visuals) if (isValid(node)) node.destroy();
     this.visuals.length = 0;
     for (const frame of this.frames) frame.destroy(); this.frames.length = 0;

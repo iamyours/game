@@ -12,3 +12,8 @@ profiles/
 !.env.example
 # 机器路径、渠道凭据仅本地保存。
 configs/*.local.json
+
+# 本轮可重建的离线预览/日志保留本地，仅提交验证摘要。
+/evidence/expedition-20261113/*
+!/evidence/expedition-20261113/verification.md
+/evidence/impact-neck-20261113/

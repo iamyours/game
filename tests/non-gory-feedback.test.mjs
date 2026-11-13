@@ -7,6 +7,7 @@ import ts from 'typescript';
 import { ArcadeCycle, BowState } from '../assets/scripts/domain/ArcadeRules.ts';
 import { RunProgression, RUN_RULES } from '../assets/scripts/domain/RunProgression.ts';
 import { BattleLoadout } from '../assets/scripts/domain/BattleLoadout.ts';
+import { RunChallenges } from '../assets/scripts/domain/Expedition.ts';
 import { resolveDamage, lethalHeadshot } from '../assets/scripts/domain/damage.ts';
 import { planReaction, splitHitImpulse } from '../assets/scripts/domain/reaction.ts';
 import { highlightOpacity, retirementOpacity } from '../assets/scripts/domain/ProjectilePresentation.ts';
@@ -43,7 +44,7 @@ function fixture() {
   Object.assign(controller, { actors: [player, actor], enemies: [enemy], states: new Map([[player.id, { hp: 100 }], [actor.id, state]]),
     injuries: new Map(), drops: [], cycle: new ArcadeCycle(1.2), progression: new RunProgression(), spawnRetryAt: 0, initialSpawnPending: false,
     projectiles: { count: 1 }, loadout: new BattleLoadout(), onPickup: effect => rewards.push(effect),
-    cfg: { player: { stamina: 100 }, run: { fallKillY_M: -2 }, arcade: { cleanupSec: 3.5, respawnSec: 1.2 }, limits: { maxCorpses: 2 } } });
+    challenges: new RunChallenges(), cfg: { player: { stamina: 100 }, run: { fallKillY_M: -2 }, arcade: { cleanupSec: 3.5, respawnSec: 1.2 }, limits: { maxCorpses: 2 } } });
   return { controller, enemy, state, actor, skin, neck, platform, body, velocities, UIOpacity, rewards };
 }
 

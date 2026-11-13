@@ -1,0 +1,357 @@
+{
+  "passed": false,
+  "scope": "T004 three-pose acceptance",
+  "timestamp": "2026-11-13T13:23:39.273Z",
+  "mode": "desktop WebGL / real Box2D / pointer gestures; no transform writes",
+  "browser": "150.0.7871.125",
+  "errors": [],
+  "cases": {
+    "coordination": {
+      "samples": [
+        {
+          "stepId": 218,
+          "shots": 0,
+          "drawAmount": 0,
+          "pullDepthM": 0.5499991780860617,
+          "bowErrorM": 0.0013446366810746613,
+          "stringErrorM": 0.0004965753924270443,
+          "elbows": {
+            "left": 41.67302937903615,
+            "right": 40.17199634487508
+          },
+          "nativeElbows": {
+            "leftElbow": 41.67302937903614,
+            "rightElbow": 40.17199634487508
+          }
+        },
+        {
+          "stepId": 308,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7501753224865666,
+          "bowErrorM": 0.004773404482166318,
+          "stringErrorM": 0.003570920985056443,
+          "elbows": {
+            "left": 100.2597089157357,
+            "right": 40.16691583928224
+          },
+          "nativeElbows": {
+            "leftElbow": 100.25970891573567,
+            "rightElbow": 40.16691583928223
+          }
+        },
+        {
+          "stepId": 373,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499798988182406,
+          "bowErrorM": 0.0008029978082678001,
+          "stringErrorM": 0.0010290422935621793,
+          "elbows": {
+            "left": 99.38663200340062,
+            "right": 40.165744509643446
+          },
+          "nativeElbows": {
+            "leftElbow": 99.3866320034006,
+            "rightElbow": 40.16574450964345
+          }
+        },
+        {
+          "stepId": 390,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.749986193385477,
+          "bowErrorM": 0.00008837490321746285,
+          "stringErrorM": 0.0005671015501932605,
+          "elbows": {
+            "left": 99.30003636161177,
+            "right": 40.171103415543485
+          },
+          "nativeElbows": {
+            "leftElbow": 99.30003636161177,
+            "rightElbow": 40.1711034155435
+          }
+        },
+        {
+          "stepId": 521,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499823583804783,
+          "bowErrorM": 0.0008140393899657084,
+          "stringErrorM": 0.0008681061177734599,
+          "elbows": {
+            "left": 99.36781888962122,
+            "right": 40.16601905119665
+          },
+          "nativeElbows": {
+            "leftElbow": 99.36781888962122,
+            "rightElbow": 40.16601905119665
+          }
+        }
+      ],
+      "shots": 0,
+      "pullTravelM": 0.2001761444005049,
+      "lastRelease": null
+    },
+    "release": {
+      "shots": 1,
+      "drawAmount": 0,
+      "hands": {
+        "bowGrip": {
+          "x": 4.3899651981054095,
+          "y": 4.854213308557614
+        },
+        "stringGrip": {
+          "x": 3.8676057705818683,
+          "y": 4.681511362608519
+        },
+        "bowTarget": {
+          "x": 4.3876361232262635,
+          "y": 4.861469446102886
+        },
+        "stringTarget": {
+          "x": 3.8674477361331396,
+          "y": 4.682528999623869
+        },
+        "bowErrorM": 0.007620769112666704,
+        "stringErrorM": 0.0010298349294887564,
+        "ready": true
+      }
+    },
+    "standing": {
+      "chestAngleDeg": -5.493235603527177,
+      "chest": {
+        "x": 3.5250649452209473,
+        "y": 4.534360408782959
+      },
+      "hp": 100,
+      "lastShot": {
+        "arrowId": "normal",
+        "aimRad": 0.524514160843696,
+        "strength": 1,
+        "stepId": 929,
+        "socket": {
+          "x": 4.346968435545713,
+          "y": 4.970898345806211,
+          "angleRad": 0.524514160843696
+        },
+        "launchTip": {
+          "x": 4.82283908265447,
+          "y": 5.2208111653972775
+        },
+        "hands": {
+          "bowGrip": {
+            "x": 4.346968435545713,
+            "y": 4.970898345806211
+          },
+          "stringGrip": {
+            "x": 3.7149128767136217,
+            "y": 4.579796717674359
+          },
+          "bowTarget": {
+            "x": 4.350409471402838,
+            "y": 4.96501562825384
+          },
+          "stringTarget": {
+            "x": 3.6977929242522474,
+            "y": 4.595303942843564
+          },
+          "bowErrorM": 0.006815210456837928,
+          "stringErrorM": 0.023099065018483494,
+          "ready": true
+        },
+        "drawAmount": 1,
+        "speedMps": 18
+      },
+      "hands": {
+        "bowGrip": {
+          "x": 4.320379511645911,
+          "y": 4.993201386407723
+        },
+        "stringGrip": {
+          "x": 3.781642755248147,
+          "y": 4.654631944637021
+        },
+        "bowTarget": {
+          "x": 4.329439191863138,
+          "y": 4.9782085848229
+        },
+        "stringTarget": {
+          "x": 3.8443174700307035,
+          "y": 4.717765490901781
+        },
+        "bowErrorM": 0.01751747427571302,
+        "stringErrorM": 0.08896046614670718,
+        "ready": true
+      }
+    },
+    "staggered": {
+      "chestAngleDeg": 15.479614822576687,
+      "chest": {
+        "x": 3.3723950386047363,
+        "y": 4.527043342590332
+      },
+      "hp": 100,
+      "lastShot": {
+        "arrowId": "normal",
+        "aimRad": 0.524514160843696,
+        "strength": 1,
+        "stepId": 1384,
+        "socket": {
+          "x": 4.1039196738105375,
+          "y": 5.060347537674347,
+          "angleRad": 0.524514160843696
+        },
+        "launchTip": {
+          "x": 4.566676778563352,
+          "y": 5.335032031765251
+        },
+        "hands": {
+          "bowGrip": {
+            "x": 4.1039196738105375,
+            "y": 5.060347537674347
+          },
+          "stringGrip": {
+            "x": 3.4587505726225034,
+            "y": 4.694017584042332
+          },
+          "bowTarget": {
+            "x": 4.101173616301917,
+            "y": 5.065080866533564
+          },
+          "stringTarget": {
+            "x": 3.454744162517072,
+            "y": 4.684753134711699
+          },
+          "bowErrorM": 0.005472223855997364,
+          "stringErrorM": 0.010093628848574244,
+          "ready": true
+        },
+        "drawAmount": 1,
+        "speedMps": 18
+      },
+      "hands": {
+        "bowGrip": {
+          "x": 4.109219087644551,
+          "y": 5.058864746219395
+        },
+        "stringGrip": {
+          "x": 3.491641033556108,
+          "y": 4.701639782243212
+        },
+        "bowTarget": {
+          "x": 4.106569098292489,
+          "y": 5.063413987734644
+        },
+        "stringTarget": {
+          "x": 3.5639116581580397,
+          "y": 4.743365447730771
+        },
+        "bowErrorM": 0.005264792676839307,
+        "stringErrorM": 0.08345102959660264,
+        "ready": true
+      }
+    },
+    "downedPassiveBody": {
+      "weights": {
+        "neck": 0,
+        "waist": 0,
+        "leftShoulder": 0.8,
+        "leftElbow": 0.8,
+        "rightShoulder": 0.8,
+        "rightElbow": 0.8,
+        "leftHip": 0,
+        "leftKnee": 0,
+        "rightHip": 0,
+        "rightKnee": 0
+      },
+      "motorTorques": {
+        "neck": 0,
+        "waist": 0,
+        "leftShoulder": 9.600000000000001,
+        "leftElbow": 9.600000000000001,
+        "rightShoulder": 9.600000000000001,
+        "rightElbow": 9.600000000000001,
+        "leftHip": 0,
+        "leftKnee": 0,
+        "rightHip": 0,
+        "rightKnee": 0
+      }
+    },
+    "downed": {
+      "chestAngleDeg": 142.155099289157,
+      "chest": {
+        "x": 2.8219873905181885,
+        "y": 3.6919472217559814
+      },
+      "hp": 100,
+      "lastShot": {
+        "arrowId": "normal",
+        "aimRad": 0.524514160843696,
+        "strength": 1,
+        "stepId": 1761,
+        "socket": {
+          "x": 3.1382985346566397,
+          "y": 4.390283113029642,
+          "angleRad": 0.524514160843696
+        },
+        "launchTip": {
+          "x": 3.691056477971014,
+          "y": 4.59322491553761
+        },
+        "hands": {
+          "bowGrip": {
+            "x": 3.1382985346566397,
+            "y": 4.390283113029642
+          },
+          "stringGrip": {
+            "x": 2.583130272030166,
+            "y": 3.9522104678146923
+          },
+          "bowTarget": {
+            "x": 3.2270227747849454,
+            "y": 4.278889495756181
+          },
+          "stringTarget": {
+            "x": 2.4891230233631743,
+            "y": 4.014688710066994
+          },
+          "bowErrorM": 0.14240972142242056,
+          "stringErrorM": 0.11287556669569791,
+          "ready": true
+        },
+        "drawAmount": 1,
+        "speedMps": 18
+      },
+      "hands": {
+        "bowGrip": {
+          "x": 2.943795357964543,
+          "y": 4.129205818666744
+        },
+        "stringGrip": {
+          "x": 2.4233082045177534,
+          "y": 3.755719139379702
+        },
+        "bowTarget": {
+          "x": 3.0238162528975088,
+          "y": 4.023830134052702
+        },
+        "stringTarget": {
+          "x": 2.467733316349335,
+          "y": 3.8537699231608022
+        },
+        "bowErrorM": 0.13231545085042357,
+        "stringErrorM": 0.10764546790894916,
+        "ready": true
+      }
+    },
+    "cancelNeverFires": true,
+    "strength": []
+  },
+  "runtime": {
+    "version": "3.8.8",
+    "world": "b2PhysicsWorld"
+  },
+  "seedHash": "ef2eef968a0f9e29550ce14f6314bb454a16a4dac24d540abf63a05941a2918d",
+  "failure": "AssertionError [ERR_ASSERTION]: 普通箭发射点与真实拉弦手保持固定箭长"
+}

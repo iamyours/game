@@ -1,0 +1,6 @@
+{
+  "command": "HEADED=1 ARCADE_EVIDENCE_DIR=evidence/latest-pull-20261113/arcade npm run test:web:arcade",
+  "exitCode": 1,
+  "start": "2026-11-13T21:21:00.936133+08:00",
+  "end": "2026-11-13T21:21:22.022545+08:00"
+}

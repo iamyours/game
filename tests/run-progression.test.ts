@@ -6,6 +6,7 @@ import { ShotBudget, EnemyAttack, AttackSlots } from '../assets/scripts/domain/B
 import { loadSeedPack, renderGenerated } from '../tools/config/files.js';
 import { readRigDefinition } from '../assets/scripts/physics/RigDefinition.js';
 import { readBootManifest } from '../assets/scripts/core/BootManifest.js';
+import { biomeForStage } from '../assets/scripts/domain/Expedition.js';
 const pack = await loadSeedPack(), generated = renderGenerated(pack);
 const cfg = { ...pack.combat, rig: readRigDefinition(JSON.parse(generated.get('rig.json')!), readBootManifest(JSON.parse(generated.get('manifest.json')!))) };
 const clearStage = (run: RunProgression) => { for (let i = 0; i < 5; i++) run.defeated(); };
@@ -79,7 +80,8 @@ test('开局有缓冲、相邻特殊敌人不重复；每五敌精英，百段�
     assert.equal(e.kind === 'boss', (i + 1) % 15 === 0);
     assert.equal(e.kind === 'elite', (i + 1) % 5 === 0 && (i + 1) % 15 !== 0);
     assert.equal(e.spec.helmetDurability, 0); assert.ok(e.spec.hp <= 180);
-    assert.ok(e.spec.telegraphSec >= 0.42); assert.equal(e.spec.speedMps, 18);
+    assert.ok(e.spec.telegraphSec >= 0.42);
+    assert.equal(e.spec.speedMps, e.kind === 'boss' && biomeForStage(run.stage).id === 'frost' ? 18 * 1.12 : 18);
     if (e.kind === 'elite') {
       assert.equal(e.spec.phaseTwoHpRatio, 0.5);
       if (i > 25) assert.equal(e.spec.attackIntervalRangeSec[0], lastMin);

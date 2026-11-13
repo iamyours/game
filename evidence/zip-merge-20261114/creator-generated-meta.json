@@ -1,0 +1,11 @@
+[
+  "assets/scripts/domain/Expedition.ts.meta",
+  "assets/resources/scenery/expedition-art.json.meta",
+  "assets/resources/scenery/frost-sanctum-v1.png.meta",
+  "assets/resources/scenery/ember-citadel-v1.png.meta",
+  "assets/resources/audio/music-frost.ogg.meta",
+  "assets/resources/audio/music-storm.ogg.meta",
+  "assets/resources/audio/music-ember.ogg.meta",
+  "assets/resources/audio/music-boss.ogg.meta",
+  "assets/resources/audio/music-manifest.json.meta"
+]

@@ -1,0 +1,2293 @@
+{
+  "passed": false,
+  "status": "FAILED",
+  "scope": "Real Creator/Box2D lifecycle stress with injected head hits and HP refills; not manual combat, projectile collision or G1",
+  "listenerCoverage": "Cocos callbacks owned by lab + projectile pool; browser/OS excluded",
+  "errors": [
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')"
+  ],
+  "restarts": [
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    }
+  ],
+  "samples": [
+    {
+      "elapsedMs": 59,
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "arcade": {
+        "score": 0,
+        "enemyShots": 0,
+        "enemyId": "Enemy_31",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 1,
+        "platformCount": 1,
+        "dropCount": 0,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 1143,
+      "native": {
+        "bodies": 28,
+        "joints": 19
+      },
+      "arcade": {
+        "score": 1,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 1,
+        "platformCount": 1,
+        "dropCount": 1,
+        "nextSpawnSec": 0.13333333333333686
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 2206,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 1,
+        "enemyShots": 0,
+        "enemyId": "Enemy_32",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 3291,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 2,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.15000000000000302
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 4376,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 2,
+        "enemyShots": 0,
+        "enemyId": "Enemy_33",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 5491,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 3,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.16666666666667052
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 6643,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 3,
+        "enemyShots": 0,
+        "enemyId": "Enemy_34",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 7766,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 4,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.18333333333330515
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 9099,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 4,
+        "enemyShots": 0,
+        "enemyId": "Enemy_35",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 10199,
+      "native": {
+        "bodies": 53,
+        "joints": 38
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": "Enemy_36",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 3,
+        "platformCount": 3,
+        "dropCount": 2,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 11277,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 6,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.13333333333327957
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 12329,
+      "native": {
+        "bodies": 53,
+        "joints": 38
+      },
+      "arcade": {
+        "score": 6,
+        "enemyShots": 0,
+        "enemyId": "Enemy_37",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 3,
+        "platformCount": 3,
+        "dropCount": 2,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 13384,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 7,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.14999999999994706
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 14428,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 7,
+        "enemyShots": 0,
+        "enemyId": "Enemy_38",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 15499,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 8,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.14999999999997016
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 16596,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 8,
+        "enemyShots": 0,
+        "enemyId": "Enemy_39",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 17709,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 9,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.10000000000006182
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 18751,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 9,
+        "enemyShots": 0,
+        "enemyId": "Enemy_40",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 19791,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 10,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.1666666666667247
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 20848,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 10,
+        "enemyShots": 0,
+        "enemyId": "Enemy_41",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 21993,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 11,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.15000000000005898
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 23078,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 11,
+        "enemyShots": 0,
+        "enemyId": "Enemy_42",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 24157,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 12,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.15000000000005898
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 25249,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 12,
+        "enemyShots": 0,
+        "enemyId": "Enemy_43",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 26329,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 13,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.10000000000006182
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 27381,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 13,
+        "enemyShots": 0,
+        "enemyId": "Enemy_44",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 28493,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 14,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.2500000000000533
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 29591,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 14,
+        "enemyShots": 0,
+        "enemyId": "Enemy_45",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 30660,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 15,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.13333333333339326
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 31731,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 15,
+        "enemyShots": 0,
+        "enemyId": "Enemy_46",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 32852,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 16,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.15000000000006253
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 34027,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 16,
+        "enemyShots": 0,
+        "enemyId": "Enemy_47",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 35090,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 17,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.1333333333333968
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 36160,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 17,
+        "enemyShots": 0,
+        "enemyId": "Enemy_48",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 37191,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 18,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.15000000000006253
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 38221,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 18,
+        "enemyShots": 0,
+        "enemyId": "Enemy_49",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 39279,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 19,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.2166666666667254
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 40322,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 19,
+        "enemyShots": 0,
+        "enemyId": "Enemy_50",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 41504,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 20,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.3166666666667197
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 42612,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 20,
+        "enemyShots": 0,
+        "enemyId": "Enemy_51",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 43704,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 21,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.1333333333333968
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 44798,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 21,
+        "enemyShots": 0,
+        "enemyId": "Enemy_52",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 45833,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 22,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.11666666666673109
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 46863,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 22,
+        "enemyShots": 0,
+        "enemyId": "Enemy_53",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 47909,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 23,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.18333333333339397
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 48956,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 23,
+        "enemyShots": 0,
+        "enemyId": "Enemy_54",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 49983,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 24,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.18333333333339397
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 51032,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 24,
+        "enemyShots": 0,
+        "enemyId": "Enemy_55",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 52102,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 25,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.16666666666672825
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 53149,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 25,
+        "enemyShots": 0,
+        "enemyId": "Enemy_56",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 54197,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 26,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.16666666666672825
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 55302,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 26,
+        "enemyShots": 0,
+        "enemyId": "Enemy_57",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 56341,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 27,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.11666666666673109
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 57423,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 27,
+        "enemyShots": 0,
+        "enemyId": "Enemy_58",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 58483,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 28,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.1333333333333968
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 59537,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 28,
+        "enemyShots": 0,
+        "enemyId": "Enemy_59",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    }
+  ],
+  "runtime": {
+    "version": "3.8.8",
+    "backend": "b2PhysicsWorld"
+  },
+  "diagnostics": {
+    "totalSamples": 4346,
+    "retainedSamples": 4096,
+    "observedDurationSec": 91.23709999999986,
+    "meanFrameMs": 20.993350207086944,
+    "worstFrameMs": 219.0999999998603,
+    "peakBodies": 54,
+    "percentileScope": "last retained samples",
+    "p50FrameMs": 17.199999999953434,
+    "p95FrameMs": 33.9000000001397,
+    "p99FrameMs": 69.5,
+    "restartCountRetained": 15,
+    "monotonicGrowth": {
+      "bodies": false,
+      "joints": false,
+      "listeners": false
+    },
+    "restartSnapshots": [
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 27.9000000001397,
+        "memoryBytes": 41859696,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 18.9000000001397,
+        "memoryBytes": 53794634,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 62.200000000186265,
+        "memoryBytes": 55872024,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 14.5,
+        "memoryBytes": 42463484,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 32.5,
+        "memoryBytes": 44352376,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 22.699999999953434,
+        "memoryBytes": 77785820,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 32.699999999953434,
+        "memoryBytes": 65609312,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 13.899999999906868,
+        "memoryBytes": 73167308,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 14.899999999906868,
+        "memoryBytes": 52242172,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 16,
+        "memoryBytes": 86010288,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 15.400000000139698,
+        "memoryBytes": 95148624,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 18.799999999813735,
+        "memoryBytes": 42017060,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 32,
+        "memoryBytes": 43802499,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 108,
+        "memoryBytes": 43707779,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 31.39999999990687,
+        "memoryBytes": 72571179,
+        "listeners": 7
+      }
+    ],
+    "acceptance": "NOT_EVALUATED"
+  },
+  "durationMs": 60634,
+  "disposal": {
+    "listeners": {
+      "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+      "globals": 0,
+      "contacts": 0,
+      "cocosTotal": 0
+    },
+    "bodies": 1,
+    "joints": 0
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\"\n+ ]\n- []\n"
+}

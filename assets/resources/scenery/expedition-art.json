@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "generator": "built-in image_gen",
+  "runtimeVerified": false,
+  "assets": [
+    {
+      "path": "assets/resources/scenery/frost-sanctum-v1.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "145e828bde9d8ba579661861634645540c1b322c3875c3ffbdb7f08485262d6c",
+      "prompt": "Use case: stylized-concept. Asset type: production 2D side-view archery game background, wide landscape painting, 1536x1024. Scene: Frostwatch Sanctum: a deep midnight indigo mountain chasm, huge frozen ancient carved stone arches at the far left and far right edges, tall slender pale blue crystalline formations and frost coated ruins, distant snowy mountains, faint green aurora near the top, floating ice dust, cold silver and lavender glow. Distinct icy architectural silhouettes. Style: premium hand-painted fantasy mobile game environment, painterly atmospheric perspective, polished stone detail at sides, layered depth. Composition: the CENTRAL 65 PERCENT and middle vertical half are OPEN LOW-CONTRAST NEGATIVE SPACE for small archers and long flying arrows. No foreground combat platforms, no floor crossing the middle, no characters, weapons, arrows, HUD, text, logos or watermarks. Left and right cliffs and architecture frame a vast open void. Horizon in lower quarter. A self-contained full background with no borders. Similar visual fidelity to an atmospheric fantasy ruined aqueduct, calm and immersive."
+    },
+    {
+      "path": "assets/resources/scenery/ember-citadel-v1.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "sha256": "003c804421660c85f8278c841c051a21e0c006af4622bc2a25dfd661e363a0d3",
+      "prompt": "Use case: stylized-concept. Asset type: production 2D side-view archery game background, wide landscape painting, 1536x1024. Scene: Emberfall Citadel: an immense sunset volcanic canyon, broken dark basalt citadel towers and bronze ruined arches framing the far left and far right edges, distant mountain silhouettes with glowing lava rivers very low in the canyon, red-orange clouds, copper and ochre light with violet smoky depths. Elegant fantasy ruins, not fiery clutter. Style: premium hand-painted fantasy mobile game environment, painterly atmospheric perspective, polished stone detail at sides, layered depth. Composition: the CENTRAL 65 PERCENT and middle vertical half are OPEN LOW-CONTRAST NEGATIVE SPACE for small archers and long flying arrows. No foreground combat platforms, no floor crossing the middle, no characters, weapons, arrows, HUD, text, logos or watermarks. Left and right cliffs and architecture frame a vast open void. Horizon in lower quarter. A self-contained full background with no borders. Similar visual fidelity to an atmospheric fantasy ruined aqueduct, calm and immersive."
+    }
+  ]
+}

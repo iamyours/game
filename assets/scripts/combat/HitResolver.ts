@@ -1,6 +1,6 @@
 import { PhysicsAdapter as Physics } from '../physics/PhysicsAdapter';
 import { resolveDamage, lethalHeadshot, type DamageResult } from '../domain/damage';
-import { planReaction, splitHitImpulse, type JointReaction } from '../domain/reaction';
+import { planReaction, splitHitImpulse, transferredImpulsePoint, type JointReaction } from '../domain/reaction';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import type { HitCandidate } from './ProjectileSystem';
 import type { RigidBody2D } from 'cc';
@@ -44,7 +44,8 @@ export class HitResolver {
       Physics.applyImpulse(targetBody, x / length * split.localNs, y / length * split.localNs, candidate.pointM.x, candidate.pointM.y);
       if (torso && split.torsoNs > 0) {
         const center = Physics.pointM(torso.getWorldCenter({ x: 0, y: 0 }));
-        Physics.applyImpulse(torso, x / length * split.torsoNs, y / length * split.torsoNs, center.x, center.y);
+        const point = transferredImpulsePoint(candidate.pointM, center);
+        Physics.applyImpulse(torso, x / length * split.torsoNs, y / length * split.torsoNs, point.x, point.y);
       }
     }
     const seed = this.config.arrows.find(a => a.id === candidate.arrow.id)!;

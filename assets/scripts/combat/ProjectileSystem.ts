@@ -6,7 +6,7 @@ import type { RagdollInstance } from '../physics/RagdollFactory';
 import { eventCallbackCount } from '../domain/RuntimeDiagnostics';
 import { drawWeaponArrow } from '../presentation/WeaponVisual';
 import { ThunderArrowSkin, thunderArrowLength, type ThunderWeaponAssets } from '../presentation/ThunderWeaponSkin';
-import { ArrowResidues, shortFlightTrail } from '../domain/ProjectilePresentation';
+import { ArrowResidues, shortFlightTrail, embeddedArrowPose } from '../domain/ProjectilePresentation';
 import type { SkillKind } from '../domain/BattleLoadout';
 
 type Point = { x: number; y: number };
@@ -32,7 +32,7 @@ function drawArrow(g: Graphics, id: string): void {
 export class ProjectileSystem {
   private readonly flying = new Map<number, Flight>();
   private readonly spare: Slot[] = [];
-  private readonly embedded: ArrowResidues<{ node: Node; opacity: UIOpacity }>;
+  private readonly embedded: ArrowResidues<{ node: Node; shaft: Node; opacity: UIOpacity; born: number; impulseNs: number; terrain: boolean }>;
   private readonly trails: Graphics;
   private readonly queue: HitCandidate[] = [];
   private readonly targets = new Map<Node, { targetId: string; partId: string; body: RigidBody2D }>();
@@ -158,7 +158,12 @@ export class ProjectileSystem {
     }
     const now = this.stepId * this.config.physics.fixedTimeStepSec;
     this.embedded.prune(now, ({ node }) => isValid(node, true) && isValid(node.parent, true) && this.inView(Physics.positionM(node), 1.6));
-    for (const entry of this.embedded.items) entry.visual.opacity.opacity = Math.round(255 * this.embedded.opacity(entry, now));
+    for (const entry of this.embedded.items) {
+      const visual = entry.visual, pose = embeddedArrowPose(now - visual.born, visual.impulseNs, visual.terrain);
+      visual.shaft.setPosition(Physics.units(pose.penetrationM), 0, 0);
+      visual.shaft.setRotationFromEuler(0, 0, Physics.degrees(pose.angleRad));
+      visual.opacity.opacity = Math.round(255 * this.embedded.opacity(entry, now));
+    }
     this.drawTrails();
   }
 
@@ -236,10 +241,14 @@ export class ProjectileSystem {
     Physics.place(node, hit.pointM.x, hit.pointM.y);
     node.setRotationFromEuler(0, 0, Physics.degrees(Math.atan2(hit.incomingVelocityMps.y, hit.incomingVelocityMps.x)));
     node.setParent(parent, true);
-    const skin = hit.attackerId === 'PlayerRagdoll' && this.weaponAssets ? new ThunderArrowSkin(node, this.weaponAssets) : null;
-    if (!skin?.show(hit.arrow.id)) drawArrow(node.addComponent(Graphics), hit.arrow.id);
-    this.embedded.add(hit.targetId, hit.partId === 'platform', { node, opacity: node.addComponent(UIOpacity) },
-      this.stepId * this.config.physics.fixedTimeStepSec);
+    // The body's opaque artwork covers the buried tip; only visual children animate.
+    if (hit.partId !== 'platform') node.setSiblingIndex(0);
+    const shaft = new Node('SettlingShaft'); shaft.layer = node.layer; shaft.parent = node;
+    const skin = hit.attackerId === 'PlayerRagdoll' && this.weaponAssets ? new ThunderArrowSkin(shaft, this.weaponAssets) : null;
+    if (!skin?.show(hit.arrow.id)) drawArrow(shaft.addComponent(Graphics), hit.arrow.id);
+    const born = this.stepId * this.config.physics.fixedTimeStepSec;
+    this.embedded.add(hit.targetId, hit.partId === 'platform', { node, shaft, opacity: node.addComponent(UIOpacity),
+      born, impulseNs: hit.arrow.impulseNs, terrain: hit.partId === 'platform' }, born);
   }
 
   private inView(point: Point, margin: number): boolean {

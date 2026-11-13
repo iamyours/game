@@ -1,0 +1,547 @@
+{
+  "passed": false,
+  "scope": "T004 three-pose acceptance",
+  "timestamp": "2026-11-13T13:11:52.101Z",
+  "mode": "desktop WebGL / real Box2D / pointer gestures; no transform writes",
+  "browser": "150.0.7871.125",
+  "errors": [],
+  "cases": {
+    "coordination": {
+      "samples": [
+        {
+          "stepId": 183,
+          "shots": 0,
+          "drawAmount": 0,
+          "pullDepthM": 0.5499879502099962,
+          "bowErrorM": 0.002392333173352631,
+          "stringErrorM": 0.000012667466823612643,
+          "elbows": {
+            "left": 41.88135518113114,
+            "right": 40.17127880034087
+          },
+          "nativeElbows": {
+            "leftElbow": 41.88135518113114,
+            "rightElbow": 40.17127880034089
+          }
+        },
+        {
+          "stepId": 190,
+          "shots": 0,
+          "drawAmount": 0.8,
+          "pullDepthM": 0.583180010785783,
+          "bowErrorM": 0.00005794189722866167,
+          "stringErrorM": 0.12684589343888567,
+          "elbows": {
+            "left": 54.81374605920806,
+            "right": 40.14660203947618
+          },
+          "nativeElbows": {
+            "leftElbow": 54.813746059208064,
+            "rightElbow": 40.14660203947616
+          }
+        },
+        {
+          "stepId": 210,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7341962486412564,
+          "bowErrorM": 0.00418960086407466,
+          "stringErrorM": 0.017408925656606417,
+          "elbows": {
+            "left": 93.3310627886591,
+            "right": 40.18293728044978
+          },
+          "nativeElbows": {
+            "leftElbow": 93.33106278865911,
+            "rightElbow": 40.182937280449764
+          }
+        },
+        {
+          "stepId": 215,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7412751936627715,
+          "bowErrorM": 0.009163683141656918,
+          "stringErrorM": 0.01278371087102955,
+          "elbows": {
+            "left": 95.48811856632824,
+            "right": 40.17725865324044
+          },
+          "nativeElbows": {
+            "leftElbow": 95.48811856632832,
+            "rightElbow": 40.17725865324044
+          }
+        },
+        {
+          "stepId": 225,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7472822852248813,
+          "bowErrorM": 0.014399403556857164,
+          "stringErrorM": 0.008287866993214044,
+          "elbows": {
+            "left": 98.2257416094269,
+            "right": 40.1659608397891
+          },
+          "nativeElbows": {
+            "leftElbow": 98.2257416094269,
+            "rightElbow": 40.16596083978909
+          }
+        },
+        {
+          "stepId": 235,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7493904423191637,
+          "bowErrorM": 0.012951326953036277,
+          "stringErrorM": 0.003739296291357109,
+          "elbows": {
+            "left": 99.40259071258282,
+            "right": 40.17188472286445
+          },
+          "nativeElbows": {
+            "leftElbow": 99.40259071258285,
+            "rightElbow": 40.17188472286445
+          }
+        },
+        {
+          "stepId": 248,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499850399181289,
+          "bowErrorM": 0.01581528063214338,
+          "stringErrorM": 0.005588529064321916,
+          "elbows": {
+            "left": 100.23134729570063,
+            "right": 40.18201564758389
+          },
+          "nativeElbows": {
+            "leftElbow": 100.23134729570067,
+            "rightElbow": 40.18201564758388
+          }
+        },
+        {
+          "stepId": 253,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500986794276878,
+          "bowErrorM": 0.01374977919346111,
+          "stringErrorM": 0.0024009867055323534,
+          "elbows": {
+            "left": 100.50929870135985,
+            "right": 40.18955848819219
+          },
+          "nativeElbows": {
+            "leftElbow": 100.50929870135988,
+            "rightElbow": 40.18955848819219
+          }
+        },
+        {
+          "stepId": 275,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500149282340458,
+          "bowErrorM": 0.0013029989526864127,
+          "stringErrorM": 0.0033482296287813923,
+          "elbows": {
+            "left": 99.8683250408144,
+            "right": 40.16928142193618
+          },
+          "nativeElbows": {
+            "leftElbow": 99.86832504081438,
+            "rightElbow": 40.16928142193616
+          }
+        },
+        {
+          "stepId": 300,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500057218851824,
+          "bowErrorM": 0.0005013776958353002,
+          "stringErrorM": 0.0006789403253576272,
+          "elbows": {
+            "left": 99.32269912376921,
+            "right": 40.17346725215896
+          },
+          "nativeElbows": {
+            "leftElbow": 99.32269912376928,
+            "rightElbow": 40.17346725215897
+          }
+        },
+        {
+          "stepId": 315,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.750034793258392,
+          "bowErrorM": 0.0008526160451569441,
+          "stringErrorM": 0.00006544647600841112,
+          "elbows": {
+            "left": 99.51750711321375,
+            "right": 40.1821036858674
+          },
+          "nativeElbows": {
+            "leftElbow": 99.51750711321375,
+            "rightElbow": 40.182103685867396
+          }
+        },
+        {
+          "stepId": 332,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.74997161299018,
+          "bowErrorM": 0.0009289086902229906,
+          "stringErrorM": 0.0010101153848058222,
+          "elbows": {
+            "left": 99.35632828422393,
+            "right": 40.163722188007185
+          },
+          "nativeElbows": {
+            "leftElbow": 99.35632828422395,
+            "rightElbow": 40.16372218800715
+          }
+        },
+        {
+          "stepId": 336,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499676549745561,
+          "bowErrorM": 0.001002301365108935,
+          "stringErrorM": 0.0007835103342496134,
+          "elbows": {
+            "left": 99.30892469383264,
+            "right": 40.1614606839348
+          },
+          "nativeElbows": {
+            "leftElbow": 99.3089246938326,
+            "rightElbow": 40.16146068393478
+          }
+        },
+        {
+          "stepId": 344,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499802360152038,
+          "bowErrorM": 0.00030248697506853614,
+          "stringErrorM": 0.0002269232710771027,
+          "elbows": {
+            "left": 99.2797517426211,
+            "right": 40.167892616618545
+          },
+          "nativeElbows": {
+            "leftElbow": 99.27975174262113,
+            "rightElbow": 40.167892616618545
+          }
+        },
+        {
+          "stepId": 353,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500083894812117,
+          "bowErrorM": 0.0008986447362842922,
+          "stringErrorM": 0.0010981636220538772,
+          "elbows": {
+            "left": 99.36426296765967,
+            "right": 40.18018108205598
+          },
+          "nativeElbows": {
+            "leftElbow": 99.36426296765968,
+            "rightElbow": 40.18018108205596
+          }
+        },
+        {
+          "stepId": 361,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500293744710261,
+          "bowErrorM": 0.0009448182795561516,
+          "stringErrorM": 0.0005534490333418263,
+          "elbows": {
+            "left": 99.46047193891854,
+            "right": 40.18368308135311
+          },
+          "nativeElbows": {
+            "leftElbow": 99.4604719389186,
+            "rightElbow": 40.183683081353095
+          }
+        },
+        {
+          "stepId": 368,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500244890603361,
+          "bowErrorM": 0.0002730789324210032,
+          "stringErrorM": 0.00027806068807548543,
+          "elbows": {
+            "left": 99.4723917670367,
+            "right": 40.178950812241055
+          },
+          "nativeElbows": {
+            "leftElbow": 99.47239176703667,
+            "rightElbow": 40.17895081224102
+          }
+        },
+        {
+          "stepId": 372,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500099216585627,
+          "bowErrorM": 0.00017541873149558396,
+          "stringErrorM": 0.0006427555642382093,
+          "elbows": {
+            "left": 99.44830968383638,
+            "right": 40.17430433417662
+          },
+          "nativeElbows": {
+            "leftElbow": 99.44830968383636,
+            "rightElbow": 40.17430433417662
+          }
+        },
+        {
+          "stepId": 381,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499762811956067,
+          "bowErrorM": 0.0009341859814201472,
+          "stringErrorM": 0.000908224759466676,
+          "elbows": {
+            "left": 99.34854676236182,
+            "right": 40.164142277725496
+          },
+          "nativeElbows": {
+            "leftElbow": 99.34854676236183,
+            "rightElbow": 40.164142277725475
+          }
+        },
+        {
+          "stepId": 387,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499695063802168,
+          "bowErrorM": 0.0008144069229406723,
+          "stringErrorM": 0.0004285641198790994,
+          "elbows": {
+            "left": 99.29295173381809,
+            "right": 40.16289187990406
+          },
+          "nativeElbows": {
+            "leftElbow": 99.29295173381807,
+            "rightElbow": 40.16289187990402
+          }
+        },
+        {
+          "stepId": 394,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499806147118168,
+          "bowErrorM": 0.00008781308775532633,
+          "stringErrorM": 0.0004139178891236807,
+          "elbows": {
+            "left": 99.29213681238281,
+            "right": 40.16928111671021
+          },
+          "nativeElbows": {
+            "leftElbow": 99.29213681238282,
+            "rightElbow": 40.169281116710216
+          }
+        },
+        {
+          "stepId": 398,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7499940199677122,
+          "bowErrorM": 0.000379018103461101,
+          "stringErrorM": 0.0007628847661160925,
+          "elbows": {
+            "left": 99.32318510500875,
+            "right": 40.1745577379494
+          },
+          "nativeElbows": {
+            "leftElbow": 99.3231851050088,
+            "rightElbow": 40.1745577379494
+          }
+        },
+        {
+          "stepId": 402,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.750009416924386,
+          "bowErrorM": 0.0007464001918191799,
+          "stringErrorM": 0.0009169717310569354,
+          "elbows": {
+            "left": 99.3675959425791,
+            "right": 40.17952716071454
+          },
+          "nativeElbows": {
+            "leftElbow": 99.3675959425791,
+            "rightElbow": 40.179527160714535
+          }
+        },
+        {
+          "stepId": 405,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500189164289537,
+          "bowErrorM": 0.0009037448324623306,
+          "stringErrorM": 0.0008839732975956132,
+          "elbows": {
+            "left": 99.40305228020179,
+            "right": 40.18210501192287
+          },
+          "nativeElbows": {
+            "leftElbow": 99.40305228020183,
+            "rightElbow": 40.182105011922864
+          }
+        },
+        {
+          "stepId": 409,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500277722222821,
+          "bowErrorM": 0.000912531420972759,
+          "stringErrorM": 0.000648349831298373,
+          "elbows": {
+            "left": 99.4435020729369,
+            "right": 40.18381748487159
+          },
+          "nativeElbows": {
+            "leftElbow": 99.44350207293694,
+            "rightElbow": 40.18381748487159
+          }
+        },
+        {
+          "stepId": 412,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500297579333597,
+          "bowErrorM": 0.0007640536891720722,
+          "stringErrorM": 0.00035733036188346145,
+          "elbows": {
+            "left": 99.46345701695071,
+            "right": 40.18330475973303
+          },
+          "nativeElbows": {
+            "leftElbow": 99.46345701695074,
+            "rightElbow": 40.183304759733055
+          }
+        },
+        {
+          "stepId": 417,
+          "shots": 0,
+          "drawAmount": 1,
+          "pullDepthM": 0.7500221580824853,
+          "bowErrorM": 0.0002850010402572183,
+          "stringErrorM": 0.00022548389388291548,
+          "elbows": {
+            "left": 99.46808057481962,
+            "right": 40.17942275379717
+          },
+          "nativeElbows": {
+            "leftElbow": 99.46808057481962,
+            "rightElbow": 40.1794227537972
+          }
+        }
+      ],
+      "shots": 0,
+      "pullTravelM": 0.20011072921769157,
+      "lastRelease": null
+    },
+    "release": {
+      "shots": 1,
+      "drawAmount": 0,
+      "hands": {
+        "bowGrip": {
+          "x": 4.384469692213929,
+          "y": 4.8591610347585314
+        },
+        "stringGrip": {
+          "x": 3.861887915185098,
+          "y": 4.687182301245892
+        },
+        "bowTarget": {
+          "x": 4.382081179068885,
+          "y": 4.866582602297384
+        },
+        "stringTarget": {
+          "x": 3.861952230241659,
+          "y": 4.687476725824786
+        },
+        "bowErrorM": 0.007796451742798884,
+        "stringErrorM": 0.00030136731600718806,
+        "ready": true
+      }
+    },
+    "standing": {
+      "chestAngleDeg": -10.11279742625805,
+      "chest": {
+        "x": 3.556274652481079,
+        "y": 4.530821800231934
+      },
+      "hp": 100,
+      "lastShot": {
+        "arrowId": "normal",
+        "aimRad": 0.524514160843696,
+        "strength": 1,
+        "stepId": 684,
+        "socket": {
+          "x": 4.391694253659347,
+          "y": 4.91293443510235,
+          "angleRad": 0.524514160843696
+        },
+        "launchTip": {
+          "x": 4.647175422471434,
+          "y": 5.011193280449331
+        },
+        "hands": {
+          "bowGrip": {
+            "x": 4.391694253659347,
+            "y": 4.91293443510235
+          },
+          "stringGrip": {
+            "x": 3.8162307680157976,
+            "y": 4.5304324446571425
+          },
+          "bowTarget": {
+            "x": 4.371342164418131,
+            "y": 4.951285963625001
+          },
+          "stringTarget": {
+            "x": 3.7425187423658817,
+            "y": 4.537340032139702
+          },
+          "bowErrorM": 0.043417131140900345,
+          "stringErrorM": 0.07403497477708143,
+          "ready": true
+        },
+        "drawAmount": 1,
+        "speedMps": 18
+      },
+      "hands": {
+        "bowGrip": {
+          "x": 4.385907278232306,
+          "y": 4.924475857026753
+        },
+        "stringGrip": {
+          "x": 3.7993987423532314,
+          "y": 4.531464499818177
+        },
+        "bowTarget": {
+          "x": 4.37127007360403,
+          "y": 4.9512478133416815
+        },
+        "stringTarget": {
+          "x": 3.788665807842318,
+          "y": 4.578929006301117
+        },
+        "bowErrorM": 0.030512053425793294,
+        "stringErrorM": 0.04866287351651845,
+        "ready": true
+      }
+    }
+  },
+  "runtime": {
+    "version": "3.8.8",
+    "world": "b2PhysicsWorld"
+  },
+  "seedHash": "925eda6ab0b61a9f98dacb75e37cc42d6b52d207813b010fda21939cd39cf9c9",
+  "failure": "Error: staggered release shoot: {\"thunderSkin\":{\"loaded\":true,\"strips\":40,\"flex\":0,\"handM\":null,\"tipM\":null,\"visible\":true},\"arcade\":null,\"stamina\":100,\"cooldownSec\":0,\"records\":{\"schemaVersion\":1,\"bestScore\":0,\"soundEnabled\":true},\"saveStatus\":{\"ok\":true},\"diagnostics\":{\"totalSamples\":0,\"retainedSamples\":0,\"observedDurationSec\":0,\"meanFrameMs\":null,\"worstFrameMs\":null,\"peakBodies\":0,\"percentileScope\":\"last retained samples\",\"p50FrameMs\":null,\"p95FrameMs\":null,\"p99FrameMs\":null,\"restartCountRetained\":0,\"monotonicGrowth\":{\"bodies\":null,\"joints\":null,\"listeners\":null},\"restartSnapshots\":[],\"acceptance\":\"NOT_EVALUATED\"},\"nativeCounts\":{\"bodies\":29,\"joints\":20},\"projectilePoolSize\":1,\"listenerCounts\":{\"scope\":\"Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded\",\"globals\":7,\"contacts\":1,\"cocosTotal\":8},\"soundRect\":{\"left\":1336,\"top\":16,\"right\":1516,\"bottom\":116},\"seedHash\":\"925eda6ab0b61a9f98dacb75e37cc42d6b52d207813b010fda21939cd39cf9c9\",\"calibration\":{\"steps\":60,\"seconds\":1,\"start\":{\"glide\":{\"positionM\":{\"x\":2,\"y\":8.5},\"angleRad\":0,\"angularVelocityRadps\":1.5707963267948966,\"velocityMps\":{\"x\":10,\"y\":0}},\"drop\":{\"positionM\":{\"x\":21,\"y\":8.5},\"angleRad\":0,\"angularVelocityRadps\":0,\"velocityMps\":{\"x\":0,\"y\":0}}},\"end\":{\"glide\":{\"positionM\":{\"x\":12.000004768371582,\"y\":8.5},\"angleRad\":1.5707963267948952,\"angularVelocityRadps\":1.5707963267948966,\"velocityMps\":{\"x\":10,\"y\":0}},\"drop\":{\"positionM\":{\"x\":21,\"y\":3.518333911895752},\"angleRad\":0,\"angularVelocityRadps\":0,\"velocityMps\":{\"x\":0,\"y\":-9.79999828338623}}},\"tolerance\":0.02,\"checks\":{\"glideXM\":{\"actual\":10.000004768371582,\"expected\":10,\"error\":0.00000476837158203125,\"passed\":true},\"glideYM\":{\"actual\":0,\"expected\":0,\"error\":0,\"passed\":true},\"angleRad\":{\"actual\":1.5707963267948952,\"expected\":1.5707963267948966,\"error\":1.3322676295501878e-15,\"passed\":true},\"angularVelocityRadps\":{\"actual\":1.5707963267948966,\"expected\":1.5707963267948966,\"error\":0,\"passed\":true},\"dropYM\":{\"actual\":-4.981666088104248,\"expected\":-4.9,\"error\":0.08166608810424769,\"passed\":true},\"dropVelocityMps\":{\"actual\":-9.79999828338623,\"expected\":-9.8,\"error\":0.0000017166137702417927,\"passed\":true}},\"passed\":true},\"stepId\":2295,\"autoSimulation\":false,\"shots\":0,\"lastShot\":null,\"lastAttempt\":null,\"lastReleaseResult\":\"too-short\",\"aimId\":null,\"aimDeg\":30.052447711189803,\"arrow\":\"normal\",\"drawProgress\":0,\"paused\":false,\"hidden\":false,\"portrait\":false,\"layout\":{\"aim\":{\"left\":38.4,\"top\":734.4000000000001,\"right\":806.4,\"bottom\":1047.6},\"arrowSwitch\":{\"left\":1638,\"top\":857.1999999999999,\"right\":1818,\"bottom\":957.1999999999999}},\"poseButtons\":[{\"pose\":\"standing\",\"rect\":{\"left\":883.2,\"right\":1094.3999999999999,\"top\":950.4,\"bottom\":1047.6}},{\"pose\":\"staggered\",\"rect\":{\"left\":1113.6000000000001,\"right\":1324.8,\"top\":950.4,\"bottom\":1047.6}},{\"pose\":\"downed\",\"rect\":{\"left\":1344,\"right\":1555.1999999999998,\"top\":950.4,\"bottom\":1047.6}}],\"pauseRect\":{\"left\":1720,\"top\":16,\"right\":1900,\"bottom\":116},\"resetRect\":{\"left\":1528,\"top\":16,\"right\":1708,\"bottom\":116},\"width\":1920,\"height\":1080,\"safe\":{\"left\":0,\"top\":0,\"right\":1920,\"bottom\":1080},\"projection\":{\"topLeft\":{\"x\":0,\"y\":0},\"bottomRight\":{\"x\":1920,\"y\":1080},\"roundTrip\":{\"x\":3.4999999999999982,\"y\":3.8499999999999996}},\"pose\":{\"player\":{\"pose\":\"downed\",\"aimRad\":0.524514160843696,\"armControlWeight\":1,\"drawing\":false,\"drawAmount\":0,\"alive\":true,\"bowFlex\":0,\"bowReleasing\":false,\"jointControlWeights\":{\"neck\":0,\"waist\":0,\"leftShoulder\":0.8,\"leftElbow\":0.8,\"rightShoulder\":0.8,\"rightElbow\":0.8,\"leftHip\":0,\"leftKnee\":0,\"rightHip\":0,\"rightKnee\":0}},\"enemy\":{\"pose\":\"standing\",\"aimRad\":0,\"armControlWeight\":1,\"drawing\":false,\"drawAmount\":0,\"alive\":true,\"bowFlex\":0,\"bowReleasing\":false,\"jointControlWeights\":{\"neck\":1,\"waist\":1,\"leftShoulder\":1,\"leftElbow\":1,\"rightShoulder\":1,\"rightElbow\":1,\"leftHip\":1,\"leftKnee\":1,\"rightHip\":1,\"rightKnee\":1}},\"bowSocket\":{\"x\":5.487724685680787,\"y\":3.526556045193831,\"angleRad\":0.524514160843696},\"hands\":{\"bowGrip\":{\"x\":5.487724685680787,\"y\":3.526556045193831},\"stringGrip\":{\"x\":5.01166443424106,\"y\":3.251120361489952},\"bowTarget\":{\"x\":5.701314912619708,\"y\":3.3107783269377697},\"stringTarget\":{\"x\":5.011662644065579,\"y\":3.2511201496878894},\"bowErrorM\":0.30361292584409505,\"stringErrorM\":0.0000018026614672629214,\"ready\":false}},\"combat\":[{\"id\":\"PlayerRagdoll\",\"hp\":100,\"armor\":0,\"hits\":0,\"lastHit\":null},{\"id\":\"EnemyRagdoll\",\"hp\":60,\"armor\":0,\"hits\":0,\"lastHit\":null}],\"projectiles\":0,\"embedded\":0,\"rig\":{\"bodyCount\":11,\"jointCount\":10,\"totalMassKg\":24.000000000000007,\"resetCount\":2,\"ragdolls\":[{\"id\":\"PlayerRagdoll\",\"bodyCount\":11,\"jointCount\":10,\"bodyIds\":[\"head\",\"chest\",\"pelvis\",\"leftUpperArm\",\"leftForearm\",\"rightUpperArm\",\"rightForearm\",\"leftThigh\",\"leftShin\",\"rightThigh\",\"rightShin\"],\"jointIds\":[{}],\"positionsM\":{\"head\":{\"x\":5.499395370483398,\"y\":3.2115840911865234},\"chest\":{\"x\":5.004909515380859,\"y\":3.2757232189178467},\"pelvis\":{\"x\":4.566588401794434,\"y\":3.2866134643554688},\"leftUpperArm\":{\"x\":4.931204319000244,\"y\":3.4826061725616455},\"leftForearm\":{\"x\":4.915589809417725,\"y\":3.351468086242676},\"rightUpperArm\":{\"x\":5.3553667068481445,\"y\":3.1847593784332275},\"rightForearm\":{\"x\":5.467567443847656,\"y\":3.38910174369812},\"leftThigh\":{\"x\":4.266726016998291,\"y\":3.3950672149658203},\"leftShin\":{\"x\":3.8603992462158203,\"y\":3.226383924484253},\"rightThigh\":{\"x\":4.210803508758545,\"y\":3.2113139629364014},\"rightShin\":{\"x\":3.792715549468994,\"y\":3.225792646408081}},\"massesKg\":{\"head\":1.9200000000001265,\"chest\":7.679999546637908,\"pelvis\":4.799999900625531,\"leftUpperArm\":0.9600000286102294,\"leftForearm\":0.9600000261005597,\"rightUpperArm\":0.9600000286102294,\"rightForearm\":0.9600000261005597,\"leftThigh\":1.4399999983279732,\"leftShin\":1.4399999800221668,\"rightThigh\":1.4399999983279732,\"rightShin\":1.4399999800221668},\"maxJointErrorM\":3.995843233079202e-7,\"finite\":true},{\"id\":\"EnemyRagdoll\",\"bodyCount\":11,\"jointCount\":10,\"bodyIds\":[\"head\",\"chest\",\"pelvis\",\"leftUpperArm\",\"leftForearm\",\"rightUpperArm\",\"rightForearm\",\"leftThigh\",\"leftShin\",\"rightThigh\",\"rightShin\"],\"jointIds\":[{}],\"positionsM\":{\"head\":{\"x\":18.108930587768555,\"y\":5.038206100463867},\"chest\":{\"x\":18.040843963623047,\"y\":4.532771587371826},\"pelvis\":{\"x\":17.996814727783203,\"y\":4.095643520355225},\"leftUpperArm\":{\"x\":18.0162410736084,\"y\":4.627863883972168},\"leftForearm\":{\"x\":18.247880935668945,\"y\":4.6258649826049805},\"rightUpperArm\":{\"x\":18.5695858001709,\"y\":4.604910850524902},\"rightForearm\":{\"x\":18.802581787109375,\"y\":4.612500190734863},\"leftThigh\":{\"x\":17.845962524414062,\"y\":3.7572920322418213},\"leftShin\":{\"x\":17.848529815673828,\"y\":3.3172996044158936},\"rightThigh\":{\"x\":18.14493751525879,\"y\":3.7540178298950195},\"rightShin\":{\"x\":18.1449031829834,\"y\":3.3140177726745605}},\"massesKg\":{\"head\":1.9200000000001265,\"chest\":7.679999546637908,\"pelvis\":4.799999900625531,\"leftUpperArm\":0.9600000286102294,\"leftForearm\":0.9600000261005597,\"rightUpperArm\":0.9600000286102294,\"rightForearm\":0.9600000261005597,\"leftThigh\":1.4399999983279732,\"leftShin\":1.4399999800221668,\"rightThigh\":1.4399999983279732,\"rightShin\":1.4399999800221668},\"maxJointErrorM\":0.0000016920734020821714,\"finite\":true}]},\"physicsBodies\":29,\"physicsJoints\":20,\"chestAngleDeg\":-88.48802774767216,\"nativeElbows\":{\"leftElbow\":114.13234185716459,\"rightElbow\":40.173260161220774},\"elbows\":{\"left\":114.1323418571646,\"right\":40.17326016122075}}"
+}

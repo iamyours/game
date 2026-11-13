@@ -1,15 +1,37 @@
-# 当前状态（D038）
+# 当前状态（D040）
 
-version: V2.6
+version: V2.8
 currentMilestone: CONTINUOUS_BATTLE
-currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019 T022
+currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019 T022 T023
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: main 59fac0d + D038连续段落/BOSS/装备道具技能；证据evidence/run-progression-20261113
+sourceRevision: ZIP 3db1535 合并至本机工作区（Git HEAD仍d1bbbb2）；evidence/zip-merge-20261114/verification.md
 configVersion: 2
 runtimeVerified: false
-feelGateG1: BLOCKED（D031历史构建可运行；当前改动无运行包，力度/受击关节/销毁与完整试玩待验）
+feelGateG1: BLOCKED（当前ZIP已真实构建并运行基础烟测；箭长/受击关节/销毁历史失败未放行，完整试玩待验）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## ZIP合并与本机重运行（归档2026-11-14）
+
+- 下载ZIP版本3db1535已合并：33更新/16新增，保留8份本机任务/状态记录、79份既有meta及全部历史证据；完整备份位于工程同级game-merge-backup-20261114-003830。无删除、提交或推送。
+- 179项便携测试、38脚本语法、真实引擎类型前后检查和Creator3.8.8构建均退出0（构建原码36）；编辑器实际新增9份meta。6项新增图音资源清单哈希一致；解码脚本缺numpy退出1，未验听感。
+- 7458服务已重启，当前包在内置浏览器实际显示：敌箭扣血/死亡结算/再开局和暂停菜单已烟测，日志未见warn/error；游戏页保持暂停供继续。未验完整BOSS/45战轮换、长局、真机及旧失败项，不放行G1或发布。
+- 完整命令、退出码、源码/构建哈希及截图：`evidence/zip-merge-20261114/verification.md`。历史证据仍保留且不混用。
+
+## 本机最新拉取与Chrome复验（2026-11-13）
+
+- 已通过已有本机代理的SSH443安全fetch并快进main：6795b5d→d1bbbb2（6个提交），均退出0；原有未跟踪证据保留，无提交/推送或全局设置变更。
+- Creator3.8.8真实导入新增16个meta；168项检查、引擎类型、37脚本语法及当前Web构建退出0。Chrome已打开当前默认连续模式，箭矢飞行/残留/多横屏布局回归退出0，真实遗迹美术已查看。
+- arcade首跑导航中止，重试在读取退场UIOpacity时null异常；T004固定箭长断言失败；leftShin/impact锚点误差0.0343846m超0.02m；生命周期测试30次重开+61.06秒墙钟后11个null destroy异常。上述命令退出1，不放行G1。
+- 旧稳定性脚本到5击败时停在新版奖励模态，未驱动后续段落，不能称61秒持续击杀/15分钟或BOSS长局验收。T022真实BOSS/技能和手机/渠道仍待验。
+- 命令、版本、退出码、截图和局限：`evidence/latest-pull-20261113/verification.md`。旧基线6795b5d证据单独保留于`evidence/pull-test-20261113`，不得混用。入口`http://127.0.0.1:7458/`，练习加`?practice=1`。
+
+## D039 / D040 命中、音乐与远征目标（2026-11-13）
+
+- 命中补45ms扎入、短箭尾余震及身体遮挡；原共享冲量保持，胸部传力保留有界力臂，马达先让位再平滑恢复。头颈底层按真实姿态连接，碰撞和关节不改。
+- 三场景风暴/霜月/余烬每15战轮换，三类BOSS保留两阶段并调整精度/伤害；四首原创合成立体声循环音乐已接入首触发声、渐变及独立开关。异步场景切换防迟到反写，引用数量有界。
+- 三种局内挑战、无伤连杀和实际奖励替代；五级本地修炼/下一局最高10%伤害传承，检查点幂等、失败重试、坏档/未来版本保护，不覆写旧最高分或关卡存档。手机暂停和结算补音乐/修炼反馈。
+- 规则、生产调用夹具、实际资源解码和离线界面检查见evidence/expedition-20261113/verification.md。当前Creator类型/构建/真实Web仍因缺编辑器/导入/运行包BLOCKED，T023为IN_PROGRESS，发布/G1/原D031失败项未放行。
 
 ## D038 持续对战、BOSS与装备道具技能（2026-11-13）
 

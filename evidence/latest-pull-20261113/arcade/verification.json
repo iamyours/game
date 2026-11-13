@@ -1,0 +1,6 @@
+{
+  "passed": false,
+  "scope": "Native arcade loop, AI fire, isolated hit/death injection and real reward input; not manual aim or G1 acceptance",
+  "errors": [],
+  "failure": "Error: page.goto: net::ERR_ABORTED; maybe frame was detached?\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:7458/\", waiting until \"load\"\u001b[22m\n"
+}

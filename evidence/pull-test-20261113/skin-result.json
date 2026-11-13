@@ -1,0 +1,6 @@
+{
+  "command": "node evidence/pull-test-20261113/skin-smoke.mjs",
+  "exitCode": 1,
+  "start": "2026-11-13T21:11:35.288424+08:00",
+  "end": "2026-11-13T21:11:47.828796+08:00"
+}

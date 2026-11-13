@@ -47,6 +47,16 @@ export class ArrowResidues<T> {
 
 export interface TrailPoint { x: number; y: number }
 
+/** Pure visual tip travel and shaft vibration; never adds a second physics impulse. */
+export function embeddedArrowPose(ageSec: number, impulseNs: number, terrain: boolean) {
+  const age = Math.max(0, ageSec), strength = Math.max(0, Math.min(1, impulseNs / 22));
+  const depth = terrain ? 0.025 + 0.02 * strength : 0.07 + 0.09 * strength;
+  const sink = Math.min(1, age / 0.045), life = terrain ? 0.22 : 0.32;
+  const envelope = Math.max(0, 1 - age / life) ** 2;
+  return { penetrationM: depth * (1 - (1 - sink) ** 3),
+    angleRad: age >= life ? 0 : Math.sin(age * Math.PI * 2 * (terrain ? 23 : 17)) * envelope * (0.045 + 0.075 * strength) };
+}
+
 /** Render-only retirement envelope, evaluated in simulation time. Native cleanup still owns the lifetime. */
 export function retirementOpacity(ageSec: number, lifetimeSec: number): number {
   const remaining = Math.max(0, Math.min(1, (lifetimeSec - ageSec) / Math.min(0.6, lifetimeSec)));

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "git",
+    "-c",
+    "core.sshCommand=/usr/bin/ssh -i /Users/mac/.ssh/id_ed25519_iamyours_game -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=15 -o ServerAliveInterval=5 -o ServerAliveCountMax=2 -o \"ProxyCommand=/usr/bin/nc -X 5 -x 127.0.0.1:7897 %h %p\"",
+    "ls-remote",
+    "origin",
+    "refs/heads/main"
+  ],
+  "exitCode": 128
+}

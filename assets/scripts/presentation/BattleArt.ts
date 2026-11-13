@@ -2,6 +2,16 @@ import { Color, type Graphics } from 'cc';
 import { PhysicsAdapter as P } from '../physics/PhysicsAdapter';
 import { BOWS, type SkillMark } from '../domain/BattleLoadout';
 
+/** A short, rounded underlay bridges the transparent collar and rounded jaw sprites. */
+export function drawNeckBridge(g: Graphics, from: { x: number; y: number }, to: { x: number; y: number }, widthM: number): void {
+  for (const [width, hex] of [[widthM + 0.025, '#513B32'], [widthM, '#D9A472']] as const) {
+    g.strokeColor = new Color().fromHEX(hex); g.fillColor = new Color().fromHEX(hex); g.lineWidth = P.units(width);
+    g.moveTo(P.units(from.x), P.units(from.y)); g.lineTo(P.units(to.x), P.units(to.y)); g.stroke();
+    g.circle(P.units(from.x), P.units(from.y), P.units(width / 2));
+    g.circle(P.units(to.x), P.units(to.y), P.units(width / 2)); g.fill();
+  }
+}
+
 /** Code-native stone/bronze family. All solid-looking art stays inside the existing collider. */
 export function drawRuinsPlatform(g: Graphics, widthM: number, hero = false): void {
   const half = widthM / 2;

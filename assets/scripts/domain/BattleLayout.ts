@@ -23,7 +23,7 @@ export function cooldownProgress(remainingSec: number, lastIntervalSec: number):
 export function battleResultLayout(safe: Rect, minimumTouchSize: number) {
   const touchSize = Math.ceil(minimumTouchSize);
   const cx = (safe.left + safe.right) / 2, cy = (safe.top + safe.bottom) / 2;
-  const width = Math.min(620, safe.right - safe.left - 40), height = Math.max(320, touchSize + 200);
+  const width = Math.min(620, safe.right - safe.left - 40), height = Math.max(380, touchSize + 240);
   const panel = { left: cx - width / 2, right: cx + width / 2, top: cy - height / 2, bottom: cy + height / 2 };
   const retryWidth = Math.min(Math.max(280, touchSize * 2), width - 48), retryHeight = Math.max(92, touchSize);
   const retry = { left: cx - retryWidth / 2, right: cx + retryWidth / 2,
@@ -34,10 +34,10 @@ export function battleResultLayout(safe: Rect, minimumTouchSize: number) {
 export function battlePauseLayout(safe: Rect, minimumTouchSize: number) {
   const touch = Math.ceil(minimumTouchSize), result = battleResultLayout(safe, minimumTouchSize);
   const cx = (safe.left + safe.right) / 2, cy = (safe.top + safe.bottom) / 2, height = Math.max(420, touch * 2 + 220);
-  const panelWidth = Math.min(safe.right - safe.left - 40, Math.max(result.panel.right - result.panel.left, touch * 3 + 72));
+  const panelWidth = Math.min(safe.right - safe.left - 40, Math.max(result.panel.right - result.panel.left, touch * 4 + 84));
   const panel = { left: cx - panelWidth / 2, right: cx + panelWidth / 2, top: cy - height / 2, bottom: cy + height / 2 };
-  const width = (panel.right - panel.left - 72) / 3, h = Math.max(92, touch);
-  const options = Array.from({ length: 3 }, (_, i) => ({ left: panel.left + 24 + i * (width + 12),
+  const width = (panel.right - panel.left - 84) / 4, h = Math.max(92, touch);
+  const options = Array.from({ length: 4 }, (_, i) => ({ left: panel.left + 24 + i * (width + 12),
     right: panel.left + 24 + i * (width + 12) + width, top: panel.top + 130, bottom: panel.top + 130 + h }));
   return { panel, options, retry: { ...result.retry, top: panel.bottom - h - 28, bottom: panel.bottom - 28 },
     summary: { x: cx, y: panel.top + 68 } };

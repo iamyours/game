@@ -1,5 +1,6 @@
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import { randomUnit } from './BattleRules';
+import { biomeForStage } from './Expedition';
 
 type Arrow = PhysicsLabConfig['arrows'][number];
 export const RUN_RULES = { stageSize: 5, maxPerkRank: 3, upgradeHp: 10, recoverHp: 35,
@@ -70,14 +71,20 @@ export class RunProgression {
     const interval: [number, number] = kind === 'hunter' ? [1.9, 2.3] : kind === 'sniper' ? [3.1, 3.5] : boss ? [2.8, 3.2] : elite ? [2.1, 2.5] : [...base.attackIntervalRangeSec];
     const names = { archer: '弓手', hunter: '快弓猎手', sniper: '神射手', heavy: '重弓守卫', elite: '精英守关', boss: '遗迹守望者' };
     const hints = { archer: '瞄准头部，或射伤持弓臂', hunter: '出箭快 · 抢先打断持弓臂', sniper: '长蓄势、瞄得准 · 抓住拉弓空档', heavy: '身体更重 · 用重矢或瞄准头部', elite: '半血后加快出箭 · 头部仍可一击制胜', boss: '蓄力重矢 → 半血快射 · 头部双倍伤害' };
+    const biome = biomeForStage(this.stage);
+    if (boss) {
+      names.boss = biome.boss;
+      hints.boss = biome.id === 'frost' ? '远程精射 → 半血快射 · 抓住长蓄势' : biome.id === 'ember' ? '重弓高伤 → 半血快射 · 留好药瓶' : hints.boss;
+    }
     return { kind, name: names[kind], hint: hints[kind], rocking: kind === 'hunter' || (elite && this.stage % 2 === 0),
       massMultiplier: kind === 'heavy' || elite || boss ? cfg.arcade.heavyMassMultiplier : 1,
       tint: boss ? '#FFE0A3' : elite ? '#F1BD69' : kind === 'sniper' ? '#91C7E0' : kind === 'hunter' ? '#9ED1AA' : kind === 'heavy' ? '#C99BDE' : '#E98575',
       spec: { ...base, helmetDurability: 0, hp: boss ? RUN_RULES.bossHp : elite ? 100 : base.hp,
         attackIntervalRangeSec: [interval[0] * (1 - pressure), interval[1] * (1 - pressure)],
         telegraphSec: kind === 'sniper' || boss ? 0.95 : kind === 'hunter' ? 0.42 : elite ? 0.7 : base.telegraphSec,
-        aimErrorDeg: kind === 'sniper' ? 0.8 : kind === 'hunter' ? 5 : base.aimErrorDeg,
-        arrowBaseDamage: boss ? 18 : base.arrowBaseDamage,
+        aimErrorDeg: kind === 'sniper' || (boss && biome.id === 'frost') ? 0.8 : kind === 'hunter' ? 5 : base.aimErrorDeg,
+        arrowBaseDamage: boss ? biome.id === 'ember' ? 22 : 18 : base.arrowBaseDamage,
+        ...(boss && biome.id === 'frost' ? { speedMps: base.speedMps * 1.12 } : {}),
         ...(elite || boss ? { phaseTwoHpRatio: 0.5, phaseTwoIntervalMultiplier: boss ? 0.65 : 0.85 } : {}) } };
   }
   public reset(): void { this.kills = 0; this.ranks = {}; this.options = []; this.awaiting = false; this.previousKind = null; this.bossReward = false; }

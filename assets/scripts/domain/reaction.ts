@@ -20,6 +20,12 @@ export function splitHitImpulse(totalNs: number, massKg: number, localShare: num
   return { localNs, torsoNs: totalNs - localNs };
 }
 
+/** Preserve the hit's lever arm on the torso without a remote limb producing unbounded torque. */
+export function transferredImpulsePoint(hit: { x: number; y: number }, center: { x: number; y: number }) {
+  return { x: center.x + Math.max(-0.22, Math.min(0.22, hit.x - center.x)),
+    y: center.y + Math.max(-0.3, Math.min(0.3, hit.y - center.y)) };
+}
+
 /** Let the impulse propagate through temporarily softer joints. */
 export function planReaction(partId: string, profile: Profile, effectiveStrength: number,
   playerArmRecovery?: readonly [number, number]): readonly JointReaction[] {
@@ -61,7 +67,11 @@ export class ReactionWeights {
   }
   public weight(joint: RigJointId): number {
     const r = this.active.get(joint);
-    return r ? r.weight + (1 - r.weight) * Math.min(1, r.elapsed / r.duration) : 1;
+    if (!r) return 1;
+    // Give the real impulse 2–7 fixed steps before the motors start pulling back.
+    const hold = Math.min(0.12, r.duration * 0.3);
+    const t = Math.max(0, Math.min(1, (r.elapsed - hold) / (r.duration - hold)));
+    return r.weight + (1 - r.weight) * t * t * (3 - 2 * t);
   }
   public clear(): void { this.active.clear(); }
 }

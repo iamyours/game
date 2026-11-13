@@ -1,0 +1,50 @@
+{
+  "original": true,
+  "sampleRate": 22050,
+  "tracks": {
+    "storm": {
+      "bpm": 88,
+      "bars": 16,
+      "seconds": 43.636371882086166,
+      "channels": 2,
+      "peak": 0.4892883992388025,
+      "rms": 0.09999310729450821,
+      "seamStep": 0.0011713765946472082,
+      "bytes": 289736,
+      "sha256": "53b9bd05972440a874bcf5eb7675864de5a9d3ebfbac46948614a873beb7f09f"
+    },
+    "frost": {
+      "bpm": 76,
+      "bars": 16,
+      "seconds": 50.52630385487528,
+      "channels": 2,
+      "peak": 0.4900587148415941,
+      "rms": 0.09999904951792134,
+      "seamStep": 0.0005100002657830865,
+      "bytes": 295315,
+      "sha256": "757db145c53bafb214c00f494266c0225afd0501bfc631335a329e64db5992b2"
+    },
+    "ember": {
+      "bpm": 96,
+      "bars": 16,
+      "seconds": 40.0,
+      "channels": 2,
+      "peak": 0.4998467384875438,
+      "rms": 0.09998530750419064,
+      "seamStep": 0.001150116965500339,
+      "bytes": 286886,
+      "sha256": "ebc11b99ac2b4d8ce938b75131037acaab4a618cfaafdac1645b18645511d899"
+    },
+    "boss": {
+      "bpm": 112,
+      "bars": 16,
+      "seconds": 34.285714285714285,
+      "channels": 2,
+      "peak": 0.5797442160048909,
+      "rms": 0.09999596619262904,
+      "seamStep": 0.0019488543105306289,
+      "bytes": 253436,
+      "sha256": "922c2ee5331cea97f3c620f59ece665bcfe5cdbbd67f2277f64145f9bcd44bde"
+    }
+  }
+}

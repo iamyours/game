@@ -1,0 +1,11 @@
+{
+  "command": [
+    "git",
+    "-c",
+    "core.sshCommand=/usr/bin/ssh -p 443 -o Hostname=ssh.github.com -i /Users/mac/.ssh/id_ed25519_iamyours_game -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -o ServerAliveInterval=5 -o ServerAliveCountMax=1",
+    "fetch",
+    "origin",
+    "--prune"
+  ],
+  "exitCode": 128
+}

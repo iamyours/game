@@ -1,0 +1,3103 @@
+{
+  "passed": false,
+  "status": "FAILED",
+  "scope": "Real Creator/Box2D lifecycle stress with injected head hits and HP refills; not manual combat, projectile collision or G1",
+  "listenerCoverage": "Cocos callbacks owned by lab + projectile pool; browser/OS excluded",
+  "errors": [
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)",
+    "TypeError: Cannot read properties of null (reading 'destroy')\n    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\n    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\n    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\n    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\n    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\n    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\n    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\n    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\n    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)"
+  ],
+  "restarts": [
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    }
+  ],
+  "samples": [
+    {
+      "elapsedMs": 121,
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "arcade": {
+        "score": 0,
+        "enemyShots": 0,
+        "enemyId": "Enemy_31",
+        "stage": 1,
+        "progress": 0,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": "archer",
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 1,
+        "platformCount": 1,
+        "dropCount": 0,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 1467,
+      "native": {
+        "bodies": 28,
+        "joints": 20
+      },
+      "arcade": {
+        "score": 1,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 1,
+        "progress": 1,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 1,
+        "platformCount": 1,
+        "dropCount": 1,
+        "nextSpawnSec": 0.849999999999999
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 2492,
+      "native": {
+        "bodies": 40,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 1,
+        "enemyShots": 0,
+        "enemyId": "Enemy_32",
+        "stage": 1,
+        "progress": 1,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": "archer",
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 3705,
+      "native": {
+        "bodies": 41,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 2,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 1,
+        "progress": 2,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.4500000000000024
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 5097,
+      "native": {
+        "bodies": 53,
+        "joints": 40
+      },
+      "arcade": {
+        "score": 2,
+        "enemyShots": 0,
+        "enemyId": "Enemy_33",
+        "stage": 1,
+        "progress": 2,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": "heavy",
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 3,
+        "platformCount": 3,
+        "dropCount": 2,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 6266,
+      "native": {
+        "bodies": 41,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 3,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 1,
+        "progress": 3,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.3000000000000025
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 7476,
+      "native": {
+        "bodies": 53,
+        "joints": 40
+      },
+      "arcade": {
+        "score": 3,
+        "enemyShots": 0,
+        "enemyId": "Enemy_34",
+        "stage": 1,
+        "progress": 3,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": "hunter",
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 3,
+        "platformCount": 3,
+        "dropCount": 2,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 8641,
+      "native": {
+        "bodies": 41,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 4,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 1,
+        "progress": 4,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.4166666666666696
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 9848,
+      "native": {
+        "bodies": 53,
+        "joints": 40
+      },
+      "arcade": {
+        "score": 4,
+        "enemyShots": 0,
+        "enemyId": "Enemy_35",
+        "stage": 1,
+        "progress": 4,
+        "offers": [],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": false,
+        "encounter": "elite",
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 3,
+        "platformCount": 3,
+        "dropCount": 2,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 10994,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 12707,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 14285,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 15738,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 16799,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 17922,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 20834,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 22062,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 23648,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 24911,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 26093,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 27469,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 28574,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 29742,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 31353,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 32713,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 34740,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 36402,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 37788,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 38839,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 40076,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 41681,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 43421,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 45411,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 46518,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 47600,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 48719,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 50119,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 51153,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 52285,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 53327,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 54581,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 55603,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 56631,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 57662,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 58698,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 59980,
+      "native": {
+        "bodies": 42,
+        "joints": 30
+      },
+      "arcade": {
+        "score": 5,
+        "enemyShots": 0,
+        "enemyId": null,
+        "stage": 2,
+        "progress": 0,
+        "offers": [
+          "forge",
+          "recover",
+          "normal"
+        ],
+        "upgrades": {},
+        "loadout": {
+          "bow": "thunder",
+          "level": 1,
+          "levels": {
+            "thunder": 1,
+            "gale": 1,
+            "moon": 1
+          },
+          "items": {
+            "potion": 2,
+            "rune": 1
+          },
+          "energy": 100,
+          "primed": null,
+          "rune": false
+        },
+        "rewardReady": true,
+        "encounter": null,
+        "boss": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 3,
+        "nextSpawnSec": 1.1333333333333337
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    }
+  ],
+  "runtime": {
+    "version": "3.8.8",
+    "backend": "b2PhysicsWorld"
+  },
+  "diagnostics": {
+    "totalSamples": 2246,
+    "retainedSamples": 2246,
+    "observedDurationSec": 103.90483333333333,
+    "meanFrameMs": 46.26216978331849,
+    "worstFrameMs": 818.5999999996275,
+    "peakBodies": 54,
+    "percentileScope": "last retained samples",
+    "p50FrameMs": 19.199999999720603,
+    "p95FrameMs": 176.39999999990687,
+    "p99FrameMs": 281,
+    "restartCountRetained": 3,
+    "monotonicGrowth": {
+      "bodies": true,
+      "joints": false,
+      "listeners": false
+    },
+    "restartSnapshots": [
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 190.6999999997206,
+        "memoryBytes": 32776008,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 84,
+        "memoryBytes": 82256280,
+        "listeners": 7
+      },
+      {
+        "bodies": 28,
+        "joints": 20,
+        "frameMs": 47.5,
+        "memoryBytes": 47230863,
+        "listeners": 7
+      }
+    ],
+    "acceptance": "NOT_EVALUATED"
+  },
+  "durationMs": 61060,
+  "disposal": {
+    "listeners": {
+      "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+      "globals": 0,
+      "contacts": 0,
+      "cocosTotal": 0
+    },
+    "bodies": 1,
+    "joints": 0
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)',\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\\n\" +\n+     '    at ArcadeBattle.dispose (http://127.0.0.1:7458/assets/main/index.js:363:30)\\n' +\n+     '    at PhysicsLab.onDestroy (http://127.0.0.1:7458/assets/main/index.js:3901:66)\\n' +\n+     '    at NodeActivator.destroyComp (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:46258:18)\\n' +\n+     '    at PhysicsLab._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:24201:44)\\n' +\n+     '    at PhysicsLab._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at Node._onPreDestroyBase (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28362:24)\\n' +\n+     '    at Node._onPreDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:28404:23)\\n' +\n+     '    at Node._destroyImmediate (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11557:93)\\n' +\n+     '    at CCObject._deferredDestroy (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:11511:19)\\n' +\n+     '    at Director.tick (http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js:47531:24)'\n+ ]\n- []\n"
+}

@@ -1,0 +1,16 @@
+{
+  "sourceRevision": "6795b5da288e9d4e083ce26fb00545e65a6c17a8",
+  "cachedOriginMain": "6795b5da288e9d4e083ce26fb00545e65a6c17a8",
+  "remoteFreshnessVerified": false,
+  "node": "v24.13.0",
+  "npm": "11.6.2",
+  "typescript": "5.9.3",
+  "creator": "3.8.8",
+  "platform": "ProductName:\tmacOS\nProductVersion:\t12.7.4\nBuildVersion:\t21H1123\n",
+  "originalUntrackedEvidence": [
+    "evidence/T004/creator-compile-fix/web-runtime.png",
+    "evidence/arcade/runtime/",
+    "evidence/arcade/stability/"
+  ],
+  "buildIndexSha256": "bf8fa1c7bf448f0d50ecbe94005e7355e6d615851e79e9822f9801c83695c123"
+}

@@ -1,0 +1,26 @@
+{
+  "assets/resources/scenery/frost-sanctum-v1.png": {
+    "sha256": "145e828bde9d8ba579661861634645540c1b322c3875c3ffbdb7f08485262d6c",
+    "bytes": 2266071
+  },
+  "assets/resources/scenery/ember-citadel-v1.png": {
+    "sha256": "003c804421660c85f8278c841c051a21e0c006af4622bc2a25dfd661e363a0d3",
+    "bytes": 2025932
+  },
+  "assets/resources/audio/music-storm.ogg": {
+    "sha256": "53b9bd05972440a874bcf5eb7675864de5a9d3ebfbac46948614a873beb7f09f",
+    "bytes": 289736
+  },
+  "assets/resources/audio/music-frost.ogg": {
+    "sha256": "757db145c53bafb214c00f494266c0225afd0501bfc631335a329e64db5992b2",
+    "bytes": 295315
+  },
+  "assets/resources/audio/music-ember.ogg": {
+    "sha256": "ebc11b99ac2b4d8ce938b75131037acaab4a618cfaafdac1645b18645511d899",
+    "bytes": 286886
+  },
+  "assets/resources/audio/music-boss.ogg": {
+    "sha256": "922c2ee5331cea97f3c620f59ece665bcfe5cdbbd67f2277f64145f9bcd44bde",
+    "bytes": 253436
+  }
+}

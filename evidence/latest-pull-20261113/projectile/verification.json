@@ -1,0 +1,243 @@
+{
+  "status": "PASSED_SCOPED_RUNTIME",
+  "passed": true,
+  "scope": "Real Creator/Box2D projectile flight, physical terrain impacts, residue expiry and landscape layout. Direct fire bypasses gestures; not G1.",
+  "errors": [],
+  "cases": {
+    "projectiles": {
+      "start": {
+        "x": 18,
+        "y": 0
+      },
+      "velocity": {
+        "x": 18,
+        "y": -0.9800000786781311
+      },
+      "angle": -0.05439074957936094,
+      "counts": [
+        {
+          "flying": 0,
+          "embedded": 1,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        },
+        {
+          "flying": 0,
+          "embedded": 2,
+          "pool": 1
+        }
+      ],
+      "beforePause": 2,
+      "afterPause": 2,
+      "expired": 0,
+      "clear": 0
+    },
+    "layouts": [
+      {
+        "width": 1440,
+        "height": 810,
+        "bounds": {
+          "left": 0.6999999999999993,
+          "right": 22.5,
+          "bottom": -1.5812500000000007,
+          "top": 10.68125
+        },
+        "safe": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080
+        },
+        "generatedArt": {
+          "background": {
+            "width": 21.8,
+            "height": 12.269019138755981
+          },
+          "bounds": {
+            "left": 0.6999999999999993,
+            "right": 22.5,
+            "bottom": -1.5812500000000007,
+            "top": 10.68125
+          },
+          "platformWidth": 2.2231640367050067,
+          "slices": [
+            {
+              "center": -0.9215820183525034,
+              "width": 0.38,
+              "height": 0.6
+            },
+            {
+              "center": 0,
+              "width": 1.4631640367050067,
+              "height": 0.6
+            },
+            {
+              "center": 0.9215820183525034,
+              "width": 0.38,
+              "height": 0.6
+            }
+          ],
+          "enemyMirror": -1
+        }
+      },
+      {
+        "width": 844,
+        "height": 390,
+        "bounds": {
+          "left": -1.0599999999999987,
+          "right": 24.259999999999998,
+          "bottom": -1.2999999999999998,
+          "top": 10.399999999999999
+        },
+        "safe": {
+          "left": 0,
+          "top": 0,
+          "right": 2337.230769230769,
+          "bottom": 1080
+        },
+        "generatedArt": {
+          "background": {
+            "width": 25.319999999999997,
+            "height": 14.250071770334927
+          },
+          "bounds": {
+            "left": -1.0599999999999987,
+            "right": 24.259999999999998,
+            "bottom": -1.2999999999999998,
+            "top": 10.399999999999999
+          },
+          "platformWidth": 2.2231640367050067,
+          "slices": [
+            {
+              "center": -0.9215820183525034,
+              "width": 0.38,
+              "height": 0.6
+            },
+            {
+              "center": 0,
+              "width": 1.4631640367050067,
+              "height": 0.6
+            },
+            {
+              "center": 0.9215820183525034,
+              "width": 0.38,
+              "height": 0.6
+            }
+          ],
+          "enemyMirror": -1
+        }
+      },
+      {
+        "width": 1024,
+        "height": 768,
+        "bounds": {
+          "left": 0.6999999999999993,
+          "right": 22.5,
+          "bottom": -3.625000000000001,
+          "top": 12.725000000000001
+        },
+        "safe": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1440
+        },
+        "generatedArt": {
+          "background": {
+            "width": 29.051222104144532,
+            "height": 16.35
+          },
+          "bounds": {
+            "left": 0.6999999999999993,
+            "right": 22.5,
+            "bottom": -3.625000000000001,
+            "top": 12.725000000000001
+          },
+          "platformWidth": 2.2231640367050067,
+          "slices": [
+            {
+              "center": -0.9215820183525034,
+              "width": 0.38,
+              "height": 0.6
+            },
+            {
+              "center": 0,
+              "width": 1.4631640367050067,
+              "height": 0.6
+            },
+            {
+              "center": 0.9215820183525034,
+              "width": 0.38,
+              "height": 0.6
+            }
+          ],
+          "enemyMirror": -1
+        }
+      }
+    ]
+  }
+}

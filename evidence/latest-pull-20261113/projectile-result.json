@@ -1,0 +1,6 @@
+{
+  "command": "PROJECTILE_PRESENTATION_EVIDENCE_DIR=evidence/latest-pull-20261113/projectile npm run test:web:projectile-presentation",
+  "exitCode": 0,
+  "start": "2026-11-13T21:21:22.945215+08:00",
+  "end": "2026-11-13T21:23:12.664098+08:00"
+}

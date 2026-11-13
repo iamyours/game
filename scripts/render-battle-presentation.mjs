@@ -66,7 +66,8 @@ const { bowArtStrip, bowArtPoint, spriteShear } = load('assets/scripts/domain/we
 const { InputRouter } = load('assets/scripts/input/InputRouter.ts');
 const { RunProgression } = load('assets/scripts/domain/RunProgression.ts');
 const { BattleLoadout } = load('assets/scripts/domain/BattleLoadout.ts');
-const { drawRuinsPlatform, drawImpactMark, drawChargeCue, drawSkillMark } = load('assets/scripts/presentation/BattleArt.ts');
+const { RunChallenges, CareerRepository, biomeForStage } = load('assets/scripts/domain/Expedition.ts');
+const { drawRuinsPlatform, drawImpactMark, drawChargeCue, drawSkillMark, drawNeckBridge } = load('assets/scripts/presentation/BattleArt.ts');
 const config = JSON.parse(readFileSync('configs/combat.seed.json'));
 const rig = JSON.parse(readFileSync('configs/rig.seed.json'));
 const bodies = new Map(rig.bodyDefinitions.map(b => [b.id, b]));
@@ -76,6 +77,9 @@ const art = Object.fromEntries(['hero', 'enemy'].map(name => [name, {
 }]));
 const scenery = JSON.parse(readFileSync('assets/resources/scenery/ruins-art-v2.json')).assets;
 const backdropImage = readFileSync(scenery.background.path).toString('base64');
+const biomeImages = { storm: backdropImage,
+  frost: readFileSync('assets/resources/scenery/frost-sanctum-v1.png').toString('base64'),
+  ember: readFileSync('assets/resources/scenery/ember-citadel-v1.png').toString('base64') };
 const platformImage = readFileSync(scenery.platform.path).toString('base64');
 function platformSvg(widthM) {
   const { rect: [x, y, w, h], capWidthPx: capPx, capWidthM } = scenery.platform;
@@ -107,6 +111,12 @@ function thunderSvg(socket, hand) {
 }
 function actorSvg(skin, origin, mirrored, angle, bowId = 'thunder') {
   const data = art[skin], elements = [];
+  const neck = new Graphics(), chestBody = bodies.get('chest'), headBody = bodies.get('head');
+  const neckJoint = rig.jointDefinitions.find(j => j.id === 'neck');
+  drawNeckBridge(neck,
+    { x: chestBody.positionM[0] + neckJoint.parentAnchorM[0], y: chestBody.positionM[1] + neckJoint.parentAnchorM[1] - 0.13 },
+    { x: headBody.positionM[0] + neckJoint.childAnchorM[0], y: headBody.positionM[1] + neckJoint.childAnchorM[1] + 0.10 }, 0.12);
+  elements.push(neck.commands.join(''));
   const crop = (id, x, y, w, h, rotation = 0) => {
     const rect = data.spec.frames[id].rect;
     elements.push(`<g transform="translate(${x * 32},${y * 32}) rotate(${rotation})"><g transform="scale(1,-1)"><svg x="${-w * 16}" y="${-h * 16}" width="${w * 32}" height="${h * 32}" viewBox="${rect.join(' ')}" preserveAspectRatio="none"><image width="${data.spec.imageSize[0]}" height="${data.spec.imageSize[1]}" href="data:image/png;base64,${data.image}"/></svg></g></g>`);
@@ -133,7 +143,8 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0], ['phone-pause', 844, 390, 92, 0], ['phone-impact', 844, 390, 92, 0],
   ['phone-normal-hit', 844, 390, 92, 0], ['phone-heavy-hit', 844, 390, 92, 0],
   ['phone-reward', 844, 390, 92, 0], ['desktop-reward', 1440, 810, 92, 0],
-  ['phone-boss', 844, 390, 92, 0], ['phone-moon-skill', 844, 390, 92, 0]].filter(([name]) => !process.env.PREVIEW_VIEWS || process.env.PREVIEW_VIEWS.split(',').includes(name))) {
+  ['phone-boss', 844, 390, 92, 0], ['phone-moon-skill', 844, 390, 92, 0],
+  ['desktop-frost', 1440, 810, 92, 0], ['desktop-ember', 1440, 810, 92, 0]].filter(([name]) => !process.env.PREVIEW_VIEWS || process.env.PREVIEW_VIEWS.split(',').includes(name))) {
   paths.length = 0; screen.windowSize = { width, height };
   const lab = new PhysicsLab(), camera = { node: new Node(), orthoHeight: 0 };
   // The production async asset owner is tested separately; this offline renderer consumes its actual PNG/crops.
@@ -142,12 +153,16 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   lab.projectiles = { setViewBounds() {} }; lab.physics = { setPaused() {} }; lab.soundSource = { stop() {} };
   lab.router = new InputRouter({ ...config.input, initialRad: 0.3, minRad: -0.26, maxRad: 1.3 }, config.arrows, true);
   const progression = new RunProgression(() => 0);
+  if (name === 'desktop-frost' || name === 'desktop-ember') for (let i = 0; i < (name.endsWith('frost') ? 15 : 30); i++) {
+    progression.defeated(); if (progression.pending) progression.choose(progression.offers[0]);
+  }
   const loadout = new BattleLoadout();
-  lab.arcade = { score: 3, progression, loadout, bossStatus: null, get rewardReady() { return progression.pending; }, chooseReward(id) { return progression.choose(id); } };
+  lab.arcade = { score: 3, progression, loadout, challenges: new RunChallenges(), bossStatus: null, get rewardReady() { return progression.pending; }, chooseReward(id) { return progression.choose(id); } };
+  lab.career = new CareerRepository({ getItem: () => null, setItem() {} });
   lab.combatStates = new Map([['PlayerRagdoll', { hp: 92 }]]); lab.shotBudget = { stamina: 78, cooldownSec: cooldown };
   lab.lastShot = { arrowId: 'impact' };
   lab.records = { snapshot: { bestScore: 12, soundEnabled: true }, lastWrite: { ok: true } };
-  for (const id of ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel', 'bossLabel']) lab[id] = new Label();
+  for (const id of ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'musicLabel', 'questLabel', 'fullscreenLabel', 'notice', 'retryLabel', 'bossLabel']) lab[id] = new Label();
   lab.rewardLabels = Array.from({ length: 3 }, () => new Label());
   lab.equipmentButtons = ['bow', 'skill', 'potion', 'rune'].map(kind => ({ kind, label: new Label(), rect: {} }));
   lab.resetLabel.string = '重开'; lab.retryLabel.string = '再来一局';
@@ -218,9 +233,10 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   const ui = lab.hud.commands.join(''), world = new Node(); lab.drawBackdrop(world);
   let worldSvg = world.children.map(n => [...n.components.values()].flatMap(g => g.commands ?? []).join('')).join('');
   const frame = battleFrame(width / height), scale = width / frame.width / 32;
-  const artAspect = scenery.background.imageSize[0] / scenery.background.imageSize[1];
+  const biome = biomeForStage(progression.stage).id;
+  const artAspect = biome === 'storm' ? scenery.background.imageSize[0] / scenery.background.imageSize[1] : 1.5;
   const artWidth = Math.max(frame.width, frame.height * artAspect), artHeight = artWidth / artAspect;
-  worldSvg += `<g transform="translate(${frame.centerX * 32},${frame.centerY * 32}) scale(1,-1)"><image x="${-artWidth * 16}" y="${-artHeight * 16}" width="${artWidth * 32}" height="${artHeight * 32}" href="data:image/png;base64,${backdropImage}"/></g>`;
+  worldSvg += `<g transform="translate(${frame.centerX * 32},${frame.centerY * 32}) scale(1,-1)"><image x="${-artWidth * 16}" y="${-artHeight * 16}" width="${artWidth * 32}" height="${artHeight * 32}" href="data:image/png;base64,${biomeImages[biome]}"/></g>`;
   for (const [x, y, w] of [[3.5, 3, 5], [18.5, 4.1, 2.4]]) {
     worldSvg += `<g transform="translate(${x * 32},${(y - 0.3) * 32})">${platformSvg(w)}</g>`;
   }
@@ -237,7 +253,7 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
     const impact = new Graphics(); drawImpactMark(impact, { x: 18.42, y: tier === 3 ? 6.1 : 5.35 }, 0.2, tier === 3 ? 0.55 : tier === 2 ? 0.43 : 0.28, 0.75, tier);
     worldSvg += impact.commands.join('');
   }
-  const labels = [...['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel', 'bossLabel'].map(key => lab[key]), ...lab.rewardLabels, ...lab.equipmentButtons.map(b => b.label)].map(l => {
+  const labels = [...['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'musicLabel', 'questLabel', 'fullscreenLabel', 'notice', 'retryLabel', 'bossLabel'].map(key => lab[key]), ...lab.rewardLabels, ...lab.equipmentButtons.map(b => b.label)].map(l => {
     if (!l.node.active) return '';
     const lines = l.string.split('\n'), x = l.node.x + lab.viewport.width / 2;
     return `<text x="${x}" y="${lab.viewport.height / 2 - l.node.y}" text-anchor="middle" dominant-baseline="central" font-size="${l.fontSize}" fill="${l.color}">${lines.map((line, i) => `<tspan x="${x}" dy="${i ? l.fontSize * 1.3 : -(lines.length - 1) * l.fontSize * 0.65}">${esc(line)}</tspan>`).join('')}</text>`;

@@ -1,0 +1,637 @@
+{
+  "passed": false,
+  "status": "FAILED",
+  "scope": "Real Creator/Box2D lifecycle stress with injected head hits and HP refills; not manual combat, projectile collision or G1",
+  "listenerCoverage": "Cocos callbacks owned by lab + projectile pool; browser/OS excluded",
+  "errors": [
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')",
+    "TypeError: Cannot read properties of null (reading 'destroy')"
+  ],
+  "restarts": [
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    }
+  ],
+  "samples": [
+    {
+      "elapsedMs": 41,
+      "native": {
+        "bodies": 27,
+        "joints": 20
+      },
+      "arcade": {
+        "score": 0,
+        "enemyShots": 0,
+        "enemyId": "Enemy_31",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 1,
+        "platformCount": 1,
+        "dropCount": 0,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 1066,
+      "native": {
+        "bodies": 28,
+        "joints": 19
+      },
+      "arcade": {
+        "score": 1,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 1,
+        "platformCount": 1,
+        "dropCount": 1,
+        "nextSpawnSec": 0.20000000000000284
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 2113,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 1,
+        "enemyShots": 0,
+        "enemyId": "Enemy_32",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": false,
+        "rocking": true,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 3200,
+      "native": {
+        "bodies": 41,
+        "joints": 28
+      },
+      "arcade": {
+        "score": 2,
+        "enemyShots": 0,
+        "enemyId": null,
+        "pickups": [
+          {}
+        ],
+        "armed": false,
+        "heavy": false,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": false,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 2,
+        "nextSpawnSec": 0.15000000000000346
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    },
+    {
+      "elapsedMs": 4233,
+      "native": {
+        "bodies": 40,
+        "joints": 29
+      },
+      "arcade": {
+        "score": 2,
+        "enemyShots": 0,
+        "enemyId": "Enemy_33",
+        "pickups": [
+          {}
+        ],
+        "armed": true,
+        "heavy": true,
+        "rocking": false,
+        "rejectedShots": 0,
+        "telegraph": true,
+        "bodiesRetained": 2,
+        "platformCount": 2,
+        "dropCount": 1,
+        "nextSpawnSec": null
+      },
+      "pool": 0,
+      "listeners": {
+        "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+        "globals": 7,
+        "contacts": 0,
+        "cocosTotal": 7
+      }
+    }
+  ],
+  "runtime": {
+    "version": "3.8.8",
+    "backend": "b2PhysicsWorld"
+  },
+  "diagnostics": {
+    "totalSamples": 1922,
+    "retainedSamples": 1922,
+    "observedDurationSec": 33.93229999999981,
+    "meanFrameMs": 17.654682622268375,
+    "worstFrameMs": 175.1000000005588,
+    "peakBodies": 53,
+    "percentileScope": "last retained samples",
+    "p50FrameMs": 16.700000000186265,
+    "p95FrameMs": 25.5,
+    "p99FrameMs": 43.5,
+    "restartCountRetained": 4,
+    "monotonicGrowth": {
+      "bodies": true,
+      "joints": false,
+      "listeners": false
+    },
+    "restartSnapshots": [
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 17.700000000186265,
+        "memoryBytes": 32421698,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 16.90000000037253,
+        "memoryBytes": 33257615,
+        "listeners": 7
+      },
+      {
+        "bodies": 27,
+        "joints": 20,
+        "frameMs": 20,
+        "memoryBytes": 54405239,
+        "listeners": 7
+      },
+      {
+        "bodies": 28,
+        "joints": 19,
+        "frameMs": 16.100000000558794,
+        "memoryBytes": 90056635,
+        "listeners": 7
+      }
+    ],
+    "acceptance": "NOT_EVALUATED"
+  },
+  "durationMs": 5262,
+  "disposal": {
+    "listeners": {
+      "scope": "Cocos callbacks owned by this lab and its projectile pool; DOM/OS excluded",
+      "globals": 0,
+      "contacts": 0,
+      "cocosTotal": 0
+    },
+    "bodies": 1,
+    "joints": 0
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\",\n+   \"TypeError: Cannot read properties of null (reading 'destroy')\"\n+ ]\n- []\n"
+}

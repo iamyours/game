@@ -1,0 +1,347 @@
+Updating 6795b5d..d1bbbb2
+Fast-forward
+ AGENTS.md                                          |   5 +-
+ assets/resources/audio/README.md                   |   2 +-
+ assets/resources/audio/hit-critical.wav            | Bin 0 -> 7982 bytes
+ assets/resources/audio/hit-heavy.wav               | Bin 0 -> 5336 bytes
+ assets/resources/audio/hit.wav                     | Bin 3572 -> 3572 bytes
+ .../characters/enemy-ruins-v2-frames.json          | 144 +++++++
+ assets/resources/characters/enemy-ruins-v2.png     | Bin 0 -> 703530 bytes
+ .../resources/characters/hero-ruins-v2-frames.json | 144 +++++++
+ assets/resources/characters/hero-ruins-v2.png      | Bin 0 -> 806389 bytes
+ assets/resources/config/combat.json                |  12 +-
+ assets/resources/config/levels.json                |   2 +-
+ assets/resources/config/manifest.json              |   2 +-
+ assets/resources/config/platform.json              |   2 +-
+ assets/resources/config/rig.json                   |   2 +-
+ assets/resources/scenery/ruins-art-v2.json         |  53 +++
+ assets/resources/scenery/ruins-platform-v2.png     | Bin 0 -> 1374806 bytes
+ assets/resources/scenery/storm-ruins-v2.png        | Bin 0 -> 1751926 bytes
+ assets/scripts/combat/ArcadeBattle.ts              | 142 +++++--
+ assets/scripts/combat/HitResolver.ts               |   5 +-
+ assets/scripts/combat/ProjectileSystem.ts          |  92 +++-
+ assets/scripts/domain/BattleLayout.ts              |  65 +++
+ assets/scripts/domain/BattleLoadout.ts             |  78 ++++
+ assets/scripts/domain/PickupRules.ts               |  11 +-
+ assets/scripts/domain/ProjectilePresentation.ts    |  97 +++++
+ assets/scripts/domain/RunProgression.ts            |  85 ++++
+ assets/scripts/domain/weaponGeometry.ts            |   4 +-
+ assets/scripts/physics/RagdollFactory.ts           |   8 -
+ assets/scripts/presentation/BattleArt.ts           |  80 ++++
+ assets/scripts/presentation/CharacterSkin.ts       |  16 +-
+ assets/scripts/presentation/LabViewport.ts         |  29 +-
+ assets/scripts/presentation/PhysicsLab.ts          | 427 +++++++++++++++++--
+ assets/scripts/presentation/RuinsArtAssets.ts      | 108 +++++
+ assets/scripts/presentation/ThunderWeaponSkin.ts   |  18 +-
+ assets/scripts/presentation/WeaponVisual.ts        |  22 +-
+ build-templates/web-desktop/index.ejs              |  20 +-
+ configs/combat.seed.json                           |  10 +-
+ docs/ACCEPTANCE.md                                 |  25 +-
+ docs/ARCADE_MODE.md                                |   4 +
+ docs/ARCHITECTURE.md                               |  24 ++
+ docs/ART_DIRECTION.md                              |  52 +++
+ docs/ART_SPEC.md                                   |   4 +
+ docs/CONTINUOUS_HANDOFF.md                         |   2 +-
+ docs/CURRENT_REVIEW_20261112.md                    |  62 +++
+ docs/DECISIONS.md                                  |  18 +
+ docs/IMMERSIVE_ART.md                              |  42 ++
+ docs/IMMERSIVE_ART_PROMPTS.json                    |  26 ++
+ docs/NON_GORY_FEEL.md                              |  37 ++
+ docs/PLAN.md                                       |  38 +-
+ docs/PLAYER_EXPERIENCE_REVIEW.md                   |  31 ++
+ docs/PRD.md                                        |  24 ++
+ docs/PROJECTILE_PRESENTATION.md                    |  35 ++
+ docs/QA.md                                         |   2 +-
+ docs/RUN_VARIETY.md                                |  70 ++++
+ docs/STATUS.md                                     |  63 ++-
+ docs/art-manifest.json                             | 187 +++++++++
+ .../art-direction-20261113/arrow-asset-qa.json     |  25 ++
+ .../assets-contact-sheet.png                       | Bin 0 -> 89063 bytes
+ evidence/art-direction-20261113/build-web.log      |   8 +
+ evidence/art-direction-20261113/check-syntax.log   |   6 +
+ .../art-direction-20261113/command-results.json    |  32 ++
+ .../art-direction-20261113/desktop-offline.png     | Bin 0 -> 84428 bytes
+ .../art-direction-20261113/interaction-qa.json     |  71 ++++
+ .../phone-cooldown-offline.png                     | Bin 0 -> 30786 bytes
+ .../phone-defeat-offline.png                       | Bin 0 -> 28053 bytes
+ .../phone-impact-offline.png                       | Bin 0 -> 31883 bytes
+ .../art-direction-20261113/phone-pause-offline.png | Bin 0 -> 30273 bytes
+ .../art-direction-20261113/phone-wide-offline.png  | Bin 0 -> 31483 bytes
+ .../presentation-layout.json                       | 311 ++++++++++++++
+ .../preview-presentation.log                       |   6 +
+ .../art-direction-20261113/source-snapshot.json    |  28 ++
+ .../art-direction-20261113/square-asset-qa.json    |  65 +++
+ .../art-direction-20261113/typecheck-engine.log    |   7 +
+ evidence/art-direction-20261113/verification.md    |  32 ++
+ evidence/art-direction-20261113/verify.log         | 221 ++++++++++
+ evidence/immersive-art-20261113/asset-qa.json      |  70 ++++
+ evidence/immersive-art-20261113/build-web.log      |   8 +
+ evidence/immersive-art-20261113/check-syntax.log   |   6 +
+ .../immersive-art-20261113/command-results.json    |  37 ++
+ .../immersive-art-20261113/desktop-offline.png     | Bin 0 -> 1712645 bytes
+ .../immersive-art-20261113/interaction-qa.json     |  82 ++++
+ .../phone-cooldown-offline.png                     | Bin 0 -> 565907 bytes
+ .../phone-defeat-offline.png                       | Bin 0 -> 312619 bytes
+ .../phone-impact-offline.png                       | Bin 0 -> 566595 bytes
+ .../immersive-art-20261113/phone-pause-offline.png | Bin 0 -> 307324 bytes
+ .../immersive-art-20261113/phone-wide-offline.png  | Bin 0 -> 566280 bytes
+ .../presentation-layout.json                       | 362 ++++++++++++++++
+ .../preview-presentation.log                       |   6 +
+ .../runtime/verification.json                      |   8 +
+ .../immersive-art-20261113/source-snapshot.json    |  31 ++
+ evidence/immersive-art-20261113/tablet-offline.png | Bin 0 -> 970299 bytes
+ .../test-web-projectile-presentation.log           |   6 +
+ .../immersive-art-20261113/typecheck-engine.log    |   7 +
+ evidence/immersive-art-20261113/verification.md    |  23 +
+ evidence/immersive-art-20261113/verify.log         | 225 ++++++++++
+ evidence/non-gory-20261113/audio-qa.json           |  45 ++
+ evidence/non-gory-20261113/build-web.log           |   8 +
+ evidence/non-gory-20261113/check-syntax.log        |   6 +
+ evidence/non-gory-20261113/command-results.json    |  37 ++
+ evidence/non-gory-20261113/desktop-offline.png     | Bin 0 -> 1712645 bytes
+ evidence/non-gory-20261113/interaction-qa.json     | 104 +++++
+ .../non-gory-20261113/phone-cooldown-offline.png   | Bin 0 -> 565907 bytes
+ .../non-gory-20261113/phone-defeat-offline.png     | Bin 0 -> 312619 bytes
+ .../non-gory-20261113/phone-heavy-hit-offline.png  | Bin 0 -> 566554 bytes
+ .../non-gory-20261113/phone-impact-offline.png     | Bin 0 -> 566818 bytes
+ .../non-gory-20261113/phone-normal-hit-offline.png | Bin 0 -> 566315 bytes
+ evidence/non-gory-20261113/phone-pause-offline.png | Bin 0 -> 307324 bytes
+ evidence/non-gory-20261113/phone-wide-offline.png  | Bin 0 -> 566280 bytes
+ .../non-gory-20261113/presentation-layout.json     | 464 +++++++++++++++++++++
+ .../non-gory-20261113/preview-presentation.log     |   6 +
+ .../non-gory-20261113/runtime/verification.json    |   5 +
+ evidence/non-gory-20261113/source-snapshot.json    |  39 ++
+ evidence/non-gory-20261113/tablet-offline.png      | Bin 0 -> 970299 bytes
+ evidence/non-gory-20261113/test-web-arcade.log     |   6 +
+ evidence/non-gory-20261113/typecheck-engine.log    |   7 +
+ evidence/non-gory-20261113/verification.md         |  23 +
+ evidence/non-gory-20261113/verify.log              | 228 ++++++++++
+ evidence/player-iteration-20261113/build-web.log   |   8 +
+ .../player-iteration-20261113/command-results.json |  95 +++++
+ .../player-iteration-20261113/desktop-offline.png  | Bin 0 -> 83809 bytes
+ .../player-iteration-20261113/engine-types.log     |   7 +
+ evidence/player-iteration-20261113/environment.log |  19 +
+ .../player-iteration-20261113/interaction-qa.json  |  41 ++
+ .../player-iteration-20261113/local-game-url.log   |   4 +
+ evidence/player-iteration-20261113/offline-ui.log  |   6 +
+ .../phone-cooldown-offline.png                     | Bin 0 -> 31849 bytes
+ .../phone-defeat-offline.png                       | Bin 0 -> 30013 bytes
+ .../phone-wide-offline.png                         | Bin 0 -> 32550 bytes
+ .../presentation-layout.json                       | 209 ++++++++++
+ evidence/player-iteration-20261113/runtime.log     |   6 +
+ .../runtime/verification.json                      |   8 +
+ evidence/player-iteration-20261113/syntax.log      |   6 +
+ evidence/player-iteration-20261113/verification.md |  21 +
+ evidence/player-iteration-20261113/verify.log      | 217 ++++++++++
+ evidence/review-20261112/input-quantization.json   |  24 ++
+ evidence/review-20261112/reference-first-kill.jpg  | Bin 0 -> 53733 bytes
+ evidence/review-20261112/reference-sheet.jpg       | Bin 0 -> 101312 bytes
+ evidence/review-20261112/verification.md           |  10 +
+ evidence/review-20261112/verify.log                | 209 ++++++++++
+ evidence/run-progression-20261113/build-web.log    |   8 +
+ .../initial-fixture-failure.log                    | 251 +++++++++++
+ .../run-progression-20261113/interaction-qa.json   |  48 +++
+ .../phone-boss-offline.png                         | Bin 0 -> 544528 bytes
+ .../phone-moon-skill-offline.png                   | Bin 0 -> 552521 bytes
+ .../phone-reward-offline.png                       | Bin 0 -> 155838 bytes
+ .../presentation-layout.json                       | 158 +++++++
+ evidence/run-progression-20261113/presentation.log |   6 +
+ evidence/run-progression-20261113/runtime.log      |   6 +
+ .../runtime/verification.json                      |   5 +
+ .../source-and-checks.json                         |  50 +++
+ evidence/run-progression-20261113/syntax.log       |   6 +
+ .../run-progression-20261113/typecheck-engine.log  |   7 +
+ evidence/run-progression-20261113/verification.md  |  20 +
+ evidence/run-progression-20261113/verify-final.log | 248 +++++++++++
+ evidence/visual-polish-20261113/build-web.log      |   8 +
+ .../visual-polish-20261113/command-results.json    | 101 +++++
+ .../visual-polish-20261113/desktop-offline.png     | Bin 0 -> 83282 bytes
+ .../visual-polish-20261113/diff-whitespace.log     |   0
+ evidence/visual-polish-20261113/engine-types.log   |   7 +
+ evidence/visual-polish-20261113/harness-syntax.log |   0
+ .../visual-polish-20261113/offline-preview.log     |   6 +
+ .../visual-polish-20261113/phone-wide-offline.png  | Bin 0 -> 32093 bytes
+ .../presentation-layout.json                       |  79 ++++
+ .../visual-polish-20261113/projectile-runtime.log  |   6 +
+ .../runtime/verification.json                      |   8 +
+ .../stress-harness-syntax.log                      |   0
+ evidence/visual-polish-20261113/syntax.log         |   6 +
+ evidence/visual-polish-20261113/verification.md    |  26 ++
+ evidence/visual-polish-20261113/verify.log         | 214 ++++++++++
+ package.json                                       |   2 +
+ qa_cases.csv                                       |  17 +-
+ scripts/generate-audio.py                          |  19 +-
+ scripts/render-battle-presentation.mjs             | 252 +++++++++++
+ scripts/verify-arcade-stability-web.mjs            |   2 +-
+ scripts/verify-arcade-web.mjs                      |  63 ++-
+ scripts/verify-projectile-presentation-web.mjs     | 120 ++++++
+ tasks.csv                                          |  33 +-
+ tasks/T004.md                                      |   3 +
+ tasks/T005.md                                      |   3 +
+ tasks/T006.md                                      |   6 +
+ tasks/T007.md                                      |   5 +-
+ tasks/T008.md                                      |   2 +-
+ tasks/T012.md                                      |  15 +
+ tasks/T013.md                                      |   6 +
+ tasks/T014.md                                      |   6 +
+ tasks/T019.md                                      |   5 +-
+ tasks/T022.md                                      |  11 +
+ tests/character-assets.test.ts                     |  26 ++
+ tests/impact-feedback.test.ts                      |  57 +++
+ tests/loadout.test.ts                              | 100 +++++
+ tests/non-gory-feedback.test.mjs                   | 110 +++++
+ tests/player-experience.test.ts                    |  46 ++
+ tests/projectile-presentation.test.ts              |  62 +++
+ tests/ruins-art-lifecycle.test.mjs                 |  83 ++++
+ tests/run-progression.test.ts                      | 140 +++++++
+ tests/weapon-geometry.test.ts                      |  10 +
+ tools/config/schema.ts                             |   2 +
+ tools/config/validate.ts                           |   3 +
+ 197 files changed, 8275 insertions(+), 190 deletions(-)
+ create mode 100644 assets/resources/audio/hit-critical.wav
+ create mode 100644 assets/resources/audio/hit-heavy.wav
+ create mode 100644 assets/resources/characters/enemy-ruins-v2-frames.json
+ create mode 100644 assets/resources/characters/enemy-ruins-v2.png
+ create mode 100644 assets/resources/characters/hero-ruins-v2-frames.json
+ create mode 100644 assets/resources/characters/hero-ruins-v2.png
+ create mode 100644 assets/resources/scenery/ruins-art-v2.json
+ create mode 100644 assets/resources/scenery/ruins-platform-v2.png
+ create mode 100644 assets/resources/scenery/storm-ruins-v2.png
+ create mode 100644 assets/scripts/domain/BattleLayout.ts
+ create mode 100644 assets/scripts/domain/BattleLoadout.ts
+ create mode 100644 assets/scripts/domain/ProjectilePresentation.ts
+ create mode 100644 assets/scripts/domain/RunProgression.ts
+ create mode 100644 assets/scripts/presentation/BattleArt.ts
+ create mode 100644 assets/scripts/presentation/RuinsArtAssets.ts
+ create mode 100644 docs/ART_DIRECTION.md
+ create mode 100644 docs/CURRENT_REVIEW_20261112.md
+ create mode 100644 docs/IMMERSIVE_ART.md
+ create mode 100644 docs/IMMERSIVE_ART_PROMPTS.json
+ create mode 100644 docs/NON_GORY_FEEL.md
+ create mode 100644 docs/PLAYER_EXPERIENCE_REVIEW.md
+ create mode 100644 docs/PROJECTILE_PRESENTATION.md
+ create mode 100644 docs/RUN_VARIETY.md
+ create mode 100644 docs/art-manifest.json
+ create mode 100644 evidence/art-direction-20261113/arrow-asset-qa.json
+ create mode 100644 evidence/art-direction-20261113/assets-contact-sheet.png
+ create mode 100644 evidence/art-direction-20261113/build-web.log
+ create mode 100644 evidence/art-direction-20261113/check-syntax.log
+ create mode 100644 evidence/art-direction-20261113/command-results.json
+ create mode 100644 evidence/art-direction-20261113/desktop-offline.png
+ create mode 100644 evidence/art-direction-20261113/interaction-qa.json
+ create mode 100644 evidence/art-direction-20261113/phone-cooldown-offline.png
+ create mode 100644 evidence/art-direction-20261113/phone-defeat-offline.png
+ create mode 100644 evidence/art-direction-20261113/phone-impact-offline.png
+ create mode 100644 evidence/art-direction-20261113/phone-pause-offline.png
+ create mode 100644 evidence/art-direction-20261113/phone-wide-offline.png
+ create mode 100644 evidence/art-direction-20261113/presentation-layout.json
+ create mode 100644 evidence/art-direction-20261113/preview-presentation.log
+ create mode 100644 evidence/art-direction-20261113/source-snapshot.json
+ create mode 100644 evidence/art-direction-20261113/square-asset-qa.json
+ create mode 100644 evidence/art-direction-20261113/typecheck-engine.log
+ create mode 100644 evidence/art-direction-20261113/verification.md
+ create mode 100644 evidence/art-direction-20261113/verify.log
+ create mode 100644 evidence/immersive-art-20261113/asset-qa.json
+ create mode 100644 evidence/immersive-art-20261113/build-web.log
+ create mode 100644 evidence/immersive-art-20261113/check-syntax.log
+ create mode 100644 evidence/immersive-art-20261113/command-results.json
+ create mode 100644 evidence/immersive-art-20261113/desktop-offline.png
+ create mode 100644 evidence/immersive-art-20261113/interaction-qa.json
+ create mode 100644 evidence/immersive-art-20261113/phone-cooldown-offline.png
+ create mode 100644 evidence/immersive-art-20261113/phone-defeat-offline.png
+ create mode 100644 evidence/immersive-art-20261113/phone-impact-offline.png
+ create mode 100644 evidence/immersive-art-20261113/phone-pause-offline.png
+ create mode 100644 evidence/immersive-art-20261113/phone-wide-offline.png
+ create mode 100644 evidence/immersive-art-20261113/presentation-layout.json
+ create mode 100644 evidence/immersive-art-20261113/preview-presentation.log
+ create mode 100644 evidence/immersive-art-20261113/runtime/verification.json
+ create mode 100644 evidence/immersive-art-20261113/source-snapshot.json
+ create mode 100644 evidence/immersive-art-20261113/tablet-offline.png
+ create mode 100644 evidence/immersive-art-20261113/test-web-projectile-presentation.log
+ create mode 100644 evidence/immersive-art-20261113/typecheck-engine.log
+ create mode 100644 evidence/immersive-art-20261113/verification.md
+ create mode 100644 evidence/immersive-art-20261113/verify.log
+ create mode 100644 evidence/non-gory-20261113/audio-qa.json
+ create mode 100644 evidence/non-gory-20261113/build-web.log
+ create mode 100644 evidence/non-gory-20261113/check-syntax.log
+ create mode 100644 evidence/non-gory-20261113/command-results.json
+ create mode 100644 evidence/non-gory-20261113/desktop-offline.png
+ create mode 100644 evidence/non-gory-20261113/interaction-qa.json
+ create mode 100644 evidence/non-gory-20261113/phone-cooldown-offline.png
+ create mode 100644 evidence/non-gory-20261113/phone-defeat-offline.png
+ create mode 100644 evidence/non-gory-20261113/phone-heavy-hit-offline.png
+ create mode 100644 evidence/non-gory-20261113/phone-impact-offline.png
+ create mode 100644 evidence/non-gory-20261113/phone-normal-hit-offline.png
+ create mode 100644 evidence/non-gory-20261113/phone-pause-offline.png
+ create mode 100644 evidence/non-gory-20261113/phone-wide-offline.png
+ create mode 100644 evidence/non-gory-20261113/presentation-layout.json
+ create mode 100644 evidence/non-gory-20261113/preview-presentation.log
+ create mode 100644 evidence/non-gory-20261113/runtime/verification.json
+ create mode 100644 evidence/non-gory-20261113/source-snapshot.json
+ create mode 100644 evidence/non-gory-20261113/tablet-offline.png
+ create mode 100644 evidence/non-gory-20261113/test-web-arcade.log
+ create mode 100644 evidence/non-gory-20261113/typecheck-engine.log
+ create mode 100644 evidence/non-gory-20261113/verification.md
+ create mode 100644 evidence/non-gory-20261113/verify.log
+ create mode 100644 evidence/player-iteration-20261113/build-web.log
+ create mode 100644 evidence/player-iteration-20261113/command-results.json
+ create mode 100644 evidence/player-iteration-20261113/desktop-offline.png
+ create mode 100644 evidence/player-iteration-20261113/engine-types.log
+ create mode 100644 evidence/player-iteration-20261113/environment.log
+ create mode 100644 evidence/player-iteration-20261113/interaction-qa.json
+ create mode 100644 evidence/player-iteration-20261113/local-game-url.log
+ create mode 100644 evidence/player-iteration-20261113/offline-ui.log
+ create mode 100644 evidence/player-iteration-20261113/phone-cooldown-offline.png
+ create mode 100644 evidence/player-iteration-20261113/phone-defeat-offline.png
+ create mode 100644 evidence/player-iteration-20261113/phone-wide-offline.png
+ create mode 100644 evidence/player-iteration-20261113/presentation-layout.json
+ create mode 100644 evidence/player-iteration-20261113/runtime.log
+ create mode 100644 evidence/player-iteration-20261113/runtime/verification.json
+ create mode 100644 evidence/player-iteration-20261113/syntax.log
+ create mode 100644 evidence/player-iteration-20261113/verification.md
+ create mode 100644 evidence/player-iteration-20261113/verify.log
+ create mode 100644 evidence/review-20261112/input-quantization.json
+ create mode 100644 evidence/review-20261112/reference-first-kill.jpg
+ create mode 100644 evidence/review-20261112/reference-sheet.jpg
+ create mode 100644 evidence/review-20261112/verification.md
+ create mode 100644 evidence/review-20261112/verify.log
+ create mode 100644 evidence/run-progression-20261113/build-web.log
+ create mode 100644 evidence/run-progression-20261113/initial-fixture-failure.log
+ create mode 100644 evidence/run-progression-20261113/interaction-qa.json
+ create mode 100644 evidence/run-progression-20261113/phone-boss-offline.png
+ create mode 100644 evidence/run-progression-20261113/phone-moon-skill-offline.png
+ create mode 100644 evidence/run-progression-20261113/phone-reward-offline.png
+ create mode 100644 evidence/run-progression-20261113/presentation-layout.json
+ create mode 100644 evidence/run-progression-20261113/presentation.log
+ create mode 100644 evidence/run-progression-20261113/runtime.log
+ create mode 100644 evidence/run-progression-20261113/runtime/verification.json
+ create mode 100644 evidence/run-progression-20261113/source-and-checks.json
+ create mode 100644 evidence/run-progression-20261113/syntax.log
+ create mode 100644 evidence/run-progression-20261113/typecheck-engine.log
+ create mode 100644 evidence/run-progression-20261113/verification.md
+ create mode 100644 evidence/run-progression-20261113/verify-final.log
+ create mode 100644 evidence/visual-polish-20261113/build-web.log
+ create mode 100644 evidence/visual-polish-20261113/command-results.json
+ create mode 100644 evidence/visual-polish-20261113/desktop-offline.png
+ create mode 100644 evidence/visual-polish-20261113/diff-whitespace.log
+ create mode 100644 evidence/visual-polish-20261113/engine-types.log
+ create mode 100644 evidence/visual-polish-20261113/harness-syntax.log
+ create mode 100644 evidence/visual-polish-20261113/offline-preview.log
+ create mode 100644 evidence/visual-polish-20261113/phone-wide-offline.png
+ create mode 100644 evidence/visual-polish-20261113/presentation-layout.json
+ create mode 100644 evidence/visual-polish-20261113/projectile-runtime.log
+ create mode 100644 evidence/visual-polish-20261113/runtime/verification.json
+ create mode 100644 evidence/visual-polish-20261113/stress-harness-syntax.log
+ create mode 100644 evidence/visual-polish-20261113/syntax.log
+ create mode 100644 evidence/visual-polish-20261113/verification.md
+ create mode 100644 evidence/visual-polish-20261113/verify.log
+ create mode 100644 scripts/render-battle-presentation.mjs
+ create mode 100644 scripts/verify-projectile-presentation-web.mjs
+ create mode 100644 tasks/T022.md
+ create mode 100644 tests/impact-feedback.test.ts
+ create mode 100644 tests/loadout.test.ts
+ create mode 100644 tests/non-gory-feedback.test.mjs
+ create mode 100644 tests/player-experience.test.ts
+ create mode 100644 tests/projectile-presentation.test.ts
+ create mode 100644 tests/ruins-art-lifecycle.test.mjs
+ create mode 100644 tests/run-progression.test.ts

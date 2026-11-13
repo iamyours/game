@@ -1,0 +1,6 @@
+{
+  "command": "ARCADE_EVIDENCE_DIR=evidence/latest-pull-20261113/arcade-retry npm run test:web:arcade",
+  "exitCode": 1,
+  "start": "2026-11-13T21:23:26.259316+08:00",
+  "end": "2026-11-13T21:25:10.305221+08:00"
+}

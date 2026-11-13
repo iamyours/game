@@ -1,3 +1,7 @@
+# D039 / D040 远征、音频与命中
+
+Expedition.ts集中三场景映射、RunChallenges和独立CareerRepository。ArcadeBattle在cycle.defeated唯一结算分支推进挑战，PhysicsLab在after-step提交累计检查点并只在开局快照传承伤害。原ShotBudget/ProjectileSystem保持射击归属。RuinsArtAssets只切SpriteFrame/平台色，缓存最多两张额外背景并检查异步请求所属场景。PhysicsLab双AudioSource独立于音效源，update推进渐变，首触解锁和模态/生命周期门控，退出先停源清clip再释放引用。插箭动画只动附着视觉子节点；头颈Graphics只读真实姿态；胸部冲量仍是原共享预算但保留有界力臂。详见EXPEDITION_RELEASE.md。
+
 # D038 对局成长、装备和技能
 
 ArcadeBattle拥有RunProgression/BattleLoadout；固定步推进遭遇、道具与技能时间，after-step死亡去重发战利品。PhysicsLab保留唯一ShotBudget与InputRouter，强化UI只在无敌人/无在途箭时暂停；选择恢复不补射。装备修饰与段间强化生成独立箭配置，成功fire后才消耗技能/符石；skill值标记沿ProjectileSystem到真实HitResolver回调，特效使用原Graphics并有数量/寿命上限。HitResolver按actor查询BOSS头部例外，其余原伤害/物理/回收保持。详见RUN_VARIETY.md。

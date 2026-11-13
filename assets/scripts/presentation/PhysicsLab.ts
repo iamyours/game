@@ -25,6 +25,7 @@ import { BOWS } from '../domain/BattleLoadout';
 import { ImpactFeedback } from '../domain/ProjectilePresentation';
 import { drawImpactMark, drawRuinsPlatform, drawSkillMark } from './BattleArt';
 import { RuinsArtAssets } from './RuinsArtAssets';
+import { CareerRepository, biomeForStage } from '../domain/Expedition';
 
 const { ccclass } = _decorator;
 const color = (hex: string): Color => new Color().fromHEX(hex);
@@ -113,6 +114,17 @@ export class PhysicsLab extends Component {
   private soundRect: Rect = empty;
   private soundTouch: number | null = null;
   private soundSource!: AudioSource;
+  private career!: CareerRepository;
+  private runId = '';
+  private runDamageBonus = 0;
+  private musicLabel!: Label;
+  private questLabel!: Label;
+  private musicRect: Rect = empty;
+  private musicTouch: number | null = null;
+  private readonly musicSources: AudioSource[] = [];
+  private musicCurrent = -1;
+  private musicTrack = '';
+  private audioActivated = false;
   private readonly audioClips = new Map<string, AudioClip>();
   private readonly lastSoundSteps = new Map<string, number>();
   private readonly diagnostics = new RuntimeDiagnostics();
@@ -142,8 +154,11 @@ export class PhysicsLab extends Component {
     this.config = config;
     this.shotBudget = new ShotBudget(config.player);
     this.records = new ArcadeRecordRepository(sys.localStorage);
+    this.career = new CareerRepository(sys.localStorage);
+    this.beginCareerRun();
     this.soundSource = this.node.addComponent(AudioSource);
-    if (this.arcadeMode) for (const kind of ['shot', 'hit', 'drop', 'hit-heavy', 'hit-critical']) resources.load(`audio/${kind}`, AudioClip, (error, clip) => {
+    if (this.arcadeMode) for (let i = 0; i < 2; i++) this.musicSources.push(child(this.node, `Music_${i}`).addComponent(AudioSource));
+    if (this.arcadeMode) for (const kind of ['shot', 'hit', 'drop', 'hit-heavy', 'hit-critical', 'music-storm', 'music-frost', 'music-ember', 'music-boss']) resources.load(`audio/${kind}`, AudioClip, (error, clip) => {
       if (error) { console.warn('[Audio]', error); return; }
       if (this.disposed || !isValid(this.node)) return;
       clip.addRef(); this.audioClips.set(kind, clip);
@@ -239,6 +254,8 @@ export class PhysicsLab extends Component {
     this.pauseLabel = label(this.overlay, 'Pause', 30);
     this.resetLabel = label(this.overlay, 'Reset', 30, '重开');
     this.soundLabel = label(this.overlay, 'Sound', 26);
+    this.musicLabel = label(this.overlay, 'Music', 26);
+    this.questLabel = label(this.overlay, 'Challenge', 28);
     this.fullscreenLabel = label(this.overlay, 'Fullscreen', 24, '全屏');
     this.poseButtons = (this.arcadeMode ? [] : ['standing', 'staggered', 'downed'] as const).map((pose, i) => ({
       pose, label: label(this.overlay, `Pose_${pose}`, 25, ['站立重置', '后仰测试', '倒地测试'][i]), rect: empty,
@@ -266,6 +283,8 @@ export class PhysicsLab extends Component {
   public update(dt: number): void {
     if (this.rewardPaused !== this.rewardVisible) { this.rewardPaused = this.rewardVisible; this.syncPause(); this.dirty = true; }
     this.physics?.advance(dt, this.beforeStep, this.afterStep);
+    this.syncMusic(dt);
+    if (this.arcade) this.ruinsArt.setBiome(biomeForStage(this.arcade.progression.stage).id);
     // Enter only outside advance(): no additional substeps after opening the modal next frame.
     if (this.rewardPaused !== this.rewardVisible) { this.rewardPaused = this.rewardVisible; this.syncPause(); this.dirty = true; }
     if (this.arcadeMode && !this.hidden && !this.manualPause && !this.viewport.portrait) {
@@ -281,7 +300,10 @@ export class PhysicsLab extends Component {
       }
     }
     if (this.dirty && this.physics) { this.dirty = false; this.drawHUD(); }
-    if (this.physics) { this.drawAim(); this.arcade?.draw(); this.drawImpactFeedback(); }
+    if (this.physics) {
+      for (const skin of this.skins) skin.draw();
+      this.drawAim(); this.arcade?.draw(); this.drawImpactFeedback();
+    }
   }
 
   public onDestroy(): void {
@@ -296,7 +318,9 @@ export class PhysicsLab extends Component {
     game.off(Game.EVENT_SHOW, this.show, this);
     if (typeof window !== 'undefined') window.removeEventListener('blur', this.cancel);
     this.records?.flush();
+    this.career?.flush();
     this.soundSource?.stop();
+    for (const source of this.musicSources) { source.stop(); source.clip = null; }
     for (const clip of this.audioClips.values()) clip.decRef(); this.audioClips.clear();
     this.projectiles?.dispose();
     this.playerBow?.dispose();
@@ -316,7 +340,7 @@ export class PhysicsLab extends Component {
     const topLeft = v.worldToUI(cx - worldWidthM / 2, cy + worldHeightM / 2);
     const bottomRight = v.worldToUI(cx + worldWidthM / 2, cy - worldHeightM / 2);
     return { thunderSkin: this.playerBow?.snapshot ?? null, arcade: this.arcade?.snapshot ?? null, stamina: this.shotBudget.stamina, cooldownSec: this.shotBudget.cooldownSec,
-      records: this.records.snapshot, saveStatus: this.records.lastWrite, diagnostics: this.diagnostics.report(),
+      records: this.records.snapshot, career: this.career.snapshot, musicTrack: this.musicTrack, saveStatus: this.records.lastWrite, diagnostics: this.diagnostics.report(),
       nativeCounts: this.physics?.nativeCounts() ?? null, projectilePoolSize: this.projectiles?.poolSize ?? 0,
       projectileVisuals: { embedded: this.projectiles?.embeddedCount ?? 0, maxEmbedded: this.config.limits.maxEmbeddedVisuals,
         embeddedTtlSec: this.config.limits.embeddedTtlSec, terrainTtlSec: this.config.limits.terrainEmbeddedTtlSec },
@@ -403,7 +427,8 @@ export class PhysicsLab extends Component {
     }
     const baseArrow = this.config.arrows.find((value) => value.id === shot.arrowId);
     if (!baseArrow) return;
-    const arrow = this.arcade ? this.arcade.loadout.arrow(this.arcade.progression.arrow(baseArrow)) : baseArrow;
+    const equipped = this.arcade ? this.arcade.loadout.arrow(this.arcade.progression.arrow(baseArrow)) : baseArrow;
+    const arrow = this.arcade ? { ...equipped, baseDamage: equipped.baseDamage * (1 + this.runDamageBonus) } : equipped;
     const socket = this.playerAim.bowSocket();
     const launchTip = nockedArrowTip(this.playerAim.handsSnapshot.stringGrip, shot.aimRad, thunderArrowLength(arrow.id));
     const blocked = this.projectiles.launchBlockReason('PlayerRagdoll', socket, launchTip);
@@ -433,6 +458,7 @@ export class PhysicsLab extends Component {
     this.projectiles.afterStep();
     this.arcade?.afterStep();
     if (this.arcade) {
+      this.career.checkpoint(this.runId, this.arcade.challenges.tallies);
       if (this.arcade.score > this.records.snapshot.bestScore && this.recordPendingAt === null) this.recordPendingAt = stepId;
       const dead = this.combatStates.get('PlayerRagdoll')!.hp <= 0;
       if (dead) {
@@ -457,6 +483,7 @@ export class PhysicsLab extends Component {
       this.lastShotInterval = 0; this.rewardTouch = null;
       this.lastSoundSteps.clear(); this.restartSampleStep = stepId + 60;
       this.records.flush();
+      this.beginCareerRun();
       this.playerAim.reset(); this.enemyAim.reset();
       if (this.arcade) this.enemyAim.setWorldAim(Math.PI - 0.2);
       this.shots = 0; this.lastShot = null; this.lastAttempt = null; this.resetCount += 1; this.dirty = true;
@@ -475,6 +502,7 @@ export class PhysicsLab extends Component {
 
   private press(event: EventTouch): void {
     if (this.hidden || this.viewport.portrait) return;
+    this.audioActivated = true; this.syncMusic(0);
     for (const touch of event.getTouches()) {
       const point = this.viewport.fromUILocation(touch.getUILocation());
       if (this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0) {
@@ -497,6 +525,7 @@ export class PhysicsLab extends Component {
       } else if (this.arcadeMode && this.manualPause && contains(this.retryRect, point)) this.pauseId = touch.getID();
       else if (this.canFullscreen && (!this.arcadeMode || this.manualPause) && contains(this.fullscreenRect, point)) this.fullscreenTouch = touch.getID();
       else if (this.arcadeMode && this.manualPause && contains(this.soundRect, point)) this.soundTouch = touch.getID();
+      else if (this.arcadeMode && this.manualPause && contains(this.musicRect, point)) this.musicTouch = touch.getID();
       else if ((!this.arcadeMode || this.manualPause) && contains(this.resetRect, point)) this.resetTouch = touch.getID();
       else if (this.arcadeMode && this.manualPause) continue;
       else if (this.poseButtons.some(button => contains(button.rect, point))) {
@@ -553,6 +582,9 @@ export class PhysicsLab extends Component {
           this.records.setSound(!this.records.snapshot.soundEnabled);
           if (!this.records.snapshot.soundEnabled) this.soundSource.stop();
         }
+      } else if (this.musicTouch === touch.getID()) {
+        this.musicTouch = null;
+        if (contains(this.musicRect, point)) { this.career.setMusic(!this.career.snapshot.music); this.syncMusic(0); }
       } else if (this.resetTouch === touch.getID()) {
         this.resetTouch = null;
         const dead = this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0;
@@ -571,11 +603,12 @@ export class PhysicsLab extends Component {
     this.equipmentTouch = null;
     this.rewardTouch = null;
     this.pauseId = this.resetTouch = this.soundTouch = this.fullscreenTouch = null;
+    this.musicTouch = null;
     this.poseTouch = null;
     this.router.cancel();
     this.dirty = true;
   };
-  private hide(): void { this.records.flush(); this.soundSource.stop(); this.hidden = true; this.syncPause(); }
+  private hide(): void { this.records.flush(); this.career.flush(); this.soundSource.stop(); this.hidden = true; this.syncPause(); }
   private show(): void { this.hidden = false; this.syncPause(); }
   private syncPause(): void {
     this.cancel();
@@ -583,6 +616,35 @@ export class PhysicsLab extends Component {
     this.router.setBlocked(blocked);
     this.physics?.setPaused(blocked);
     if (blocked) this.soundSource.stop();
+    this.syncMusic(0);
+  }
+
+  private beginCareerRun(): void {
+    this.career.flush();
+    this.runId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${this.resetCount}`;
+    this.runDamageBonus = this.career.snapshot.damageBonus;
+  }
+
+  private syncMusic(dt: number): void {
+    if (!this.arcadeMode || !this.career || !this.viewport) return;
+    const blocked = !this.audioActivated || !this.career.snapshot.music || this.hidden || this.manualPause || this.viewport.portrait ||
+      this.rewardVisible || (this.combatStates.get('PlayerRagdoll')?.hp ?? 0) <= 0;
+    if (blocked) { for (const source of this.musicSources) if (source.playing) source.pause(); return; }
+    const track = this.arcade?.bossStatus ? 'music-boss' : biomeForStage(this.arcade?.progression.stage ?? 1).track;
+    const clip = this.audioClips.get(track);
+    if (clip && track !== this.musicTrack) {
+      this.musicCurrent = this.musicCurrent === 0 ? 1 : 0;
+      const source = this.musicSources[this.musicCurrent];
+      if (!source) return;
+      source.stop(); source.clip = clip; source.loop = true; source.volume = 0; source.play(); this.musicTrack = track;
+    }
+    for (let i = 0; i < this.musicSources.length; i++) {
+      const source = this.musicSources[i]!, target = i === this.musicCurrent ? 0.24 : 0;
+      const step = Math.max(0, Math.min(0.1, dt)) * 0.4;
+      source.volume += Math.max(-step, Math.min(step, target - source.volume));
+      if (source.clip && (target > 0 || source.volume > 0)) { if (!source.playing) source.play(); }
+      else if (source.playing) source.stop();
+    }
   }
 
   private resize(): void {
@@ -630,6 +692,11 @@ export class PhysicsLab extends Component {
         l.fontSize = font; l.lineHeight = font * 1.3;
       }
       this.title.fontSize = font + 4;
+      this.questLabel.fontSize = font; this.questLabel.lineHeight = font * 1.35;
+      this.questLabel.overflow = Label.Overflow.SHRINK;
+      this.questLabel.node.getComponent(UITransform)!.setContentSize(Math.min(840, w * 0.4), font * 3);
+      this.placeLabel(this.questLabel, safe.left + w * 0.53, safe.top + 64);
+      this.musicLabel.fontSize = font; this.musicLabel.lineHeight = font * 1.3;
       for (const l of [this.title, this.metrics, this.vitals]) {
         l.overflow = Label.Overflow.SHRINK;
         l.node.getComponent(UITransform)!.setContentSize(420, 60);
@@ -677,15 +744,18 @@ export class PhysicsLab extends Component {
     const { portrait } = this.viewport;
     for (const l of this.rewardLabels) l.node.active = false;
     this.bossLabel.node.active = false;
+    this.questLabel.node.active = false;
     for (const b of this.equipmentButtons) b.label.node.active = false;
     const dead = this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0;
     for (const l of [this.title, this.metrics, this.aimLabel, this.pauseLabel, this.resetLabel]) l.node.active = !portrait;
     for (const button of this.poseButtons) button.label.node.active = !portrait;
     this.soundLabel.node.active = !portrait && this.arcadeMode && this.manualPause && !dead;
+    this.musicLabel.node.active = !portrait && this.arcadeMode && this.manualPause && !dead;
     this.vitals.node.active = !portrait && this.arcadeMode;
     this.fullscreenLabel.node.active = !portrait && this.canFullscreen && (!this.arcadeMode || this.manualPause) && !dead;
     this.resetLabel.node.active = !portrait && (!this.arcadeMode || (this.manualPause && !dead));
     this.soundLabel.string = this.records.snapshot.soundEnabled ? '音效 开' : '音效 关';
+    this.musicLabel.string = this.career.snapshot.music ? '音乐 开' : '音乐 关';
     this.switchLabel.node.active = !portrait && !dead && !this.manualPause && this.router.canSwitch;
     this.retryLabel.node.active = !portrait && (dead || (this.arcadeMode && this.manualPause));
     this.retryLabel.string = dead ? '再来一局' : '继续战斗';
@@ -695,15 +765,18 @@ export class PhysicsLab extends Component {
     this.notice.fontSize = portrait ? Math.max(36, 24 * screen.devicePixelRatio / view.getScaleX()) : 36;
     this.notice.lineHeight = this.notice.fontSize * 1.3;
     this.notice.string = portrait ? '请横置屏幕' : this.manualPause && !dead ? '已暂停' :
-      `第 ${this.arcade?.progression.stage ?? 1} 段 · 击败 ${this.arcade?.score ?? 0} 名敌人\n最高记录 ${this.records.snapshot.bestScore}`;
+      `击败 ${this.arcade?.score ?? 0} · 最佳 ${this.records.snapshot.bestScore} · 连杀 ${this.arcade?.challenges.snapshot.bestChain ?? 0}\n` +
+      `${this.career.snapshot.title} Lv.${this.career.snapshot.rank} · 修炼 ${this.career.snapshot.xp}${this.career.snapshot.nextXp ? `/${this.career.snapshot.nextXp}` : ' · 已满级'}\n` +
+      `下局伤害 +${Math.round(this.career.snapshot.damageBonus * 1000) / 10}% · 爆头多得修炼`;
     if (!portrait && (dead || (this.arcadeMode && this.manualPause))) {
       const touch = 48 * screen.devicePixelRatio / view.getScaleX();
       const panel = dead ? battleResultLayout(this.viewport.safe, touch) : battlePauseLayout(this.viewport.safe, touch);
       this.retryRect = panel.retry; this.placeLabel(this.retryLabel, midpoint(this.retryRect)); this.placeLabel(this.notice, panel.summary);
       if (!dead) {
         const options = battlePauseLayout(this.viewport.safe, touch).options;
-        this.soundRect = options[0]!; this.fullscreenRect = options[1]!; this.resetRect = options[2]!;
+        this.soundRect = options[0]!; this.musicRect = options[1]!; this.fullscreenRect = options[2]!; this.resetRect = options[3]!;
         this.placeLabel(this.soundLabel, midpoint(this.soundRect)); this.placeLabel(this.fullscreenLabel, midpoint(this.fullscreenRect));
+        this.placeLabel(this.musicLabel, midpoint(this.musicRect));
         this.placeLabel(this.resetLabel, midpoint(this.resetRect));
       }
     } else this.placeLabel(this.notice, this.viewport.width / 2, this.viewport.height / 2);
@@ -741,7 +814,7 @@ export class PhysicsLab extends Component {
       : '正在采样 Box2D：滑行 / 落体 / 旋转';
     if (this.arcade) this.metrics.string = this.arcade.snapshot.telegraph ? '敌人正在拉弓' : '爆头一击致命 · 躲不过的箭需要抢先击倒敌人';
     if (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0) this.metrics.string = `你已倒下 · 击败 ${this.arcade.score} 名敌人 · 点重置再来`;
-    if (this.arcade && !this.records.lastWrite.ok) this.metrics.string += ' · 本地记录未保存，重开时重试';
+    if (this.arcade && (!this.records.lastWrite.ok || !this.career.lastWrite.ok)) this.metrics.string += ' · 本地记录未保存，重开时重试';
     const drag = this.router.drag;
     if (drag) {
       const origin = this.viewport.toLocal(drag.origin), p = this.viewport.toLocal(drag.point);
@@ -793,8 +866,17 @@ export class PhysicsLab extends Component {
       if (progress > 0) box({ ...track, right: track.left + (track.right - track.left) * progress }, cooldown > 0 ? '#E5B669' : '#69C7D3', 3);
     }
     const run = this.arcade!.progression;
-    this.title.string = `第 ${run.stage} 段 · ${run.progress}/5`;
-    this.metrics.string = `击败 ${this.arcade!.score} · 最高 ${this.records.snapshot.bestScore}`; this.metrics.color = color('#9AB6C4');
+    const biome = biomeForStage(run.stage), career = this.career.snapshot, challenge = this.arcade!.challenges.snapshot;
+    this.title.string = `${biome.name} · ${run.progress}/5`;
+    this.metrics.string = `击败 ${this.arcade!.score} · 最佳 ${this.records.snapshot.bestScore} · 修炼Lv.${career.rank}`; this.metrics.color = color('#9AB6C4');
+    this.questLabel.node.active = hp > 0 && !this.manualPause && !this.rewardVisible && !this.arcade!.bossStatus;
+    this.questLabel.color = color(challenge.banner ? '#FFDA89' : biome.tint);
+    this.questLabel.string = challenge.banner || `${challenge.name} · ${challenge.detail} ${challenge.progress}/${challenge.target}\n` +
+      `奖励 ${challenge.rewardText} · ${challenge.chain > 1 ? `无伤连杀 ${challenge.chain}` : `BOSS 还有 ${run.bossIn} 战`}`;
+    if (this.questLabel.node.active) {
+      const cx = safe.left + (safe.right - safe.left) * 0.53, width = Math.min(840, (safe.right - safe.left) * 0.4);
+      box({ left: cx - width / 2, right: cx + width / 2, top: safe.top + 12, bottom: safe.top + 116 }, '#102A389C', 16);
+    }
     this.vitals.string = `生命 ${hp}     体力 ${Math.floor(stamina)}`; this.vitals.color = color('#B9CED6');
     for (const [offset, ratio, tint] of [[28, hp / this.config.player.hp, '#F28480'], [250, stamina / this.config.player.stamina, '#69C7D3']] as const) {
       const track = { left: safe.left + offset, right: safe.left + offset + 194, top: safe.top + 164, bottom: safe.top + 172 };
@@ -844,7 +926,7 @@ export class PhysicsLab extends Component {
       this.aimLabel.string = `${encounter.name} · ${encounter.hint}`;
       this.aimLabel.color = color(encounter.tint);
     } else if (hp > 0 && run.pending) this.aimLabel.string = '守关已破 · 等待在途箭落下后选择强化';
-    if (!this.records.lastWrite.ok) this.aimLabel.string += ' · 记录暂未保存';
+    if (!this.records.lastWrite.ok || !this.career.lastWrite.ok) this.aimLabel.string += ' · 记录暂未保存';
     const drag = this.router.drag;
     if (drag && hp > 0) {
       const origin = this.viewport.toLocal(drag.origin), p = this.viewport.toLocal(drag.point), radius = this.config.input.fullDrawDistanceDesign;
@@ -860,7 +942,7 @@ export class PhysicsLab extends Component {
       const { panel, retry } = hp <= 0 ? battleResultLayout(safe, touch) : battlePauseLayout(safe, touch);
       box(panel, '#173543F5', 26); box(retry, '#376775', 18);
       if (hp > 0) {
-        box(this.soundRect, '#224958'); box(this.resetRect, '#224958');
+        box(this.soundRect, '#224958'); box(this.musicRect, '#224958'); box(this.resetRect, '#224958');
         if (this.canFullscreen) box(this.fullscreenRect, '#224958');
       }
     }
@@ -875,7 +957,7 @@ export class PhysicsLab extends Component {
     };
     box({ left: 0, top: 0, right: this.viewport.width, bottom: this.viewport.height }, '#071721DE', 0);
     box(panel, '#173543FA', 26);
-    for (const l of [this.title, this.metrics, this.vitals, this.switchLabel, this.pauseLabel, this.aimLabel, this.retryLabel, this.soundLabel, this.resetLabel, this.fullscreenLabel]) l.node.active = false;
+    for (const l of [this.title, this.metrics, this.vitals, this.questLabel, this.switchLabel, this.pauseLabel, this.aimLabel, this.retryLabel, this.soundLabel, this.musicLabel, this.resetLabel, this.fullscreenLabel]) l.node.active = false;
     this.notice.node.active = true;
     this.notice.string = this.arcade!.progression.afterBoss ? 'BOSS 已击败 · 选择一项强化\n战利品已结算 · 选后回血35并补满体力' :
       `第 ${this.arcade!.progression.stage - 1} 段完成 · 选择一项强化\n选后补满体力，强化额外回复 10 生命`;

@@ -24,8 +24,8 @@ function fixture() {
     setPosition(x, y) { this.x = x; this.y = y; }
     destroy() { this.valid = false; }
   }
-  const pending = [], textures = [new Texture2D(spec.assets.background.imageSize), new Texture2D(spec.assets.platform.imageSize)];
-  const cc = { Texture2D, SpriteFrame, UITransform, Graphics, Sprite, Node, Rect: class {}, Size: class {}, JsonAsset: class {},
+  const pending = [], textures = [new Texture2D(spec.assets.background.imageSize), new Texture2D(spec.assets.platform.imageSize), new Texture2D([1536, 1024]), new Texture2D([1536, 1024])];
+  const cc = { Color: class { fromHEX(hex) { this.hex = hex; return this; } }, Texture2D, SpriteFrame, UITransform, Graphics, Sprite, Node, Rect: class { constructor(x, y, width, height) { Object.assign(this, { x, y, width, height }); } }, Size: class {}, JsonAsset: class {},
     isValid: node => node.valid, resources: { load(path, Type, callback) { pending.push({ path, callback }); } } };
   const module = { exports: {} };
   const source = ts.transpileModule(readFileSync('assets/scripts/presentation/RuinsArtAssets.ts', 'utf8'), {
@@ -35,13 +35,13 @@ function fixture() {
   const owner = new module.exports.RuinsArtAssets();
   const settle = async (failed = false) => {
     for (const request of pending.splice(0)) {
-      const asset = request.path.endsWith('ruins-art-v2') ? { json: spec } : textures[request.path.includes('storm-ruins') ? 0 : 1];
+      const asset = request.path.endsWith('ruins-art-v2') ? { json: spec } : textures[request.path.includes('storm-ruins') ? 0 : request.path.includes('frost-') ? 2 : request.path.includes('ember-') ? 3 : 1];
       request.callback(failed ? new Error('resource unavailable') : null, asset);
     }
     // Flush the resource promises, the shared pack promise, and its queued consumers.
     for (let i = 0; i < 8; i++) await Promise.resolve();
   };
-  return { owner, pending, textures, settle, Node, Graphics, UITransform };
+  return { owner, pending, textures, settle, Node, Graphics, UITransform, Sprite };
 }
 
 test('场景资源只加载一次；平台端块保宽，所有视觉在原碰撞框内；背景cover不变形', async () => {
@@ -80,4 +80,23 @@ test('素材失败保留原平台绘制，重复附着不重发加载请求', as
   f.owner.attachPlatform(platform, 5); await Promise.resolve();
   assert.equal(f.pending.length, 0); assert.equal(platform.children.length, 0); assert.equal(fallback.enabled, true);
   assert.ok(f.textures.every(t => t.refs === 0)); f.owner.dispose();
+});
+
+test('场景切换不会被迟到资源反写；资源仅持有一份，离场时全部归还', async () => {
+  const f = fixture(), backdrop = new f.Node('backdrop'), platform = new f.Node('platform');
+  f.owner.attachBackdrop(backdrop); f.owner.attachPlatform(platform, 3); await f.settle();
+  const sprite = backdrop.children[0].getComponent(f.Sprite);
+  f.owner.setBiome('frost'); f.owner.setBiome('ember');
+  assert.equal(f.pending.length, 2);
+  const frost = f.pending.find(p => p.path.includes('frost'));
+  frost.callback(null, f.textures[2]); await Promise.resolve(); await Promise.resolve();
+  assert.notEqual(sprite.spriteFrame.texture, f.textures[2], '旧请求不能覆盖新场景');
+  f.pending.splice(f.pending.indexOf(frost), 1); await f.settle();
+  assert.equal(sprite.spriteFrame.texture, f.textures[3]);
+  f.owner.setBiome('frost'); await Promise.resolve(); await Promise.resolve();
+  assert.equal(sprite.spriteFrame.texture, f.textures[2]); assert.equal(f.pending.length, 0);
+  for (let i = 0; i < 50; i++) f.owner.setBiome(i % 2 ? 'ember' : 'frost');
+  await Promise.resolve(); assert.equal(f.pending.length, 0);
+  assert.ok(f.textures.every(t => t.refs <= 1));
+  f.owner.dispose(); assert.ok(f.textures.every(t => t.refs === 0));
 });

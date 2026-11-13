@@ -17,12 +17,14 @@ import type { RuinsArtAssets } from '../presentation/RuinsArtAssets';
 import { highlightOpacity, retirementOpacity } from '../domain/ProjectilePresentation';
 import { RunProgression, RUN_RULES, type Encounter, type PerkId } from '../domain/RunProgression';
 import { BattleLoadout } from '../domain/BattleLoadout';
+import { RunChallenges, biomeForStage } from '../domain/Expedition';
 
 type Enemy = { actor: RagdollInstance; aim: AimController; skin: CharacterSkin; platform: Node;
   attack: EnemyAttack; attackArrowId: string; encounter: Encounter; spec: PhysicsLabConfig['enemies'][number]; hpMax: number; bow: BowState; heavy: boolean; rocking: boolean; bornAt: number; deadAt: number | null; telegraph: boolean };
 /** Owns only the endless battle loop; called from the existing single fixed step. */
 export class ArcadeBattle {
   public readonly loadout = new BattleLoadout();
+  public readonly challenges = new RunChallenges();
   public readonly progression = new RunProgression(Math.random, () => this.loadout.canUpgrade);
   public get rewardReady(): boolean { return this.progression.pending && !this.current && this.projectiles.count === 0; }
   public chooseReward(id: PerkId): boolean {
@@ -49,6 +51,7 @@ export class ArcadeBattle {
   public get current() { return this.enemies.find(e => e.deadAt === null); }
   public get snapshot() { return { score: this.score, enemyShots: this.enemyShots, enemyId: this.current?.actor.id ?? null,
     stage: this.progression.stage, progress: this.progression.progress, offers: this.progression.offers, upgrades: this.progression.upgrades, loadout: this.loadout.snapshot,
+    biome: biomeForStage(this.progression.stage).id, challenges: this.challenges.snapshot,
     rewardReady: this.rewardReady, encounter: this.current?.encounter.kind ?? null, boss: this.bossStatus,
     pickups: this.pickupRules.snapshot, armed: this.current?.bow.armed ?? false, heavy: this.current?.heavy ?? false, rocking: this.current?.rocking ?? false,
     rejectedShots: this.rejectedShots, telegraph: this.current?.telegraph ?? false, bodiesRetained: this.enemies.length, platformCount: this.enemies.length, dropCount: this.drops.length, nextSpawnSec: Number.isFinite(this.nextSpawn) ? Math.max(0, this.nextSpawn - this.elapsed) : null }; }
@@ -75,6 +78,7 @@ export class ArcadeBattle {
   public allowsInstantHeadshot(id: string): boolean { return !this.enemies.some(e => e.actor.id === id && e.encounter.kind === 'boss'); }
   public beforeStep(dt: number): void {
     this.cycle.step(dt);
+    this.challenges.step(dt);
     this.loadout.step(dt, this.states.get(this.player.id)!.hp > 0);
     this.stepPickups(dt);
     const enemy = this.current;
@@ -147,6 +151,7 @@ export class ArcadeBattle {
       (this.initialSpawnPending || this.cycle.canSpawn(true))) this.spawn();
   }
   public hit(state: ActorCombatState, part: string): void {
+    if (state.id === this.player.id && state.lastHit && state.lastHit.result.hpDamage > 0) this.challenges.damaged();
     let marked = this.injuries.get(state.id);
     if (!marked) { marked = new Map(); this.injuries.set(state.id, marked); }
     marked.set(part, this.elapsed + 0.18);
@@ -160,6 +165,7 @@ export class ArcadeBattle {
     this.injuries.clear(); this.enemyShots = this.rejectedShots = 0;
     this.cycle.reset(); this.spawnRetryAt = 0; this.initialSpawnPending = true;
     this.progression.reset();
+    this.challenges.reset();
     this.loadout.reset();
     this.clearPickups(); this.pickupRules = new PickupRules(this.cfg.pickups, Math.random, true);
     for (const node of this.player.bodyNodes.values()) {
@@ -276,6 +282,15 @@ export class ArcadeBattle {
     if (enemy.bow.drop()) this.dropBow(enemy);
     const generation = Number(enemy.actor.id.slice('Enemy_'.length));
     if (this.cycle.defeated(generation)) {
+      const hit = this.states.get(enemy.actor.id)!.lastHit;
+      const reward = this.challenges.defeated(hit?.attackerId === this.player.id && hit.partId === 'head',
+        enemy.encounter.kind === 'boss', this.states.get(this.player.id)!.hp > 0);
+      if (reward === 'forge') {
+        if (!this.loadout.upgrade()) { this.loadout.charge(100); this.challenges.describeReward('弓已满级 · 技能蓄满'); }
+      } else if (reward && !this.loadout.addItem(reward)) {
+        if (reward === 'potion') { this.onPickup({ hp: 15, stamina: 0 }); this.challenges.describeReward('药瓶已满 · 回复15生命'); }
+        else { this.loadout.charge(25); this.challenges.describeReward('符石已满 · 蓄能 +25'); }
+      }
       if (enemy.encounter.kind === 'boss') { this.loadout.upgrade(); this.loadout.addItem('rune'); this.loadout.charge(100); }
       this.progression.defeated(); this.loadout.charge(15);
     }
@@ -310,6 +325,7 @@ export class ArcadeBattle {
   }
   public draw(): void {
     const g = this.graphics; g.clear();
+    for (const enemy of this.enemies) enemy.skin.draw();
     for (const actor of this.actors) {
       const state = this.states.get(actor.id); if (!state) continue;
       for (const [part, expires] of this.injuries.get(actor.id) ?? []) {

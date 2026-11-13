@@ -1,0 +1,104 @@
+[
+  {
+    "level": "log",
+    "message": "Init Base: 131.10400390625 ms",
+    "timestamp": "2026-11-13T16:42:52.464Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "Init Infrastructure: 163.074951171875 ms",
+    "timestamp": "2026-11-13T16:42:52.642Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "[PHYSICS2D]: register box2d.",
+    "timestamp": "2026-11-13T16:42:52.721Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "Init SubSystem: 424.19384765625 ms",
+    "timestamp": "2026-11-13T16:42:53.282Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "Cocos Creator v3.8.8",
+    "timestamp": "2026-11-13T16:42:53.282Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "Using custom pipeline: Builtin",
+    "timestamp": "2026-11-13T16:42:53.384Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "Init Project: 161.5380859375 ms",
+    "timestamp": "2026-11-13T16:42:53.421Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "LoadScene db://assets/scenes/Boot.scene: 10.2412109375 ms",
+    "timestamp": "2026-11-13T16:42:55.492Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "InitScene: 0.300048828125 ms",
+    "timestamp": "2026-11-13T16:42:55.492Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "AttachPersist: 0.1279296875 ms",
+    "timestamp": "2026-11-13T16:42:55.492Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "AutoRelease: 0.1669921875 ms",
+    "timestamp": "2026-11-13T16:42:55.492Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "Destroy: 0.7529296875 ms",
+    "timestamp": "2026-11-13T16:42:55.492Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "Activate: 14.75390625 ms",
+    "timestamp": "2026-11-13T16:42:55.505Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "log",
+    "message": "Success to load scene: db://assets/scenes/Boot.scene",
+    "timestamp": "2026-11-13T16:42:55.505Z",
+    "url": "http://127.0.0.1:7458/cocos-js/_virtual_cc-y8x7t64p.js"
+  },
+  {
+    "level": "info",
+    "message": "[StormArchersBoot] 正在加载风暴弓手种子配置…",
+    "timestamp": "2026-11-13T16:42:55.559Z",
+    "url": "http://127.0.0.1:7458/assets/main/index.js"
+  },
+  {
+    "level": "info",
+    "message": "[PhysicsLab] ready in Boot; seed ef2eef968a0f9e29550ce14f6314bb454a16a4dac24d540abf63a05941a2918d",
+    "timestamp": "2026-11-13T16:42:56.091Z",
+    "url": "http://127.0.0.1:7458/assets/main/index.js"
+  },
+  {
+    "level": "info",
+    "message": "[PhysicsLab AC01] {\"steps\":60,\"seconds\":1,\"start\":{\"glide\":{\"positionM\":{\"x\":2,\"y\":8.5},\"angleRad\":0,\"angularVelocityRadps\":1.5707963267948966,\"velocityMps\":{\"x\":10,\"y\":0}},\"drop\":{\"positionM\":{\"x\":21,\"y\":8.5},\"angleRad\":0,\"angularVelocityRadps\":0,\"velocityMps\":{\"x\":0,\"y\":0}}},\"end\":{\"glide\":{\"positionM\":{\"x\":12.000004768371582,\"y\":8.5},\"angleRad\":1.5707963267948952,\"angularVelocityRadps\":1.5707963267948966,\"velocityMps\":{\"x\":10,\"y\":0}},\"drop\":{\"positionM\":{\"x\":21,\"y\":3.518333911895752},\"angleRad\":0,\"angularVelocityRadps\":0,\"velocityMps\":{\"x\":0,\"y\":-9.79999828338623}}},\"tolerance\":0.02,\"checks\":{\"glideXM\":{\"actual\":10.000004768371582,\"expected\":10,\"error\":0.00000476837158203125,\"passed\":true},\"glideYM\":{\"actual\":0,\"expected\":0,\"error\":0,\"passed\":true},\"angleRad\":{\"actual\":1.5707963267948952,\"expected\":1.5707963267948966,\"error\":1.3322676295501878e-15,\"passed\":true},\"angularVelocityRadps\":{\"actual\":1.5707963267948966,\"expected\":1.5707963267948966,\"error\":0,\"passed\":true},\"dropYM\":{\"actual\":-4.981666088104248,\"expected\":-4.9,\"error\":0.08166608810424769,\"passed\":true},\"dropVelocityMps\":{\"actual\":-9.79999828338623,\"expected\":-9.8,\"error\":0.0000017166137702417927,\"passed\":true}},\"passed\":true}",
+    "timestamp": "2026-11-13T16:42:57.582Z",
+    "url": "http://127.0.0.1:7458/assets/main/index.js"
+  }
+]

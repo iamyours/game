@@ -3,6 +3,7 @@ import type { RagdollInstance } from '../physics/RagdollFactory';
 import type { RigDefinition } from '../physics/RigDefinition';
 import { PhysicsAdapter as Physics } from '../physics/PhysicsAdapter';
 import { armVisualLayout } from '../domain/archery';
+import { drawNeckBridge } from './BattleArt';
 
 interface FrameSpec { rect: [number, number, number, number]; anchor: [number, number] }
 interface AtlasSpec { imageSize: [number, number]; frames: Record<string, FrameSpec> }
@@ -13,6 +14,7 @@ export class CharacterSkin {
   private texture: Texture2D | null = null;
   private readonly frames: SpriteFrame[] = [];
   private readonly visuals: Node[] = [];
+  private neck: Graphics | null = null;
   public constructor(private readonly actor: RagdollInstance, private readonly rig: RigDefinition) {}
 
   public async load(skin: 'hero' | 'enemy', style: 'classic' | 'ruins' = 'classic'): Promise<void> {
@@ -44,6 +46,9 @@ export class CharacterSkin {
     }
     texture.addRef();
     this.texture = texture;
+    const neckNode = new Node('NeckUnderlay'); neckNode.layer = this.actor.root.layer;
+    neckNode.parent = this.actor.bodyNodes.get('chest')!;
+    this.neck = neckNode.addComponent(Graphics); this.visuals.push(neckNode);
     // Validate all frames before touching the existing grey-box fallback.
     for (const part of this.rig.bodyDefinitions) {
       const body = this.actor.bodyNodes.get(part.id)!;
@@ -75,6 +80,19 @@ export class CharacterSkin {
       const greyBox = body.getComponent(Graphics);
       if (greyBox) greyBox.enabled = false;
     }
+    this.draw();
+  }
+
+  public draw(): void {
+    if (this.disposed || !this.neck || !isValid(this.neck, true)) return;
+    const joint = this.rig.jointDefinitions.find(j => j.id === 'neck');
+    if (!joint) return;
+    const g = this.neck; g.clear();
+    const chest = this.actor.worldPointM('chest', [0, 0]);
+    const headEnd = this.actor.worldPointM('head', [joint.childAnchorM[0], joint.childAnchorM[1] + 0.10]);
+    const angle = -Physics.radians(this.actor.worldAngleDeg('chest')), dx = headEnd.x - chest.x, dy = headEnd.y - chest.y;
+    drawNeckBridge(g, { x: joint.parentAnchorM[0], y: joint.parentAnchorM[1] - 0.13 },
+      { x: dx * Math.cos(angle) - dy * Math.sin(angle), y: dx * Math.sin(angle) + dy * Math.cos(angle) }, 0.12);
   }
 
   public dispose(): void {
@@ -82,6 +100,7 @@ export class CharacterSkin {
     for (const visual of this.visuals) visual.destroy();
     for (const frame of this.frames) frame.destroy();
     this.visuals.length = this.frames.length = 0;
+    this.neck = null;
     this.texture?.decRef(); this.texture = null;
   }
 }

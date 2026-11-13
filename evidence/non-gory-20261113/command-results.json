@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-13T04:16:28.074602+00:00",
+  "baseRevision": "62d0e46da09406652ec9c3a183a9c09311211fd8",
+  "scope": "Portable, presentation/controller doubles and offline previews; not Cocos/Box2D runtime",
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": "verify.log"
+    },
+    {
+      "command": "npm run check:syntax",
+      "exitCode": 0,
+      "log": "check-syntax.log"
+    },
+    {
+      "command": "npm run preview:presentation",
+      "exitCode": 0,
+      "log": "preview-presentation.log"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 2,
+      "log": "typecheck-engine.log"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 2,
+      "log": "build-web.log"
+    },
+    {
+      "command": "npm run test:web:arcade",
+      "exitCode": 2,
+      "log": "test-web-arcade.log"
+    }
+  ]
+}

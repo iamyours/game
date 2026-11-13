@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ImpactFeedback } from '../assets/scripts/domain/ProjectilePresentation.js';
+import { ImpactFeedback, highlightOpacity, retirementOpacity } from '../assets/scripts/domain/ProjectilePresentation.js';
 import { battlePauseLayout } from '../assets/scripts/domain/BattleLayout.js';
 
 test('重叠命中分级反馈各自到期，同箭30ms重复不重触发或延长，暂停不推进', () => {
@@ -43,4 +43,15 @@ test('暂停菜单选项和继续按钮在安全区内，手机/小窗口均满�
     }
     assert.ok(layout.options.every(r => r.bottom < layout.retry.top));
   }
+});
+
+test('关节橙金提示180ms到期；角色/站台保持至清理前600ms再渐隐，均读取模拟时间', () => {
+  assert.ok(Math.abs(highlightOpacity(1.18, 1) - 1) < 1e-8);
+  assert.ok(Math.abs(highlightOpacity(1.18, 1.09) - 0.25) < 1e-8);
+  assert.equal(highlightOpacity(1.18, 1.18), 0);
+  assert.equal(retirementOpacity(0, 3.5), 1);
+  assert.equal(retirementOpacity(2.8, 3.5), 1);
+  assert.ok(Math.abs(retirementOpacity(3.2, 3.5) - 0.5) < 1e-8);
+  assert.equal(retirementOpacity(3.5, 3.5), 0);
+  assert.equal(retirementOpacity(4, 3.5), 0);
 });

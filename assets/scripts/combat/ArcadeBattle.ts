@@ -1,4 +1,4 @@
-import { BoxCollider2D, CircleCollider2D, Color, ERigidBody2DType, Graphics, Node, RigidBody2D, Sprite } from 'cc';
+import { BoxCollider2D, CircleCollider2D, Color, ERigidBody2DType, Graphics, Node, RigidBody2D, Sprite, UIOpacity } from 'cc';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import { ArcadeCycle, BowState, canRelease, chooseArcadeSpawn, platformAngularVelocity } from '../domain/ArcadeRules';
 import { AttackSlots, EnemyAttack, ballisticAngles, predictAim } from '../domain/BattleRules';
@@ -8,13 +8,13 @@ import { RagdollFactory, type RagdollInstance } from '../physics/RagdollFactory'
 import { AimController } from '../physics/AimController';
 import { PoseController } from '../physics/PoseController';
 import { CharacterSkin } from '../presentation/CharacterSkin';
-import type { RigBodyId } from '../physics/RigDefinition';
 import type { ActorCombatState } from './HitResolver';
 import { ProjectileSystem, TIP_OFFSET_M } from './ProjectileSystem';
 import { drawWeaponBow, WEAPON_STYLES } from '../presentation/WeaponVisual';
 import { nockedArrowTip } from '../domain/weaponGeometry';
 import { drawChargeCue, drawRuinsPlatform } from '../presentation/BattleArt';
 import type { RuinsArtAssets } from '../presentation/RuinsArtAssets';
+import { highlightOpacity, retirementOpacity } from '../domain/ProjectilePresentation';
 
 type Enemy = { actor: RagdollInstance; aim: AimController; skin: CharacterSkin; platform: Node;
   attack: EnemyAttack; spec: PhysicsLabConfig['enemies'][number]; hpMax: number; bow: BowState; heavy: boolean; rocking: boolean; bornAt: number; deadAt: number | null; telegraph: boolean };
@@ -27,8 +27,7 @@ export class ArcadeBattle {
   private serial = 0;
   private nextSpawn = Infinity;
   private readonly enemies: Enemy[] = [];
-  private readonly fatalHeads = new Set<string>();
-  private readonly injuries = new Map<string, Set<string>>();
+  private readonly injuries = new Map<string, Map<string, number>>();
   private readonly drops: { node: Node; until: number }[] = [];
   private readonly graphics: Graphics;
   public get score() { return this.cycle.score; }
@@ -102,33 +101,38 @@ export class ArcadeBattle {
       const state = this.states.get(enemy.actor.id)!;
       if (enemy.deadAt === null && P.positionM(enemy.actor.bodies.get('pelvis')!.node).y < this.cfg.run.fallKillY_M) state.hp = 0;
       if (state.hp <= 0 && enemy.deadAt === null) this.kill(enemy);
-      if (enemy.deadAt !== null && this.elapsed - enemy.deadAt >= this.cfg.arcade.cleanupSec) this.remove(enemy);
+      if (enemy.deadAt !== null) {
+        const age = this.elapsed - enemy.deadAt, opacity = retirementOpacity(age, this.cfg.arcade.cleanupSec);
+        this.fade(enemy.actor.root, opacity); this.fade(enemy.platform, opacity);
+        if (age >= this.cfg.arcade.cleanupSec) this.remove(enemy);
+      }
     }
     const corpses = this.enemies.filter(e => e.deadAt !== null);
     while (corpses.length > this.cfg.limits.maxCorpses) this.remove(corpses.shift()!);
-    for (let i = this.drops.length - 1; i >= 0; i--) if (this.drops[i]!.until <= this.elapsed) {
-      P.retire(this.drops[i]!.node); this.drops.splice(i, 1);
+    for (let i = this.drops.length - 1; i >= 0; i--) {
+      const drop = this.drops[i]!;
+      this.fade(drop.node, retirementOpacity(this.cfg.arcade.cleanupSec - (drop.until - this.elapsed), this.cfg.arcade.cleanupSec));
+      if (drop.until <= this.elapsed) { P.retire(drop.node); this.drops.splice(i, 1); }
+    }
+    for (const [id, parts] of this.injuries) {
+      for (const [part, expires] of parts) if (expires <= this.elapsed) parts.delete(part);
+      if (!parts.size) this.injuries.delete(id);
     }
     if (player.hp > 0 && !this.current && this.elapsed >= this.spawnRetryAt &&
       (this.initialSpawnPending || this.cycle.canSpawn(true))) this.spawn();
   }
   public hit(state: ActorCombatState, part: string): void {
-    if (state.hp <= 0 && part === 'head') this.fatalHeads.add(state.id);
     let marked = this.injuries.get(state.id);
-    if (!marked) { marked = new Set(); this.injuries.set(state.id, marked); }
-    marked.add(part);
+    if (!marked) { marked = new Map(); this.injuries.set(state.id, marked); }
+    marked.set(part, this.elapsed + 0.18);
     const enemy = this.enemies.find(e => e.actor.id === state.id);
     const hit = state.lastHit;
     if (enemy && state.hp > 0 && hit && enemy.bow.hit(hit.shotId, part, hit.result.zoneDamage)) this.dropBow(enemy);
-
-    const actor = this.actors.find(a => a.id === state.id);
-    const skin = actor?.bodyNodes.get(part as RigBodyId)?.getChildByName(`Skin_${part}`)?.getComponent(Sprite);
-    if (skin) skin.color = new Color(255, 95, 95, 255);
   }
   public reset(): void {
     for (const enemy of [...this.enemies]) this.remove(enemy);
     for (const drop of this.drops) P.retire(drop.node); this.drops.length = 0;
-    this.injuries.clear(); this.fatalHeads.clear(); this.enemyShots = this.rejectedShots = 0;
+    this.injuries.clear(); this.enemyShots = this.rejectedShots = 0;
     this.cycle.reset(); this.spawnRetryAt = 0; this.initialSpawnPending = true;
     this.clearPickups(); this.pickupRules = new PickupRules(this.cfg.pickups, Math.random);
     for (const node of this.player.bodyNodes.values()) {
@@ -138,6 +142,7 @@ export class ArcadeBattle {
     this.spawn();
   }
   public dispose(): void {
+    this.injuries.clear();
     this.clearPickups();
     for (const enemy of [...this.enemies]) this.remove(enemy);
     for (const drop of this.drops) P.retire(drop.node); this.drops.length = 0;
@@ -237,7 +242,6 @@ export class ArcadeBattle {
   }
   private kill(enemy: Enemy): void {
     enemy.deadAt = this.elapsed; enemy.telegraph = false; enemy.aim.setAlive(false);
-    if (this.fatalHeads.delete(enemy.actor.id)) enemy.actor.severHead();
     const body = enemy.platform.getComponent(RigidBody2D)!;
     body.type = ERigidBody2DType.Dynamic;
     P.setVelocity(body, (Math.random() - 0.5) * 0.8, -0.2, (Math.random() - 0.5) * 1.5); body.wakeUp();
@@ -268,7 +272,7 @@ export class ArcadeBattle {
     if (index < 0) return;
     this.enemies.splice(index, 1);
     this.projectiles.unregisterActor(enemy.actor); enemy.skin.dispose(); this.factory.remove(enemy.actor); P.retire(enemy.platform);
-    this.states.delete(enemy.actor.id); this.injuries.delete(enemy.actor.id); this.fatalHeads.delete(enemy.actor.id);
+    this.states.delete(enemy.actor.id); this.injuries.delete(enemy.actor.id);
     const i = this.actors.indexOf(enemy.actor); if (i >= 0) this.actors.splice(i, 1);
     if (!this.current) this.onSpawn(null);
   }
@@ -276,13 +280,14 @@ export class ArcadeBattle {
     const g = this.graphics; g.clear();
     for (const actor of this.actors) {
       const state = this.states.get(actor.id); if (!state) continue;
-      for (const part of this.injuries.get(actor.id) ?? []) {
-        const sprite = actor.bodyNodes.get(part as RigBodyId)?.getChildByName(`Skin_${part}`)?.getComponent(Sprite);
-        if (sprite) sprite.color = new Color(255, 95, 95, 255);
+      for (const [part, expires] of this.injuries.get(actor.id) ?? []) {
+        const opacity = highlightOpacity(expires, this.elapsed);
+        if (opacity <= 0) continue;
+        g.strokeColor = new Color(255, 197, 104, Math.round(210 * opacity)); g.lineWidth = P.units(0.025);
         for (const joint of actor.definition.jointDefinitions.filter(j => j.childId === part || j.parentId === part)) {
           if (!actor.joints.has(joint.id)) continue;
           const p = actor.worldPointM(joint.parentId, joint.parentAnchorM);
-          g.fillColor = new Color(255, 65, 65, 230); g.circle(P.units(p.x), P.units(p.y), P.units(0.085)); g.fill();
+          g.circle(P.units(p.x), P.units(p.y), P.units(0.10)); g.stroke();
         }
       }
       if (state.hp <= 0) continue;
@@ -295,5 +300,11 @@ export class ArcadeBattle {
       drawWeaponBow(g, enemy.aim.bowSocket(), this.cfg.bowControl, 'normal', enemy.aim.poseSnapshot.bowFlex,
         enemy.telegraph ? enemy.aim.handsSnapshot.stringGrip : undefined, enemy.telegraph ? TIP_OFFSET_M : undefined);
     }
+  }
+
+  private fade(node: Node, opacity: number): void {
+    if (opacity >= 1) return;
+    const visual = node.getComponent(UIOpacity) ?? node.addComponent(UIOpacity);
+    visual.opacity = Math.round(255 * opacity);
   }
 }

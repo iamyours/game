@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import ts from 'typescript';
 const require = createRequire(import.meta.url);
 const sharp = require(require.resolve('sharp', { paths: [process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES || '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules'] }));
-const out = process.env.PRESENTATION_PREVIEW_DIR || 'evidence/immersive-art-20261113'; mkdirSync(out, { recursive: true });
+const out = process.env.PRESENTATION_PREVIEW_DIR || 'evidence/non-gory-20261113'; mkdirSync(out, { recursive: true });
 const paths = [];
 class Color {
   constructor(r = 255, g = 255, b = 255, a = 255) { Object.assign(this, { r, g, b, a }); }
@@ -127,7 +127,8 @@ function actorSvg(skin, origin, mirrored, angle) {
 const reports = [];
 const uiChecks = [];
 for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0], ['phone-wide', 844, 390, 92, 0], ['tablet', 1024, 768, 92, 0],
-  ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0], ['phone-pause', 844, 390, 92, 0], ['phone-impact', 844, 390, 92, 0]]) {
+  ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0], ['phone-pause', 844, 390, 92, 0], ['phone-impact', 844, 390, 92, 0],
+  ['phone-normal-hit', 844, 390, 92, 0], ['phone-heavy-hit', 844, 390, 92, 0]]) {
   paths.length = 0; screen.windowSize = { width, height };
   const lab = new PhysicsLab(), camera = { node: new Node(), orthoHeight: 0 };
   // The production async asset owner is tested separately; this offline renderer consumes its actual PNG/crops.
@@ -181,8 +182,9 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   const arrow = new Graphics(); drawWeaponArrow(arrow, 'normal', { x: 11.8, y: 5.7 }, -0.08);
   worldSvg += arrow.commands.join('');
   const cue = new Graphics(); drawChargeCue(cue, { x: 18.5, y: 6.13 }); worldSvg += cue.commands.join('');
-  if (name === 'phone-impact') {
-    const impact = new Graphics(); drawImpactMark(impact, { x: 18.42, y: 6.1 }, 0.2, 0.43, 0.75, 3);
+  if (['phone-impact', 'phone-normal-hit', 'phone-heavy-hit'].includes(name)) {
+    const tier = name === 'phone-impact' ? 3 : name === 'phone-heavy-hit' ? 2 : 1;
+    const impact = new Graphics(); drawImpactMark(impact, { x: 18.42, y: tier === 3 ? 6.1 : 5.35 }, 0.2, tier === 3 ? 0.55 : tier === 2 ? 0.43 : 0.28, 0.75, tier);
     worldSvg += impact.commands.join('');
   }
   const labels = ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel'].map(key => {

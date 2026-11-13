@@ -31,7 +31,6 @@ export interface RagdollInstance {
   reset(): void;
   snapshot(): RagdollInstanceSnapshot;
   destroy(): void;
-  severHead(): void;
 }
 
 type CollisionMatrix = { readonly [key: string]: number };
@@ -70,13 +69,6 @@ function configureGraphics(graphics: Graphics, body: RigBodyDefinition, hex: str
 
 class RagdollInstanceImpl implements RagdollInstance {
   private destroyed = false;
-  public severHead(): void {
-    const neck = (this.joints as Map<string, HingeJoint2D>).get('neck');
-    if (!neck) return;
-    neck.enabled = false;
-    neck.destroy();
-    (this.joints as Map<string, HingeJoint2D>).delete('neck');
-  }
   public constructor(
     public readonly id: string,
     public readonly root: Node,

@@ -130,7 +130,7 @@ export class PhysicsLab extends Component {
     this.shotBudget = new ShotBudget(config.player);
     this.records = new ArcadeRecordRepository(sys.localStorage);
     this.soundSource = this.node.addComponent(AudioSource);
-    if (this.arcadeMode) for (const kind of ['shot', 'hit', 'drop']) resources.load(`audio/${kind}`, AudioClip, (error, clip) => {
+    if (this.arcadeMode) for (const kind of ['shot', 'hit', 'drop', 'hit-heavy', 'hit-critical']) resources.load(`audio/${kind}`, AudioClip, (error, clip) => {
       if (error) { console.warn('[Audio]', error); return; }
       if (this.disposed || !isValid(this.node)) return;
       clip.addRef(); this.audioClips.set(kind, clip);
@@ -187,9 +187,9 @@ export class PhysicsLab extends Component {
       const aim = state.id === 'PlayerRagdoll' ? this.playerAim : this.enemyAim;
       this.arcade?.hit(state, state.lastHit!.partId);
       const hit = state.lastHit!;
-      const tier = state.hp <= 0 && hit.partId === 'head' ? 3 : hit.arrow.id === 'impact' || state.hp <= 0 ? 2 : 1;
+      const tier = hit.partId === 'head' ? 3 : hit.arrow.id === 'impact' || state.hp <= 0 ? 2 : 1;
       this.impactFeedback.hit(hit.shotId, hit.pointM, Math.atan2(hit.incomingVelocityMps.y, hit.incomingVelocityMps.x), tier);
-      this.playSound('hit', tier === 3 ? 1.3 : tier === 2 ? 1.15 : 1);
+      this.playSound(tier === 3 ? 'hit-critical' : tier === 2 ? 'hit-heavy' : 'hit');
       if (state.hp <= 0) aim.setAlive(false);
       else if (state.lastHit) aim.registerHit(state.lastHit.jointReaction);
       this.dirty = true;
@@ -781,12 +781,12 @@ export class PhysicsLab extends Component {
     }
   }
 
-  private playSound(kind: 'shot' | 'hit' | 'drop', emphasis = 1): void {
+  private playSound(kind: 'shot' | 'hit' | 'drop' | 'hit-heavy' | 'hit-critical'): void {
     if (!this.arcadeMode || !this.records.snapshot.soundEnabled || this.hidden || this.manualPause) return;
-    const clip = this.audioClips.get(kind), step = this.physics?.steps ?? 0;
+    const clip = this.audioClips.get(kind) ?? (kind.startsWith('hit-') ? this.audioClips.get('hit') : undefined), step = this.physics?.steps ?? 0;
     if (!clip || step - (this.lastSoundSteps.get(kind) ?? -100) < 3) return;
     this.lastSoundSteps.set(kind, step);
-    this.soundSource.stop(); this.soundSource.clip = clip; this.soundSource.volume = Math.min(0.65, (kind === 'shot' ? 0.25 : 0.4) * emphasis);
+    this.soundSource.stop(); this.soundSource.clip = clip; this.soundSource.volume = kind === 'shot' ? 0.25 : 0.4;
     this.soundSource.play();
   }
 

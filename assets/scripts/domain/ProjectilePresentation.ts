@@ -47,6 +47,17 @@ export class ArrowResidues<T> {
 
 export interface TrailPoint { x: number; y: number }
 
+/** Render-only retirement envelope, evaluated in simulation time. Native cleanup still owns the lifetime. */
+export function retirementOpacity(ageSec: number, lifetimeSec: number): number {
+  const remaining = Math.max(0, Math.min(1, (lifetimeSec - ageSec) / Math.min(0.6, lifetimeSec)));
+  return remaining * remaining * (3 - 2 * remaining);
+}
+
+export function highlightOpacity(expiresAt: number, now: number): number {
+  const remaining = Math.max(0, Math.min(1, (expiresAt - now) / 0.18));
+  return remaining * remaining;
+}
+
 export interface ImpactMark { readonly shotId: number; readonly point: TrailPoint; readonly directionRad: number; readonly tier: 1 | 2 | 3; age: number; readonly duration: number }
 /** One event hook, bounded visual marks, no forces, wall timers, time scaling or camera motion. */
 export class ImpactFeedback {

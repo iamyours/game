@@ -1,15 +1,22 @@
-# 当前状态（D036）
+# 当前状态（D037）
 
-version: V2.4
+version: V2.5
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: local 1ac497b + D036 GPT图片接入；远端main仍33db0a2；证据evidence/immersive-art-20261113
+sourceRevision: local 62d0e46 + D037完整角色/非血腥射击反馈；证据evidence/non-gory-20261113
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（D031历史构建可运行；当前改动无运行包，力度/受击关节/销毁与完整试玩待验）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D037 完整角色与射击反馈（2026-11-13）
+
+- 按用户确认的方向，移除断头接口与死亡断颈分支，保留头部致命判定和物理失衡；持续红色伤标改180ms橙金关节环，身体原色/重型着色不变。
+- 普通/重击/头部暴击使用4/6/8短线与对应短撞音，回落0.16/0.22/0.26秒；实际回调单次触发、音效可关，变体缺失回退普通hit。身体/台/掉弓按原回收时间末600ms淡出，三箭冲量/数值未改。
+- 148项便携、35脚本语法、9组离线生产UI/摆姿图与PCM格式/峰值检查通过。Creator类型/build:web/真实arcade均退出2，缺编辑器/导入/当前构建；新真实断言未运行，两段新音频meta待实际生成。未放行G1、物理、真实听感或手机/性能。
+- 规则/任务/验收按D037覆盖D023旧断头/红标，历史证据保留；详见NON_GORY_FEEL.md。原D031销毁/小腿关节/力度失败仍待实跑，本轮无新推送。
 
 ## D036 GPT生图与沉浸感（2026-11-13）
 

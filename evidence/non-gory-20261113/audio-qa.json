@@ -1,0 +1,45 @@
+{
+  "scope": "PCM format, peaks, determinism and unchanged shot/drop only; no listening or engine mix acceptance",
+  "clips": [
+    {
+      "kind": "shot",
+      "durationSec": 0.08997732426303855,
+      "peak": 14093,
+      "lastSample": 0,
+      "sha256": "467332fec0cfff62aee5f993b8c2302f29eef9fbe0da4295f6a8c8407af0165d",
+      "runtimeAuditioned": false
+    },
+    {
+      "kind": "hit",
+      "durationSec": 0.08,
+      "peak": 12091,
+      "lastSample": 0,
+      "sha256": "62acbae553d9a4fe75aa26cb1889488a0c391a44c6191c9c464feb13afed5a0b",
+      "runtimeAuditioned": false
+    },
+    {
+      "kind": "hit-heavy",
+      "durationSec": 0.12,
+      "peak": 9986,
+      "lastSample": 0,
+      "sha256": "d26ee97a4b39438395b0ee7e4c839aa6e2d57faec94ab8516e80e7296a27897f",
+      "runtimeAuditioned": false
+    },
+    {
+      "kind": "hit-critical",
+      "durationSec": 0.18,
+      "peak": 14165,
+      "lastSample": 0,
+      "sha256": "7c18110adfde952b7f6e31191568a7ee575dd7786bd24fc02e5e86adcb2a6f87",
+      "runtimeAuditioned": false
+    },
+    {
+      "kind": "drop",
+      "durationSec": 0.14,
+      "peak": 15001,
+      "lastSample": 0,
+      "sha256": "a8aed810f389d390087b50c65cd5149439eadd71d798b00ac2732b2b001b81ac",
+      "runtimeAuditioned": false
+    }
+  ]
+}

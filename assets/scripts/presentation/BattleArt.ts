@@ -31,9 +31,9 @@ export function drawRuinsPlatform(g: Graphics, widthM: number, hero = false): vo
 export function drawImpactMark(g: Graphics, point: { x: number; y: number }, directionRad: number,
   radius: number, opacity: number, tier: number): void {
   const alpha = Math.round(Math.max(0, Math.min(1, opacity)) * 210);
-  g.strokeColor = tier >= 2 ? new Color(255, 205, 128, alpha) : new Color(173, 225, 233, alpha);
+  g.strokeColor = tier >= 2 ? new Color(255, 211, 128, alpha) : new Color(245, 189, 105, alpha);
   g.lineWidth = P.units(tier >= 2 ? 0.035 : 0.024);
-  const count = tier >= 2 ? 6 : 4;
+  const count = tier === 3 ? 8 : tier === 2 ? 6 : 4;
   for (let i = 0; i < count; i++) {
     const angle = directionRad + Math.PI * 2 * i / count, inner = radius * 0.45;
     g.moveTo(P.units(point.x + Math.cos(angle) * inner), P.units(point.y + Math.sin(angle) * inner));

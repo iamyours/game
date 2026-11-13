@@ -1,3 +1,7 @@
+# D037 瞬时反馈与完整骨架
+
+RagdollInstance移除severHead；ArcadeBattle死亡不删除颈关节。injuries为actor/part到期时间Map，固定步后清理，draw读取橙金环且不写Sprite色调。retirementOpacity仅驱动现有actor root/platform/drop的UIOpacity，原after-step回收和物理保持。PhysicsLab在既有HitResolver回调选普通/重击/暴击一个音效，变体未就绪回退hit；场景释放沿用原AudioClip所有权。详见NON_GORY_FEEL.md。
+
 # D036 图片资源与所有权
 
 RuinsArtAssets共享环境两纹理/四帧，异步返回前检查disposed及平台有效/激活；场景退出先销毁视觉再归还引用。平台三段Sprite位于原Collider范围，背景只改视觉子节点的cover尺寸。CharacterSkin可选ruins图集，失败回退classic；敌人仅翻转纹理子节点。原骨架、物理步、伤害与资源回收所有权不变。细节IMMERSIVE_ART.md。

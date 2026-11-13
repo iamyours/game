@@ -4,10 +4,11 @@ import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { createRequire } from 'node:module';
 import vm from 'node:vm';
+import assert from 'node:assert/strict';
 import ts from 'typescript';
 const require = createRequire(import.meta.url);
 const sharp = require(require.resolve('sharp', { paths: [process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES || '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules'] }));
-const out = process.env.PRESENTATION_PREVIEW_DIR || 'evidence/visual-polish-20261113'; mkdirSync(out, { recursive: true });
+const out = process.env.PRESENTATION_PREVIEW_DIR || 'evidence/player-iteration-20261113'; mkdirSync(out, { recursive: true });
 const paths = [];
 class Color {
   constructor(r = 255, g = 255, b = 255, a = 255) { Object.assign(this, { r, g, b, a }); }
@@ -62,6 +63,7 @@ const { drawWeaponArrow, drawWeaponBow, WEAPON_STYLES } = load('assets/scripts/p
 const { battleFrame } = load('assets/scripts/domain/BattleLayout.ts');
 const { armGeometry, solveArm } = load('assets/scripts/domain/archery.ts');
 const { bowArtStrip, bowArtPoint, spriteShear } = load('assets/scripts/domain/weaponGeometry.ts');
+const { InputRouter } = load('assets/scripts/input/InputRouter.ts');
 const config = JSON.parse(readFileSync('configs/combat.seed.json'));
 const rig = JSON.parse(readFileSync('configs/rig.seed.json'));
 const bodies = new Map(rig.bodyDefinitions.map(b => [b.id, b]));
@@ -109,17 +111,37 @@ function actorSvg(skin, origin, mirrored, angle) {
   return `<g transform="translate(${origin[0] * 32},${origin[1] * 32}) scale(${mirrored ? -1 : 1},1)">${elements.join('')}${skin === 'hero' ? thunderSvg(socket, hand) : g.commands.join('')}</g>`;
 }
 const reports = [];
-for (const [name, width, height] of [['desktop', 1440, 810], ['phone-wide', 844, 390]]) {
+const uiChecks = [];
+for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0], ['phone-wide', 844, 390, 92, 0],
+  ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0]]) {
   paths.length = 0; screen.windowSize = { width, height };
   const lab = new PhysicsLab(), camera = { node: new Node(), orthoHeight: 0 };
   lab.viewport = new LabViewport(camera, config.viewport, true); lab.config = config;
   lab.projectiles = { setViewBounds() {} }; lab.physics = { setPaused() {} }; lab.soundSource = { stop() {} };
-  lab.router = { selectedArrow: { id: 'normal' }, canSwitch: true, cancel() {}, setBlocked() {}, drag: null, aimId: null, lastReleaseResult: 'none' };
-  lab.arcade = { score: 3 }; lab.combatStates = new Map([['PlayerRagdoll', { hp: 92 }]]); lab.shotBudget = { stamina: 78 };
+  lab.router = new InputRouter({ ...config.input, initialRad: 0.3, minRad: -0.26, maxRad: 1.3 }, config.arrows, true);
+  lab.arcade = { score: 3 }; lab.combatStates = new Map([['PlayerRagdoll', { hp: 92 }]]); lab.shotBudget = { stamina: 78, cooldownSec: cooldown };
+  lab.lastShot = { arrowId: 'impact' };
   lab.records = { snapshot: { bestScore: 12, soundEnabled: true }, lastWrite: { ok: true } };
-  for (const id of ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice']) lab[id] = new Label();
-  lab.resetLabel.string = '重开';
-  lab.poseButtons = []; lab.hud = new Graphics(); lab.resize(); lab.drawHUD();
+  for (const id of ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel']) lab[id] = new Label();
+  lab.resetLabel.string = '重开'; lab.retryLabel.string = '再来一局';
+  lab.poseButtons = []; lab.hud = new Graphics(); lab.resize();
+  // Exercise the production component's input handlers. This fixture has NO Cocos/physics backend.
+  const safe = lab.viewport.safe, point = { x: safe.left + (safe.right - safe.left) * 0.17, y: safe.top + (safe.bottom - safe.top) * 0.55 };
+  const event = (id, p) => ({ getTouches: () => [{ getID: () => id, getUILocation: () => ({ x: p.x, y: lab.viewport.height - p.y }) }] });
+  lab.press(event(1, point)); assert.equal(lab.router.aimId, 1);
+  lab.move(event(1, { x: point.x - 110, y: point.y + 20 })); assert.equal(lab.router.step(0.2), null);
+  lab.release(event(1, { x: point.x - 110, y: point.y + 20 })); assert.ok(lab.router.step(0.01)); assert.equal(lab.router.step(0.01), null);
+  lab.cancel(); lab.combatStates.get('PlayerRagdoll').hp = 0; lab.drawHUD();
+  assert.equal(lab.retryLabel.node.active, true); assert.equal(lab.switchLabel.node.active, false);
+  lab.press(event(2, point)); assert.equal(lab.router.aimId, null);
+  const retryPoint = { x: (lab.retryRect.left + lab.retryRect.right) / 2, y: (lab.retryRect.top + lab.retryRect.bottom) / 2 };
+  lab.press(event(3, retryPoint)); lab.release(event(3, retryPoint)); assert.equal(lab.resetRequested, true); assert.equal(lab.router.step(0.01), null);
+  lab.resetRequested = false; lab.combatStates.get('PlayerRagdoll').hp = 1;
+  lab.playerAim = { poseSnapshot: { pose: 'downed' } }; lab.press(event(4, point)); assert.equal(lab.router.aimId, 4);
+  lab.cancel(); lab.combatStates.get('PlayerRagdoll').hp = hp; lab.drawHUD();
+  if (cooldown > 0) assert.ok(lab.aimLabel.string.includes('0.4s'));
+  uiChecks.push({ name, inputAtCharacter: true, releaseOnce: true, deadBlocksAim: true, retryQueuesResetOnly: true,
+    aliveDownedAcceptsAim: true, scope: 'Production component handlers + InputRouter in a UI fixture; no engine/physics' });
   const ui = lab.hud.commands.join(''), world = new Node(); lab.drawBackdrop(world);
   let worldSvg = world.children.map(n => [...n.components.values()].flatMap(g => g.commands ?? []).join('')).join('');
   const frame = battleFrame(width / height), scale = width / frame.width / 32;
@@ -129,13 +151,16 @@ for (const [name, width, height] of [['desktop', 1440, 810], ['phone-wide', 844,
   worldSvg += actorSvg('hero', [3.5, 3.41], false, 0.25) + actorSvg('enemy', [18.5, 4.51], true, 0.08);
   const arrow = new Graphics(); drawWeaponArrow(arrow, 'normal', { x: 11.8, y: 5.7 }, -0.08);
   worldSvg += arrow.commands.join('');
-  const labels = ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel'].map(key => {
+  const labels = ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel'].map(key => {
     const l = lab[key]; if (!l.node.active) return '';
-    return `<text x="${l.node.x + lab.viewport.width / 2}" y="${lab.viewport.height / 2 - l.node.y}" text-anchor="middle" dominant-baseline="central" font-size="${l.fontSize}" fill="${l.color}">${esc(l.string)}</text>`;
+    const lines = l.string.split('\n'), x = l.node.x + lab.viewport.width / 2;
+    return `<text x="${x}" y="${lab.viewport.height / 2 - l.node.y}" text-anchor="middle" dominant-baseline="central" font-size="${l.fontSize}" fill="${l.color}">${lines.map((line, i) => `<tspan x="${x}" dy="${i ? l.fontSize * 1.3 : -(lines.length - 1) * l.fontSize * 0.65}">${esc(line)}</tspan>`).join('')}</text>`;
   }).join('');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><rect width="100%" height="100%" fill="#142A38"/><g transform="translate(${width / 2},${height / 2}) scale(${scale},${-scale}) translate(${-frame.centerX * 32},${-frame.centerY * 32})">${worldSvg}</g><g transform="scale(${view.scale})"><g transform="translate(${lab.viewport.width / 2},${lab.viewport.height / 2}) scale(1,-1)">${ui}</g><g font-family="Noto Sans CJK SC, sans-serif">${labels}</g></g></svg>`;
   await sharp(Buffer.from(svg)).png().toFile(`${out}/${name}-offline.png`);
-  reports.push({ name, width, height, frame, safe: lab.viewport.safe, controls: { switch: lab.layout.arrowSwitch, pause: lab.pauseRect, fullscreen: lab.fullscreenRect } });
+  reports.push({ name, width, height, hp, cooldown, frame, safe: lab.viewport.safe,
+    controls: { aim: lab.layout.aim, switch: lab.layout.arrowSwitch, pause: lab.pauseRect, fullscreen: lab.fullscreenRect, retry: lab.retryRect } });
 }
 writeFileSync(`${out}/presentation-layout.json`, JSON.stringify({ scope: 'Offline production Graphics/HUD/camera QA; posed actors; NOT Creator or physics runtime', views: reports }, null, 2) + '\n');
+writeFileSync(`${out}/interaction-qa.json`, JSON.stringify({ scope: 'UI fixture only, NOT actual gameplay', checks: uiChecks }, null, 2) + '\n');
 console.log('Rendered production HUD, arrow paths and camera in desktop + wide phone sizes. Posed actors; NOT runtime evidence.');

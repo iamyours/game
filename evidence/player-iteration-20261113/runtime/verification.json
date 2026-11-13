@@ -1,0 +1,8 @@
+{
+  "status": "BLOCKED",
+  "passed": false,
+  "scope": "Real Creator/Box2D projectile flight, physical terrain impacts, residue expiry and landscape layout. Direct fire bypasses gestures; not G1.",
+  "errors": [],
+  "cases": {},
+  "reason": "Current Creator Web build missing"
+}

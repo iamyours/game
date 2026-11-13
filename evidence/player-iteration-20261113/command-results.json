@@ -1,0 +1,95 @@
+[
+  {
+    "name": "verify",
+    "command": [
+      "npm",
+      "run",
+      "verify"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 8.899
+  },
+  {
+    "name": "syntax",
+    "command": [
+      "npm",
+      "run",
+      "check:syntax"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 1.293
+  },
+  {
+    "name": "offline-ui",
+    "command": [
+      "npm",
+      "run",
+      "preview:presentation"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 10.004
+  },
+  {
+    "name": "environment",
+    "command": [
+      "npm",
+      "run",
+      "env:check"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 0.287
+  },
+  {
+    "name": "engine-types",
+    "command": [
+      "npm",
+      "run",
+      "typecheck:engine"
+    ],
+    "exitCode": 2,
+    "expectedExitCode": 2,
+    "durationSec": 0.378
+  },
+  {
+    "name": "build-web",
+    "command": [
+      "npm",
+      "run",
+      "build:web"
+    ],
+    "exitCode": 2,
+    "expectedExitCode": 2,
+    "durationSec": 0.255
+  },
+  {
+    "name": "runtime",
+    "command": [
+      "npm",
+      "run",
+      "test:web:projectile-presentation"
+    ],
+    "exitCode": 2,
+    "expectedExitCode": 2,
+    "durationSec": 0.422,
+    "environment": {
+      "PROJECTILE_PRESENTATION_EVIDENCE_DIR": "evidence/player-iteration-20261113/runtime"
+    }
+  },
+  {
+    "name": "local-game-url",
+    "command": [
+      "curl",
+      "-I",
+      "--max-time",
+      "3",
+      "http://127.0.0.1:7458/"
+    ],
+    "exitCode": 7,
+    "expectedExitCode": 7,
+    "durationSec": 0.021
+  }
+]

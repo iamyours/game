@@ -1,15 +1,22 @@
-# 当前状态（D033）
+# 当前状态（D034）
 
 version: V2.2
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: main 6795b5d + D033箭矢清理/全宽视觉；证据evidence/visual-polish-20261113
+sourceRevision: main e509c87 + D034热区/冷却/重开反馈；证据evidence/player-iteration-20261113
 configVersion: 2
 runtimeVerified: false
-feelGateG1: BLOCKED（当前构建可运行；力度、受击关节与销毁回归未通过，完整试玩待验）
+feelGateG1: BLOCKED（D031历史构建可运行；当前改动无运行包，力度/受击关节/销毁与完整试玩待验）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D034 推送与玩家体验迭代（2026-11-13）
+
+- D033完整内容已推送main e509c87；本轮检查无Creator/当前Web包，7458连接被拒绝，桌面也无运行游戏，未实际试玩。
+- 基于交互源码与离线界面修复：连续模式角色附近无法开始瞄准（热区扩至安全区左侧主体，保留header/右按钮）；显示上次发射的共享冷却进度/剩余秒数；HP归零后居中结算和大重开按钮，不抢存活Downed的控制。
+- 137项便携测试与生产UI夹具检查通过；桌面/宽屏/冷却/结算离线图已检查。夹具仅调用生产输入/HUD，不运行物理。真实引擎、全屏、碰撞和手感仍待当前运行包，不升级任务/G1状态。
+- 建议和边界见docs/PLAYER_EXPERIENCE_REVIEW.md；下步需当前URL或Creator Web包完成真正实玩，再收敛原销毁/关节问题。
 
 ## D033 箭矢残留与横屏全屏（2026-11-13）
 

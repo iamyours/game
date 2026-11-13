@@ -1,3 +1,7 @@
+# D034 交互反馈
+
+BattleLayout提供连续模式热区、结果按钮和冷却显示几何；PhysicsLab保留InputRouter/ShotBudget的原控制归属，UI仅读取上次成功发射间隔与剩余冷却。结果触点复用resetTouch与after-step重置队列，以HP而非姿态门控；死亡取消瞄准，存活Downed不禁用。离线UI夹具执行生产处理器，不作为引擎/物理证据。
+
 # D033 有界箭矢表现与全宽布局
 
 domain/ProjectilePresentation提供固定步时间的ArrowResidues租期/容量/淡出与短迹裁切；ProjectileSystem保留真实bullet箭尖及单次命中路径，视觉租期不保留额外物理体。UIOpacity只作用于插箭视觉，回收立即停显后帧末销毁。飞行池每次复用显式恢复重力/阻尼，短迹共享一个Graphics并有界采样。domain/BattleLayout提供连续模式固定构图；LabViewport只改相机并映射完整安全区，不缩放物理节点。PhysicsLab显示紧凑HUD与支持时的用户点击全屏；Web壳铺满动态视口。详见PROJECTILE_PRESENTATION.md，当前运行待验。

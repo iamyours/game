@@ -19,6 +19,7 @@ import { CharacterSkin } from './CharacterSkin';
 import { ShotBudget, type ShotRejection } from '../domain/BattleRules';
 import { ArcadeRecordRepository } from '../domain/SaveRepository';
 import { eventCallbackCount, RuntimeDiagnostics } from '../domain/RuntimeDiagnostics';
+import { battleAimRect, battleResultLayout, cooldownProgress } from '../domain/BattleLayout';
 
 const { ccclass } = _decorator;
 const color = (hex: string): Color => new Color().fromHEX(hex);
@@ -71,6 +72,8 @@ export class PhysicsLab extends Component {
   private resetRect: Rect = empty;
   private resetTouch: number | null = null;
   private notice!: Label;
+  private retryLabel!: Label;
+  private retryRect: Rect = empty;
   private layout: InputLayout = { aim: empty, arrowSwitch: empty };
   private pauseRect: Rect = empty;
   private pauseId: number | null = null;
@@ -209,6 +212,7 @@ export class PhysicsLab extends Component {
       pose, label: label(this.overlay, `Pose_${pose}`, 25, ['站立重置', '后仰测试', '倒地测试'][i]), rect: empty,
     }));
     this.notice = label(this.overlay, 'Notice', 36);
+    this.retryLabel = label(this.overlay, 'Retry', 30, '再来一局');
     this.resize();
     profiler.hideStats();
     view.on('canvas-resize', this.resize, this);
@@ -284,6 +288,7 @@ export class PhysicsLab extends Component {
       poseButtons: this.poseButtons.map(({ pose, rect }) => ({ pose, rect })),
       pauseRect: this.pauseRect, resetRect: this.resetRect, fullscreenRect: this.fullscreenRect,
       fullscreenAvailable: this.canFullscreen, width: v.width, height: v.height, safe: v.safe, battleBounds: v.worldBounds,
+      retryRect: this.retryRect, resultVisible: this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0 && !v.portrait && !this.manualPause,
       projection: { topLeft, bottomRight, roundTrip: v.uiToWorld(v.worldToUI(bow.x, bow.y)) },
       pose: { player: this.playerAim.poseSnapshot, enemy: this.enemyAim.poseSnapshot, bowSocket: this.playerAim.bowSocket(), hands: this.playerAim.handsSnapshot },
       combat: Array.from(this.combatStates.values()).map((state) => ({ ...state })), projectiles: this.projectiles?.count ?? 0, embedded: this.projectiles?.embeddedCount ?? 0,
@@ -382,6 +387,7 @@ export class PhysicsLab extends Component {
       if (this.arcade.score > this.records.snapshot.bestScore && this.recordPendingAt === null) this.recordPendingAt = stepId;
       const dead = this.combatStates.get('PlayerRagdoll')!.hp <= 0;
       if (dead) {
+        this.router.cancel();
         this.playerAim.setAlive(false);
         if (!this.resultRecorded) { this.records.record(this.arcade.score); this.resultRecorded = true; }
       }
@@ -425,13 +431,16 @@ export class PhysicsLab extends Component {
       } else if (this.canFullscreen && contains(this.fullscreenRect, point)) this.fullscreenTouch = touch.getID();
       else if (this.arcadeMode && contains(this.soundRect, point)) this.soundTouch = touch.getID();
       else if (contains(this.resetRect, point)) this.resetTouch = touch.getID();
-      else if (this.poseButtons.some(button => contains(button.rect, point))) {
+      else if (this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0) {
+        if (!this.manualPause && contains(this.retryRect, point)) this.resetTouch = touch.getID();
+      } else if (this.poseButtons.some(button => contains(button.rect, point))) {
         this.poseTouch = { id: touch.getID(), index: this.poseButtons.findIndex(button => contains(button.rect, point)) };
       } else this.router.press(touch.getID(), point, this.layout);
     }
     this.dirty = true;
   }
   private move(event: EventTouch): void {
+    if (this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0) return;
     for (const touch of event.getTouches()) this.router.move(touch.getID(), this.viewport.fromUILocation(touch.getUILocation()));
     this.dirty = true;
   }
@@ -452,12 +461,15 @@ export class PhysicsLab extends Component {
         }
       } else if (this.resetTouch === touch.getID()) {
         this.resetTouch = null;
-        if (contains(this.resetRect, point)) { this.manualPause = false; this.syncPause(); this.resetRagdolls(); }
+        if (contains(this.resetRect, point) || (this.arcadeMode && !this.manualPause &&
+          this.combatStates.get('PlayerRagdoll')!.hp <= 0 && contains(this.retryRect, point))) {
+          this.manualPause = false; this.syncPause(); this.resetRagdolls();
+        }
       } else if (this.poseTouch?.id === touch.getID()) {
         const button = this.poseButtons[this.poseTouch.index]!;
         this.poseTouch = null;
         if (contains(button.rect, point)) this.requestPoseDemo(button.pose);
-      } else this.router.release(touch.getID(), point, this.layout);
+      } else if (!this.arcadeMode || this.combatStates.get('PlayerRagdoll')!.hp > 0) this.router.release(touch.getID(), point, this.layout);
     }
     this.dirty = true;
   }
@@ -506,6 +518,7 @@ export class PhysicsLab extends Component {
     this.placeLabel(this.soundLabel, midpoint(this.soundRect));
     this.placeLabel(this.pauseLabel, midpoint(this.pauseRect));
     if (this.arcadeMode) {
+      this.layout.aim = battleAimRect(safe);
       const buttonW = Math.max(132, minSize), buttonH = Math.max(78, minSize), gap = 12;
       const action = (index: number): Rect => ({ left: safe.right - 20 - buttonW - index * (buttonW + gap),
         right: safe.right - 20 - index * (buttonW + gap), top: safe.top + 20, bottom: safe.top + 20 + buttonH });
@@ -527,6 +540,9 @@ export class PhysicsLab extends Component {
       this.layout.arrowSwitch = { left: safe.right - Math.max(200, minSize) - 24, right: safe.right - 24,
         top: safe.bottom - Math.max(104, minSize) - 28, bottom: safe.bottom - 28 };
       this.placeLabel(this.switchLabel, midpoint(this.layout.arrowSwitch)); this.switchLabel.fontSize = font + 2;
+      const result = battleResultLayout(safe, minSize);
+      this.retryRect = result.retry;
+      this.placeLabel(this.retryLabel, midpoint(this.retryRect)); this.retryLabel.fontSize = font + 4;
     }
     for (const [index, button] of this.poseButtons.entries()) {
       button.rect = { left: x(0.46 + index * 0.12), right: x(0.57 + index * 0.12),
@@ -547,17 +563,24 @@ export class PhysicsLab extends Component {
     const g = this.hud;
     g.clear();
     const { portrait } = this.viewport;
+    const dead = this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0;
     for (const l of [this.title, this.metrics, this.aimLabel, this.pauseLabel, this.resetLabel]) l.node.active = !portrait;
     for (const button of this.poseButtons) button.label.node.active = !portrait;
     this.soundLabel.node.active = !portrait && this.arcadeMode;
     this.vitals.node.active = !portrait && this.arcadeMode;
     this.fullscreenLabel.node.active = !portrait && this.canFullscreen;
     this.soundLabel.string = this.records.snapshot.soundEnabled ? '音效 开' : '音效 关';
-    this.switchLabel.node.active = !portrait && this.router.canSwitch;
-    this.notice.node.active = portrait || this.manualPause;
+    this.switchLabel.node.active = !portrait && !dead && this.router.canSwitch;
+    this.retryLabel.node.active = !portrait && dead && !this.manualPause;
+    this.aimLabel.node.active = !portrait && !dead;
+    this.notice.node.active = portrait || this.manualPause || dead;
     this.notice.fontSize = portrait ? Math.max(36, 24 * screen.devicePixelRatio / view.getScaleX()) : 36;
     this.notice.lineHeight = this.notice.fontSize * 1.3;
-    this.notice.string = portrait ? '请横置屏幕' : '已暂停 · 继续后重新按住瞄准';
+    this.notice.string = portrait ? '请横置屏幕' : this.manualPause ? '已暂停 · 继续后重新按住瞄准' :
+      `本次击败 ${this.arcade?.score ?? 0} 名敌人\n最高记录 ${this.records.snapshot.bestScore}`;
+    if (dead && !portrait && !this.manualPause) this.placeLabel(this.notice,
+      battleResultLayout(this.viewport.safe, 48 * screen.devicePixelRatio / view.getScaleX()).summary);
+    else this.placeLabel(this.notice, this.viewport.width / 2, this.viewport.height / 2);
     if (portrait) return;
     if (this.arcadeMode) { this.drawBattleHUD(); return; }
     const box = (r: Rect, tint: string): void => {
@@ -628,8 +651,16 @@ export class PhysicsLab extends Component {
     };
     for (const rect of [this.pauseRect, this.resetRect, this.soundRect]) box(rect, '#193646C8');
     if (this.canFullscreen) box(this.fullscreenRect, '#193646C8');
-    if (this.router.canSwitch) box(this.layout.arrowSwitch, '#1E3A49E8', 22);
     const hp = this.combatStates.get('PlayerRagdoll')!.hp, stamina = this.shotBudget.stamina;
+    if (this.router.canSwitch && hp > 0) {
+      const cooldown = this.shotBudget.cooldownSec;
+      box(this.layout.arrowSwitch, cooldown > 0 ? '#162D3CE8' : '#1E3A49E8', 22);
+      const interval = this.config.arrows.find(a => a.id === this.lastShot?.arrowId)?.intervalSec ?? this.config.arrows[0]!.intervalSec;
+      const progress = cooldownProgress(cooldown, interval), r = this.layout.arrowSwitch;
+      const track = { left: r.left + 20, right: r.right - 20, top: r.bottom - 15, bottom: r.bottom - 9 };
+      box(track, '#375160', 3);
+      if (progress > 0) box({ ...track, right: track.left + (track.right - track.left) * progress }, cooldown > 0 ? '#E5B669' : '#69C7D3', 3);
+    }
     this.title.string = `击败 ${String(this.arcade!.score).padStart(2, '0')}`;
     this.metrics.string = `最高 ${this.records.snapshot.bestScore}`; this.metrics.color = color('#9AB6C4');
     this.vitals.string = `生命 ${hp}     体力 ${Math.floor(stamina)}`; this.vitals.color = color('#B9CED6');
@@ -644,16 +675,18 @@ export class PhysicsLab extends Component {
     const id = this.router.selectedArrow.id, tint = arrowTints[id] ?? '#F7C66F';
     this.switchLabel.string = `${arrowNames[id] ?? id}箭  ›`; this.switchLabel.color = color(tint);
     const release = this.router.lastReleaseResult;
-    const result = release === 'too-short' ? '按住后松手发射' : release === 'cooldown' ? '弓弦回弹中' :
+    const cooling = this.shotBudget.cooldownSec > 0.001;
+    const result = release === 'too-short' ? '按住后松手发射' : release === 'cooldown' ? (cooling ? '准备下一箭' : '') :
       release === 'queued' && this.lastAttempt ? ({ 'hands-unready': '调整角度，让双手就位',
         'muzzle-blocked': '弓口被挡住，请调整角度', 'arrow-limit': '等待在途箭落下', fired: '', exhausted: '体力恢复中',
-        cooldown: '弓弦回弹中', dead: '', inactive: '', disarmed: '弓已脱落', blocked: '弓口被挡住' })[this.lastAttempt.result] : '';
+        cooldown: cooling ? '准备下一箭' : '', dead: '', inactive: '', disarmed: '弓已脱落', blocked: '弓口被挡住' })[this.lastAttempt.result] : '';
     this.aimLabel.color = color(result ? '#F7C790' : '#8FAFBD');
     this.aimLabel.string = hp <= 0 ? `本次击败 ${this.arcade!.score} 名敌人 · 点重开再来` : result ||
-      (this.router.aimId !== null ? `拉弓 ${Math.round(this.router.drawProgress * 100)}% · 松手放箭` : '拖动拉弓 · 松手放箭');
+      (this.router.aimId !== null ? `拉弓 ${Math.round(this.router.drawProgress * 100)}% · 松手放箭` :
+        cooling ? `下一箭 ${this.shotBudget.cooldownSec.toFixed(1)}s · 可先瞄准` : '左侧拖动拉弓 · 松手放箭');
     if (!this.records.lastWrite.ok) this.aimLabel.string += ' · 记录暂未保存';
     const drag = this.router.drag;
-    if (drag) {
+    if (drag && hp > 0) {
       const origin = this.viewport.toLocal(drag.origin), p = this.viewport.toLocal(drag.point), radius = this.config.input.fullDrawDistanceDesign;
       const scale = Math.min(1, radius / Math.max(1, Math.hypot(p.x - origin.x, p.y - origin.y)));
       g.strokeColor = color('#95C8D25A'); g.lineWidth = 2; g.circle(origin.x, origin.y, radius); g.stroke();
@@ -663,6 +696,11 @@ export class PhysicsLab extends Component {
     }
     if (this.manualPause) box({ left: this.viewport.width / 2 - 320, right: this.viewport.width / 2 + 320,
       top: this.viewport.height / 2 - 54, bottom: this.viewport.height / 2 + 54 }, '#102631EB');
+    else if (hp <= 0) {
+      box({ left: 0, top: 0, right: this.viewport.width, bottom: this.viewport.height }, '#071721A8', 0);
+      const { panel, retry } = battleResultLayout(safe, 48 * screen.devicePixelRatio / view.getScaleX());
+      box(panel, '#173543F5', 26); box(retry, '#376775', 18);
+    }
   }
 
   private drawAim(): void {

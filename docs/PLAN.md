@@ -1,3 +1,7 @@
+# D034 玩家体验迭代（2026-11-13）
+
+D033已推送e509c87。当前无Creator/Web运行包，实玩BLOCKED；本轮先完成左侧大热区、共享冷却可视进度、死亡结算与大重开按钮，保留存活倒地控制。137项便携及生产UI夹具通过，不放行G1。需当前URL或Creator Web包后，按PLAYER_EXPERIENCE_REVIEW.md完成真实首次操作/实射/失败重开，并复测销毁与关节问题。
+
 # D033 当前反馈优先（2026-11-13）
 
 按用户反馈已实现箭矢残留时限/有界回收、尺寸与轮廓、短箭迹、紧凑全宽HUD和点击全屏。T005/T012/T014保持IN_PROGRESS；134项便携检查与离线预览不放行G1。下次先Creator3.8.8导入新增meta并构建，执行test:web:projectile-presentation/release/arcade，再复测销毁与强冲击关节，最后实机确认飞行重量感和全屏。说明PROJECTILE_PRESENTATION.md，证据evidence/visual-polish-20261113。

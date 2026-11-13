@@ -15,15 +15,23 @@ export class CharacterSkin {
   private readonly visuals: Node[] = [];
   public constructor(private readonly actor: RagdollInstance, private readonly rig: RigDefinition) {}
 
-  public async load(skin: 'hero' | 'enemy'): Promise<void> {
+  public async load(skin: 'hero' | 'enemy', style: 'classic' | 'ruins' = 'classic'): Promise<void> {
+    if (style === 'ruins') {
+      try { await this.loadAtlas(`${skin}-ruins-v2`, `${skin}-ruins-v2-frames`, skin === 'enemy'); return; }
+      catch (error) { console.warn('[CharacterSkin] 遗迹皮肤未就绪，保留原角色资源：', error); }
+    }
+    await this.loadAtlas(`${skin}-atlas`, `${skin}-frames`, false);
+  }
+
+  private async loadAtlas(image: string, metadata: string, mirrorArt: boolean): Promise<void> {
     const [texture, spec] = await Promise.all([
-      new Promise<Texture2D>((resolve, reject) => resources.load(`characters/${skin}-atlas/texture`, Texture2D,
+      new Promise<Texture2D>((resolve, reject) => resources.load(`characters/${image}/texture`, Texture2D,
         (error, asset) => {
           if (error) return reject(error);
           if (!(asset instanceof Texture2D)) return reject(new Error('角色图集资源类型无效'));
           resolve(asset);
         })),
-      new Promise<AtlasSpec>((resolve, reject) => resources.load(`characters/${skin}-frames`, JsonAsset,
+      new Promise<AtlasSpec>((resolve, reject) => resources.load(`characters/${metadata}`, JsonAsset,
         (error, asset) => error ? reject(error) : resolve(asset.json as AtlasSpec))),
     ]);
     if (this.disposed || !isValid(this.actor.root)) return;
@@ -48,6 +56,8 @@ export class CharacterSkin {
       this.frames.push(frame);
       const visual = new Node(`Skin_${part.id}`);
       visual.layer = body.layer; visual.parent = body;
+      // Mirror the texture child only: the enemy's real mirrored rig is already built by the factory.
+      if (mirrorArt) visual.setScale(-1, 1, 1);
       const sprite = visual.addComponent(Sprite);
       sprite.sizeMode = Sprite.SizeMode.CUSTOM;
       sprite.spriteFrame = frame;

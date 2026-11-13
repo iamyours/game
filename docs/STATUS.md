@@ -1,15 +1,22 @@
-# 当前状态（D035）
+# 当前状态（D036）
 
-version: V2.3
+version: V2.4
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: main 33db0a2 + D035统一美术/命中分级/暂停菜单；证据evidence/art-direction-20261113
+sourceRevision: local 1ac497b + D036 GPT图片接入；远端main仍33db0a2；证据evidence/immersive-art-20261113
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（D031历史构建可运行；当前改动无运行包，力度/受击关节/销毁与完整试玩待验）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D036 GPT生图与沉浸感（2026-11-13）
+
+- 内置GPT生图生成背景、平台、主角/敌人四张原PNG，原样保存为v2资源，旧图保留。风格统一雾谷断桥/石材青铜/布衣皮革，完整提示词和路径见IMMERSIVE_ART.md。
+- 连续模式接入新人物11片、等比cover背景与保端块的三段平台；仅视觉子节点变化，真实骨架/碰撞/物理/数值不变。加载失败回退旧资源，异步离场和资源引用清理接入；HUD补局部文字衬底。
+- 145项便携、35脚本语法、四PNG规格/透明检查与7组离线HUD/输入/摆姿合成检查通过。Creator类型/build:web/真实Web验收均退出2（缺Creator/导入/当前构建）；未实玩或验收真实手感、手机与性能。新meta待实际导入，任务和G1不升级。
+- 本轮本地工作，未尝试远端推送；原D031销毁与小腿冲击关节失败仍待实际运行定位。
 
 ## D035 外部技能设计迭代（2026-11-13）
 

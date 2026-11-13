@@ -97,3 +97,6 @@ PhysicsAdapter 的手动步必须同时维护锁定引擎的反馈保护：物�
 
 ## D035 使用跨引擎设计技能（2026-11-13）
 用户指定awesome-gamedev-agent-skills仓库。本轮读取三项跨引擎discipline与不支持引擎的fallback，保留现有Cocos3.8.8及全部物理边界。成套平台美术、分级局部命中+原音效、蓄势符号、暂停菜单与模态输入已落地；不扩展玩法或以特效替代物理。现有四PNG技术检查通过，新代码视觉为candidate/runtime_verified=false。141项便携/34语法/离线生产UI夹具通过，真实引擎构建因缺Creator退出2，不放行G1或原失败项。来源固定c6ca6c41，详见ART_DIRECTION.md。
+
+## D036 GPT生图接入（2026-11-13）
+按用户要求，为背景、人物和站台生成四张原PNG并原样保留为v2资源。CharacterSkin连续模式优先新11片图集；RuinsArtAssets提供共享加载、等比背景和三段平台，失败回退、迟到结果和引用释放明确处理。所有新变换仅作用视觉子节点，不改物理或数值。145项便携/35语法/离线合成通过；当前无Creator导入、构建或真机证据，不生成假meta或放行G1。完整提示词及来源IMMERSIVE_ART.md。

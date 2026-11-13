@@ -1,0 +1,31 @@
+{
+  "baseRevision": "1ac497bb0546a59de056bca42cfb93bdb98cd261",
+  "scope": "D036 working source before commit; original PNG hashes recorded in ruins-art-v2.json",
+  "files": {
+    "assets/scripts/combat/ArcadeBattle.ts": "f082b6bb2d7bd60de825b2ba64625244af49157551af47adf3265086390e48df",
+    "assets/scripts/presentation/CharacterSkin.ts": "ff297348115fafc6e7d0b150574f411fff5d87e097c30987acb21ac6aa3a298a",
+    "assets/scripts/presentation/PhysicsLab.ts": "5d35304e14f459106e9ff359d529e1c3e23ac747367bc4553fed83eb7c1f3b57",
+    "docs/ACCEPTANCE.md": "2847b76f3f8433679df6ee85655adebcb284bdecb9e6576fba916503d918e6fd",
+    "docs/ARCHITECTURE.md": "798ee782b77fcfdfe63387ecba24abd8fb2e60cc58704ff35f45770b462ca0b5",
+    "docs/ART_DIRECTION.md": "6a078618e856e47eaf7d0ad348c13449f932dc1e5391d94e8913a0881f09bd8e",
+    "docs/DECISIONS.md": "df1fc10fcf3ae631db6364a58be37aefcbf5ed575488907dff8255263d08baea",
+    "docs/PLAN.md": "13a53eb18d7db0886c528922affd8ddeb238042335ae5f71d38a1a27348c2043",
+    "docs/PRD.md": "f9df8634c5a21dec5429ecf0be211af9791f200d44f76dc02a4b9284bbabe053",
+    "docs/STATUS.md": "a2987389933b18c987183182e478908d39a68b6e2c23beaccc4a056168480be7",
+    "docs/art-manifest.json": "9d8d10b23349d64a4136cbb828656a69f98795cca2933ca32d7e49206ffe557c",
+    "qa_cases.csv": "4174c7402f9e4557d02d89dc4b37078408e92c99b74ef6a2fe9d7c27ea3b7678",
+    "scripts/render-battle-presentation.mjs": "af52e949e91b9c06e56bc43885564162dc4af0f943e3bdfea9cb6a9cf704dcb6",
+    "scripts/verify-projectile-presentation-web.mjs": "3b03a18e0b46595329b62098296f71ee07ca675ecd202113fe3d98ef67b59dc7",
+    "tasks.csv": "e18f1d5058c6bbf78c32c94c3cbc32915382f696cf36a59b25c032fd1da7c282",
+    "tasks/T012.md": "97b08d5bacbed753cac54721ec82ce463b07ebbe05f466e62aa58d2261b0279c",
+    "tasks/T014.md": "0080b4717031adac2a3ebbf88c3c5cbb460bcb73a5a899e04853a6fd543717cc",
+    "tests/character-assets.test.ts": "29092ccdf7b5d85b6df2eed9b8a3b82d41ea4526edaec7c06c1da0cb8248c351",
+    "assets/scripts/presentation/RuinsArtAssets.ts": "14f207330b05953dde7657047f5a9261ff0c292b0eea27ec056f67c7170044bf",
+    "tests/ruins-art-lifecycle.test.mjs": "0d72e03476193063fe7b6fd55e52df395054daae64038d2d0359424fb341dba4",
+    "assets/resources/scenery/ruins-art-v2.json": "c73f4f4f4434a1a2e2ffa8065bec1ea4620312565976bb217def6945bcf1e0ff",
+    "assets/resources/characters/hero-ruins-v2-frames.json": "d82eeb5e91e2d88aca8775cefa265b2583779298916ed294448d67fad5af5a74",
+    "assets/resources/characters/enemy-ruins-v2-frames.json": "bf0dfff951d6e88303ac139bf49f16d2d3c164c113e7cae6127db6d20561f837",
+    "docs/IMMERSIVE_ART.md": "6f99db253848da418f136c2fad710e52496b57d58ebe270bec550ec38366a2bb",
+    "docs/IMMERSIVE_ART_PROMPTS.json": "0eb32db7f2328b39a7167f99d6ae67f74282c0329fb248e14f6ba9021a1b6f99"
+  }
+}

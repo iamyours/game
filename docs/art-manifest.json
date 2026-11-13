@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "direction": "Storm ruins / cool stone + aged bronze + restrained cyan/amber",
   "brief": "docs/ART_DIRECTION.md",
   "external_method_source": {
@@ -106,6 +106,82 @@
       "provenance": "Original project code created in D035; no external image or texture",
       "approval_status": "candidate",
       "runtime_verified": false
+    },
+    {
+      "id": "ruins-v2-background",
+      "path": "assets/resources/scenery/storm-ruins-v2.png",
+      "imageSize": [
+        1672,
+        941
+      ],
+      "sha256": "a18f35717bfcbd93ced2afcabc450a19c98c905ab7564dc35766e7682429fcea",
+      "mode": "RGB",
+      "kind": "GPT_generated_raster",
+      "source_record": "docs/IMMERSIVE_ART_PROMPTS.json",
+      "original_png_unchanged": true,
+      "technical_checks_passed": true,
+      "approval_status": "candidate",
+      "runtime_verified": false
+    },
+    {
+      "id": "ruins-v2-platform",
+      "path": "assets/resources/scenery/ruins-platform-v2.png",
+      "imageSize": [
+        2172,
+        724
+      ],
+      "sha256": "61b692aa61623c5c234f896e03b6b9034267bf40ec964f61f40c85c21983f681",
+      "mode": "RGBA",
+      "rect": [
+        42,
+        215,
+        2089,
+        325
+      ],
+      "capWidthPx": 220,
+      "capWidthM": 0.38,
+      "kind": "GPT_generated_raster",
+      "source_record": "docs/IMMERSIVE_ART_PROMPTS.json",
+      "original_png_unchanged": true,
+      "technical_checks_passed": true,
+      "approval_status": "candidate",
+      "runtime_verified": false
+    },
+    {
+      "id": "ruins-v2-hero",
+      "path": "assets/resources/characters/hero-ruins-v2.png",
+      "imageSize": [
+        1448,
+        1086
+      ],
+      "sha256": "798c4f2c600cf6bd989f8d250977ed3307b9369271943125b72bc474908e3357",
+      "mode": "RGBA",
+      "frames": "characters/hero-ruins-v2-frames",
+      "kind": "GPT_generated_raster",
+      "source_record": "docs/IMMERSIVE_ART_PROMPTS.json",
+      "original_png_unchanged": true,
+      "technical_checks_passed": true,
+      "approval_status": "candidate",
+      "runtime_verified": false
+    },
+    {
+      "id": "ruins-v2-enemy",
+      "path": "assets/resources/characters/enemy-ruins-v2.png",
+      "imageSize": [
+        1448,
+        1086
+      ],
+      "sha256": "7b2631ac565b0a37a9471151093b58873068bdc49e565095c5c09d31204d97a0",
+      "mode": "RGBA",
+      "frames": "characters/enemy-ruins-v2-frames",
+      "kind": "GPT_generated_raster",
+      "source_record": "docs/IMMERSIVE_ART_PROMPTS.json",
+      "original_png_unchanged": true,
+      "technical_checks_passed": true,
+      "approval_status": "candidate",
+      "runtime_verified": false
     }
-  ]
+  ],
+  "current_direction_brief": "docs/IMMERSIVE_ART.md",
+  "current_evidence": "evidence/immersive-art-20261113"
 }

@@ -1,3 +1,7 @@
+# D036 图片资源与所有权
+
+RuinsArtAssets共享环境两纹理/四帧，异步返回前检查disposed及平台有效/激活；场景退出先销毁视觉再归还引用。平台三段Sprite位于原Collider范围，背景只改视觉子节点的cover尺寸。CharacterSkin可选ruins图集，失败回退classic；敌人仅翻转纹理子节点。原骨架、物理步、伤害与资源回收所有权不变。细节IMMERSIVE_ART.md。
+
 # D035 表现事件与模态输入
 
 BattleArt集中平台/命中/蓄势的Graphics绘制；ArcadeBattle读取实际telegraph绘制形状提示，原平台刚体和碰撞盒不改。HitResolver的既有after-step回调仅向ImpactFeedback提交值快照；固定步计时，最多12活动标记/64去重历史，无原生资源和额外定时器。PhysicsLab在唯一回调触发局部标记与原音效，重开/销毁clear。BattleLayout计算暂停菜单安全区几何；死亡/暂停优先拦截press，release验证当前可见目标，syncPause清掉意图；菜单不改变InputRouter/ShotBudget所有权。离线夹具不替代引擎物理证据。

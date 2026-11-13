@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import ts from 'typescript';
 const require = createRequire(import.meta.url);
 const sharp = require(require.resolve('sharp', { paths: [process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES || '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules'] }));
-const out = process.env.PRESENTATION_PREVIEW_DIR || 'evidence/art-direction-20261113'; mkdirSync(out, { recursive: true });
+const out = process.env.PRESENTATION_PREVIEW_DIR || 'evidence/immersive-art-20261113'; mkdirSync(out, { recursive: true });
 const paths = [];
 class Color {
   constructor(r = 255, g = 255, b = 255, a = 255) { Object.assign(this, { r, g, b, a }); }
@@ -69,9 +69,22 @@ const config = JSON.parse(readFileSync('configs/combat.seed.json'));
 const rig = JSON.parse(readFileSync('configs/rig.seed.json'));
 const bodies = new Map(rig.bodyDefinitions.map(b => [b.id, b]));
 const art = Object.fromEntries(['hero', 'enemy'].map(name => [name, {
-  spec: JSON.parse(readFileSync(`assets/resources/characters/${name}-frames.json`)),
-  image: readFileSync(`assets/resources/characters/${name}-atlas.png`).toString('base64'),
+  spec: JSON.parse(readFileSync(`assets/resources/characters/${name}-ruins-v2-frames.json`)),
+  image: readFileSync(`assets/resources/characters/${name}-ruins-v2.png`).toString('base64'),
 }]));
+const scenery = JSON.parse(readFileSync('assets/resources/scenery/ruins-art-v2.json')).assets;
+const backdropImage = readFileSync(scenery.background.path).toString('base64');
+const platformImage = readFileSync(scenery.platform.path).toString('base64');
+function platformSvg(widthM) {
+  const { rect: [x, y, w, h], capWidthPx: capPx, capWidthM } = scenery.platform;
+  const cap = Math.min(capWidthM, widthM / 3), widths = [cap, widthM - cap * 2, cap];
+  const rects = [[x, y, capPx, h], [x + capPx, y, w - capPx * 2, h], [x + w - capPx, y, capPx, h]];
+  let left = -widthM / 2;
+  return widths.map((width, i) => {
+    const svg = `<g transform="scale(1,-1)"><svg x="${left * 32}" y="${-0.3 * 32}" width="${width * 32}" height="${0.6 * 32}" viewBox="${rects[i].join(' ')}" preserveAspectRatio="none"><image width="${scenery.platform.imageSize[0]}" height="${scenery.platform.imageSize[1]}" href="data:image/png;base64,${platformImage}"/></svg></g>`;
+    left += width; return svg;
+  }).join('');
+}
 const esc = text => String(text).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const thunder = JSON.parse(readFileSync('assets/resources/weapons/thunder-art.json'));
 const thunderBow = readFileSync('assets/resources/weapons/thunder-bow.png').toString('base64');
@@ -94,7 +107,7 @@ function actorSvg(skin, origin, mirrored, angle) {
   const data = art[skin], elements = [];
   const crop = (id, x, y, w, h, rotation = 0) => {
     const rect = data.spec.frames[id].rect;
-    elements.push(`<g transform="translate(${x * 32},${y * 32}) rotate(${rotation})"><g transform="scale(1,-1)"><svg x="${-w * 16}" y="${-h * 16}" width="${w * 32}" height="${h * 32}" viewBox="${rect.join(' ')}" preserveAspectRatio="none"><image width="1254" height="1254" href="data:image/png;base64,${data.image}"/></svg></g></g>`);
+    elements.push(`<g transform="translate(${x * 32},${y * 32}) rotate(${rotation})"><g transform="scale(1,-1)"><svg x="${-w * 16}" y="${-h * 16}" width="${w * 32}" height="${h * 32}" viewBox="${rect.join(' ')}" preserveAspectRatio="none"><image width="${data.spec.imageSize[0]}" height="${data.spec.imageSize[1]}" href="data:image/png;base64,${data.image}"/></svg></g></g>`);
   };
   for (const b of rig.bodyDefinitions.filter(b => !/Arm|Forearm/.test(b.id))) crop(b.id, b.positionM[0], b.positionM[1], ...b.sizeM);
   const chest = bodies.get('chest').positionM, socket = { x: 0.86, y: 1.46, angleRad: angle };
@@ -113,10 +126,12 @@ function actorSvg(skin, origin, mirrored, angle) {
 }
 const reports = [];
 const uiChecks = [];
-for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0], ['phone-wide', 844, 390, 92, 0],
+for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0], ['phone-wide', 844, 390, 92, 0], ['tablet', 1024, 768, 92, 0],
   ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0], ['phone-pause', 844, 390, 92, 0], ['phone-impact', 844, 390, 92, 0]]) {
   paths.length = 0; screen.windowSize = { width, height };
   const lab = new PhysicsLab(), camera = { node: new Node(), orthoHeight: 0 };
+  // The production async asset owner is tested separately; this offline renderer consumes its actual PNG/crops.
+  lab.ruinsArt = { resize() {}, attachBackdrop() {}, attachPlatform() {} };
   lab.viewport = new LabViewport(camera, config.viewport, true); lab.config = config;
   lab.projectiles = { setViewBounds() {} }; lab.physics = { setPaused() {} }; lab.soundSource = { stop() {} };
   lab.router = new InputRouter({ ...config.input, initialRad: 0.3, minRad: -0.26, maxRad: 1.3 }, config.arrows, true);
@@ -156,9 +171,11 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   const ui = lab.hud.commands.join(''), world = new Node(); lab.drawBackdrop(world);
   let worldSvg = world.children.map(n => [...n.components.values()].flatMap(g => g.commands ?? []).join('')).join('');
   const frame = battleFrame(width / height), scale = width / frame.width / 32;
+  const artAspect = scenery.background.imageSize[0] / scenery.background.imageSize[1];
+  const artWidth = Math.max(frame.width, frame.height * artAspect), artHeight = artWidth / artAspect;
+  worldSvg += `<g transform="translate(${frame.centerX * 32},${frame.centerY * 32}) scale(1,-1)"><image x="${-artWidth * 16}" y="${-artHeight * 16}" width="${artWidth * 32}" height="${artHeight * 32}" href="data:image/png;base64,${backdropImage}"/></g>`;
   for (const [x, y, w] of [[3.5, 3, 5], [18.5, 4.1, 2.4]]) {
-    const platform = new Graphics(); drawRuinsPlatform(platform, w, x < 10);
-    worldSvg += `<g transform="translate(${x * 32},${(y - 0.3) * 32})">${platform.commands.join('')}</g>`;
+    worldSvg += `<g transform="translate(${x * 32},${(y - 0.3) * 32})">${platformSvg(w)}</g>`;
   }
   worldSvg += actorSvg('hero', [3.5, 3.41], false, 0.25) + actorSvg('enemy', [18.5, 4.51], true, 0.08);
   const arrow = new Graphics(); drawWeaponArrow(arrow, 'normal', { x: 11.8, y: 5.7 }, -0.08);

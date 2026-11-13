@@ -22,6 +22,7 @@ import { eventCallbackCount, RuntimeDiagnostics } from '../domain/RuntimeDiagnos
 import { battleAimRect, battlePauseLayout, battleResultLayout, cooldownProgress } from '../domain/BattleLayout';
 import { ImpactFeedback } from '../domain/ProjectilePresentation';
 import { drawImpactMark, drawRuinsPlatform } from './BattleArt';
+import { RuinsArtAssets } from './RuinsArtAssets';
 
 const { ccclass } = _decorator;
 const color = (hex: string): Color => new Color().fromHEX(hex);
@@ -66,6 +67,7 @@ export class PhysicsLab extends Component {
   private aim!: Graphics;
   private impactArt!: Graphics;
   private readonly impactFeedback = new ImpactFeedback();
+  private readonly ruinsArt = new RuinsArtAssets();
   private title!: Label;
   private vitals!: Label;
   private metrics!: Label;
@@ -169,7 +171,7 @@ export class PhysicsLab extends Component {
     ];
     this.skins = this.ragdolls.map(actor => new CharacterSkin(actor, config.rig));
     this.skins.forEach((skin, index) => {
-      void skin.load(index === 0 ? 'hero' : 'enemy').catch(error => {
+      void skin.load(index === 0 ? 'hero' : 'enemy', this.arcadeMode ? 'ruins' : 'classic').catch(error => {
         console.warn('[PhysicsLab] 角色图片加载失败，保留灰盒：', error);
       });
     });
@@ -200,7 +202,7 @@ export class PhysicsLab extends Component {
     if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; }, kind => this.playSound(kind), effect => {
       const player = this.combatStates.get('PlayerRagdoll')!;
       player.hp = Math.min(config.player.hp, player.hp + effect.hp); this.shotBudget.restore(effect.stamina);
-    });
+    }, this.ruinsArt);
     this.probe = new CalibrationProbe(world, config.physics);
     if (this.arcadeMode) for (const name of ['GlideBody', 'DropBody']) { const g = world.getChildByName(name)?.getComponent(Graphics); if (g) g.enabled = false; }
     this.aim = child(world, 'AimPreview').addComponent(Graphics);
@@ -272,6 +274,7 @@ export class PhysicsLab extends Component {
     this.playerBow?.dispose();
     this.weaponAssets?.dispose();
     this.arcade?.dispose();
+    this.ruinsArt.dispose();
     for (const skin of this.skins) skin.dispose();
     this.ragdollFactory?.dispose();
     this.overlay?.destroy();
@@ -508,6 +511,7 @@ export class PhysicsLab extends Component {
 
   private resize(): void {
     this.viewport.resize();
+    this.ruinsArt.resize(this.viewport.worldBounds);
     this.projectiles.setViewBounds(this.viewport.worldBounds);
     const { safe } = this.viewport;
     const w = safe.right - safe.left, h = safe.bottom - safe.top;
@@ -678,6 +682,12 @@ export class PhysicsLab extends Component {
       g.roundRect(p.x, p.y, r.right - r.left, r.bottom - r.top, radius); g.stroke();
     };
     const hp = this.combatStates.get('PlayerRagdoll')!.hp, stamina = this.shotBudget.stamina;
+    // Local scrims keep text readable over the painted sky without dimming the battlefield.
+    box({ left: safe.left + 12, right: safe.left + 464, top: safe.top + 6, bottom: safe.top + 156 }, '#102A38D8', 18);
+    if (hp > 0 && !this.manualPause) {
+      const cx = safe.left + (safe.right - safe.left) * 0.29, width = Math.min(900, (safe.right - safe.left) * 0.55);
+      box({ left: cx - width / 2, right: cx + width / 2, top: safe.bottom - 77, bottom: safe.bottom - 10 }, '#102A38B8', 16);
+    }
     if (hp > 0) box(this.pauseRect, '#193646C8');
     if (this.router.canSwitch && hp > 0 && !this.manualPause) {
       const cooldown = this.shotBudget.cooldownSec;
@@ -707,7 +717,7 @@ export class PhysicsLab extends Component {
       release === 'queued' && this.lastAttempt ? ({ 'hands-unready': '调整角度，让双手就位',
         'muzzle-blocked': '弓口被挡住，请调整角度', 'arrow-limit': '等待在途箭落下', fired: '', exhausted: '体力恢复中',
         cooldown: cooling ? '准备下一箭' : '', dead: '', inactive: '', disarmed: '弓已脱落', blocked: '弓口被挡住' })[this.lastAttempt.result] : '';
-    this.aimLabel.color = color(result ? '#F7C790' : '#8FAFBD');
+    this.aimLabel.color = color(result ? '#F7C790' : '#C4D6DE');
     this.aimLabel.string = hp <= 0 ? `本次击败 ${this.arcade!.score} 名敌人 · 点重开再来` : result ||
       (this.router.aimId !== null ? `拉弓 ${Math.round(this.router.drawProgress * 100)}% · 松手放箭` :
         cooling ? `下一箭 ${this.shotBudget.cooldownSec.toFixed(1)}s · 可先瞄准` : '左侧拖动拉弓 · 松手放箭');
@@ -803,6 +813,7 @@ export class PhysicsLab extends Component {
       g.circle(Physics.units(-6 + (i * 7.3) % 38), Physics.units(1 + (i * 3.7) % 10), Physics.units(i % 3 ? 0.012 : 0.025));
     }
     g.fill();
+    this.ruinsArt.attachBackdrop(g.node);
   }
 
   private buildPlatforms(world: Node, platformGroup: number): void {
@@ -828,6 +839,7 @@ export class PhysicsLab extends Component {
       graphics.rect(Physics.units(-platform.width / 2), Physics.units(-0.3), Physics.units(platform.width), Physics.units(0.6));
       graphics.fill();
       if (this.arcadeMode) { graphics.clear(); drawRuinsPlatform(graphics, platform.width, true); }
+      if (this.arcadeMode) this.ruinsArt.attachPlatform(node, platform.width);
     }
   }
 

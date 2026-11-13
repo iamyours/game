@@ -1,0 +1,144 @@
+{
+  "version": 2,
+  "texture": "characters/enemy-ruins-v2/texture",
+  "imageSize": [
+    1448,
+    1086
+  ],
+  "sha256": "7b2631ac565b0a37a9471151093b58873068bdc49e565095c5c09d31204d97a0",
+  "coordinateOrigin": "top-left",
+  "frames": {
+    "head": {
+      "rect": [
+        80,
+        92,
+        257,
+        244
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "chest": {
+      "rect": [
+        451,
+        93,
+        204,
+        253
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "pelvis": {
+      "rect": [
+        787,
+        145,
+        230,
+        166
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "leftUpperArm": {
+      "rect": [
+        1187,
+        97,
+        117,
+        238
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "leftForearm": {
+      "rect": [
+        144,
+        426,
+        109,
+        245
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "rightUpperArm": {
+      "rect": [
+        489,
+        426,
+        126,
+        241
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "rightForearm": {
+      "rect": [
+        842,
+        425,
+        108,
+        247
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "leftThigh": {
+      "rect": [
+        1165,
+        408,
+        155,
+        264
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "leftShin": {
+      "rect": [
+        131,
+        739,
+        123,
+        288
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "rightThigh": {
+      "rect": [
+        472,
+        740,
+        160,
+        279
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    "rightShin": {
+      "rect": [
+        837,
+        740,
+        124,
+        286
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    }
+  }
+}

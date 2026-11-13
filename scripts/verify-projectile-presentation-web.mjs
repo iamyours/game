@@ -79,6 +79,32 @@ try {
       await page.waitForTimeout(30);
     }
     assert.ok(s?.arcade?.enemyId);
+    await page.waitForFunction(async () => {
+      const cc = await System.import('cc'), lab = cc.director.getScene()?.getChildByName('PhysicsLab')?.getComponent('StormArchersPhysicsLab');
+      const world = lab?.aim.node.parent;
+      return world?.getChildByName('RuinsBackdrop')?.getChildByName('PaintedStormRuins') &&
+        lab.ragdolls[0].bodyNodes.get('head').getChildByName('Skin_head')?.getComponent(cc.Sprite)?.spriteFrame?.texture.width === 1448 &&
+        lab.arcade.current?.actor.bodyNodes.get('head').getChildByName('Skin_head')?.getComponent(cc.Sprite)?.spriteFrame?.texture.width === 1448 &&
+        lab.arcade.current?.platform.children.filter(n => n.name.startsWith('PaintedPlatform_')).length === 3;
+    }, null, { timeout: 20000 });
+    const art = await page.evaluate(async () => {
+      const cc = await System.import('cc'), lab = cc.director.getScene().getChildByName('PhysicsLab').getComponent('StormArchersPhysicsLab');
+      const world = lab.aim.node.parent, background = world.getChildByName('RuinsBackdrop').getChildByName('PaintedStormRuins');
+      const size = background.getComponent(cc.UITransform).contentSize;
+      const platform = lab.arcade.current.platform, collider = platform.getComponent(cc.BoxCollider2D);
+      return { background: { width: size.width / 32, height: size.height / 32 }, bounds: lab.viewport.worldBounds,
+        platformWidth: collider.size.width / 32,
+        slices: platform.children.filter(n => n.name.startsWith('PaintedPlatform_')).map(n => {
+          const t = n.getComponent(cc.UITransform); return { center: n.position.x / 32, width: t.width / 32, height: t.height / 32 };
+        }), enemyMirror: lab.arcade.current.actor.bodyNodes.get('head').getChildByName('Skin_head')?.scale.x };
+    });
+    assert.ok(art.background.width >= art.bounds.right - art.bounds.left - 0.001 && art.background.height >= art.bounds.top - art.bounds.bottom - 0.001);
+    assert.ok(Math.abs(art.background.width / art.background.height - 1672 / 941) < 0.001);
+    assert.equal(art.enemyMirror, -1, 'Only the enemy texture child faces left');
+    for (const slice of art.slices) {
+      assert.ok(Math.abs(slice.height - 0.6) < 0.001);
+      assert.ok(slice.center - slice.width / 2 >= -art.platformWidth / 2 - 0.001 && slice.center + slice.width / 2 <= art.platformWidth / 2 + 0.001);
+    }
     for (const r of [s.pauseRect, s.resetRect, s.soundRect, s.layout.arrowSwitch, ...(s.fullscreenAvailable ? [s.fullscreenRect] : [])]) {
       assert.ok(r.left >= s.safe.left && r.right <= s.safe.right && r.top >= s.safe.top && r.bottom <= s.safe.bottom);
       assert.ok((r.right - r.left) * width / s.width >= 47.9 && (r.bottom - r.top) * height / s.height >= 47.9);
@@ -87,7 +113,7 @@ try {
     assert.ok(canvas && Math.abs(canvas.width - width) < 2 && Math.abs(canvas.height - height) < 2);
     assert.ok(s.battleBounds.left <= 1 && s.battleBounds.right >= 22 && s.battleBounds.top >= 9.3);
     await page.screenshot({ path: `${out}/landscape-${width}.png` });
-    report.cases.layouts.push({ width, height, bounds: s.battleBounds, safe: s.safe });
+    report.cases.layouts.push({ width, height, bounds: s.battleBounds, safe: s.safe, generatedArt: art });
   }
   assert.deepEqual(report.errors, []); report.status = 'PASSED_SCOPED_RUNTIME'; report.passed = true;
 } catch (error) { report.status = 'FAILED'; report.failure = error.stack || String(error); process.exitCode = 1; }

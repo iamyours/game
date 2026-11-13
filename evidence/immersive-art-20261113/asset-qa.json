@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "scope": "Original PNG sizes/hash/alpha and crop metadata only; no image modification or Cocos validation",
+  "assets": [
+    {
+      "id": "background",
+      "path": "assets/resources/scenery/storm-ruins-v2.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "transparentPixels": 0,
+      "alphaRange": [
+        255,
+        255
+      ],
+      "problems": []
+    },
+    {
+      "id": "platform",
+      "path": "assets/resources/scenery/ruins-platform-v2.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "transparentPixels": 906761,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "problems": []
+    },
+    {
+      "id": "hero",
+      "path": "assets/resources/characters/hero-ruins-v2.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "transparentPixels": 1164243,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "problems": [],
+      "bodyFrames": 11,
+      "frameBoundsValid": true
+    },
+    {
+      "id": "enemy",
+      "path": "assets/resources/characters/enemy-ruins-v2.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "transparentPixels": 1232077,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "problems": [],
+      "bodyFrames": 11,
+      "frameBoundsValid": true
+    }
+  ]
+}

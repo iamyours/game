@@ -14,6 +14,7 @@ import { ProjectileSystem, TIP_OFFSET_M } from './ProjectileSystem';
 import { drawWeaponBow, WEAPON_STYLES } from '../presentation/WeaponVisual';
 import { nockedArrowTip } from '../domain/weaponGeometry';
 import { drawChargeCue, drawRuinsPlatform } from '../presentation/BattleArt';
+import type { RuinsArtAssets } from '../presentation/RuinsArtAssets';
 
 type Enemy = { actor: RagdollInstance; aim: AimController; skin: CharacterSkin; platform: Node;
   attack: EnemyAttack; spec: PhysicsLabConfig['enemies'][number]; hpMax: number; bow: BowState; heavy: boolean; rocking: boolean; bornAt: number; deadAt: number | null; telegraph: boolean };
@@ -44,7 +45,8 @@ export class ArcadeBattle {
     private readonly states: Map<string, ActorCombatState>, private readonly projectiles: ProjectileSystem,
     private readonly onSpawn: (aim: AimController | null) => void,
     private readonly onSound: (kind: 'shot' | 'drop') => void = () => {},
-    private readonly onPickup: (effect: { hp: number; stamina: number }) => void = () => {}) {
+    private readonly onPickup: (effect: { hp: number; stamina: number }) => void = () => {},
+    private readonly ruinsArt?: RuinsArtAssets) {
     this.cycle = new ArcadeCycle(cfg.arcade.respawnSec);
     this.pickupRules = new PickupRules(cfg.pickups, Math.random);
     const overlay = new Node('BattleFeedback'); overlay.layer = world.layer; overlay.parent = world;
@@ -214,9 +216,10 @@ export class ArcadeBattle {
     const collider = platform.addComponent(BoxCollider2D); collider.group = body.group;
     collider.size.set(P.units(width), P.units(0.6)); collider.friction = 0.9; collider.apply();
     drawRuinsPlatform(platform.addComponent(Graphics), width);
+    this.ruinsArt?.attachPlatform(platform, width);
     const actor = this.factory.spawn(this.world, `Enemy_${this.serial}`, [x, y + 0.41], heavy ? '#C99BDE' : '#E98575', heavy ? this.cfg.arcade.heavyMassMultiplier : 1, -1);
     const aim = new AimController(actor, new PoseController(actor, actor.definition, this.cfg.bowControl)); aim.setWorldAim(Math.PI - 0.2);
-    const skin = new CharacterSkin(actor, actor.definition); void skin.load('enemy').then(() => {
+    const skin = new CharacterSkin(actor, actor.definition); void skin.load('enemy', 'ruins').then(() => {
       if (!this.enemies.some(e => e.actor === actor)) return;
       if (heavy) for (const node of actor.bodyNodes.values()) {
         const sprite = node.getChildByName(`Skin_${node.name}`)?.getComponent(Sprite);

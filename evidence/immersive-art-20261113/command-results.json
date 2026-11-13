@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-13T03:37:40.965445+00:00",
+  "baseRevision": "1ac497bb0546a59de056bca42cfb93bdb98cd261",
+  "scope": "Portable checks, resource-owner doubles and offline visual fixture; NOT Cocos or physics runtime",
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "log": "verify.log"
+    },
+    {
+      "command": "npm run check:syntax",
+      "exitCode": 0,
+      "log": "check-syntax.log"
+    },
+    {
+      "command": "npm run preview:presentation",
+      "exitCode": 0,
+      "log": "preview-presentation.log"
+    },
+    {
+      "command": "npm run typecheck:engine",
+      "exitCode": 2,
+      "log": "typecheck-engine.log"
+    },
+    {
+      "command": "npm run build:web",
+      "exitCode": 2,
+      "log": "build-web.log"
+    },
+    {
+      "command": "npm run test:web:projectile-presentation (evidence dir overridden)",
+      "exitCode": 2,
+      "log": "test-web-projectile-presentation.log"
+    }
+  ]
+}

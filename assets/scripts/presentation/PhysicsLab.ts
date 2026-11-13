@@ -19,7 +19,9 @@ import { CharacterSkin } from './CharacterSkin';
 import { ShotBudget, type ShotRejection } from '../domain/BattleRules';
 import { ArcadeRecordRepository } from '../domain/SaveRepository';
 import { eventCallbackCount, RuntimeDiagnostics } from '../domain/RuntimeDiagnostics';
-import { battleAimRect, battleResultLayout, cooldownProgress } from '../domain/BattleLayout';
+import { battleAimRect, battlePauseLayout, battleResultLayout, cooldownProgress } from '../domain/BattleLayout';
+import { ImpactFeedback } from '../domain/ProjectilePresentation';
+import { drawImpactMark, drawRuinsPlatform } from './BattleArt';
 
 const { ccclass } = _decorator;
 const color = (hex: string): Color => new Color().fromHEX(hex);
@@ -62,6 +64,8 @@ export class PhysicsLab extends Component {
   private overlay!: Node;
   private hud!: Graphics;
   private aim!: Graphics;
+  private impactArt!: Graphics;
+  private readonly impactFeedback = new ImpactFeedback();
   private title!: Label;
   private vitals!: Label;
   private metrics!: Label;
@@ -180,7 +184,10 @@ export class PhysicsLab extends Component {
     this.hitResolver = new HitResolver(this.combatStates, config, (state) => {
       const aim = state.id === 'PlayerRagdoll' ? this.playerAim : this.enemyAim;
       this.arcade?.hit(state, state.lastHit!.partId);
-      this.playSound('hit');
+      const hit = state.lastHit!;
+      const tier = state.hp <= 0 && hit.partId === 'head' ? 3 : hit.arrow.id === 'impact' || state.hp <= 0 ? 2 : 1;
+      this.impactFeedback.hit(hit.shotId, hit.pointM, Math.atan2(hit.incomingVelocityMps.y, hit.incomingVelocityMps.x), tier);
+      this.playSound('hit', tier === 3 ? 1.3 : tier === 2 ? 1.15 : 1);
       if (state.hp <= 0) aim.setAlive(false);
       else if (state.lastHit) aim.registerHit(state.lastHit.jointReaction);
       this.dirty = true;
@@ -197,6 +204,7 @@ export class PhysicsLab extends Component {
     this.probe = new CalibrationProbe(world, config.physics);
     if (this.arcadeMode) for (const name of ['GlideBody', 'DropBody']) { const g = world.getChildByName(name)?.getComponent(Graphics); if (g) g.enabled = false; }
     this.aim = child(world, 'AimPreview').addComponent(Graphics);
+    this.impactArt = child(world, 'ImpactFeedback').addComponent(Graphics);
     this.overlay = child(canvas.node, 'PhysicsLabHUD');
     this.hud = child(this.overlay, 'TouchZones').addComponent(Graphics);
     this.title = label(this.overlay, 'Title', 42, this.arcadeMode ? '风暴弓手 · 连续对战' : '风暴弓手 / PhysicsLab');
@@ -243,11 +251,12 @@ export class PhysicsLab extends Component {
       }
     }
     if (this.dirty && this.physics) { this.dirty = false; this.drawHUD(); }
-    if (this.physics) { this.drawAim(); this.arcade?.draw(); }
+    if (this.physics) { this.drawAim(); this.arcade?.draw(); this.drawImpactFeedback(); }
   }
 
   public onDestroy(): void {
     this.disposed = true;
+    this.impactFeedback.clear();
     view.off('canvas-resize', this.resize, this);
     input.off(Input.EventType.TOUCH_START, this.press, this);
     input.off(Input.EventType.TOUCH_MOVE, this.move, this);
@@ -379,6 +388,7 @@ export class PhysicsLab extends Component {
   };
 
   private afterStep = (_dt: number, stepId: number): void => {
+    this.impactFeedback.step(_dt);
     const prior = this.probe.result;
     this.probe.afterStep(stepId);
     this.projectiles.afterStep();
@@ -399,6 +409,7 @@ export class PhysicsLab extends Component {
     if (this.resetRequested) {
       this.resetRequested = false; this.demoRequested = null;
       this.projectiles.clear();
+      this.impactFeedback.clear();
       if (this.arcade) { this.ragdolls[0]!.reset(); this.arcade.reset(); }
       else this.ragdollFactory?.resetAll();
       for (const state of this.combatStates.values()) { if (this.arcade && state.id !== 'PlayerRagdoll') continue; state.hp = state.id === 'PlayerRagdoll' ? this.config.player.hp : (this.config.enemies[0]?.hp ?? 60); state.armor = state.id === 'PlayerRagdoll' ? 0 : (this.config.enemies[0]?.helmetDurability ?? 0); state.hits = 0; state.lastHit = null; }
@@ -426,14 +437,18 @@ export class PhysicsLab extends Component {
     if (this.hidden || this.viewport.portrait) return;
     for (const touch of event.getTouches()) {
       const point = this.viewport.fromUILocation(touch.getUILocation());
+      if (this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0) {
+        if (contains(this.retryRect, point)) this.resetTouch = touch.getID();
+        continue; // Result is a modal: no hidden HUD controls or battlefield input behind it.
+      }
       if (contains(this.pauseRect, point)) {
         if (this.pauseId === null) this.pauseId = touch.getID();
-      } else if (this.canFullscreen && contains(this.fullscreenRect, point)) this.fullscreenTouch = touch.getID();
-      else if (this.arcadeMode && contains(this.soundRect, point)) this.soundTouch = touch.getID();
-      else if (contains(this.resetRect, point)) this.resetTouch = touch.getID();
-      else if (this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0) {
-        if (!this.manualPause && contains(this.retryRect, point)) this.resetTouch = touch.getID();
-      } else if (this.poseButtons.some(button => contains(button.rect, point))) {
+      } else if (this.arcadeMode && this.manualPause && contains(this.retryRect, point)) this.pauseId = touch.getID();
+      else if (this.canFullscreen && (!this.arcadeMode || this.manualPause) && contains(this.fullscreenRect, point)) this.fullscreenTouch = touch.getID();
+      else if (this.arcadeMode && this.manualPause && contains(this.soundRect, point)) this.soundTouch = touch.getID();
+      else if ((!this.arcadeMode || this.manualPause) && contains(this.resetRect, point)) this.resetTouch = touch.getID();
+      else if (this.arcadeMode && this.manualPause) continue;
+      else if (this.poseButtons.some(button => contains(button.rect, point))) {
         this.poseTouch = { id: touch.getID(), index: this.poseButtons.findIndex(button => contains(button.rect, point)) };
       } else this.router.press(touch.getID(), point, this.layout);
     }
@@ -449,7 +464,9 @@ export class PhysicsLab extends Component {
       const point = this.viewport.fromUILocation(touch.getUILocation());
       if (this.pauseId === touch.getID()) {
         this.pauseId = null;
-        if (contains(this.pauseRect, point)) { this.manualPause = !this.manualPause; this.syncPause(); }
+        if (contains(this.pauseRect, point) || (this.arcadeMode && this.manualPause && contains(this.retryRect, point))) {
+          this.manualPause = !this.manualPause; this.syncPause();
+        }
       } else if (this.fullscreenTouch === touch.getID()) {
         this.fullscreenTouch = null;
         if (contains(this.fullscreenRect, point)) this.toggleFullscreen();
@@ -461,8 +478,8 @@ export class PhysicsLab extends Component {
         }
       } else if (this.resetTouch === touch.getID()) {
         this.resetTouch = null;
-        if (contains(this.resetRect, point) || (this.arcadeMode && !this.manualPause &&
-          this.combatStates.get('PlayerRagdoll')!.hp <= 0 && contains(this.retryRect, point))) {
+        const dead = this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0;
+        if (dead ? contains(this.retryRect, point) : (!this.arcadeMode || this.manualPause) && contains(this.resetRect, point)) {
           this.manualPause = false; this.syncPause(); this.resetRagdolls();
         }
       } else if (this.poseTouch?.id === touch.getID()) {
@@ -566,21 +583,32 @@ export class PhysicsLab extends Component {
     const dead = this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0;
     for (const l of [this.title, this.metrics, this.aimLabel, this.pauseLabel, this.resetLabel]) l.node.active = !portrait;
     for (const button of this.poseButtons) button.label.node.active = !portrait;
-    this.soundLabel.node.active = !portrait && this.arcadeMode;
+    this.soundLabel.node.active = !portrait && this.arcadeMode && this.manualPause && !dead;
     this.vitals.node.active = !portrait && this.arcadeMode;
-    this.fullscreenLabel.node.active = !portrait && this.canFullscreen;
+    this.fullscreenLabel.node.active = !portrait && this.canFullscreen && (!this.arcadeMode || this.manualPause) && !dead;
+    this.resetLabel.node.active = !portrait && (!this.arcadeMode || (this.manualPause && !dead));
     this.soundLabel.string = this.records.snapshot.soundEnabled ? '音效 开' : '音效 关';
-    this.switchLabel.node.active = !portrait && !dead && this.router.canSwitch;
-    this.retryLabel.node.active = !portrait && dead && !this.manualPause;
-    this.aimLabel.node.active = !portrait && !dead;
+    this.switchLabel.node.active = !portrait && !dead && !this.manualPause && this.router.canSwitch;
+    this.retryLabel.node.active = !portrait && (dead || (this.arcadeMode && this.manualPause));
+    this.retryLabel.string = dead ? '再来一局' : '继续战斗';
+    this.pauseLabel.node.active = !portrait && !dead;
+    this.aimLabel.node.active = !portrait && !dead && !this.manualPause;
     this.notice.node.active = portrait || this.manualPause || dead;
     this.notice.fontSize = portrait ? Math.max(36, 24 * screen.devicePixelRatio / view.getScaleX()) : 36;
     this.notice.lineHeight = this.notice.fontSize * 1.3;
-    this.notice.string = portrait ? '请横置屏幕' : this.manualPause ? '已暂停 · 继续后重新按住瞄准' :
+    this.notice.string = portrait ? '请横置屏幕' : this.manualPause && !dead ? '已暂停' :
       `本次击败 ${this.arcade?.score ?? 0} 名敌人\n最高记录 ${this.records.snapshot.bestScore}`;
-    if (dead && !portrait && !this.manualPause) this.placeLabel(this.notice,
-      battleResultLayout(this.viewport.safe, 48 * screen.devicePixelRatio / view.getScaleX()).summary);
-    else this.placeLabel(this.notice, this.viewport.width / 2, this.viewport.height / 2);
+    if (!portrait && (dead || (this.arcadeMode && this.manualPause))) {
+      const touch = 48 * screen.devicePixelRatio / view.getScaleX();
+      const panel = dead ? battleResultLayout(this.viewport.safe, touch) : battlePauseLayout(this.viewport.safe, touch);
+      this.retryRect = panel.retry; this.placeLabel(this.retryLabel, midpoint(this.retryRect)); this.placeLabel(this.notice, panel.summary);
+      if (!dead) {
+        const options = battlePauseLayout(this.viewport.safe, touch).options;
+        this.soundRect = options[0]!; this.fullscreenRect = options[1]!; this.resetRect = options[2]!;
+        this.placeLabel(this.soundLabel, midpoint(this.soundRect)); this.placeLabel(this.fullscreenLabel, midpoint(this.fullscreenRect));
+        this.placeLabel(this.resetLabel, midpoint(this.resetRect));
+      }
+    } else this.placeLabel(this.notice, this.viewport.width / 2, this.viewport.height / 2);
     if (portrait) return;
     if (this.arcadeMode) { this.drawBattleHUD(); return; }
     const box = (r: Rect, tint: string): void => {
@@ -649,10 +677,9 @@ export class PhysicsLab extends Component {
       g.strokeColor = color('#88B8CA30'); g.lineWidth = 1.5;
       g.roundRect(p.x, p.y, r.right - r.left, r.bottom - r.top, radius); g.stroke();
     };
-    for (const rect of [this.pauseRect, this.resetRect, this.soundRect]) box(rect, '#193646C8');
-    if (this.canFullscreen) box(this.fullscreenRect, '#193646C8');
     const hp = this.combatStates.get('PlayerRagdoll')!.hp, stamina = this.shotBudget.stamina;
-    if (this.router.canSwitch && hp > 0) {
+    if (hp > 0) box(this.pauseRect, '#193646C8');
+    if (this.router.canSwitch && hp > 0 && !this.manualPause) {
       const cooldown = this.shotBudget.cooldownSec;
       box(this.layout.arrowSwitch, cooldown > 0 ? '#162D3CE8' : '#1E3A49E8', 22);
       const interval = this.config.arrows.find(a => a.id === this.lastShot?.arrowId)?.intervalSec ?? this.config.arrows[0]!.intervalSec;
@@ -694,12 +721,15 @@ export class PhysicsLab extends Component {
       g.moveTo(origin.x, origin.y); g.lineTo(origin.x + (p.x - origin.x) * scale, origin.y + (p.y - origin.y) * scale); g.stroke();
       g.fillColor = color(tint); g.circle(origin.x + (p.x - origin.x) * scale, origin.y + (p.y - origin.y) * scale, 11); g.fill();
     }
-    if (this.manualPause) box({ left: this.viewport.width / 2 - 320, right: this.viewport.width / 2 + 320,
-      top: this.viewport.height / 2 - 54, bottom: this.viewport.height / 2 + 54 }, '#102631EB');
-    else if (hp <= 0) {
+    if (hp <= 0 || this.manualPause) {
       box({ left: 0, top: 0, right: this.viewport.width, bottom: this.viewport.height }, '#071721A8', 0);
-      const { panel, retry } = battleResultLayout(safe, 48 * screen.devicePixelRatio / view.getScaleX());
+      const touch = 48 * screen.devicePixelRatio / view.getScaleX();
+      const { panel, retry } = hp <= 0 ? battleResultLayout(safe, touch) : battlePauseLayout(safe, touch);
       box(panel, '#173543F5', 26); box(retry, '#376775', 18);
+      if (hp > 0) {
+        box(this.soundRect, '#224958'); box(this.resetRect, '#224958');
+        if (this.canFullscreen) box(this.fullscreenRect, '#224958');
+      }
     }
   }
 
@@ -732,12 +762,21 @@ export class PhysicsLab extends Component {
     g.fill();
   }
 
-  private playSound(kind: 'shot' | 'hit' | 'drop'): void {
+  private drawImpactFeedback(): void {
+    const g = this.impactArt; g.clear();
+    if (this.viewport.portrait || this.hidden) return;
+    for (const mark of this.impactFeedback.items) {
+      const { radius, opacity } = this.impactFeedback.sample(mark);
+      drawImpactMark(g, mark.point, mark.directionRad, radius, opacity, mark.tier);
+    }
+  }
+
+  private playSound(kind: 'shot' | 'hit' | 'drop', emphasis = 1): void {
     if (!this.arcadeMode || !this.records.snapshot.soundEnabled || this.hidden || this.manualPause) return;
     const clip = this.audioClips.get(kind), step = this.physics?.steps ?? 0;
     if (!clip || step - (this.lastSoundSteps.get(kind) ?? -100) < 3) return;
     this.lastSoundSteps.set(kind, step);
-    this.soundSource.stop(); this.soundSource.clip = clip; this.soundSource.volume = kind === 'shot' ? 0.25 : 0.4;
+    this.soundSource.stop(); this.soundSource.clip = clip; this.soundSource.volume = Math.min(0.65, (kind === 'shot' ? 0.25 : 0.4) * emphasis);
     this.soundSource.play();
   }
 
@@ -788,11 +827,7 @@ export class PhysicsLab extends Component {
       graphics.fillColor = color('#496272');
       graphics.rect(Physics.units(-platform.width / 2), Physics.units(-0.3), Physics.units(platform.width), Physics.units(0.6));
       graphics.fill();
-      if (this.arcadeMode) {
-        fill(graphics, Physics.units(-platform.width / 2), Physics.units(0.20), Physics.units(platform.width), Physics.units(0.10), '#8AA9AE');
-        fill(graphics, Physics.units(-platform.width / 2), Physics.units(-0.3), Physics.units(platform.width), Physics.units(0.12), '#253F4D');
-        fill(graphics, Physics.units(-platform.width / 2 + 0.16), Physics.units(-0.11), Physics.units(platform.width - 0.32), Physics.units(0.025), '#6A879160');
-      }
+      if (this.arcadeMode) { graphics.clear(); drawRuinsPlatform(graphics, platform.width, true); }
     }
   }
 

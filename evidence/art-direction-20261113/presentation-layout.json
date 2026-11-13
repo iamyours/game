@@ -1,0 +1,311 @@
+{
+  "scope": "Offline production Graphics/HUD/camera QA; posed actors; NOT Creator or physics runtime",
+  "views": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 810,
+      "hp": 92,
+      "cooldown": 0,
+      "frame": {
+        "centerX": 11.6,
+        "centerY": 4.55,
+        "width": 21.8,
+        "height": 12.262500000000001
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 38.4,
+          "right": 1382.3999999999999,
+          "top": 194.4,
+          "bottom": 1047.6
+        },
+        "switch": {
+          "left": 1696,
+          "right": 1896,
+          "top": 948,
+          "bottom": 1052
+        },
+        "pause": {
+          "left": 1768,
+          "right": 1900,
+          "top": 20,
+          "bottom": 98
+        },
+        "fullscreen": {
+          "left": 868.6666666666666,
+          "right": 1051.3333333333333,
+          "top": 460,
+          "bottom": 552
+        },
+        "retry": {
+          "left": 820,
+          "right": 1100,
+          "top": 580,
+          "bottom": 672
+        }
+      }
+    },
+    {
+      "name": "phone-wide",
+      "width": 844,
+      "height": 390,
+      "hp": 92,
+      "cooldown": 0,
+      "frame": {
+        "centerX": 11.6,
+        "centerY": 4.55,
+        "width": 25.319999999999997,
+        "height": 11.7
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 2337.230769230769,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 46.74461538461538,
+          "right": 1682.8061538461536,
+          "top": 194.4,
+          "bottom": 1047.6
+        },
+        "switch": {
+          "left": 2113.230769230769,
+          "right": 2313.230769230769,
+          "top": 919.0769230769231,
+          "bottom": 1052
+        },
+        "pause": {
+          "left": 2184.307692307692,
+          "right": 2317.230769230769,
+          "top": 20,
+          "bottom": 152.92307692307693
+        },
+        "fullscreen": {
+          "left": 1077.2820512820513,
+          "right": 1259.948717948718,
+          "top": 427,
+          "bottom": 560
+        },
+        "retry": {
+          "left": 1028.6153846153845,
+          "right": 1308.6153846153845,
+          "top": 545.5,
+          "bottom": 678.5
+        }
+      }
+    },
+    {
+      "name": "phone-cooldown",
+      "width": 844,
+      "height": 390,
+      "hp": 92,
+      "cooldown": 0.4,
+      "frame": {
+        "centerX": 11.6,
+        "centerY": 4.55,
+        "width": 25.319999999999997,
+        "height": 11.7
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 2337.230769230769,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 46.74461538461538,
+          "right": 1682.8061538461536,
+          "top": 194.4,
+          "bottom": 1047.6
+        },
+        "switch": {
+          "left": 2113.230769230769,
+          "right": 2313.230769230769,
+          "top": 919.0769230769231,
+          "bottom": 1052
+        },
+        "pause": {
+          "left": 2184.307692307692,
+          "right": 2317.230769230769,
+          "top": 20,
+          "bottom": 152.92307692307693
+        },
+        "fullscreen": {
+          "left": 1077.2820512820513,
+          "right": 1259.948717948718,
+          "top": 427,
+          "bottom": 560
+        },
+        "retry": {
+          "left": 1028.6153846153845,
+          "right": 1308.6153846153845,
+          "top": 545.5,
+          "bottom": 678.5
+        }
+      }
+    },
+    {
+      "name": "phone-defeat",
+      "width": 844,
+      "height": 390,
+      "hp": 0,
+      "cooldown": 0,
+      "frame": {
+        "centerX": 11.6,
+        "centerY": 4.55,
+        "width": 25.319999999999997,
+        "height": 11.7
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 2337.230769230769,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 46.74461538461538,
+          "right": 1682.8061538461536,
+          "top": 194.4,
+          "bottom": 1047.6
+        },
+        "switch": {
+          "left": 2113.230769230769,
+          "right": 2313.230769230769,
+          "top": 919.0769230769231,
+          "bottom": 1052
+        },
+        "pause": {
+          "left": 2184.307692307692,
+          "right": 2317.230769230769,
+          "top": 20,
+          "bottom": 152.92307692307693
+        },
+        "fullscreen": {
+          "left": 1077.2820512820513,
+          "right": 1259.948717948718,
+          "top": 427,
+          "bottom": 560
+        },
+        "retry": {
+          "left": 1028.6153846153845,
+          "right": 1308.6153846153845,
+          "top": 545.5,
+          "bottom": 678.5
+        }
+      }
+    },
+    {
+      "name": "phone-pause",
+      "width": 844,
+      "height": 390,
+      "hp": 92,
+      "cooldown": 0,
+      "frame": {
+        "centerX": 11.6,
+        "centerY": 4.55,
+        "width": 25.319999999999997,
+        "height": 11.7
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 2337.230769230769,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 46.74461538461538,
+          "right": 1682.8061538461536,
+          "top": 194.4,
+          "bottom": 1047.6
+        },
+        "switch": {
+          "left": 2113.230769230769,
+          "right": 2313.230769230769,
+          "top": 919.0769230769231,
+          "bottom": 1052
+        },
+        "pause": {
+          "left": 2184.307692307692,
+          "right": 2317.230769230769,
+          "top": 20,
+          "bottom": 152.92307692307693
+        },
+        "fullscreen": {
+          "left": 1077.2820512820513,
+          "right": 1259.948717948718,
+          "top": 427,
+          "bottom": 560
+        },
+        "retry": {
+          "left": 1028.6153846153845,
+          "right": 1308.6153846153845,
+          "top": 622,
+          "bottom": 755
+        }
+      }
+    },
+    {
+      "name": "phone-impact",
+      "width": 844,
+      "height": 390,
+      "hp": 92,
+      "cooldown": 0,
+      "frame": {
+        "centerX": 11.6,
+        "centerY": 4.55,
+        "width": 25.319999999999997,
+        "height": 11.7
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 2337.230769230769,
+        "bottom": 1080
+      },
+      "controls": {
+        "aim": {
+          "left": 46.74461538461538,
+          "right": 1682.8061538461536,
+          "top": 194.4,
+          "bottom": 1047.6
+        },
+        "switch": {
+          "left": 2113.230769230769,
+          "right": 2313.230769230769,
+          "top": 919.0769230769231,
+          "bottom": 1052
+        },
+        "pause": {
+          "left": 2184.307692307692,
+          "right": 2317.230769230769,
+          "top": 20,
+          "bottom": 152.92307692307693
+        },
+        "fullscreen": {
+          "left": 1077.2820512820513,
+          "right": 1259.948717948718,
+          "top": 427,
+          "bottom": 560
+        },
+        "retry": {
+          "left": 1028.6153846153845,
+          "right": 1308.6153846153845,
+          "top": 545.5,
+          "bottom": 678.5
+        }
+      }
+    }
+  ]
+}

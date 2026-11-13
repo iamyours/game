@@ -13,6 +13,7 @@ import type { ActorCombatState } from './HitResolver';
 import { ProjectileSystem, TIP_OFFSET_M } from './ProjectileSystem';
 import { drawWeaponBow, WEAPON_STYLES } from '../presentation/WeaponVisual';
 import { nockedArrowTip } from '../domain/weaponGeometry';
+import { drawChargeCue, drawRuinsPlatform } from '../presentation/BattleArt';
 
 type Enemy = { actor: RagdollInstance; aim: AimController; skin: CharacterSkin; platform: Node;
   attack: EnemyAttack; spec: PhysicsLabConfig['enemies'][number]; hpMax: number; bow: BowState; heavy: boolean; rocking: boolean; bornAt: number; deadAt: number | null; telegraph: boolean };
@@ -212,10 +213,7 @@ export class ArcadeBattle {
     const body = platform.addComponent(RigidBody2D); body.type = rocking ? ERigidBody2DType.Kinematic : ERigidBody2DType.Static; body.group = this.cfg.rig.collisionGroups.platform;
     const collider = platform.addComponent(BoxCollider2D); collider.group = body.group;
     collider.size.set(P.units(width), P.units(0.6)); collider.friction = 0.9; collider.apply();
-    const g = platform.addComponent(Graphics); g.fillColor = new Color(76, 100, 112, 255);
-    g.rect(-P.units(width / 2), -P.units(0.3), P.units(width), P.units(0.6)); g.fill();
-    g.fillColor = new Color(138, 169, 174, 255); g.rect(-P.units(width / 2), P.units(0.2), P.units(width), P.units(0.1)); g.fill();
-    g.fillColor = new Color(37, 63, 77, 255); g.rect(-P.units(width / 2), -P.units(0.3), P.units(width), P.units(0.12)); g.fill();
+    drawRuinsPlatform(platform.addComponent(Graphics), width);
     const actor = this.factory.spawn(this.world, `Enemy_${this.serial}`, [x, y + 0.41], heavy ? '#C99BDE' : '#E98575', heavy ? this.cfg.arcade.heavyMassMultiplier : 1, -1);
     const aim = new AimController(actor, new PoseController(actor, actor.definition, this.cfg.bowControl)); aim.setWorldAim(Math.PI - 0.2);
     const skin = new CharacterSkin(actor, actor.definition); void skin.load('enemy').then(() => {
@@ -290,6 +288,7 @@ export class ArcadeBattle {
       g.fillColor = new Color(38, 32, 43, 255); g.rect(P.units(head.x - 0.36), P.units(head.y + 0.37), P.units(0.72), P.units(0.08)); g.fill();
       g.fillColor = new Color(240, 74, 90, 255); g.rect(P.units(head.x - 0.35), P.units(head.y + 0.38), P.units(0.7 * Math.max(0, state.hp / max)), P.units(0.06)); g.fill();
       if (!enemy || !enemy.bow.armed) continue;
+      if (enemy.telegraph) drawChargeCue(g, head);
       drawWeaponBow(g, enemy.aim.bowSocket(), this.cfg.bowControl, 'normal', enemy.aim.poseSnapshot.bowFlex,
         enemy.telegraph ? enemy.aim.handsSnapshot.stringGrip : undefined, enemy.telegraph ? TIP_OFFSET_M : undefined);
     }

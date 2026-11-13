@@ -1,0 +1,28 @@
+{
+  "baseRevision": "33db0a2bab46939d3daf82e1c92fe5b77026fcb7",
+  "scope": "D035 dirty working source before commit",
+  "engine": "Cocos Creator 3.8.8 (not installed here)",
+  "files": {
+    "assets/scripts/combat/ArcadeBattle.ts": "b077f08d60b2fa45cdb4335485f1b53e10f319864b5099394eff3fbc79994806",
+    "assets/scripts/domain/BattleLayout.ts": "63abb5025f0405c363eca2a2018dbaf028e891d829839fe06ac77ef86673ba34",
+    "assets/scripts/domain/ProjectilePresentation.ts": "11ccfe7422b45ccfc0cfc619219b995d961f5aa962453d6fe326deb127a1c6e8",
+    "assets/scripts/presentation/PhysicsLab.ts": "6c11bee0cde62156d61b45b1dee4583b732f7c583a8f180aeaf1d749d64b99a9",
+    "docs/ACCEPTANCE.md": "cf67ebbcb75dd957f4878d3e1ee461ed6a6de9068aa9c4dce0b0e3817194a7b7",
+    "docs/ARCHITECTURE.md": "629f3849ba5b8ab0f7014b31130e1c1ba845bd8a3dac8ff15fb9863950fd431a",
+    "docs/ART_SPEC.md": "808466d8ab50b3d30eb4ce508e002bf2c204b184cd7cb4757d24f153a3e1cfe7",
+    "docs/DECISIONS.md": "211e7281aba00695e3ae0c6de45fc1321ba6ec025aa95d163b14017a68a1974e",
+    "docs/PLAN.md": "9ef7963b593b954c53c8d4855b3243e52aa92041b49fa0df2c8c2afad021e446",
+    "docs/PRD.md": "b63ef900f54077f91a30e0786ee57bc56cb7db28b3495298605fd13e4aadf149",
+    "docs/STATUS.md": "c89fdc2636cd891ab8e32607321223b24fb6a61d67075755d60f28eb8aa8851f",
+    "qa_cases.csv": "4edd48bbfccb2a97e44b48f40029d7cad61e94b0f5f3f17a7415c08372f8adbf",
+    "scripts/render-battle-presentation.mjs": "dea72d9d85dfdd7bdf60d10bcc016eb4307e818c4ccc5173354820c9ecc1f2fd",
+    "tasks.csv": "ef447aa0d67c0f9801f6d4cef211fa931b4726e6e0f835f3226ab170982eb3f4",
+    "tasks/T006.md": "95980884080ef9a23168e2b6bdfc0d99dd2c1b434c2cb5c0bce71ed4cad420d2",
+    "tasks/T012.md": "43b0ec756935529a75b08b7b5e3e980064b617936b0d0c5fb08c5d6d3e9a49f2",
+    "tasks/T013.md": "c47111829d56fd0d073f1e3b9a09e34050cc3cdbbdd49f738d42adb89819d15c",
+    "assets/scripts/presentation/BattleArt.ts": "703b9ea6b4fa612a3393d47bd51ae3cc88b21b0bf17e1d2809370b5939eec05e",
+    "tests/impact-feedback.test.ts": "e8ff55a3ee6002f38bed41dd5e519da76e5602c194666881fea35c413be221a1",
+    "docs/ART_DIRECTION.md": "c004a61728673f66e784b1b189472dab414197adf9923a95f0e1521ea4e4f8ac",
+    "docs/art-manifest.json": "f73b8c2be174a72aeebe506d71594b1dcd178049ff03e517aa7baae0256af57a"
+  }
+}

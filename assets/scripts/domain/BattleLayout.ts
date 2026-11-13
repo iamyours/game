@@ -30,3 +30,15 @@ export function battleResultLayout(safe: Rect, minimumTouchSize: number) {
     top: panel.bottom - retryHeight - 28, bottom: panel.bottom - 28 };
   return { panel, retry, summary: { x: cx, y: panel.top + 88 } };
 }
+
+export function battlePauseLayout(safe: Rect, minimumTouchSize: number) {
+  const touch = Math.ceil(minimumTouchSize), result = battleResultLayout(safe, minimumTouchSize);
+  const cx = (safe.left + safe.right) / 2, cy = (safe.top + safe.bottom) / 2, height = Math.max(420, touch * 2 + 220);
+  const panelWidth = Math.min(safe.right - safe.left - 40, Math.max(result.panel.right - result.panel.left, touch * 3 + 72));
+  const panel = { left: cx - panelWidth / 2, right: cx + panelWidth / 2, top: cy - height / 2, bottom: cy + height / 2 };
+  const width = (panel.right - panel.left - 72) / 3, h = Math.max(92, touch);
+  const options = Array.from({ length: 3 }, (_, i) => ({ left: panel.left + 24 + i * (width + 12),
+    right: panel.left + 24 + i * (width + 12) + width, top: panel.top + 130, bottom: panel.top + 130 + h }));
+  return { panel, options, retry: { ...result.retry, top: panel.bottom - h - 28, bottom: panel.bottom - 28 },
+    summary: { x: cx, y: panel.top + 68 } };
+}

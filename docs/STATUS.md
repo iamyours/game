@@ -1,15 +1,23 @@
-# 当前状态（D034）
+# 当前状态（D035）
 
-version: V2.2
+version: V2.3
 currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: main e509c87 + D034热区/冷却/重开反馈；证据evidence/player-iteration-20261113
+sourceRevision: main 33db0a2 + D035统一美术/命中分级/暂停菜单；证据evidence/art-direction-20261113
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（D031历史构建可运行；当前改动无运行包，力度/受击关节/销毁与完整试玩待验）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D035 外部技能设计迭代（2026-11-13）
+
+- 用户指定仓库为技能合集，读取game-feel、game-ui-ux、create-game-assets与路由 fallback；固定源提交c6ca6c41，保留Cocos3.8.8。直接使用方法，未安装个人技能。
+- 平台接入同一石材/旧铜/符文家族，全部实心形状在原碰撞范围；真实命中回调触发三档局部短标记与原音效强调；敌人实际蓄势增加形状提示。无新增物理力、hitstop或震屏。
+- 音效/全屏/重开收进暂停面板，继续为主按钮；暂停/死亡模态拦截背景，按钮拖出不执行。练习模式原入口保留。
+- 141项便携、34脚本语法、6组生产HUD/处理器离线夹具、4PNG规格/透明通道检查通过；离线图已检查。当前engine类型/build:web均退出2，缺Creator及实际导入；无实际试玩/手感/G1通过记录，任务状态不升级。BattleArt.ts及D033新增domain脚本meta待真实导入。
+- 视觉规范、资源清单与来源见ART_DIRECTION.md、art-manifest.json；日志/预览见evidence/art-direction-20261113。D031销毁与小腿关节失败仍未解决。
 
 ## D034 推送与玩家体验迭代（2026-11-13）
 

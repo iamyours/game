@@ -46,6 +46,30 @@ export class ArrowResidues<T> {
 }
 
 export interface TrailPoint { x: number; y: number }
+
+export interface ImpactMark { readonly shotId: number; readonly point: TrailPoint; readonly directionRad: number; readonly tier: 1 | 2 | 3; age: number; readonly duration: number }
+/** One event hook, bounded visual marks, no forces, wall timers, time scaling or camera motion. */
+export class ImpactFeedback {
+  private marks: ImpactMark[] = [];
+  private readonly recent: number[] = [];
+  public get items(): readonly ImpactMark[] { return this.marks; }
+  public hit(shotId: number, point: TrailPoint, directionRad: number, tier: 1 | 2 | 3): void {
+    if (this.recent.includes(shotId) || ![point.x, point.y, directionRad].every(Number.isFinite)) return;
+    this.recent.push(shotId); if (this.recent.length > 64) this.recent.shift();
+    if (this.marks.length >= 12) this.marks.shift();
+    this.marks.push({ shotId, point: { ...point }, directionRad, tier, age: 0, duration: tier === 3 ? 0.26 : tier === 2 ? 0.22 : 0.16 });
+  }
+  public step(dt: number): void {
+    if (!Number.isFinite(dt) || dt < 0) throw new Error('Invalid impact timestep');
+    for (const mark of this.marks) mark.age += dt;
+    this.marks = this.marks.filter(mark => mark.age + 1e-9 < mark.duration);
+  }
+  public clear(): void { this.marks = []; this.recent.length = 0; }
+  public sample(mark: ImpactMark) {
+    const t = Math.max(0, Math.min(1, mark.age / mark.duration)), ease = 1 - (1 - t) ** 3;
+    return { radius: (mark.tier === 3 ? 0.55 : mark.tier === 2 ? 0.43 : 0.28) * (0.4 + 0.6 * ease), opacity: (1 - t) ** 2 };
+  }
+}
 /** Newest-first ribbon, clipped by real travelled distance; never draws a full aim prediction. */
 export function shortFlightTrail(points: readonly TrailPoint[], maxLengthM = 0.85): TrailPoint[] {
   if (!points.length || maxLengthM <= 0) return [];

@@ -1,0 +1,71 @@
+{
+  "scope": "UI fixture only, NOT actual gameplay",
+  "checks": [
+    {
+      "name": "desktop",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    },
+    {
+      "name": "phone-wide",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    },
+    {
+      "name": "phone-cooldown",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    },
+    {
+      "name": "phone-defeat",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    },
+    {
+      "name": "phone-pause",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    },
+    {
+      "name": "phone-impact",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    }
+  ]
+}

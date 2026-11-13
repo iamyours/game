@@ -44,3 +44,6 @@ PV03,T012 T015 T016,横屏全宽与全屏,16:9/超宽/4:3；点击全屏与退�
 UX01,T004,角色附近开始瞄准,角色附近按住拖动；右触点切箭；松手/取消,左侧主体可接管；顶部/右操作不抢手；松手单发，取消不补射,生产UI夹具加当前Creator实玩,BLOCKED,D034,,,evidence/player-iteration-20261113/verification.md,137项便携/UI夹具通过；无当前Web包，真实引擎与玩家试玩未运行
 UX02,T012,共享冷却可见,放冲击箭后切普通箭；观察进度/剩余秒数,仍显示上次发射的实际冷却；切箭不提前就绪；可先瞄准,生产UI夹具加当前Creator实玩,BLOCKED,D034,,,evidence/player-iteration-20261113/verification.md,137项便携/UI夹具通过；无当前Web包，真实引擎与玩家试玩未运行
 UX03,T004 T013,生命/倒地与失败重开,存活倒地拉弓；HP归零；点击再来一局,HP>0可瞄准；HP=0结算且不瞄准；重开仅物理步后重置，无旧箭/输入,生产UI夹具加当前Creator实玩,BLOCKED,D034,,,evidence/player-iteration-20261113/verification.md,137项便携/UI夹具通过；无当前Web包，真实引擎与玩家试玩未运行
+DS01,T006,分级命中与回落,实际普通/冲击/致命头部命中；重叠、暂停、重开。,每箭一次；0.16/0.22/0.26秒回落；最多12；暂停冻结；不改变物理。,当前Creator/Web实跑+手机截图/录像,BLOCKED,33db0a2 + D035 dirty,,,evidence/art-direction-20261113/verification.md,便携/离线生产UI范围通过，当前缺Creator/运行包；无引擎或真机通过记录。
+DS02,T012,视觉家族与蓄势提示,手机844x390及4:3显示；核对倾斜/坠落平台与敌人蓄势。,材质一致；实心不超出碰撞；提示与真实telegraph一致；关节和来箭可辨。,当前Creator/Web实跑+手机截图/录像,BLOCKED,33db0a2 + D035 dirty,,,evidence/art-direction-20261113/verification.md,便携/离线生产UI范围通过，当前缺Creator/运行包；无引擎或真机通过记录。
+DS03,T013,暂停和结果输入隔离,暂停/死亡后点背景/隐藏按钮；按钮拖出；继续/重开。,无背景瞄准和隐藏操作；拖出不执行；继续/重开不补射；按钮至少48逻辑像素。,当前Creator/Web实跑+手机截图/录像,BLOCKED,33db0a2 + D035 dirty,,,evidence/art-direction-20261113/verification.md,便携/离线生产UI范围通过，当前缺Creator/运行包；无引擎或真机通过记录。

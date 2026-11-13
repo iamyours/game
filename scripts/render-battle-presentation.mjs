@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import ts from 'typescript';
 const require = createRequire(import.meta.url);
 const sharp = require(require.resolve('sharp', { paths: [process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES || '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules'] }));
-const out = process.env.PRESENTATION_PREVIEW_DIR || 'evidence/player-iteration-20261113'; mkdirSync(out, { recursive: true });
+const out = process.env.PRESENTATION_PREVIEW_DIR || 'evidence/art-direction-20261113'; mkdirSync(out, { recursive: true });
 const paths = [];
 class Color {
   constructor(r = 255, g = 255, b = 255, a = 255) { Object.assign(this, { r, g, b, a }); }
@@ -64,6 +64,7 @@ const { battleFrame } = load('assets/scripts/domain/BattleLayout.ts');
 const { armGeometry, solveArm } = load('assets/scripts/domain/archery.ts');
 const { bowArtStrip, bowArtPoint, spriteShear } = load('assets/scripts/domain/weaponGeometry.ts');
 const { InputRouter } = load('assets/scripts/input/InputRouter.ts');
+const { drawRuinsPlatform, drawImpactMark, drawChargeCue } = load('assets/scripts/presentation/BattleArt.ts');
 const config = JSON.parse(readFileSync('configs/combat.seed.json'));
 const rig = JSON.parse(readFileSync('configs/rig.seed.json'));
 const bodies = new Map(rig.bodyDefinitions.map(b => [b.id, b]));
@@ -113,7 +114,7 @@ function actorSvg(skin, origin, mirrored, angle) {
 const reports = [];
 const uiChecks = [];
 for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0], ['phone-wide', 844, 390, 92, 0],
-  ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0]]) {
+  ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0], ['phone-pause', 844, 390, 92, 0], ['phone-impact', 844, 390, 92, 0]]) {
   paths.length = 0; screen.windowSize = { width, height };
   const lab = new PhysicsLab(), camera = { node: new Node(), orthoHeight: 0 };
   lab.viewport = new LabViewport(camera, config.viewport, true); lab.config = config;
@@ -131,26 +132,42 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   lab.press(event(1, point)); assert.equal(lab.router.aimId, 1);
   lab.move(event(1, { x: point.x - 110, y: point.y + 20 })); assert.equal(lab.router.step(0.2), null);
   lab.release(event(1, { x: point.x - 110, y: point.y + 20 })); assert.ok(lab.router.step(0.01)); assert.equal(lab.router.step(0.01), null);
+  lab.cancel();
+  const pausePoint = { x: (lab.pauseRect.left + lab.pauseRect.right) / 2, y: (lab.pauseRect.top + lab.pauseRect.bottom) / 2 };
+  lab.press(event(8, pausePoint)); lab.release(event(8, pausePoint)); lab.drawHUD(); assert.equal(lab.manualPause, true);
+  lab.press(event(9, point)); lab.release(event(9, point)); assert.equal(lab.router.aimId, null);
+  const continuePoint = { x: (lab.retryRect.left + lab.retryRect.right) / 2, y: (lab.retryRect.top + lab.retryRect.bottom) / 2 };
+  lab.press(event(10, continuePoint)); lab.release(event(10, continuePoint)); assert.equal(lab.manualPause, false);
   lab.cancel(); lab.combatStates.get('PlayerRagdoll').hp = 0; lab.drawHUD();
   assert.equal(lab.retryLabel.node.active, true); assert.equal(lab.switchLabel.node.active, false);
+  lab.press(event(11, pausePoint)); lab.release(event(11, pausePoint)); assert.equal(lab.manualPause, false);
   lab.press(event(2, point)); assert.equal(lab.router.aimId, null);
   const retryPoint = { x: (lab.retryRect.left + lab.retryRect.right) / 2, y: (lab.retryRect.top + lab.retryRect.bottom) / 2 };
+  const hiddenReset = { x: (lab.resetRect.left + lab.resetRect.right) / 2, y: (lab.resetRect.top + lab.resetRect.bottom) / 2 };
+  lab.press(event(12, retryPoint)); lab.release(event(12, hiddenReset)); assert.equal(lab.resetRequested, false);
   lab.press(event(3, retryPoint)); lab.release(event(3, retryPoint)); assert.equal(lab.resetRequested, true); assert.equal(lab.router.step(0.01), null);
   lab.resetRequested = false; lab.combatStates.get('PlayerRagdoll').hp = 1;
   lab.playerAim = { poseSnapshot: { pose: 'downed' } }; lab.press(event(4, point)); assert.equal(lab.router.aimId, 4);
-  lab.cancel(); lab.combatStates.get('PlayerRagdoll').hp = hp; lab.drawHUD();
+  lab.cancel(); lab.combatStates.get('PlayerRagdoll').hp = hp; lab.manualPause = name === 'phone-pause'; lab.drawHUD();
   if (cooldown > 0) assert.ok(lab.aimLabel.string.includes('0.4s'));
   uiChecks.push({ name, inputAtCharacter: true, releaseOnce: true, deadBlocksAim: true, retryQueuesResetOnly: true,
-    aliveDownedAcceptsAim: true, scope: 'Production component handlers + InputRouter in a UI fixture; no engine/physics' });
+    aliveDownedAcceptsAim: true, modalDoesNotLeakInput: true, pauseContinuesWithoutShot: true,
+    scope: 'Production component handlers + InputRouter in a UI fixture; no engine/physics' });
   const ui = lab.hud.commands.join(''), world = new Node(); lab.drawBackdrop(world);
   let worldSvg = world.children.map(n => [...n.components.values()].flatMap(g => g.commands ?? []).join('')).join('');
   const frame = battleFrame(width / height), scale = width / frame.width / 32;
   for (const [x, y, w] of [[3.5, 3, 5], [18.5, 4.1, 2.4]]) {
-    worldSvg += `<rect x="${(x - w / 2) * 32}" y="${(y - 0.6) * 32}" width="${w * 32}" height="19.2" fill="#496272"/><rect x="${(x - w / 2) * 32}" y="${(y - 0.1) * 32}" width="${w * 32}" height="3.2" fill="#8AA9AE"/>`;
+    const platform = new Graphics(); drawRuinsPlatform(platform, w, x < 10);
+    worldSvg += `<g transform="translate(${x * 32},${(y - 0.3) * 32})">${platform.commands.join('')}</g>`;
   }
   worldSvg += actorSvg('hero', [3.5, 3.41], false, 0.25) + actorSvg('enemy', [18.5, 4.51], true, 0.08);
   const arrow = new Graphics(); drawWeaponArrow(arrow, 'normal', { x: 11.8, y: 5.7 }, -0.08);
   worldSvg += arrow.commands.join('');
+  const cue = new Graphics(); drawChargeCue(cue, { x: 18.5, y: 6.13 }); worldSvg += cue.commands.join('');
+  if (name === 'phone-impact') {
+    const impact = new Graphics(); drawImpactMark(impact, { x: 18.42, y: 6.1 }, 0.2, 0.43, 0.75, 3);
+    worldSvg += impact.commands.join('');
+  }
   const labels = ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel'].map(key => {
     const l = lab[key]; if (!l.node.active) return '';
     const lines = l.string.split('\n'), x = l.node.x + lab.viewport.width / 2;

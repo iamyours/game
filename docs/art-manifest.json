@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "direction": "Storm ruins / cool stone + aged bronze + restrained cyan/amber",
+  "brief": "docs/ART_DIRECTION.md",
+  "external_method_source": {
+    "repository": "https://github.com/gamedev-skills/awesome-gamedev-agent-skills",
+    "revision": "c6ca6c41c839b68319ffc08430b99ab768debc32",
+    "disciplines": [
+      "game-feel",
+      "game-ui-ux",
+      "create-game-assets"
+    ],
+    "installed": false
+  },
+  "evidence": "evidence/art-direction-20261113",
+  "runtime_verified": false,
+  "assets": [
+    {
+      "id": "hero-atlas",
+      "path": "assets/resources/characters/hero-atlas.png",
+      "kind": "existing_generated_raster",
+      "source_record": "docs/CHARACTER_ASSETS.md",
+      "modified_in_D035": false,
+      "sha256": "3770152d3e04360cfac34ecda7f0e51a5db7d2a26dc2794c74db8e864de0a18d",
+      "size": [
+        1254,
+        1254
+      ],
+      "technical_checks_passed": true,
+      "current_revision_runtime_verified": false
+    },
+    {
+      "id": "enemy-atlas",
+      "path": "assets/resources/characters/enemy-atlas.png",
+      "kind": "existing_generated_raster",
+      "source_record": "docs/CHARACTER_ASSETS.md",
+      "modified_in_D035": false,
+      "sha256": "3a830c8e3780bb5c7bcf29cb6812c854966ef9c59269514f4ea4932120be62ee",
+      "size": [
+        1254,
+        1254
+      ],
+      "technical_checks_passed": true,
+      "current_revision_runtime_verified": false
+    },
+    {
+      "id": "thunder-bow",
+      "path": "assets/resources/weapons/thunder-bow.png",
+      "kind": "existing_generated_raster",
+      "source_record": "docs/THUNDER_WEAPON.md",
+      "modified_in_D035": false,
+      "sha256": "ae0193f0b42fb13a0ad826a14ec17fd8f98745a74f9f48f4e21e6228d460e691",
+      "size": [
+        1254,
+        1254
+      ],
+      "technical_checks_passed": true,
+      "current_revision_runtime_verified": false
+    },
+    {
+      "id": "thunder-arrow",
+      "path": "assets/resources/weapons/thunder-arrow.png",
+      "kind": "existing_generated_raster",
+      "source_record": "docs/THUNDER_WEAPON.md",
+      "modified_in_D035": false,
+      "sha256": "6701d6476e17fee0b5101e08e467149618fdfd95c44f1654e88b2ce2d00e198d",
+      "size": [
+        2172,
+        724
+      ],
+      "technical_checks_passed": true,
+      "current_revision_runtime_verified": false
+    },
+    {
+      "id": "ruins-platform",
+      "path": "assets/scripts/presentation/BattleArt.ts",
+      "kind": "code_native_graphics",
+      "source_record": "docs/ART_DIRECTION.md",
+      "provenance": "Original project code created in D035; no external image or texture",
+      "approval_status": "candidate",
+      "runtime_verified": false
+    },
+    {
+      "id": "impact-mark",
+      "path": "assets/scripts/presentation/BattleArt.ts",
+      "kind": "code_native_graphics",
+      "source_record": "docs/ART_DIRECTION.md",
+      "provenance": "Original project code created in D035; no external image or texture",
+      "approval_status": "candidate",
+      "runtime_verified": false
+    },
+    {
+      "id": "charge-cue",
+      "path": "assets/scripts/presentation/BattleArt.ts",
+      "kind": "code_native_graphics",
+      "source_record": "docs/ART_DIRECTION.md",
+      "provenance": "Original project code created in D035; no external image or texture",
+      "approval_status": "candidate",
+      "runtime_verified": false
+    },
+    {
+      "id": "battle-pause",
+      "path": "assets/scripts/presentation/PhysicsLab.ts",
+      "kind": "code_native_graphics",
+      "source_record": "docs/ART_DIRECTION.md",
+      "provenance": "Original project code created in D035; no external image or texture",
+      "approval_status": "candidate",
+      "runtime_verified": false
+    }
+  ]
+}

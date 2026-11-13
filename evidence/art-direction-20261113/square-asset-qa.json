@@ -1,0 +1,65 @@
+{
+  "ok": true,
+  "assets": [
+    {
+      "path": "assets/resources/characters/hero-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 466106,
+      "color_count": 47486,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 1292916,
+      "content_bounds": [
+        25,
+        19,
+        1234,
+        1254
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/resources/characters/enemy-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 542949,
+      "color_count": 51027,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 1232329,
+      "content_bounds": [
+        0,
+        5,
+        1248,
+        1254
+      ],
+      "problems": []
+    },
+    {
+      "path": "assets/resources/weapons/thunder-bow.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 542050,
+      "color_count": ">65535",
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 1388461,
+      "content_bounds": [
+        0,
+        13,
+        1232,
+        1254
+      ],
+      "problems": []
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "assets": [
+    {
+      "path": "assets/resources/weapons/thunder-arrow.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 2172,
+      "height": 724,
+      "bytes": 461283,
+      "color_count": ">65535",
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 1365328,
+      "content_bounds": [
+        25,
+        29,
+        2150,
+        692
+      ],
+      "problems": []
+    }
+  ]
+}

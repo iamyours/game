@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> storm-archers@3.8.8 check:syntax
+> node scripts/check-engine-syntax.mjs
+
+34 TypeScript files checked for syntax. NOT Creator typing, build or runtime.

@@ -117,6 +117,8 @@ export const combatSchema = z.object({
   limits: z.object({
     maxLiveEnemies: count.max(2), maxFlyingArrows: count.max(24), maxEmbeddedVisuals: count.max(24),
     maxEmbeddedPerActor: count.max(6), maxCorpses: count.max(2), maxPhysicalEquipmentDrops: count.max(6),
+    maxEmbeddedPerSurface: count.max(3), embeddedTtlSec: positive.max(10),
+    terrainEmbeddedTtlSec: positive.max(5), embeddedFadeSec: positive.max(2),
     corpseTtlSec: positive, equipmentTtlSec: positive, projectileTtlSec: positive,
     normalBodiesTarget: count.max(80), peakBodiesBudget: count.max(110),
   }).strict(),

@@ -37,6 +37,9 @@ export function validateSeedPack(input: unknown): SeedPack {
     'combat.reaction: 玩家冲量限制不可超过单次冲量上限');
   require(combat.limits.normalBodiesTarget <= combat.limits.peakBodiesBudget, 'combat.limits: 常态刚体预算不可大于峰值');
   require(combat.limits.maxEmbeddedPerActor <= combat.limits.maxEmbeddedVisuals, 'combat.limits: 单角色插箭上限不可超过全场上限');
+  require(combat.limits.maxEmbeddedPerSurface <= combat.limits.maxEmbeddedVisuals, 'combat.limits: 单平台插箭上限不可超过全场上限');
+  require(combat.limits.embeddedFadeSec <= Math.min(combat.limits.embeddedTtlSec, combat.limits.terrainEmbeddedTtlSec),
+    'combat.limits: 插箭淡出时间不可大于存留时间');
   for (const arrow of combat.arrows) {
     require(arrow.staminaCost <= combat.player.stamina, `combat.arrows.${arrow.id}: 体力消耗超过玩家上限`);
     require(arrow.impulseNs <= combat.reaction.maxSingleImpulseNs, `combat.arrows.${arrow.id}: 冲量超过单次上限`);

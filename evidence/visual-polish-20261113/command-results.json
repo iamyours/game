@@ -1,0 +1,101 @@
+[
+  {
+    "name": "verify",
+    "command": [
+      "npm",
+      "run",
+      "verify"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 30.666
+  },
+  {
+    "name": "syntax",
+    "command": [
+      "npm",
+      "run",
+      "check:syntax"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 1.246
+  },
+  {
+    "name": "harness-syntax",
+    "command": [
+      "node",
+      "--check",
+      "scripts/verify-projectile-presentation-web.mjs"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 0.089
+  },
+  {
+    "name": "stress-harness-syntax",
+    "command": [
+      "node",
+      "--check",
+      "scripts/verify-arcade-stability-web.mjs"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 0.083
+  },
+  {
+    "name": "offline-preview",
+    "command": [
+      "npm",
+      "run",
+      "preview:presentation"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 6.79
+  },
+  {
+    "name": "engine-types",
+    "command": [
+      "npm",
+      "run",
+      "typecheck:engine"
+    ],
+    "exitCode": 2,
+    "expectedExitCode": 2,
+    "durationSec": 0.334
+  },
+  {
+    "name": "build-web",
+    "command": [
+      "npm",
+      "run",
+      "build:web"
+    ],
+    "exitCode": 2,
+    "expectedExitCode": 2,
+    "durationSec": 0.384
+  },
+  {
+    "name": "projectile-runtime",
+    "command": [
+      "npm",
+      "run",
+      "test:web:projectile-presentation"
+    ],
+    "exitCode": 2,
+    "expectedExitCode": 2,
+    "durationSec": 0.349
+  },
+  {
+    "name": "diff-whitespace",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "durationSec": 0.029
+  }
+]

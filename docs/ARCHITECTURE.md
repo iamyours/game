@@ -1,3 +1,7 @@
+# D033 有界箭矢表现与全宽布局
+
+domain/ProjectilePresentation提供固定步时间的ArrowResidues租期/容量/淡出与短迹裁切；ProjectileSystem保留真实bullet箭尖及单次命中路径，视觉租期不保留额外物理体。UIOpacity只作用于插箭视觉，回收立即停显后帧末销毁。飞行池每次复用显式恢复重力/阻尼，短迹共享一个Graphics并有界采样。domain/BattleLayout提供连续模式固定构图；LabViewport只改相机并映射完整安全区，不缩放物理节点。PhysicsLab显示紧凑HUD与支持时的用户点击全屏；Web壳铺满动态视口。详见PROJECTILE_PRESENTATION.md，当前运行待验。
+
 # D030 雷霆机械武器接入
 
 ThunderWeaponAssets集中加载/持有两纹理与41个共享帧；ThunderBowSkin以40片连续剪切实现纹理弯曲，分解为两层纯视觉节点变换。weaponGeometry提供纯几何。ProjectileSystem支持可选实际launchTip并从握点检查出口，池槽与插箭复用ThunderArrowSkin。 细节见THUNDER_WEAPON.md。

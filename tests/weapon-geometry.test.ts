@@ -39,6 +39,16 @@ test('40段弓身在拉满与回弹时无负尺寸、切片越界或纵向裂缝
   }
 });
 
+test('机械弓保留可读横向轮廓，弦端仍在满拉手之前且握点固定', () => {
+  const strip = bowArtStrip(20, spec.bow, 0.74, 0.55, 1);
+  assert.ok(strip.widthM > 0.6 && strip.widthM < 0.8);
+  for (const tip of [spec.bow.upperTip, spec.bow.lowerTip]) {
+    const p = bowArtPoint(tip, spec.bow, 0.74, 0.55, 1);
+    assert.ok(p.x > -0.75 && p.x < -0.4);
+  }
+  assert.deepEqual(bowArtPoint(spec.bow.grip, spec.bow, 0.74, 0.55, 1), { x: -0, y: 0 });
+});
+
 test('弓臂不能抢先于真实拉弦手变满；左右朝向与不同世界角一致', () => {
   for (const angleRad of [0, 0.4, Math.PI, Math.PI + 0.4]) for (const amount of [0, 0.5, 1]) {
     const socket = { x: 4, y: 6, angleRad }, depth = 0.55 + 0.2 * amount;

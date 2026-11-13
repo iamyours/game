@@ -1,0 +1,24 @@
+{
+  "scope": "Offline arithmetic reconstruction; not current engine event capture",
+  "requestedStrength": 0.6,
+  "pointerOrigin": [
+    316.79999999999995,
+    668.25
+  ],
+  "pointerTarget": [
+    262.5897785711762,
+    685.863968679372
+  ],
+  "quantizedOrigin": [
+    316,
+    668
+  ],
+  "quantizedTarget": [
+    262,
+    685
+  ],
+  "reconstructedStrength": 0.5953056899257291,
+  "recordedStrength": 0.5953056899257294,
+  "reconstructedAimDeg": 17.47477425625567,
+  "recordedAimDeg": 17.474774256255724
+}

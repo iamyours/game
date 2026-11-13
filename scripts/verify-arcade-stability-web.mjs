@@ -14,7 +14,7 @@ let browser;
 try{
  const {chromium}=await import(process.env.PLAYWRIGHT_MODULE || '/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs');
  browser=await chromium.launch({headless:process.env.HEADED!=='1',executablePath:process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
- const page=await browser.newPage({viewport:{width:1440,height:810}});page.on('pageerror',e=>report.errors.push(String(e)));
+ const page=await browser.newPage({viewport:{width:1440,height:810}});page.on('pageerror',e=>report.errors.push(e.stack || String(e)));
  const snapshot = () => page.evaluate(async()=>{const cc=await System.import('cc');const lab=cc.director.getScene()?.getChildByName('PhysicsLab')?.getComponent('StormArchersPhysicsLab');return lab?.snapshot() ?? null;});
  const waitSnapshot = async(predicate, timeout=18000) => { const end=Date.now()+timeout; while(Date.now()<end){ const value=await snapshot(); if(predicate(value)) return value; await page.waitForTimeout(30); } throw Error(`snapshot wait timed out: ${JSON.stringify(await snapshot())}`); };
  await page.goto(process.env.ARCADE_URL || 'http://127.0.0.1:7458/');

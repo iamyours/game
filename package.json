@@ -26,6 +26,8 @@
     "test:web:arm-impact": "node scripts/verify-arm-impact-web.mjs",
     "test:web:arcade": "node scripts/verify-arcade-web.mjs",
     "test:web:arcade-stability": "node scripts/verify-arcade-stability-web.mjs",
+    "test:web:projectile-presentation": "node scripts/verify-projectile-presentation-web.mjs",
+    "preview:presentation": "node scripts/render-battle-presentation.mjs",
     "check:syntax": "node scripts/check-engine-syntax.mjs",
     "typecheck:engine-source": "node scripts/typecheck-engine-source.mjs"
   },

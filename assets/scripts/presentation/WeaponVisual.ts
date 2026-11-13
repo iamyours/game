@@ -6,9 +6,9 @@ import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 
 // All coordinates are metres. Only visual paths change; the grip and physical arrow tip stay fixed.
 export const WEAPON_STYLES = {
-  normal: { color: '#F7C66F', edge: '#FFF1BE', limbWidth: 0.085, arrowLength: 0.96, headLength: 0.19, headWidth: 0.09 },
-  impact: { color: '#F29983', edge: '#FFE1CC', limbWidth: 0.12, arrowLength: 1.02, headLength: 0.23, headWidth: 0.14 },
-  piercing: { color: '#BCAEF6', edge: '#EDE8FF', limbWidth: 0.07, arrowLength: 1.1, headLength: 0.29, headWidth: 0.065 },
+  normal: { color: '#F7C66F', edge: '#FFF1BE', limbWidth: 0.10, arrowLength: 1.28, headLength: 0.25, headWidth: 0.12 },
+  impact: { color: '#F29983', edge: '#FFE1CC', limbWidth: 0.14, arrowLength: 1.38, headLength: 0.30, headWidth: 0.18 },
+  piercing: { color: '#BCAEF6', edge: '#EDE8FF', limbWidth: 0.09, arrowLength: 1.46, headLength: 0.36, headWidth: 0.09 },
 } as const;
 export type WeaponKind = keyof typeof WEAPON_STYLES;
 const styleFor = (id: string) => WEAPON_STYLES[id as WeaponKind] ?? WEAPON_STYLES.normal;
@@ -20,12 +20,12 @@ export function drawWeaponArrow(g: Graphics, id: string, tip: PointM, angleRad: 
   const p = (x: number, y: number) => ({ x: P.units(tip.x + dx * x - dy * y), y: P.units(tip.y + dy * x + dx * y) });
   const line = (a: PointM, b: PointM) => { g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); };
   const tail = p(-lengthM, 0), head = p(-s.headLength * 0.7, 0);
-  g.strokeColor = tint('#263746'); g.lineWidth = P.units(0.075); line(tail, head); g.stroke();
-  g.strokeColor = tint(s.edge); g.lineWidth = P.units(0.035); line(tail, head); g.stroke();
+  g.strokeColor = tint('#0C1B27'); g.lineWidth = P.units(0.095); line(tail, head); g.stroke();
+  g.strokeColor = tint(s.edge); g.lineWidth = P.units(0.048); line(tail, head); g.stroke();
   // Two broad feathers keep the shaft legible at the full battlefield camera scale.
   for (const side of [-1, 1]) {
-    const a = p(-lengthM + 0.025, 0), b = p(-lengthM + 0.08, side * 0.1),
-      c = p(-lengthM + 0.27, side * 0.07), d = p(-lengthM + 0.21, 0);
+    const a = p(-lengthM + 0.025, 0), b = p(-lengthM + 0.09, side * 0.13),
+      c = p(-lengthM + 0.34, side * 0.09), d = p(-lengthM + 0.26, 0);
     g.fillColor = tint(s.color); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.lineTo(c.x, c.y); g.lineTo(d.x, d.y); g.close(); g.fill();
   }
   const nose = p(0, 0), upper = p(-s.headLength, s.headWidth), lower = p(-s.headLength, -s.headWidth);

@@ -2,20 +2,28 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <title><%= projectName %> | PhysicsLab</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#142a38">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title><%= projectName %></title>
     <link rel="stylesheet" href="<%= cssUrl %>">
     <link rel="icon" href="favicon.ico">
     <style>
-      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #142a38; }
-      #GameDiv { width: 100%; height: 100%; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
-      #GameCanvas { display: block; touch-action: none; }
+      :root { --safe-left: env(safe-area-inset-left, 0px); --safe-right: env(safe-area-inset-right, 0px);
+        --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px); }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; overscroll-behavior: none; background: #142a38; }
+      body { height: 100dvh; -webkit-user-select: none; user-select: none; }
+      #GameDiv { position: fixed !important; inset: 0 !important; width: 100% !important; height: 100% !important;
+        margin: 0 !important; padding: 0; border: 0; border-radius: 0; box-shadow: none; transform: none !important; }
+      #Cocos3dGameContainer { width: 100%; height: 100%; }
+      #GameCanvas { display: block; width: 100%; height: 100%; touch-action: none; outline: none; }
+      #GameDiv:fullscreen { width: 100vw !important; height: 100dvh !important; }
     </style>
   </head>
   <body>
     <div id="GameDiv" cc_exact_fit_screen="true">
       <div id="Cocos3dGameContainer">
-        <canvas id="GameCanvas" tabindex="0" aria-label="风暴弓手 PhysicsLab"></canvas>
+        <canvas id="GameCanvas" tabindex="0" aria-label="风暴弓手"></canvas>
       </div>
     </div>
     <%- include(cocosTemplate, {}) %>

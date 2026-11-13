@@ -3,7 +3,7 @@ import { PhysicsAdapter as P } from '../physics/PhysicsAdapter';
 import { bowArtPoint, bowArtStrip, nockedArrowTip, spriteShear, validateThunderArt, type ThunderArtSpec } from '../domain/weaponGeometry';
 import type { PointM } from '../domain/archery';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
-import { WEAPON_STYLES, type WeaponKind } from './WeaponVisual';
+import { WEAPON_STYLES, drawWeaponArrow, type WeaponKind } from './WeaponVisual';
 
 export const thunderArrowLength = (id: string): number => (WEAPON_STYLES[id as WeaponKind] ?? WEAPON_STYLES.normal).arrowLength;
 const loadTexture = (path: string): Promise<Texture2D> => new Promise((resolve, reject) => resources.load(path, Texture2D, (error, asset) => {
@@ -59,15 +59,25 @@ function visual(parent: Node, name: string, frame: SpriteFrame, anchorX = 0.5): 
 
 export class ThunderArrowSkin {
   private sprite: Sprite | null = null;
+  private silhouette: Graphics | null = null;
   public constructor(private readonly parent: Node, private readonly assets: ThunderWeaponAssets) {}
-  public hide(): void { if (this.sprite && isValid(this.sprite.node)) this.sprite.node.active = false; }
+  public hide(): void {
+    if (this.sprite && isValid(this.sprite.node)) this.sprite.node.active = false;
+    if (this.silhouette && isValid(this.silhouette.node)) this.silhouette.node.active = false;
+  }
   public show(id: string): boolean {
     if (!this.assets.ready || !isValid(this.parent)) { this.hide(); return false; }
-    if (!this.sprite) this.sprite = visual(this.parent, 'ThunderArrowArt', this.assets.arrowFrame!, 1);
+    if (!this.sprite) {
+      const outline = new Node('ArrowSilhouette'); outline.layer = this.parent.layer; outline.parent = this.parent;
+      this.silhouette = outline.addComponent(Graphics);
+      this.sprite = visual(this.parent, 'ThunderArrowArt', this.assets.arrowFrame!, 1);
+    }
+    this.silhouette!.node.active = true; this.silhouette!.clear();
+    drawWeaponArrow(this.silhouette!, id, { x: 0, y: 0 }, 0);
     const length = thunderArrowLength(id), rect = this.assets.spec!.arrow.rect;
     this.sprite.node.active = true;
     this.sprite.color = id === 'impact' ? new Color(255, 180, 145, 255) : id === 'piercing' ? new Color(200, 180, 255, 255) : Color.WHITE;
-    this.sprite.node.getComponent(UITransform)!.setContentSize(P.units(length), P.units(length * rect[3] / rect[2]));
+    this.sprite.node.getComponent(UITransform)!.setContentSize(P.units(length), P.units(Math.max(0.18, length * rect[3] / rect[2])));
     return true;
   }
 }

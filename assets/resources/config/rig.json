@@ -2,7 +2,7 @@
   "generatedFrom": "configs/rig.seed.json",
   "sourceKind": "unverified_seed",
   "runtimeVerified": false,
-  "seedHash": "925eda6ab0b61a9f98dacb75e37cc42d6b52d207813b010fda21939cd39cf9c9",
+  "seedHash": "ef2eef968a0f9e29550ce14f6314bb454a16a4dac24d540abf63a05941a2918d",
   "data": {
     "configVersion": 2,
     "status": "runtime_spec_ready_requires_stability",

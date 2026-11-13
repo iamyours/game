@@ -214,6 +214,8 @@ export class ArcadeBattle {
     collider.size.set(P.units(width), P.units(0.6)); collider.friction = 0.9; collider.apply();
     const g = platform.addComponent(Graphics); g.fillColor = new Color(76, 100, 112, 255);
     g.rect(-P.units(width / 2), -P.units(0.3), P.units(width), P.units(0.6)); g.fill();
+    g.fillColor = new Color(138, 169, 174, 255); g.rect(-P.units(width / 2), P.units(0.2), P.units(width), P.units(0.1)); g.fill();
+    g.fillColor = new Color(37, 63, 77, 255); g.rect(-P.units(width / 2), -P.units(0.3), P.units(width), P.units(0.12)); g.fill();
     const actor = this.factory.spawn(this.world, `Enemy_${this.serial}`, [x, y + 0.41], heavy ? '#C99BDE' : '#E98575', heavy ? this.cfg.arcade.heavyMassMultiplier : 1, -1);
     const aim = new AimController(actor, new PoseController(actor, actor.definition, this.cfg.bowControl)); aim.setWorldAim(Math.PI - 0.2);
     const skin = new CharacterSkin(actor, actor.definition); void skin.load('enemy').then(() => {

@@ -26,7 +26,7 @@ export function validateThunderArt(spec: ThunderArtSpec): void {
 /** Authored sprite pixels -> bow-local metres. Positive x is the actual firing direction. */
 export function bowArtPoint(pixel: readonly [number, number], spec: BowArtSpec, halfHeightM: number, braceDepthM: number, flex: number): PointM {
   const sy = halfHeightM * 2 / (spec.lowerTip[1] - spec.upperTip[1]);
-  const sx = braceDepthM * 0.45 / ((spec.upperTip[0] + spec.lowerTip[0]) / 2 - spec.grip[0]);
+  const sx = braceDepthM * 0.8 / ((spec.upperTip[0] + spec.lowerTip[0]) / 2 - spec.grip[0]);
   const y = (spec.grip[1] - pixel[1]) * sy;
   const t = clamp((Math.abs(y) - 0.12) / Math.max(0.01, halfHeightM - 0.12), 0, 1);
   const ease = t * t * (3 - 2 * t), bend = clamp(flex, -0.4, 1);
@@ -41,7 +41,7 @@ export function bowArtStrip(index: number, spec: BowArtSpec, halfHeightM: number
   const bottom = Math.min(y + h, Math.floor(y + h * (index + 1) / spec.strips) + 1);
   const a = bowArtPoint([x + w / 2, top], spec, halfHeightM, braceDepthM, flex);
   const b = bowArtPoint([x + w / 2, bottom], spec, halfHeightM, braceDepthM, flex);
-  const sx = braceDepthM * 0.45 / ((spec.upperTip[0] + spec.lowerTip[0]) / 2 - spec.grip[0]);
+  const sx = braceDepthM * 0.8 / ((spec.upperTip[0] + spec.lowerTip[0]) / 2 - spec.grip[0]);
   const baseHeightM = (bottom - top) * halfHeightM * 2 / (spec.lowerTip[1] - spec.upperTip[1]);
   return { rect: [x, top, w, bottom - top] as const, xM: (a.x + b.x) / 2, yM: (a.y + b.y) / 2,
     widthM: w * sx, heightM: a.y - b.y, baseHeightM,

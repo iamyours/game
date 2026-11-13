@@ -1,11 +1,12 @@
-import { CircleCollider2D, Contact2DType, ERigidBody2DType, Graphics, Node, RigidBody2D, type Collider2D, type IPhysics2DContact } from 'cc';
+import { CircleCollider2D, Color, Contact2DType, ERigidBody2DType, Graphics, Node, RigidBody2D, UIOpacity, isValid, type Collider2D, type IPhysics2DContact } from 'cc';
 import { PhysicsAdapter as Physics } from '../physics/PhysicsAdapter';
 import type { BowSocketSnapshot } from '../physics/AimController';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import type { RagdollInstance } from '../physics/RagdollFactory';
 import { eventCallbackCount } from '../domain/RuntimeDiagnostics';
 import { drawWeaponArrow } from '../presentation/WeaponVisual';
-import { ThunderArrowSkin, type ThunderWeaponAssets } from '../presentation/ThunderWeaponSkin';
+import { ThunderArrowSkin, thunderArrowLength, type ThunderWeaponAssets } from '../presentation/ThunderWeaponSkin';
+import { ArrowResidues, shortFlightTrail } from '../domain/ProjectilePresentation';
 
 type Point = { x: number; y: number };
 export type ProjectileArrowConfig = PhysicsLabConfig['arrows'][number];
@@ -17,7 +18,7 @@ export interface HitCandidate {
 }
 interface Flight {
   id: number; slot: Slot; arrow: ProjectileArrowConfig; shooter: string;
-  previous: Point; velocity: Point; born: number; angle: number;
+  previous: Point; velocity: Point; born: number; angle: number; trail: Point[];
 }
 type ContactCallback = (self: Collider2D, other: Collider2D, contact: IPhysics2DContact | null) => void;
 interface Slot { node: Node; body: RigidBody2D; collider: Collider2D; graphics: Graphics; skin: ThunderArrowSkin | null; onContact: ContactCallback | null; flight?: Flight }
@@ -30,21 +31,28 @@ function drawArrow(g: Graphics, id: string): void {
 export class ProjectileSystem {
   private readonly flying = new Map<number, Flight>();
   private readonly spare: Slot[] = [];
-  private readonly embedded: { target: string; node: Node }[] = [];
+  private readonly embedded: ArrowResidues<{ node: Node; opacity: UIOpacity }>;
+  private readonly trails: Graphics;
   private readonly queue: HitCandidate[] = [];
   private readonly targets = new Map<Node, { targetId: string; partId: string; body: RigidBody2D }>();
   private readonly pickups = new Map<string, { node: Node; collect: () => void }>();
   private nextId = 1;
   private stepId = 0;
+  private disposed = false;
+  private bounds = { left: -2, right: 26, bottom: -3, top: 16 };
 
   public constructor(private readonly world: Node, private readonly config: PhysicsLabConfig,
     actors: readonly RagdollInstance[], private readonly onHit: (candidate: HitCandidate, target: RigidBody2D) => void, private readonly weaponAssets?: ThunderWeaponAssets) {
+    this.embedded = new ArrowResidues(config.limits, ({ node }) => { if (isValid(node, true)) Physics.retire(node); });
+    const trailNode = new Node('FlightTrails'); trailNode.layer = world.layer; trailNode.parent = world;
+    this.trails = trailNode.addComponent(Graphics);
     for (const actor of actors) for (const [partId, body] of actor.bodies) {
       this.targets.set(body.node, { targetId: actor.id, partId, body });
     }
   }
   public get count(): number { return this.flying.size; }
-  public get embeddedCount(): number { return this.embedded.length; }
+  public get embeddedCount(): number { return this.embedded.count; }
+  public setViewBounds(bounds: { left: number; right: number; bottom: number; top: number }): void { this.bounds = bounds; }
   public get poolSize(): number { return this.flying.size + this.spare.length; }
   public get contactListenerCount(): number | null {
     let total = 0;
@@ -62,9 +70,7 @@ export class ProjectileSystem {
   }
   public unregisterActor(actor: RagdollInstance): void {
     for (const body of actor.bodies.values()) this.targets.delete(body.node);
-    for (let i = this.embedded.length - 1; i >= 0; i--) if (this.embedded[i]!.target === actor.id) {
-      this.embedded[i]!.node.destroy(); this.embedded.splice(i, 1);
-    }
+    this.embedded.removeTarget(actor.id);
   }
 
   public beginStep(id: number): void {
@@ -92,6 +98,7 @@ export class ProjectileSystem {
   }
 
   public fire(shooter: string, socket: BowSocketSnapshot, arrow: ProjectileArrowConfig, launchTip?: Point): number | null {
+    if (this.disposed) return null;
     if (this.launchBlockReason(shooter, socket, launchTip) !== null) return null;
     const slot = this.spare.pop() ?? this.createSlot();
     const point = launchTip ?? this.tip(socket, TIP_OFFSET_M);
@@ -102,15 +109,20 @@ export class ProjectileSystem {
     if (shooter !== 'PlayerRagdoll') slot.skin?.hide();
     slot.graphics.enabled = !skinned;
     if (!skinned) drawArrow(slot.graphics, arrow.id);
-    const shot = { id: this.nextId++, slot, shooter, arrow, previous: point, born: this.stepId, angle: socket.angleRad,
+    const tail = { x: point.x - Math.cos(socket.angleRad) * thunderArrowLength(arrow.id),
+      y: point.y - Math.sin(socket.angleRad) * thunderArrowLength(arrow.id) };
+    const shot = { id: this.nextId++, slot, shooter, arrow, previous: point, born: this.stepId, angle: socket.angleRad, trail: [tail],
       velocity: { x: Math.cos(socket.angleRad) * arrow.speedMps, y: Math.sin(socket.angleRad) * arrow.speedMps } };
     slot.flight = shot;
+    // Pooled tips must never inherit a stopped arrow's gravity, damping or spin.
+    slot.body.gravityScale = 1; slot.body.linearDamping = slot.body.angularDamping = 0;
     Physics.setVelocity(slot.body, shot.velocity.x, shot.velocity.y);
     this.flying.set(shot.id, shot);
     return shot.id;
   }
 
   public afterStep(): void {
+    if (this.disposed) return;
     for (const shot of this.flying.values()) {
       const point = Physics.positionM(shot.slot.node);
       for (const hit of Physics.raycastM(shot.previous, point, this.mask)) {
@@ -132,29 +144,39 @@ export class ProjectileSystem {
     this.queue.length = 0;
     for (const shot of this.flying.values()) {
       const { x, y } = Physics.positionM(shot.slot.node);
-      if ((this.stepId - shot.born) * this.config.physics.fixedTimeStepSec >= this.config.limits.projectileTtlSec || x < -2 || x > 26 || y < -3 || y > 16) {
+      if ((this.stepId - shot.born) * this.config.physics.fixedTimeStepSec >= this.config.limits.projectileTtlSec || !this.inView({ x, y }, 2)) {
         this.recycle(shot);
       } else {
         const velocity = shot.slot.body.linearVelocity;
         if (Math.hypot(velocity.x, velocity.y) > 0.1) shot.angle = Math.atan2(velocity.y, velocity.x);
         shot.slot.graphics.node.setRotationFromEuler(0, 0, Physics.degrees(shot.angle));
+        const length = thunderArrowLength(shot.arrow.id);
+        shot.trail.push({ x: x - Math.cos(shot.angle) * length, y: y - Math.sin(shot.angle) * length });
+        if (shot.trail.length > 6) shot.trail.shift();
       }
     }
+    const now = this.stepId * this.config.physics.fixedTimeStepSec;
+    this.embedded.prune(now, ({ node }) => isValid(node, true) && isValid(node.parent, true) && this.inView(Physics.positionM(node), 1.6));
+    for (const entry of this.embedded.items) entry.visual.opacity.opacity = Math.round(255 * this.embedded.opacity(entry, now));
+    this.drawTrails();
   }
 
   public clear(): void {
     for (const shot of this.flying.values()) this.recycle(shot);
-    for (const mark of this.embedded) mark.node.destroy();
-    this.embedded.length = this.queue.length = 0;
+    this.embedded.clear(); this.queue.length = 0;
+    if (isValid(this.trails, true)) this.trails.clear();
   }
 
   public dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
     this.clear();
     for (const slot of this.spare) {
       if (slot.onContact) slot.collider.off(Contact2DType.BEGIN_CONTACT, slot.onContact);
       Physics.retire(slot.node);
     }
     this.spare.length = 0; this.targets.clear(); this.pickups.clear();
+    if (isValid(this.trails.node, true)) Physics.retire(this.trails.node);
   }
 
   private get mask(): number { return this.config.rig.collisionGroups.platform | this.config.rig.collisionGroups.ragdoll; }
@@ -171,6 +193,7 @@ export class ProjectileSystem {
     const body = node.addComponent(RigidBody2D);
     body.type = ERigidBody2DType.Dynamic; body.group = this.config.rig.collisionGroups.projectile;
     body.bullet = true; body.fixedRotation = true; body.enabledContactListener = true; body.allowSleep = false;
+    body.gravityScale = 1; body.linearDamping = body.angularDamping = 0;
     const collider = node.addComponent(CircleCollider2D);
     collider.group = body.group; collider.radius = Physics.units(0.035); collider.density = 0.5; collider.friction = 0;
     const visual = new Node('Shaft'); visual.layer = node.layer; visual.parent = node;
@@ -197,22 +220,41 @@ export class ProjectileSystem {
       partId: target?.partId ?? 'platform', pointM, normal, source, fraction, incomingVelocityMps: shot.velocity, arrow: shot.arrow });
   }
   private recycle(shot: Flight): void {
-    this.flying.delete(shot.id);
+    if (!this.flying.delete(shot.id)) return;
     shot.slot.flight = undefined;
-    shot.slot.node.active = false;
+    shot.trail.length = 0;
+    if (isValid(shot.slot.node, true)) {
+      if (isValid(shot.slot.body, true) && shot.slot.node.activeInHierarchy) Physics.setVelocity(shot.slot.body, 0, 0);
+      shot.slot.node.active = false;
+    }
     this.spare.push(shot.slot);
   }
   private embed(hit: HitCandidate, parent: Node): void {
-    const perActor = this.embedded.filter(mark => mark.target === hit.targetId);
-    const oldest = perActor.length >= this.config.limits.maxEmbeddedPerActor ? perActor[0]
-      : this.embedded.length >= this.config.limits.maxEmbeddedVisuals ? this.embedded[0] : undefined;
-    if (oldest) { oldest.node.destroy(); this.embedded.splice(this.embedded.indexOf(oldest), 1); }
+    if (!isValid(parent, true)) return;
     const node = new Node('EmbeddedArrow'); node.layer = parent.layer; node.parent = this.world;
     Physics.place(node, hit.pointM.x, hit.pointM.y);
     node.setRotationFromEuler(0, 0, Physics.degrees(Math.atan2(hit.incomingVelocityMps.y, hit.incomingVelocityMps.x)));
     node.setParent(parent, true);
     const skin = hit.attackerId === 'PlayerRagdoll' && this.weaponAssets ? new ThunderArrowSkin(node, this.weaponAssets) : null;
     if (!skin?.show(hit.arrow.id)) drawArrow(node.addComponent(Graphics), hit.arrow.id);
-    this.embedded.push({ target: hit.targetId, node });
+    this.embedded.add(hit.targetId, hit.partId === 'platform', { node, opacity: node.addComponent(UIOpacity) },
+      this.stepId * this.config.physics.fixedTimeStepSec);
+  }
+
+  private inView(point: Point, margin: number): boolean {
+    return Number.isFinite(point.x) && Number.isFinite(point.y) && point.x >= this.bounds.left - margin &&
+      point.x <= this.bounds.right + margin && point.y >= this.bounds.bottom - margin && point.y <= this.bounds.top + margin;
+  }
+  private drawTrails(): void {
+    const g = this.trails; g.clear();
+    for (const shot of this.flying.values()) {
+      const points = shortFlightTrail(shot.trail);
+      for (let i = points.length - 1; i > 0; i--) {
+        const a = points[i]!, b = points[i - 1]!, t = 1 - i / points.length;
+        g.strokeColor = shot.shooter === 'PlayerRagdoll' ? new Color(155, 227, 244, Math.round(125 * t)) : new Color(255, 192, 142, Math.round(125 * t));
+        g.lineWidth = Physics.units(0.025 + 0.035 * t);
+        g.moveTo(Physics.units(a.x), Physics.units(a.y)); g.lineTo(Physics.units(b.x), Physics.units(b.y)); g.stroke();
+      }
+    }
   }
 }

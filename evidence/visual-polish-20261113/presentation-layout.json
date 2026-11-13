@@ -1,0 +1,79 @@
+{
+  "scope": "Offline production Graphics/HUD/camera QA; posed actors; NOT Creator or physics runtime",
+  "views": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 810,
+      "frame": {
+        "centerX": 11.6,
+        "centerY": 4.55,
+        "width": 21.8,
+        "height": 12.262500000000001
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 1080
+      },
+      "controls": {
+        "switch": {
+          "left": 1696,
+          "right": 1896,
+          "top": 948,
+          "bottom": 1052
+        },
+        "pause": {
+          "left": 1768,
+          "right": 1900,
+          "top": 20,
+          "bottom": 98
+        },
+        "fullscreen": {
+          "left": 1336,
+          "right": 1468,
+          "top": 20,
+          "bottom": 98
+        }
+      }
+    },
+    {
+      "name": "phone-wide",
+      "width": 844,
+      "height": 390,
+      "frame": {
+        "centerX": 11.6,
+        "centerY": 4.55,
+        "width": 25.319999999999997,
+        "height": 11.7
+      },
+      "safe": {
+        "left": 0,
+        "top": 0,
+        "right": 2337.230769230769,
+        "bottom": 1080
+      },
+      "controls": {
+        "switch": {
+          "left": 2113.230769230769,
+          "right": 2313.230769230769,
+          "top": 919.0769230769231,
+          "bottom": 1052
+        },
+        "pause": {
+          "left": 2184.307692307692,
+          "right": 2317.230769230769,
+          "top": 20,
+          "bottom": 152.92307692307693
+        },
+        "fullscreen": {
+          "left": 1749.538461538461,
+          "right": 1882.461538461538,
+          "top": 20,
+          "bottom": 152.92307692307693
+        }
+      }
+    }
+  ]
+}

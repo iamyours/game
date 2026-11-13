@@ -1,1 +1,0 @@
-PASS: all files from T001 source snapshot retained; original scene/meta, engine lock and npm lock unchanged; script/config/scene meta present.

@@ -1,5 +1,0 @@
-assets/scripts/combat/ArcadeBattle.ts: syntax PASS; NOT cc typecheck
-assets/scripts/presentation/PhysicsLab.ts: syntax PASS; NOT cc typecheck
-assets/scripts/physics/RagdollFactory.ts: syntax PASS; NOT cc typecheck
-assets/scripts/combat/HitResolver.ts: syntax PASS; NOT cc typecheck
-assets/scripts/combat/ProjectileSystem.ts: syntax PASS; NOT cc typecheck

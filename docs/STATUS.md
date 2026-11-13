@@ -5,11 +5,18 @@ currentMilestone: CONTINUOUS_BATTLE
 currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019 T022 T023
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: ZIP 3db1535 合并至本机工作区（Git HEAD仍d1bbbb2）；evidence/zip-merge-20261114/verification.md
+sourceRevision: f372b06（ZIP 3db1535合并、本机烟测已提交推送）；当前追加证据跟踪精简
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（当前ZIP已真实构建并运行基础烟测；箭长/受击关节/销毁历史失败未放行，完整试玩待验）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## 证据目录精简（2026-11-14）
+
+- 按用户授权，将346份原始日志/批量截图/录像/临时脚本/进程状态仅移出Git索引，原文件仍在本机；完整归档为工程同级`game-evidence-archive-20261114-005522.zip`。
+- 清理前556文件/26,703,108字节；原有保留210文件/3,361,019字节，另新增归档索引、精简验证摘要及策略测试。保留全部历史Markdown、结构化结果、哈希及7张关键截图。
+- `evidence/README.md`修正过时说明，统一解释历史原始路径的本地/归档/Git历史取回方式；`ARCHIVE_INDEX.json`逐文件记录来源和指纹。未重写Git历史，不声称历史仓库体积缩小。
+- 不改游戏逻辑、物理配置或原验收结论。G1/真机及旧失败项仍不放行；验证见`evidence/maintenance-20261114/verification.md`。
 
 ## ZIP合并与本机重运行（归档2026-11-14）
 

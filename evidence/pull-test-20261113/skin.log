@@ -1,1 +1,0 @@
-{"passed":false,"failure":"AssertionError [ERR_ASSERTION]: holding must not fire\n\n1 !== 0\n","runtime":{"version":"3.8.8","backend":"b2PhysicsWorld","webgl":"WebGL 2.0 (OpenGL ES 3.0 Chromium)"}}

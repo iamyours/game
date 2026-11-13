@@ -13,7 +13,20 @@ profiles/
 # 机器路径、渠道凭据仅本地保存。
 configs/*.local.json
 
-# 本轮可重建的离线预览/日志保留本地，仅提交验证摘要。
-/evidence/expedition-20261113/*
-!/evidence/expedition-20261113/verification.md
-/evidence/impact-neck-20261113/
+# 证据默认仅跟踪摘要/结构化结果/哈希；原始输出保留本地。
+# 目录重新放行，允许下列文件类型在任意层级生效。
+/evidence/**/*
+!/evidence/**/
+!/evidence/**/*.md
+!/evidence/**/*.json
+!/evidence/**/*.sha256
+# 机器进程状态不作为可移植验收结果。
+/evidence/**/server.json
+# 经审阅的关键引擎/失败/当前运行截图，新增截图需显式加入白名单。
+!/evidence/T001/boot-webgl.png
+!/evidence/T002/physicslab.png
+!/evidence/T004/creator-compile-fix/web-runtime.png
+!/evidence/latest-pull-20261113/arm-impact/failure.png
+!/evidence/latest-pull-20261113/t004/failure.png
+!/evidence/zip-merge-20261114/game-over.png
+!/evidence/zip-merge-20261114/paused.png

@@ -1,0 +1,30 @@
+{
+  "sourceCommit": "f372b06938274bfd04b0a88c80f53d74e039fa0d",
+  "checks": [
+    {
+      "command": "node --test tests/evidence-policy.test.mjs",
+      "exitCode": 0,
+      "tests": 3
+    },
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "tests": 182
+    },
+    {
+      "command": "Python zip CRC/SHA256 and archived-item validation",
+      "exitCode": 0,
+      "archivedOriginals": 346,
+      "localOriginalsPreserved": true
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --cached --check",
+      "exitCode": 0
+    }
+  ],
+  "scope": "Evidence maintenance only; no new engine/device/G1 acceptance"
+}

@@ -1,3 +1,7 @@
+# D038 对局成长、装备和技能
+
+ArcadeBattle拥有RunProgression/BattleLoadout；固定步推进遭遇、道具与技能时间，after-step死亡去重发战利品。PhysicsLab保留唯一ShotBudget与InputRouter，强化UI只在无敌人/无在途箭时暂停；选择恢复不补射。装备修饰与段间强化生成独立箭配置，成功fire后才消耗技能/符石；skill值标记沿ProjectileSystem到真实HitResolver回调，特效使用原Graphics并有数量/寿命上限。HitResolver按actor查询BOSS头部例外，其余原伤害/物理/回收保持。详见RUN_VARIETY.md。
+
 # D037 瞬时反馈与完整骨架
 
 RagdollInstance移除severHead；ArcadeBattle死亡不删除颈关节。injuries为actor/part到期时间Map，固定步后清理，draw读取橙金环且不写Sprite色调。retirementOpacity仅驱动现有actor root/platform/drop的UIOpacity，原after-step回收和物理保持。PhysicsLab在既有HitResolver回调选普通/重击/暴击一个音效，变体未就绪回退hit；场景释放沿用原AudioClip所有权。详见NON_GORY_FEEL.md。

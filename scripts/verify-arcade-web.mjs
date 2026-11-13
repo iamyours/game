@@ -9,7 +9,7 @@ if (!process.env.ARCADE_URL && !existsSync('build/web-desktop/index.html')) {
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || '/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs');
 const browser = await chromium.launch({headless:process.env.HEADED !== '1',executablePath:process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 const page = await browser.newPage({viewport:{width:1440,height:810}});
-const report={passed:false,scope:'Native arcade loop, AI fire and isolated fatal-head hit injection; not manual aim or G1 acceptance',errors:[]};
+const report={passed:false,scope:'Native arcade loop, AI fire, isolated hit/death injection and real reward input; not manual aim or G1 acceptance',errors:[]};
 const snapshot = () => page.evaluate(async()=>{const cc=await System.import('cc');const lab=cc.director.getScene()?.getChildByName('PhysicsLab')?.getComponent('StormArchersPhysicsLab');return lab?.snapshot() ?? null;});
 const waitSnapshot = async(predicate, timeout=18000) => { const end=Date.now()+timeout; while(Date.now()<end){ const value=await snapshot(); if(predicate(value)) return value; await page.waitForTimeout(30); } throw Error(`snapshot wait timed out: ${JSON.stringify(await snapshot())}`); };
 page.on('pageerror',e=>report.errors.push(String(e)));
@@ -71,6 +71,48 @@ try {
  await page.waitForTimeout(4000);
  report.cleanup=await snapshot();
  assert.ok(report.cleanup.rig.ragdolls.every(a=>a.id!==report.fatal.id),'旧尸体应从逻辑列表与工厂回收');
+ // Exercise the production five-kill transition without pretending these injected deaths are manual play.
+ const priorReset=report.cleanup.rig.resetCount;
+ await page.evaluate(async()=>{const cc=await System.import('cc');cc.director.getScene().getChildByName('PhysicsLab').getComponent('StormArchersPhysicsLab').resetRagdolls();});
+ await waitSnapshot(s=>s?.rig?.resetCount>priorReset&&Boolean(s.arcade?.enemyId));
+ const encounters=[];
+ for(let index=0;index<5;index++) {
+  const current=await waitSnapshot(s=>Boolean(s?.arcade?.enemyId)); encounters.push(current.arcade.encounter);
+  await page.evaluate(async()=>{
+   const cc=await System.import('cc'),lab=cc.director.getScene().getChildByName('PhysicsLab').getComponent('StormArchersPhysicsLab');
+   lab.combatStates.get(lab.arcade.current.actor.id).hp=0;lab.arcade.afterStep();
+  });
+  await waitSnapshot(s=>s?.arcade?.score===index+1);
+ }
+ assert.equal(encounters[4],'elite'); assert.equal(encounters[0],'archer');
+ const reward=await waitSnapshot(s=>s?.rewardVisible===true);
+ await page.waitForTimeout(250); const frozen=await snapshot();
+ assert.equal(frozen.stepId,reward.stepId,'选择强化时物理时间冻结');
+ assert.equal(frozen.arcade.enemyId,null);assert.equal(frozen.arcade.offers.length,3);
+ await page.screenshot({path:out+'/reward.png'});
+ const chosen=frozen.arcade.offers[0],card=frozen.rewardRects[0],viewport=page.viewportSize();
+ await page.mouse.click((card.left+card.right)/2/frozen.width*viewport.width,(card.top+card.bottom)/2/frozen.height*viewport.height);
+ const continued=await waitSnapshot(s=>!s?.rewardVisible&&Boolean(s?.arcade?.enemyId));
+ assert.equal(continued.arcade.stage,2);assert.equal(continued.arcade.score,5);
+ if(chosen==='forge')assert.equal(continued.arcade.loadout.level,2);
+ else if(chosen!=='recover')assert.equal(continued.arcade.upgrades[chosen],1);
+ assert.equal(continued.shots,0,'选择强化不附带射击');
+ const tapControl=async kind=>{
+  const s=await snapshot(),r=s.equipmentButtons.find(b=>b.kind===kind).rect,v=page.viewportSize();
+  await page.mouse.click((r.left+r.right)/2/s.width*v.width,(r.top+r.bottom)/2/s.height*v.height);
+ };
+ await tapControl('bow');assert.equal((await snapshot()).arcade.loadout.bow,'gale');
+ await tapControl('skill');assert.equal((await snapshot()).arcade.loadout.primed.shots,3);
+ await page.evaluate(async()=>{const cc=await System.import('cc');cc.director.getScene().getChildByName('PhysicsLab').getComponent('StormArchersPhysicsLab').combatStates.get('PlayerRagdoll').hp=50;});
+ await tapControl('potion');assert.equal((await snapshot()).arcade.loadout.items.potion,1);
+ await tapControl('rune');assert.equal((await snapshot()).arcade.loadout.rune,true);
+ const restart=continued.rig.resetCount;
+ await page.evaluate(async()=>{const cc=await System.import('cc');cc.director.getScene().getChildByName('PhysicsLab').getComponent('StormArchersPhysicsLab').resetRagdolls();});
+ const restarted=await waitSnapshot(s=>s?.rig?.resetCount>restart);
+ assert.equal(restarted.arcade.stage,1);assert.deepEqual(restarted.arcade.upgrades,{});
+ assert.equal(restarted.arcade.loadout.bow,'thunder');assert.equal(restarted.arcade.loadout.primed,null);
+ assert.deepEqual(restarted.arcade.loadout.levels,{thunder:1,gale:1,moon:1});
+ report.progression={encounters,reward,frozen,chosen,continued,restarted,method:'Injected five deaths; real pointer choice and native pause/resume/reset'};
  await page.screenshot({path:out+'/battle.png'});
  assert.deepEqual(report.errors,[]);report.passed=true;
 } catch(e){report.failure=String(e);throw e;} finally {await writeFile(out+'/verification.json',JSON.stringify(report,null,2)+'\n');await browser.close();}

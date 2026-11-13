@@ -1,5 +1,6 @@
 import { Color, type Graphics } from 'cc';
 import { PhysicsAdapter as P } from '../physics/PhysicsAdapter';
+import { BOWS, type SkillMark } from '../domain/BattleLoadout';
 
 /** Code-native stone/bronze family. All solid-looking art stays inside the existing collider. */
 export function drawRuinsPlatform(g: Graphics, widthM: number, hero = false): void {
@@ -48,4 +49,32 @@ export function drawChargeCue(g: Graphics, head: { x: number; y: number }): void
   g.moveTo(P.units(head.x - 0.12), P.units(head.y + 0.72));
   g.lineTo(P.units(head.x), P.units(head.y + 0.59));
   g.lineTo(P.units(head.x + 0.12), P.units(head.y + 0.72)); g.stroke();
+}
+
+/** Short local spell shapes follow actual casts and hits; no fake flight path or added physical force. */
+export function drawSkillMark(g: Graphics, mark: SkillMark): void {
+  const t = Math.max(0, Math.min(1, mark.age / mark.duration)), radius = (mark.hit ? 0.85 : 0.5) * (0.4 + t * 0.6);
+  const tint = new Color().fromHEX(mark.kind === 'rune' ? '#FFDA78' : BOWS[mark.kind].tint);
+  tint.a = Math.round(230 * (1 - t) ** 2); g.strokeColor = tint; g.lineWidth = P.units(0.035);
+  const { x, y } = mark.point;
+  g.circle(P.units(x), P.units(y), P.units(radius)); g.stroke();
+  if (mark.kind === 'thunder') {
+    for (let i = 0; i < 4; i++) {
+      const angle = i * Math.PI / 2 + 0.3;
+      const point = (r: number, off: number) => ({ x: x + Math.cos(angle + off) * r, y: y + Math.sin(angle + off) * r });
+      const a = point(radius * 0.3, 0), b = point(radius * 0.6, 0.3), c = point(radius, 0);
+      g.moveTo(P.units(a.x), P.units(a.y)); g.lineTo(P.units(b.x), P.units(b.y)); g.lineTo(P.units(c.x), P.units(c.y));
+    }
+    g.stroke();
+  } else if (mark.kind === 'moon') {
+    g.circle(P.units(x + radius * 0.25), P.units(y), P.units(radius * 0.7)); g.stroke();
+    g.moveTo(P.units(x - radius), P.units(y - radius * 0.4)); g.lineTo(P.units(x + radius), P.units(y + radius * 0.4)); g.stroke();
+  } else {
+    for (let i = 0; i < 3; i++) {
+      const a = i * Math.PI * 2 / 3 + t;
+      g.moveTo(P.units(x + Math.cos(a) * radius * 0.45), P.units(y + Math.sin(a) * radius * 0.45));
+      g.lineTo(P.units(x + Math.cos(a + 0.35) * radius), P.units(y + Math.sin(a + 0.35) * radius));
+    }
+    g.stroke();
+  }
 }

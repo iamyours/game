@@ -41,10 +41,10 @@ export function drawWeaponArrow(g: Graphics, id: string, tip: PointM, angleRad: 
 
 /** Bends both limbs about the real grip. Recoil may briefly bend them forward after release. */
 export function drawWeaponBow(g: Graphics, socket: PointM & { angleRad: number }, bow: PhysicsLabConfig['bowControl'],
-  id: string, flex: number, stringGrip?: PointM, nockedTipOffsetM?: number): void {
-  const s = styleFor(id), bend = Math.max(-0.4, Math.min(1, flex)), dx = Math.cos(socket.angleRad), dy = Math.sin(socket.angleRad);
+  id: string, flex: number, stringGrip?: PointM, nockedTipOffsetM?: number, appearanceId = id, bowTint?: string): void {
+  const base = styleFor(appearanceId), s = { ...base, color: bowTint ?? base.color }, bend = Math.max(-0.4, Math.min(1, flex)), dx = Math.cos(socket.angleRad), dy = Math.sin(socket.angleRad);
   const p = (f: number, a: number) => ({ x: P.units(socket.x + dx * f - dy * a), y: P.units(socket.y + dy * f + dx * a) });
-  const half = bow.bowHalfHeightM * (id === 'impact' ? 0.94 : id === 'piercing' ? 1.07 : 1);
+  const half = bow.bowHalfHeightM * (appearanceId === 'impact' ? 0.94 : appearanceId === 'piercing' ? 1.07 : 1);
   const tipX = -bow.braceDepthM * 0.38 - 0.22 * bend, tipY = half * (1 - 0.14 * bend);
   const top = p(tipX, tipY), bottom = p(tipX, -tipY);
   const nock = stringGrip ? { x: P.units(stringGrip.x), y: P.units(stringGrip.y) } : p(tipX, 0);
@@ -53,7 +53,7 @@ export function drawWeaponBow(g: Graphics, socket: PointM & { angleRad: number }
     for (const side of [-1, 1]) {
       const root = p(0, side * 0.07), knee = p(-0.08 - 0.1 * bend, side * tipY * 0.63), tip = side === 1 ? top : bottom;
       g.moveTo(root.x, root.y);
-      if (id === 'impact') { g.lineTo(knee.x, knee.y); g.lineTo(tip.x, tip.y); }
+      if (appearanceId === 'impact') { g.lineTo(knee.x, knee.y); g.lineTo(tip.x, tip.y); }
       else { const outer = p(-0.42 - 0.22 * bend, side * tipY * 0.83); g.bezierCurveTo(knee.x, knee.y, outer.x, outer.y, tip.x, tip.y); }
     }
     g.stroke();

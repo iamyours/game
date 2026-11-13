@@ -64,7 +64,9 @@ const { battleFrame } = load('assets/scripts/domain/BattleLayout.ts');
 const { armGeometry, solveArm } = load('assets/scripts/domain/archery.ts');
 const { bowArtStrip, bowArtPoint, spriteShear } = load('assets/scripts/domain/weaponGeometry.ts');
 const { InputRouter } = load('assets/scripts/input/InputRouter.ts');
-const { drawRuinsPlatform, drawImpactMark, drawChargeCue } = load('assets/scripts/presentation/BattleArt.ts');
+const { RunProgression } = load('assets/scripts/domain/RunProgression.ts');
+const { BattleLoadout } = load('assets/scripts/domain/BattleLoadout.ts');
+const { drawRuinsPlatform, drawImpactMark, drawChargeCue, drawSkillMark } = load('assets/scripts/presentation/BattleArt.ts');
 const config = JSON.parse(readFileSync('configs/combat.seed.json'));
 const rig = JSON.parse(readFileSync('configs/rig.seed.json'));
 const bodies = new Map(rig.bodyDefinitions.map(b => [b.id, b]));
@@ -103,7 +105,7 @@ function thunderSvg(socket, hand) {
   parts.push(`<g transform="translate(${(length - 0.69) * 32},0)">${crop(thunderArrow, thunder.arrow.imageSize, thunder.arrow.rect, length * 32, Math.max(0.18, length * thunder.arrow.rect[3] / thunder.arrow.rect[2]) * 32, -length * 32)}</g>`);
   return `<g transform="translate(${socket.x * 32},${socket.y * 32}) rotate(${socket.angleRad * deg})">${parts.join('')}</g>`;
 }
-function actorSvg(skin, origin, mirrored, angle) {
+function actorSvg(skin, origin, mirrored, angle, bowId = 'thunder') {
   const data = art[skin], elements = [];
   const crop = (id, x, y, w, h, rotation = 0) => {
     const rect = data.spec.frames[id].rect;
@@ -121,14 +123,17 @@ function actorSvg(skin, origin, mirrored, angle) {
         Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI + 90);
     }
   }
-  const g = new Graphics(); drawWeaponBow(g, socket, config.bowControl, 'normal', 0.7, hand, 0.31);
-  return `<g transform="translate(${origin[0] * 32},${origin[1] * 32}) scale(${mirrored ? -1 : 1},1)">${elements.join('')}${skin === 'hero' ? thunderSvg(socket, hand) : g.commands.join('')}</g>`;
+  const g = new Graphics(); drawWeaponBow(g, socket, config.bowControl, 'normal', 0.7, hand, 0.31,
+    bowId === 'moon' ? 'piercing' : bowId === 'gale' ? 'impact' : 'normal', bowId === 'moon' ? '#CBB6FF' : bowId === 'gale' ? '#A5E6B5' : '#F7C66F');
+  return `<g transform="translate(${origin[0] * 32},${origin[1] * 32}) scale(${mirrored ? -1 : 1},1)">${elements.join('')}${skin === 'hero' && bowId === 'thunder' ? thunderSvg(socket, hand) : g.commands.join('')}</g>`;
 }
 const reports = [];
 const uiChecks = [];
 for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0], ['phone-wide', 844, 390, 92, 0], ['tablet', 1024, 768, 92, 0],
   ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0], ['phone-pause', 844, 390, 92, 0], ['phone-impact', 844, 390, 92, 0],
-  ['phone-normal-hit', 844, 390, 92, 0], ['phone-heavy-hit', 844, 390, 92, 0]]) {
+  ['phone-normal-hit', 844, 390, 92, 0], ['phone-heavy-hit', 844, 390, 92, 0],
+  ['phone-reward', 844, 390, 92, 0], ['desktop-reward', 1440, 810, 92, 0],
+  ['phone-boss', 844, 390, 92, 0], ['phone-moon-skill', 844, 390, 92, 0]].filter(([name]) => !process.env.PREVIEW_VIEWS || process.env.PREVIEW_VIEWS.split(',').includes(name))) {
   paths.length = 0; screen.windowSize = { width, height };
   const lab = new PhysicsLab(), camera = { node: new Node(), orthoHeight: 0 };
   // The production async asset owner is tested separately; this offline renderer consumes its actual PNG/crops.
@@ -136,10 +141,15 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   lab.viewport = new LabViewport(camera, config.viewport, true); lab.config = config;
   lab.projectiles = { setViewBounds() {} }; lab.physics = { setPaused() {} }; lab.soundSource = { stop() {} };
   lab.router = new InputRouter({ ...config.input, initialRad: 0.3, minRad: -0.26, maxRad: 1.3 }, config.arrows, true);
-  lab.arcade = { score: 3 }; lab.combatStates = new Map([['PlayerRagdoll', { hp: 92 }]]); lab.shotBudget = { stamina: 78, cooldownSec: cooldown };
+  const progression = new RunProgression(() => 0);
+  const loadout = new BattleLoadout();
+  lab.arcade = { score: 3, progression, loadout, bossStatus: null, get rewardReady() { return progression.pending; }, chooseReward(id) { return progression.choose(id); } };
+  lab.combatStates = new Map([['PlayerRagdoll', { hp: 92 }]]); lab.shotBudget = { stamina: 78, cooldownSec: cooldown };
   lab.lastShot = { arrowId: 'impact' };
   lab.records = { snapshot: { bestScore: 12, soundEnabled: true }, lastWrite: { ok: true } };
-  for (const id of ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel']) lab[id] = new Label();
+  for (const id of ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel', 'bossLabel']) lab[id] = new Label();
+  lab.rewardLabels = Array.from({ length: 3 }, () => new Label());
+  lab.equipmentButtons = ['bow', 'skill', 'potion', 'rune'].map(kind => ({ kind, label: new Label(), rect: {} }));
   lab.resetLabel.string = '重开'; lab.retryLabel.string = '再来一局';
   lab.poseButtons = []; lab.hud = new Graphics(); lab.resize();
   // Exercise the production component's input handlers. This fixture has NO Cocos/physics backend.
@@ -163,9 +173,45 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   lab.press(event(12, retryPoint)); lab.release(event(12, hiddenReset)); assert.equal(lab.resetRequested, false);
   lab.press(event(3, retryPoint)); lab.release(event(3, retryPoint)); assert.equal(lab.resetRequested, true); assert.equal(lab.router.step(0.01), null);
   lab.resetRequested = false; lab.combatStates.get('PlayerRagdoll').hp = 1;
-  lab.playerAim = { poseSnapshot: { pose: 'downed' } }; lab.press(event(4, point)); assert.equal(lab.router.aimId, 4);
+  lab.playerAim = { poseSnapshot: { pose: 'downed' }, bowSocket: () => ({ x: 4.3, y: 4.9 }) }; lab.press(event(4, point)); assert.equal(lab.router.aimId, 4);
+  const control = kind => { const r = lab.equipmentButtons.find(b => b.kind === kind).rect; return { x: (r.left + r.right) / 2, y: (r.top + r.bottom) / 2 }; };
+  lab.press(event(41, control('bow'))); lab.release(event(41, control('bow')));
+  assert.equal(loadout.bow, 'gale'); assert.equal(lab.router.aimId, 4, '切装备不抢瞄准手');
+  lab.cancel(); lab.press(event(42, control('skill'))); lab.release(event(42, control('skill')));
+  assert.equal(loadout.snapshot.primed.shots, 3); assert.equal(lab.router.step(0.2), null);
+  lab.combatStates.get('PlayerRagdoll').hp = 50;
+  lab.press(event(43, control('potion'))); lab.release(event(43, control('potion')));
+  assert.equal(lab.combatStates.get('PlayerRagdoll').hp, 85); assert.equal(loadout.snapshot.items.potion, 1);
+  lab.press(event(44, control('rune'))); lab.cancel(); lab.release(event(44, control('rune'))); assert.equal(loadout.snapshot.rune, false);
+  loadout.reset();
   lab.cancel(); lab.combatStates.get('PlayerRagdoll').hp = hp; lab.manualPause = name === 'phone-pause'; lab.drawHUD();
+  if (name.endsWith('reward')) {
+    for (let i = 0; i < 5; i++) progression.defeated();
+    lab.syncPause(); lab.drawHUD();
+    assert.equal(lab.rewardVisible, true); assert.equal(lab.router.snapshot?.aimId ?? lab.router.aimId, null);
+    const backdrop = { x: safe.left + 8, y: safe.top + 8 };
+    lab.press(event(31, backdrop)); lab.release(event(31, backdrop)); assert.equal(lab.router.aimId, null); assert.equal(progression.pending, true);
+    lab.press(event(32, pausePoint)); lab.release(event(32, pausePoint)); assert.equal(lab.manualPause, false);
+    const card = lab.rewardRects[0], cardPoint = { x: (card.left + card.right) / 2, y: (card.top + card.bottom) / 2 };
+    lab.press(event(33, cardPoint)); lab.release(event(33, { x: card.right + 10, y: cardPoint.y })); assert.equal(progression.pending, true);
+    lab.press(event(34, cardPoint)); lab.cancel(); lab.release(event(34, cardPoint)); assert.equal(progression.pending, true);
+    lab.press(event(35, cardPoint)); lab.release(event(35, cardPoint));
+    assert.equal(progression.pending, false); assert.equal(progression.upgrades.quick, 1); assert.equal(lab.router.step(0.2), null);
+    // Present the following stage's actual offers after verifying the first choice.
+    for (let i = 0; i < 5; i++) progression.defeated();
+    lab.syncPause(); lab.drawHUD();
+    assert.ok(lab.rewardLabels.every(l => l.node.active)); assert.equal(lab.pauseLabel.node.active, false);
+    uiChecks.push({ name, rewardBlocksBattlefield: true, pauseCannotLeakThroughReward: true,
+      draggedOutDoesNotChoose: true, cancelledDoesNotChoose: true, selectionDoesNotFire: true, rankAppliedOnce: true,
+      scope: 'Production reward handlers + progression in UI fixture; no engine/physics' });
+  }
   if (cooldown > 0) assert.ok(lab.aimLabel.string.includes('0.4s'));
+  if (name === 'phone-boss') {
+    lab.arcade.bossStatus = { name: '遗迹守望者', hp: 82, hpMax: 180, phase: 2 }; lab.drawHUD(); assert.equal(lab.bossLabel.node.active, true);
+  }
+  if (name === 'phone-moon-skill') {
+    loadout.switchBow(); loadout.switchBow(); loadout.activate({ x: 4.3, y: 4.9 }); lab.drawHUD();
+  }
   uiChecks.push({ name, inputAtCharacter: true, releaseOnce: true, deadBlocksAim: true, retryQueuesResetOnly: true,
     aliveDownedAcceptsAim: true, modalDoesNotLeakInput: true, pauseContinuesWithoutShot: true,
     scope: 'Production component handlers + InputRouter in a UI fixture; no engine/physics' });
@@ -178,17 +224,21 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   for (const [x, y, w] of [[3.5, 3, 5], [18.5, 4.1, 2.4]]) {
     worldSvg += `<g transform="translate(${x * 32},${(y - 0.3) * 32})">${platformSvg(w)}</g>`;
   }
-  worldSvg += actorSvg('hero', [3.5, 3.41], false, 0.25) + actorSvg('enemy', [18.5, 4.51], true, 0.08);
+  worldSvg += actorSvg('hero', [3.5, 3.41], false, 0.25, loadout.bow) + actorSvg('enemy', [18.5, 4.51], true, 0.08);
   const arrow = new Graphics(); drawWeaponArrow(arrow, 'normal', { x: 11.8, y: 5.7 }, -0.08);
   worldSvg += arrow.commands.join('');
+  if (name === 'phone-moon-skill') {
+    const effects = new Graphics(); drawSkillMark(effects, { kind: 'moon', point: { x: 18.5, y: 5.8 }, age: 0.06, duration: 0.42, hit: true });
+    worldSvg += effects.commands.join('');
+  }
   const cue = new Graphics(); drawChargeCue(cue, { x: 18.5, y: 6.13 }); worldSvg += cue.commands.join('');
   if (['phone-impact', 'phone-normal-hit', 'phone-heavy-hit'].includes(name)) {
     const tier = name === 'phone-impact' ? 3 : name === 'phone-heavy-hit' ? 2 : 1;
     const impact = new Graphics(); drawImpactMark(impact, { x: 18.42, y: tier === 3 ? 6.1 : 5.35 }, 0.2, tier === 3 ? 0.55 : tier === 2 ? 0.43 : 0.28, 0.75, tier);
     worldSvg += impact.commands.join('');
   }
-  const labels = ['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel'].map(key => {
-    const l = lab[key]; if (!l.node.active) return '';
+  const labels = [...['title', 'metrics', 'vitals', 'aimLabel', 'switchLabel', 'pauseLabel', 'resetLabel', 'soundLabel', 'fullscreenLabel', 'notice', 'retryLabel', 'bossLabel'].map(key => lab[key]), ...lab.rewardLabels, ...lab.equipmentButtons.map(b => b.label)].map(l => {
+    if (!l.node.active) return '';
     const lines = l.string.split('\n'), x = l.node.x + lab.viewport.width / 2;
     return `<text x="${x}" y="${lab.viewport.height / 2 - l.node.y}" text-anchor="middle" dominant-baseline="central" font-size="${l.fontSize}" fill="${l.color}">${lines.map((line, i) => `<tspan x="${x}" dy="${i ? l.fontSize * 1.3 : -(lines.length - 1) * l.fontSize * 0.65}">${esc(line)}</tspan>`).join('')}</text>`;
   }).join('');

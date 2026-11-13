@@ -19,7 +19,8 @@ export class HitResolver {
   public constructor(private readonly states: ReadonlyMap<string, ActorCombatState>, private readonly config: PhysicsLabConfig,
     private readonly onReaction: (state: ActorCombatState, partId: string) => void,
     private readonly lethalEnemyHeadshots = false,
-    private readonly torsoForActor: (id: string) => RigidBody2D | undefined = () => undefined) {}
+    private readonly torsoForActor: (id: string) => RigidBody2D | undefined = () => undefined,
+    private readonly allowsInstantHeadshot: (id: string) => boolean = () => true) {}
 
   public resolve(candidate: HitCandidate, targetBody: RigidBody2D): void {
     const state = this.states.get(candidate.targetId);
@@ -28,7 +29,7 @@ export class HitResolver {
     let result = resolveDamage({ baseDamage: candidate.arrow.baseDamage, zoneMultiplier: this.config.damage.zoneMultipliers[zone],
       armor: zone === 'head' ? state.armor : 0, armorDamageFactor: candidate.arrow.armorDamageFactor, armorOverflow: candidate.arrow.armorOverflow });
     if (zone === 'head') state.armor = result.remainingArmor;
-    result = lethalHeadshot(result, state.hp, this.lethalEnemyHeadshots && state.id !== 'PlayerRagdoll' && zone === 'head');
+    result = lethalHeadshot(result, state.hp, this.lethalEnemyHeadshots && state.id !== 'PlayerRagdoll' && zone === 'head' && this.allowsInstantHeadshot(state.id));
     state.hp = Math.max(0, state.hp - result.hpDamage);
     state.hits += 1;
     const { x, y } = candidate.incomingVelocityMps;

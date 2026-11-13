@@ -1,15 +1,23 @@
-# 当前状态（D037）
+# 当前状态（D038）
 
-version: V2.5
+version: V2.6
 currentMilestone: CONTINUOUS_BATTLE
-currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019
+currentTask: T004 T007 T009 T010 T011 T012 T013 T014 T019 T022
 taskState: IN_PROGRESS
 completedTasks: T001 T002 T003（历史Web验收范围）
-sourceRevision: local 62d0e46 + D037完整角色/非血腥射击反馈；证据evidence/non-gory-20261113
+sourceRevision: main 59fac0d + D038连续段落/BOSS/装备道具技能；证据evidence/run-progression-20261113
 configVersion: 2
 runtimeVerified: false
 feelGateG1: BLOCKED（D031历史构建可运行；当前改动无运行包，力度/受击关节/销毁与完整试玩待验）
 selectedTapTapPath: Android APK，未构建/真机验证
+
+## D038 持续对战、BOSS与装备道具技能（2026-11-13）
+
+- 已接入默认连续模式：每5次击败强化、每15战两阶段BOSS、快弓/神射/重弓/精英交替；BOSS保留头部倍率但不走普通敌人即死。难度缩短封顶，保留真实失衡/掉弓/坠台。
+- 三把弓可切换、独立Lv.1–4；共享蓄能的三种主动技能、药瓶/符石库存与真实射中补给；技能仅强化手动成功发射的箭。短迹/命中特效有界，暂停冻结、重开清空。
+- 等全部在途箭结束后再开强化并暂停物理；取消/后台/拖出/死亡不领取；切装备不抢瞄准、不重置冷却。BOSS战利品去重，失败重开清空本局构筑。
+- 便携规则与生产UI夹具完成，最终命令/退出码和离线手机图见evidence/run-progression-20261113/verification.md。Creator类型/构建/真实arcade仍退出2：缺编辑器、导入配置及当前运行包。没有当前实玩或物理/真机/G1放行；原D031问题保留。
+- 当前规则、参数入口和复验见RUN_VARIETY.md；新增任务T022保持IN_PROGRESS，两个新domain脚本meta待真实Creator导入。
 
 ## D037 完整角色与射击反馈（2026-11-13）
 

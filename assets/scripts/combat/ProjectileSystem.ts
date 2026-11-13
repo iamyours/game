@@ -7,9 +7,10 @@ import { eventCallbackCount } from '../domain/RuntimeDiagnostics';
 import { drawWeaponArrow } from '../presentation/WeaponVisual';
 import { ThunderArrowSkin, thunderArrowLength, type ThunderWeaponAssets } from '../presentation/ThunderWeaponSkin';
 import { ArrowResidues, shortFlightTrail } from '../domain/ProjectilePresentation';
+import type { SkillKind } from '../domain/BattleLoadout';
 
 type Point = { x: number; y: number };
-export type ProjectileArrowConfig = PhysicsLabConfig['arrows'][number];
+export type ProjectileArrowConfig = PhysicsLabConfig['arrows'][number] & { skill?: SkillKind };
 export const TIP_OFFSET_M = 0.31;
 export interface HitCandidate {
   shotId: number; stepId: number; attackerId: string; targetId: string; partId: string;
@@ -251,9 +252,18 @@ export class ProjectileSystem {
       const points = shortFlightTrail(shot.trail);
       for (let i = points.length - 1; i > 0; i--) {
         const a = points[i]!, b = points[i - 1]!, t = 1 - i / points.length;
-        g.strokeColor = shot.shooter === 'PlayerRagdoll' ? new Color(155, 227, 244, Math.round(125 * t)) : new Color(255, 192, 142, Math.round(125 * t));
-        g.lineWidth = Physics.units(0.025 + 0.035 * t);
+        const glow = shot.arrow.skill === 'moon' ? [203, 182, 255] : shot.arrow.skill === 'gale' ? [165, 230, 181] : shot.arrow.skill === 'rune' ? [255, 218, 120] : [147, 229, 255];
+        g.strokeColor = shot.arrow.skill ? new Color(glow[0]!, glow[1]!, glow[2]!, Math.round(220 * t)) : shot.shooter === 'PlayerRagdoll' ? new Color(155, 227, 244, Math.round(125 * t)) : new Color(255, 192, 142, Math.round(125 * t));
+        g.lineWidth = Physics.units((shot.arrow.skill ? 0.05 : 0.025) + 0.035 * t);
         g.moveTo(Physics.units(a.x), Physics.units(a.y)); g.lineTo(Physics.units(b.x), Physics.units(b.y)); g.stroke();
+      }
+      if (shot.arrow.skill === 'thunder' && points.length > 1) {
+        g.strokeColor = new Color(190, 240, 255, 210); g.lineWidth = Physics.units(0.025);
+        for (let i = 0; i < points.length; i++) {
+          const point = points[i]!, y = point.y + (i % 2 === 0 ? 0.05 : -0.05);
+          if (i === 0) g.moveTo(Physics.units(point.x), Physics.units(y)); else g.lineTo(Physics.units(point.x), Physics.units(y));
+        }
+        g.stroke();
       }
     }
   }

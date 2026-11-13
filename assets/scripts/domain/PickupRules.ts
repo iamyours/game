@@ -1,14 +1,14 @@
 import type { SeedPack } from '../../../tools/config/schema.js';
 import { randomUnit, validTime } from './BattleRules';
 
-export interface Pickup { readonly id: number; readonly kind: 'red' | 'green'; readonly x: number; readonly y: number; readonly expiresAt: number }
+export interface Pickup { readonly id: number; readonly kind: 'red' | 'green' | 'gold'; readonly x: number; readonly y: number; readonly expiresAt: number }
 /** Reachability and line-of-sight are supplied by the world, never guessed here. */
 export class PickupRules {
   private elapsed = 0;
   private nextAt: number;
   private nextId = 1;
   private readonly alive = new Map<number, Pickup>();
-  public constructor(private readonly rules: SeedPack['combat']['pickups'], private readonly random: () => number) {
+  public constructor(private readonly rules: SeedPack['combat']['pickups'], private readonly random: () => number, private readonly inventoryMode = false) {
     this.nextAt = this.interval();
   }
   public get snapshot(): readonly Pickup[] { return [...this.alive.values()].map(p => ({ ...p })); }
@@ -22,14 +22,17 @@ export class PickupRules {
     if (this.alive.size >= this.rules.maxAlive) return null;
     const point = chooseReachable();
     if (!point || ![point.x, point.y].every(Number.isFinite)) return null;
-    const p: Pickup = { ...point, id: this.nextId++, kind: randomUnit(this.random) < 0.5 ? 'red' : 'green', expiresAt: this.elapsed + this.rules.ttlSec };
+    const roll = randomUnit(this.random);
+    const kind = this.inventoryMode ? roll < 0.4 ? 'red' : roll < 0.8 ? 'green' : 'gold' : roll < 0.5 ? 'red' : 'green';
+    const p: Pickup = { ...point, id: this.nextId++, kind, expiresAt: this.elapsed + this.rules.ttlSec };
     this.alive.set(p.id, p);
     return { ...p };
   }
-  public collect(id: number, shooter: 'player' | 'enemy'): { hp: number; stamina: number } | null {
+  public collect(id: number, shooter: 'player' | 'enemy'): { hp: number; stamina: number; item?: 'potion' | 'rune' } | null {
     const p = this.alive.get(id);
     if (!p || shooter !== 'player') return null;
     this.alive.delete(id);
+    if (this.inventoryMode && p.kind !== 'green') return { hp: 0, stamina: 0, item: p.kind === 'red' ? 'potion' : 'rune' };
     return { hp: p.kind === 'red' ? this.rules.redHp : 0, stamina: p.kind === 'green' ? this.rules.greenStamina : 0 };
   }
   public clear(): void { this.alive.clear(); }

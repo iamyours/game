@@ -1,0 +1,50 @@
+{
+  "baseRevision": "59fac0d5a6409e9ef9dcf63dc77c828d70f84130",
+  "scope": "D038 working-tree source; NOT an engine build",
+  "sha256": {
+    "assets/scripts/domain/RunProgression.ts": "e49e21f31d2fe3ad282c4e9cfba2ca20225b1d37e063bc513a0e046eb5a1e61c",
+    "assets/scripts/domain/BattleLoadout.ts": "bd942e42d09375a9601b56b1cbcb509225a5a2fb119cf662ac4e2ffbaa87725e",
+    "assets/scripts/domain/BattleLayout.ts": "ef4fb78f15a97d954efc9060f7f77533a3c4ca3b5d986374104be4b86f20ddaf",
+    "assets/scripts/domain/PickupRules.ts": "31d2864132ef2caf25f4c7cc314a0ad159cf7d3244f353f1c429a957a96d502b",
+    "assets/scripts/combat/ArcadeBattle.ts": "fdd9fd936ac21187e45e1c400a2b75506d559f4aa620a1eb4cbd3ac93b912e11",
+    "assets/scripts/combat/HitResolver.ts": "68bd79724bfe83672bebb9882727616a3f7a06afb686bf834d09b8d841dc71e8",
+    "assets/scripts/combat/ProjectileSystem.ts": "dc2aa9088ce8c41ea14b5941cda233ed8370019fb9b4b7b5cb248952824c1f9f",
+    "assets/scripts/presentation/PhysicsLab.ts": "a0919104f8325deee80d0ae31fd073204966ba83bdec0da10c86bcaf2f235ba9",
+    "assets/scripts/presentation/WeaponVisual.ts": "e107b6de18e7d7f20e3a784d57c55e5850a74049e394751818926bd8c62515b5",
+    "assets/scripts/presentation/BattleArt.ts": "2e40e51274e248fece7003e13a636c37ead567a0497c535557084798a4c8f6f9",
+    "scripts/verify-arcade-web.mjs": "0d3af371e7b141ffad10cb75219681edb4fd965347cb841541453d614e1fefaf",
+    "scripts/render-battle-presentation.mjs": "0ca5edcf7e96eb149a08c3a888fe70b3fc232870cec21702a68721fe88977099"
+  },
+  "checks": {
+    "verify": {
+      "exitCode": 0,
+      "tests": 168,
+      "scope": "Rules, production-code test doubles, portable TypeScript, config/drift"
+    },
+    "syntax": {
+      "exitCode": 0,
+      "files": 37
+    },
+    "offlineUI": {
+      "exitCode": 0,
+      "views": [
+        "phone-reward",
+        "phone-boss",
+        "phone-moon-skill"
+      ],
+      "scope": "Production HUD/handlers with test doubles; posed illustrations, no physics"
+    },
+    "typecheck:engine": {
+      "exitCode": 2,
+      "status": "BLOCKED"
+    },
+    "build:web": {
+      "exitCode": 2,
+      "status": "BLOCKED"
+    },
+    "test:web:arcade": {
+      "exitCode": 2,
+      "status": "BLOCKED"
+    }
+  }
+}

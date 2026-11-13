@@ -5,6 +5,10 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import ts from 'typescript';
 import { ArcadeCycle, BowState } from '../assets/scripts/domain/ArcadeRules.ts';
+import { RunProgression, RUN_RULES } from '../assets/scripts/domain/RunProgression.ts';
+import { BattleLoadout } from '../assets/scripts/domain/BattleLoadout.ts';
+import { resolveDamage, lethalHeadshot } from '../assets/scripts/domain/damage.ts';
+import { planReaction, splitHitImpulse } from '../assets/scripts/domain/reaction.ts';
 import { highlightOpacity, retirementOpacity } from '../assets/scripts/domain/ProjectilePresentation.ts';
 
 function fixture() {
@@ -21,7 +25,7 @@ function fixture() {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
   vm.runInNewContext(source, { module, exports: module.exports, console, require: name => name === 'cc' ? cc :
-    name.endsWith('PhysicsAdapter') ? { PhysicsAdapter: physics } : name.endsWith('ProjectilePresentation') ? { highlightOpacity, retirementOpacity } : {} });
+    name.endsWith('PhysicsAdapter') ? { PhysicsAdapter: physics } : name.endsWith('RunProgression') ? { RunProgression, RUN_RULES } : name.endsWith('ProjectilePresentation') ? { highlightOpacity, retirementOpacity } : {} });
   const controller = Object.create(module.exports.ArcadeBattle.prototype);
   const skin = { color: { preserved: 'heavy tint' } }, neck = { enabled: true };
   const node = () => ({ position: { y: 3 }, components: new Map(), getComponent(Type) { return this.components.get(Type); },
@@ -32,13 +36,15 @@ function fixture() {
     worldPointM: () => ({ x: 10, y: 5 }) };
   const player = { id: 'PlayerRagdoll', bodies: new Map([['pelvis', { node: node() }]]) };
   const platform = node(); const body = platform.addComponent(RigidBody2D); body.wakeUp = () => {};
-  const enemy = { actor, platform, deadAt: null, telegraph: true, bow: new BowState(24), aim: { setAlive(alive) { this.alive = alive; } } };
+  const enemy = { actor, platform, deadAt: null, telegraph: true, encounter: { kind: 'archer' }, hpMax: 60, bow: new BowState(24), aim: { setAlive(alive) { this.alive = alive; } } };
   enemy.bow.armed = false;
   const state = { id: actor.id, hp: 60, lastHit: null };
+  const rewards = [];
   Object.assign(controller, { actors: [player, actor], enemies: [enemy], states: new Map([[player.id, { hp: 100 }], [actor.id, state]]),
-    injuries: new Map(), drops: [], cycle: new ArcadeCycle(1.2), spawnRetryAt: 0, initialSpawnPending: false,
-    cfg: { run: { fallKillY_M: -2 }, arcade: { cleanupSec: 3.5, respawnSec: 1.2 }, limits: { maxCorpses: 2 } } });
-  return { controller, enemy, state, actor, skin, neck, platform, body, velocities, UIOpacity };
+    injuries: new Map(), drops: [], cycle: new ArcadeCycle(1.2), progression: new RunProgression(), spawnRetryAt: 0, initialSpawnPending: false,
+    projectiles: { count: 1 }, loadout: new BattleLoadout(), onPickup: effect => rewards.push(effect),
+    cfg: { player: { stamina: 100 }, run: { fallKillY_M: -2 }, arcade: { cleanupSec: 3.5, respawnSec: 1.2 }, limits: { maxCorpses: 2 } } });
+  return { controller, enemy, state, actor, skin, neck, platform, body, velocities, UIOpacity, rewards };
 }
 
 test('致命头部命中后颈关节保留，平台进入动态；死亡和掉弓结算保持一次', () => {
@@ -58,4 +64,47 @@ test('短提示到期不遗留伤色；死亡淡出只修改渲染透明度', ()
   assert.deepEqual(f.skin.color, { preserved: 'heavy tint' });
   b.fade(f.actor.root, 0.5); assert.equal(f.actor.root.getComponent(f.UIOpacity).opacity, 128);
   assert.equal(f.actor.joints.get('neck'), f.neck); assert.equal(f.velocities.length, 0);
+});
+
+test('第五次死亡推进强化一次；在途箭未结束不能领取，领取不会重复恢复', () => {
+  const { controller: b, state, rewards } = fixture();
+  for (let i = 0; i < 4; i++) b.progression.defeated();
+  state.hp = 0; b.afterStep(); b.afterStep();
+  assert.equal(b.progression.stage, 2); assert.equal(b.progression.pending, true);
+  assert.equal(b.rewardReady, false);
+  const choice = b.progression.offers[0]; assert.equal(b.chooseReward(choice), false);
+  b.projectiles.count = 0; assert.equal(b.rewardReady, true);
+  assert.equal(b.chooseReward(choice), true); assert.equal(b.chooseReward(choice), false);
+  assert.equal(rewards.length, 1); assert.equal(rewards[0].hp, choice === 'recover' ? 35 : 10); assert.equal(rewards[0].stamina, 100);
+});
+
+test('守关敌人和玩家同一步死亡，不能用强化或休整复活', () => {
+  const { controller: b, state, rewards } = fixture();
+  for (let i = 0; i < 4; i++) b.progression.defeated();
+  state.hp = 0; b.states.get('PlayerRagdoll').hp = 0; b.projectiles.count = 0;
+  b.afterStep(); assert.equal(b.chooseReward(b.progression.offers[0]), false); assert.equal(rewards.length, 0);
+});
+
+test('BOSS头部经过真实HitResolver保留双倍暴击，普通弓手仍一击致命，玩家不受即死规则影响', () => {
+  const config = JSON.parse(readFileSync('configs/combat.seed.json', 'utf8'));
+  const module = { exports: {} };
+  const source = ts.transpileModule(readFileSync('assets/scripts/combat/HitResolver.ts', 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  vm.runInNewContext(source, { module, exports: module.exports, require: name => name.endsWith('damage') ? { resolveDamage, lethalHeadshot } :
+    name.endsWith('reaction') ? { planReaction, splitHitImpulse } : { PhysicsAdapter: {} } });
+  const states = new Map(['Boss', 'Enemy', 'PlayerRagdoll'].map(id => [id, { id, hp: id === 'Boss' ? 180 : 100, armor: 0, hits: 0, lastHit: null }]));
+  const resolver = new module.exports.HitResolver(states, config, () => {}, true, () => undefined, id => id !== 'Boss');
+  for (const id of states.keys()) resolver.resolve({ shotId: 123, targetId: id, partId: 'head', arrow: config.arrows[0], incomingVelocityMps: { x: 0, y: 0 }, pointM: { x: 0, y: 0 } }, {});
+  assert.equal(states.get('Boss').hp, 144); assert.equal(states.get('Enemy').hp, 0); assert.equal(states.get('PlayerRagdoll').hp, 64);
+});
+
+test('BOSS击败战利品只发一次，弓升级有上限，且不会靠奖励复活玩家', () => {
+  const { controller: b, state, enemy } = fixture();
+  enemy.encounter.kind = 'boss';
+  for (let i = 0; i < 14; i++) { b.progression.defeated(); if (b.progression.pending) b.progression.choose(b.progression.offers[0]); }
+  state.hp = 0; b.afterStep(); b.afterStep();
+  assert.equal(b.loadout.level, 2); assert.equal(b.loadout.snapshot.items.rune, 2);
+  assert.equal(b.progression.afterBoss, true); assert.equal(b.progression.stage, 4);
+  assert.equal(b.allowsInstantHeadshot(enemy.actor.id), false);
 });

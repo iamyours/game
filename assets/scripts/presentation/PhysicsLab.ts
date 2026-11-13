@@ -19,9 +19,11 @@ import { CharacterSkin } from './CharacterSkin';
 import { ShotBudget, type ShotRejection } from '../domain/BattleRules';
 import { ArcadeRecordRepository } from '../domain/SaveRepository';
 import { eventCallbackCount, RuntimeDiagnostics } from '../domain/RuntimeDiagnostics';
-import { battleAimRect, battlePauseLayout, battleResultLayout, cooldownProgress } from '../domain/BattleLayout';
+import { battleAimRect, battlePauseLayout, battleResultLayout, battleRewardLayout, battleEquipmentLayout, cooldownProgress } from '../domain/BattleLayout';
+import { PERKS, type PerkId } from '../domain/RunProgression';
+import { BOWS } from '../domain/BattleLoadout';
 import { ImpactFeedback } from '../domain/ProjectilePresentation';
-import { drawImpactMark, drawRuinsPlatform } from './BattleArt';
+import { drawImpactMark, drawRuinsPlatform, drawSkillMark } from './BattleArt';
 import { RuinsArtAssets } from './RuinsArtAssets';
 
 const { ccclass } = _decorator;
@@ -121,6 +123,17 @@ export class PhysicsLab extends Component {
   private fullscreenLabel!: Label;
   private fullscreenRect: Rect = empty;
   private fullscreenTouch: number | null = null;
+  private rewardPaused = false;
+  private rewardTouch: { id: number; perk: PerkId; index: number } | null = null;
+  private rewardLabels: Label[] = [];
+  private rewardRects: Rect[] = [];
+  private lastShotInterval = 0;
+  private bossLabel!: Label;
+  private equipmentButtons: { kind: 'bow' | 'skill' | 'potion' | 'rune'; label: Label; rect: Rect }[] = [];
+  private equipmentTouch: { id: number; kind: 'bow' | 'skill' | 'potion' | 'rune' } | null = null;
+  private get rewardVisible(): boolean {
+    return Boolean(this.arcade?.rewardReady && this.combatStates.get('PlayerRagdoll')!.hp > 0);
+  }
   private get canFullscreen(): boolean {
     return this.arcadeMode && typeof document !== 'undefined' && Boolean(document.fullscreenEnabled);
   }
@@ -193,7 +206,12 @@ export class PhysicsLab extends Component {
       if (state.hp <= 0) aim.setAlive(false);
       else if (state.lastHit) aim.registerHit(state.lastHit.jointReaction);
       this.dirty = true;
-    }, this.arcadeMode && config.arcade.headshotLethal, id => this.ragdolls.find(actor => actor.id === id)?.bodies.get('chest'));
+      if (hit.attackerId === 'PlayerRagdoll' && this.arcade) {
+        this.arcade.loadout.charge(10);
+        if (hit.arrow.skill) this.arcade.loadout.effect(hit.arrow.skill, hit.pointM, true);
+      }
+    }, this.arcadeMode && config.arcade.headshotLethal, id => this.ragdolls.find(actor => actor.id === id)?.bodies.get('chest'),
+      id => this.arcade?.allowsInstantHeadshot(id) ?? true);
     if (this.arcadeMode) this.combatStates.delete('EnemyRagdoll');
     this.weaponAssets = new ThunderWeaponAssets();
     this.playerBow = new ThunderBowSkin(world, this.weaponAssets);
@@ -202,6 +220,10 @@ export class PhysicsLab extends Component {
     if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; }, kind => this.playSound(kind), effect => {
       const player = this.combatStates.get('PlayerRagdoll')!;
       player.hp = Math.min(config.player.hp, player.hp + effect.hp); this.shotBudget.restore(effect.stamina);
+      if (effect.item && this.arcade && !this.arcade.loadout.addItem(effect.item)) {
+        if (effect.item === 'potion') player.hp = Math.min(config.player.hp, player.hp + 15);
+        else this.arcade.loadout.charge(25);
+      }
     }, this.ruinsArt);
     this.probe = new CalibrationProbe(world, config.physics);
     if (this.arcadeMode) for (const name of ['GlideBody', 'DropBody']) { const g = world.getChildByName(name)?.getComponent(Graphics); if (g) g.enabled = false; }
@@ -223,6 +245,9 @@ export class PhysicsLab extends Component {
     }));
     this.notice = label(this.overlay, 'Notice', 36);
     this.retryLabel = label(this.overlay, 'Retry', 30, '再来一局');
+    this.rewardLabels = Array.from({ length: 3 }, (_, i) => label(this.overlay, `Reward_${i}`, 32));
+    this.bossLabel = label(this.overlay, 'Boss', 30);
+    this.equipmentButtons = (this.arcadeMode ? ['bow', 'skill', 'potion', 'rune'] as const : []).map(kind => ({ kind, label: label(this.overlay, `Equipment_${kind}`, 28), rect: empty }));
     this.resize();
     profiler.hideStats();
     view.on('canvas-resize', this.resize, this);
@@ -239,7 +264,10 @@ export class PhysicsLab extends Component {
   private seedHash = '';
 
   public update(dt: number): void {
+    if (this.rewardPaused !== this.rewardVisible) { this.rewardPaused = this.rewardVisible; this.syncPause(); this.dirty = true; }
     this.physics?.advance(dt, this.beforeStep, this.afterStep);
+    // Enter only outside advance(): no additional substeps after opening the modal next frame.
+    if (this.rewardPaused !== this.rewardVisible) { this.rewardPaused = this.rewardVisible; this.syncPause(); this.dirty = true; }
     if (this.arcadeMode && !this.hidden && !this.manualPause && !this.viewport.portrait) {
       const counts = this.physics?.nativeCounts();
       if (counts) {
@@ -300,6 +328,8 @@ export class PhysicsLab extends Component {
       poseButtons: this.poseButtons.map(({ pose, rect }) => ({ pose, rect })),
       pauseRect: this.pauseRect, resetRect: this.resetRect, fullscreenRect: this.fullscreenRect,
       fullscreenAvailable: this.canFullscreen, width: v.width, height: v.height, safe: v.safe, battleBounds: v.worldBounds,
+      rewardVisible: this.rewardVisible, rewardRects: this.rewardRects,
+      equipmentButtons: this.equipmentButtons.map(({ kind, rect }) => ({ kind, rect })),
       retryRect: this.retryRect, resultVisible: this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0 && !v.portrait && !this.manualPause,
       projection: { topLeft, bottomRight, roundTrip: v.uiToWorld(v.worldToUI(bow.x, bow.y)) },
       pose: { player: this.playerAim.poseSnapshot, enemy: this.enemyAim.poseSnapshot, bowSocket: this.playerAim.bowSocket(), hands: this.playerAim.handsSnapshot },
@@ -313,6 +343,7 @@ export class PhysicsLab extends Component {
   /** Queues a safe post-step reset so no body is teleported while Box2D is stepping. */
   public resetRagdolls(): void {
     this.resetRequested = true;
+    this.syncPause();
     this.dirty = true;
   }
 
@@ -352,6 +383,8 @@ export class PhysicsLab extends Component {
 
   private beforeStep = (dt: number, stepId: number): void => {
     this.projectiles.beginStep(stepId);
+    // Stop new releases while the final arrows resolve, otherwise holding fire can starve rewards.
+    if (this.arcade?.progression.pending) this.router.cancel();
     const shot = this.router.step(dt);
     if (this.arcadeMode) this.shotBudget.step(dt, this.router.aimId !== null || shot !== null,
       this.combatStates.get('PlayerRagdoll')!.hp > 0);
@@ -368,8 +401,9 @@ export class PhysicsLab extends Component {
       this.dirty = true;
       return;
     }
-    const arrow = this.config.arrows.find((value) => value.id === shot.arrowId);
-    if (!arrow) return;
+    const baseArrow = this.config.arrows.find((value) => value.id === shot.arrowId);
+    if (!baseArrow) return;
+    const arrow = this.arcade ? this.arcade.loadout.arrow(this.arcade.progression.arrow(baseArrow)) : baseArrow;
     const socket = this.playerAim.bowSocket();
     const launchTip = nockedArrowTip(this.playerAim.handsSnapshot.stringGrip, shot.aimRad, thunderArrowLength(arrow.id));
     const blocked = this.projectiles.launchBlockReason('PlayerRagdoll', socket, launchTip);
@@ -386,6 +420,8 @@ export class PhysicsLab extends Component {
     const shotId = this.projectiles.fire('PlayerRagdoll', { ...socket, angleRad: shot.aimRad }, launchArrow, launchTip);
     if (shotId !== null) { this.lastShot = { ...shot, stepId, socket, launchTip, hands: this.playerAim.handsSnapshot,
       drawAmount: this.playerAim.poseSnapshot.drawAmount, speedMps: launchArrow.speedMps }; this.shots += 1;
+      this.lastShotInterval = arrow.intervalSec;
+      if (this.arcade) this.arcade.loadout.fired(launchArrow, launchTip);
       this.lastAttempt = { stepId, result: 'fired' }; this.playerAim.releaseBow(); this.playSound('shot'); }
     this.dirty = true;
   };
@@ -418,6 +454,7 @@ export class PhysicsLab extends Component {
       for (const state of this.combatStates.values()) { if (this.arcade && state.id !== 'PlayerRagdoll') continue; state.hp = state.id === 'PlayerRagdoll' ? this.config.player.hp : (this.config.enemies[0]?.hp ?? 60); state.armor = state.id === 'PlayerRagdoll' ? 0 : (this.config.enemies[0]?.helmetDurability ?? 0); state.hits = 0; state.lastHit = null; }
       this.router.cancel();
       this.shotBudget.reset(); this.resultRecorded = false; this.recordPendingAt = null;
+      this.lastShotInterval = 0; this.rewardTouch = null;
       this.lastSoundSteps.clear(); this.restartSampleStep = stepId + 60;
       this.records.flush();
       this.playerAim.reset(); this.enemyAim.reset();
@@ -444,6 +481,17 @@ export class PhysicsLab extends Component {
         if (contains(this.retryRect, point)) this.resetTouch = touch.getID();
         continue; // Result is a modal: no hidden HUD controls or battlefield input behind it.
       }
+      if (this.rewardVisible) {
+        const index = this.rewardRects.findIndex(r => contains(r, point));
+        const perk = this.arcade!.progression.offers[index];
+        if (perk && this.rewardTouch === null) this.rewardTouch = { id: touch.getID(), perk, index };
+        continue;
+      }
+      const equipment = !this.manualPause && this.equipmentButtons.find(button => contains(button.rect, point));
+      if (equipment) {
+        if (this.equipmentTouch === null) this.equipmentTouch = { id: touch.getID(), kind: equipment.kind };
+        continue;
+      }
       if (contains(this.pauseRect, point)) {
         if (this.pauseId === null) this.pauseId = touch.getID();
       } else if (this.arcadeMode && this.manualPause && contains(this.retryRect, point)) this.pauseId = touch.getID();
@@ -458,6 +506,7 @@ export class PhysicsLab extends Component {
     this.dirty = true;
   }
   private move(event: EventTouch): void {
+    if (this.rewardVisible) return;
     if (this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0) return;
     for (const touch of event.getTouches()) this.router.move(touch.getID(), this.viewport.fromUILocation(touch.getUILocation()));
     this.dirty = true;
@@ -465,6 +514,31 @@ export class PhysicsLab extends Component {
   private release(event: EventTouch): void {
     for (const touch of event.getTouches()) {
       const point = this.viewport.fromUILocation(touch.getUILocation());
+      if (this.rewardVisible) {
+        const choice = this.rewardTouch;
+        if (choice?.id === touch.getID()) {
+          this.rewardTouch = null;
+          if (this.rewardRects[choice.index] && contains(this.rewardRects[choice.index]!, point) && this.arcade!.chooseReward(choice.perk)) {
+            this.rewardPaused = false; this.syncPause();
+          }
+        }
+        continue;
+      }
+      if (this.equipmentTouch?.id === touch.getID()) {
+        const button = this.equipmentButtons.find(b => b.kind === this.equipmentTouch!.kind)!;
+        this.equipmentTouch = null;
+        const player = this.combatStates.get('PlayerRagdoll')!;
+        if (this.arcade && player.hp > 0 && !this.manualPause && !this.hidden && !this.viewport.portrait && contains(button.rect, point)) {
+          const loadout = this.arcade.loadout, socket = this.playerAim.bowSocket();
+          if (button.kind === 'bow') loadout.switchBow();
+          else if (button.kind === 'skill') loadout.activate(socket);
+          else {
+            const effect = loadout.useItem(button.kind, player.hp, this.config.player.hp);
+            if (effect) { player.hp += effect.hp; loadout.effect(button.kind === 'potion' ? 'gale' : 'rune', socket, false); }
+          }
+        }
+        continue;
+      }
       if (this.pauseId === touch.getID()) {
         this.pauseId = null;
         if (contains(this.pauseRect, point) || (this.arcadeMode && this.manualPause && contains(this.retryRect, point))) {
@@ -494,6 +568,8 @@ export class PhysicsLab extends Component {
     this.dirty = true;
   }
   private cancel = (): void => {
+    this.equipmentTouch = null;
+    this.rewardTouch = null;
     this.pauseId = this.resetTouch = this.soundTouch = this.fullscreenTouch = null;
     this.poseTouch = null;
     this.router.cancel();
@@ -503,7 +579,7 @@ export class PhysicsLab extends Component {
   private show(): void { this.hidden = false; this.syncPause(); }
   private syncPause(): void {
     this.cancel();
-    const blocked = this.hidden || this.manualPause || this.viewport.portrait;
+    const blocked = this.hidden || this.manualPause || this.viewport.portrait || (this.rewardVisible && !this.resetRequested);
     this.router.setBlocked(blocked);
     this.physics?.setPaused(blocked);
     if (blocked) this.soundSource.stop();
@@ -546,14 +622,18 @@ export class PhysicsLab extends Component {
       this.pauseRect = action(0); this.resetRect = action(1); this.soundRect = action(2); this.fullscreenRect = action(3);
       this.placeLabel(this.pauseLabel, midpoint(this.pauseRect)); this.placeLabel(this.resetLabel, midpoint(this.resetRect));
       this.placeLabel(this.soundLabel, midpoint(this.soundRect)); this.placeLabel(this.fullscreenLabel, midpoint(this.fullscreenRect));
-      this.placeLabel(this.title, safe.left + 134, safe.top + 47);
-      this.placeLabel(this.metrics, safe.left + 335, safe.top + 48);
-      this.placeLabel(this.vitals, safe.left + 236, safe.top + 102);
+      this.placeLabel(this.title, safe.left + 236, safe.top + 40);
+      this.placeLabel(this.metrics, safe.left + 236, safe.top + 85);
+      this.placeLabel(this.vitals, safe.left + 236, safe.top + 128);
       const font = Math.max(26, 13 * screen.devicePixelRatio / view.getScaleX());
       for (const l of [this.metrics, this.vitals, this.soundLabel, this.pauseLabel, this.resetLabel, this.fullscreenLabel]) {
         l.fontSize = font; l.lineHeight = font * 1.3;
       }
-      this.title.fontSize = Math.max(40, font * 1.45);
+      this.title.fontSize = font + 4;
+      for (const l of [this.title, this.metrics, this.vitals]) {
+        l.overflow = Label.Overflow.SHRINK;
+        l.node.getComponent(UITransform)!.setContentSize(420, 60);
+      }
       this.aimLabel.fontSize = font; this.aimLabel.lineHeight = font * 1.3;
       this.aimLabel.overflow = Label.Overflow.SHRINK;
       this.aimLabel.node.getComponent(UITransform)!.setContentSize(w * 0.55, Math.max(70, font * 2));
@@ -564,6 +644,17 @@ export class PhysicsLab extends Component {
       const result = battleResultLayout(safe, minSize);
       this.retryRect = result.retry;
       this.placeLabel(this.retryLabel, midpoint(this.retryRect)); this.retryLabel.fontSize = font + 4;
+      const equipment = battleEquipmentLayout(safe, minSize);
+      for (const button of this.equipmentButtons) {
+        button.rect = equipment[button.kind]; this.placeLabel(button.label, midpoint(button.rect));
+        button.label.fontSize = font; button.label.lineHeight = font * 1.25;
+        button.label.overflow = Label.Overflow.SHRINK;
+        button.label.node.getComponent(UITransform)!.setContentSize(button.rect.right - button.rect.left - 16, button.rect.bottom - button.rect.top - 12);
+      }
+      this.bossLabel.overflow = Label.Overflow.SHRINK;
+      this.bossLabel.fontSize = font; this.bossLabel.lineHeight = font * 1.25;
+      this.bossLabel.node.getComponent(UITransform)!.setContentSize(Math.min(760, w * 0.4) - 40, 90);
+      this.placeLabel(this.bossLabel, (safe.left + safe.right) / 2, safe.top + 65);
     }
     for (const [index, button] of this.poseButtons.entries()) {
       button.rect = { left: x(0.46 + index * 0.12), right: x(0.57 + index * 0.12),
@@ -584,6 +675,9 @@ export class PhysicsLab extends Component {
     const g = this.hud;
     g.clear();
     const { portrait } = this.viewport;
+    for (const l of this.rewardLabels) l.node.active = false;
+    this.bossLabel.node.active = false;
+    for (const b of this.equipmentButtons) b.label.node.active = false;
     const dead = this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0;
     for (const l of [this.title, this.metrics, this.aimLabel, this.pauseLabel, this.resetLabel]) l.node.active = !portrait;
     for (const button of this.poseButtons) button.label.node.active = !portrait;
@@ -601,7 +695,7 @@ export class PhysicsLab extends Component {
     this.notice.fontSize = portrait ? Math.max(36, 24 * screen.devicePixelRatio / view.getScaleX()) : 36;
     this.notice.lineHeight = this.notice.fontSize * 1.3;
     this.notice.string = portrait ? '请横置屏幕' : this.manualPause && !dead ? '已暂停' :
-      `本次击败 ${this.arcade?.score ?? 0} 名敌人\n最高记录 ${this.records.snapshot.bestScore}`;
+      `第 ${this.arcade?.progression.stage ?? 1} 段 · 击败 ${this.arcade?.score ?? 0} 名敌人\n最高记录 ${this.records.snapshot.bestScore}`;
     if (!portrait && (dead || (this.arcadeMode && this.manualPause))) {
       const touch = 48 * screen.devicePixelRatio / view.getScaleX();
       const panel = dead ? battleResultLayout(this.viewport.safe, touch) : battlePauseLayout(this.viewport.safe, touch);
@@ -614,7 +708,7 @@ export class PhysicsLab extends Component {
       }
     } else this.placeLabel(this.notice, this.viewport.width / 2, this.viewport.height / 2);
     if (portrait) return;
-    if (this.arcadeMode) { this.drawBattleHUD(); return; }
+    if (this.arcadeMode) { this.drawBattleHUD(); if (this.rewardVisible && !portrait) this.drawRewards(); return; }
     const box = (r: Rect, tint: string): void => {
       const p = this.viewport.toLocal({ x: r.left, y: r.bottom });
       fill(g, p.x, p.y, r.right - r.left, r.bottom - r.top, tint);
@@ -683,7 +777,7 @@ export class PhysicsLab extends Component {
     };
     const hp = this.combatStates.get('PlayerRagdoll')!.hp, stamina = this.shotBudget.stamina;
     // Local scrims keep text readable over the painted sky without dimming the battlefield.
-    box({ left: safe.left + 12, right: safe.left + 464, top: safe.top + 6, bottom: safe.top + 156 }, '#102A38D8', 18);
+    box({ left: safe.left + 12, right: safe.left + 464, top: safe.top + 6, bottom: safe.top + 184 }, '#102A38D8', 18);
     if (hp > 0 && !this.manualPause) {
       const cx = safe.left + (safe.right - safe.left) * 0.29, width = Math.min(900, (safe.right - safe.left) * 0.55);
       box({ left: cx - width / 2, right: cx + width / 2, top: safe.bottom - 77, bottom: safe.bottom - 10 }, '#102A38B8', 16);
@@ -692,17 +786,18 @@ export class PhysicsLab extends Component {
     if (this.router.canSwitch && hp > 0 && !this.manualPause) {
       const cooldown = this.shotBudget.cooldownSec;
       box(this.layout.arrowSwitch, cooldown > 0 ? '#162D3CE8' : '#1E3A49E8', 22);
-      const interval = this.config.arrows.find(a => a.id === this.lastShot?.arrowId)?.intervalSec ?? this.config.arrows[0]!.intervalSec;
+      const interval = this.lastShotInterval || this.config.arrows.find(a => a.id === this.lastShot?.arrowId)?.intervalSec || this.config.arrows[0]!.intervalSec;
       const progress = cooldownProgress(cooldown, interval), r = this.layout.arrowSwitch;
       const track = { left: r.left + 20, right: r.right - 20, top: r.bottom - 15, bottom: r.bottom - 9 };
       box(track, '#375160', 3);
       if (progress > 0) box({ ...track, right: track.left + (track.right - track.left) * progress }, cooldown > 0 ? '#E5B669' : '#69C7D3', 3);
     }
-    this.title.string = `击败 ${String(this.arcade!.score).padStart(2, '0')}`;
-    this.metrics.string = `最高 ${this.records.snapshot.bestScore}`; this.metrics.color = color('#9AB6C4');
+    const run = this.arcade!.progression;
+    this.title.string = `第 ${run.stage} 段 · ${run.progress}/5`;
+    this.metrics.string = `击败 ${this.arcade!.score} · 最高 ${this.records.snapshot.bestScore}`; this.metrics.color = color('#9AB6C4');
     this.vitals.string = `生命 ${hp}     体力 ${Math.floor(stamina)}`; this.vitals.color = color('#B9CED6');
     for (const [offset, ratio, tint] of [[28, hp / this.config.player.hp, '#F28480'], [250, stamina / this.config.player.stamina, '#69C7D3']] as const) {
-      const track = { left: safe.left + offset, right: safe.left + offset + 194, top: safe.top + 132, bottom: safe.top + 140 };
+      const track = { left: safe.left + offset, right: safe.left + offset + 194, top: safe.top + 164, bottom: safe.top + 172 };
       box(track, '#29424D', 4);
       if (ratio > 0) box({ ...track, right: track.left + 194 * Math.min(1, ratio) }, tint, 3);
     }
@@ -711,6 +806,29 @@ export class PhysicsLab extends Component {
     this.fullscreenLabel.string = typeof document !== 'undefined' && document.fullscreenElement ? '退出全屏' : '全屏';
     const id = this.router.selectedArrow.id, tint = arrowTints[id] ?? '#F7C66F';
     this.switchLabel.string = `${arrowNames[id] ?? id}箭  ›`; this.switchLabel.color = color(tint);
+    const boss = this.arcade!.bossStatus;
+    if (boss && hp > 0 && !this.manualPause && !this.rewardVisible) {
+      const cx = (safe.left + safe.right) / 2, width = Math.min(760, (safe.right - safe.left) * 0.4);
+      box({ left: cx - width / 2, right: cx + width / 2, top: safe.top + 12, bottom: safe.top + 142 }, '#302D40EF', 18);
+      const track = { left: cx - width / 2 + 24, right: cx + width / 2 - 24, top: safe.top + 116, bottom: safe.top + 126 };
+      box(track, '#4A394A', 4);
+      if (boss.hp > 0) box({ ...track, right: track.left + (track.right - track.left) * boss.hp / boss.hpMax }, boss.phase === 2 ? '#EF947D' : '#F3CF86', 4);
+      this.bossLabel.node.active = true;
+      this.bossLabel.string = `${boss.name} · BOSS\n${boss.phase === 2 ? '第二阶段 · 快射' : '第一阶段 · 重矢'}  ${boss.hp}/${boss.hpMax}`;
+      this.bossLabel.color = color(boss.phase === 2 ? '#FFB49A' : '#F3CF86');
+    }
+    if (hp > 0 && !this.manualPause && !this.rewardVisible) {
+      const loadout = this.arcade!.loadout, state = loadout.snapshot;
+      for (const button of this.equipmentButtons) {
+        const l = button.label; l.node.active = true;
+        l.color = color(button.kind === 'potion' ? '#FFBEAD' : button.kind === 'rune' ? '#FFDA78' : BOWS[state.bow].tint);
+        box(button.rect, button.kind === 'skill' && (state.energy >= 100 || state.primed) ? '#325B70EF' : '#183644DE', 16);
+        l.string = button.kind === 'bow' ? `${BOWS[state.bow].name} Lv.${state.level}\n切换装备 ›` : button.kind === 'skill' ?
+          `${BOWS[state.primed?.kind ?? state.bow].skill}\n${state.primed ? `已强化 ${state.primed.shots} 箭` : state.energy >= 100 ? '点击激活' : `蓄能 ${Math.floor(state.energy)}%`}` :
+          button.kind === 'potion' ? `药瓶 ×${state.items.potion}\n${hp >= this.config.player.hp ? '生命已满' : '回血 35'}` :
+          `符石 ×${state.items.rune}\n${state.rune ? '下箭已强化' : '伤害 +50%'}`;
+      }
+    }
     const release = this.router.lastReleaseResult;
     const cooling = this.shotBudget.cooldownSec > 0.001;
     const result = release === 'too-short' ? '按住后松手发射' : release === 'cooldown' ? (cooling ? '准备下一箭' : '') :
@@ -721,6 +839,11 @@ export class PhysicsLab extends Component {
     this.aimLabel.string = hp <= 0 ? `本次击败 ${this.arcade!.score} 名敌人 · 点重开再来` : result ||
       (this.router.aimId !== null ? `拉弓 ${Math.round(this.router.drawProgress * 100)}% · 松手放箭` :
         cooling ? `下一箭 ${this.shotBudget.cooldownSec.toFixed(1)}s · 可先瞄准` : '左侧拖动拉弓 · 松手放箭');
+    const encounter = this.arcade!.current?.encounter;
+    if (hp > 0 && this.router.aimId === null && !cooling && !result && encounter) {
+      this.aimLabel.string = `${encounter.name} · ${encounter.hint}`;
+      this.aimLabel.color = color(encounter.tint);
+    } else if (hp > 0 && run.pending) this.aimLabel.string = '守关已破 · 等待在途箭落下后选择强化';
     if (!this.records.lastWrite.ok) this.aimLabel.string += ' · 记录暂未保存';
     const drag = this.router.drag;
     if (drag && hp > 0) {
@@ -743,11 +866,39 @@ export class PhysicsLab extends Component {
     }
   }
 
+  private drawRewards(): void {
+    const g = this.hud, safe = this.viewport.safe;
+    const { panel, cards, title } = battleRewardLayout(safe, 48 * screen.devicePixelRatio / view.getScaleX());
+    const box = (r: Rect, hex: string, radius: number) => {
+      const p = this.viewport.toLocal({ x: r.left, y: r.bottom });
+      g.fillColor = color(hex); g.roundRect(p.x, p.y, r.right - r.left, r.bottom - r.top, radius); g.fill();
+    };
+    box({ left: 0, top: 0, right: this.viewport.width, bottom: this.viewport.height }, '#071721DE', 0);
+    box(panel, '#173543FA', 26);
+    for (const l of [this.title, this.metrics, this.vitals, this.switchLabel, this.pauseLabel, this.aimLabel, this.retryLabel, this.soundLabel, this.resetLabel, this.fullscreenLabel]) l.node.active = false;
+    this.notice.node.active = true;
+    this.notice.string = this.arcade!.progression.afterBoss ? 'BOSS 已击败 · 选择一项强化\n战利品已结算 · 选后回血35并补满体力' :
+      `第 ${this.arcade!.progression.stage - 1} 段完成 · 选择一项强化\n选后补满体力，强化额外回复 10 生命`;
+    this.placeLabel(this.notice, title);
+    this.rewardRects = cards;
+    this.arcade!.progression.offers.forEach((id, i) => {
+      const rect = cards[i]!, l = this.rewardLabels[i]!, perk = PERKS[id];
+      box(rect, id === 'recover' ? '#315848' : '#254E61', 18);
+      const rank = this.arcade!.progression.upgrades[id] ?? 0;
+      l.node.active = true; l.fontSize = 32; l.lineHeight = 46;
+      l.string = `${perk.title}${id === 'recover' ? '' : id === 'forge' ? `  Lv.${this.arcade!.loadout.level} → ${this.arcade!.loadout.level + 1}` : `  ${rank + 1}/3`}\n\n${perk.detail}`;
+      l.overflow = Label.Overflow.SHRINK;
+      l.node.getComponent(UITransform)!.setContentSize(rect.right - rect.left - 24, rect.bottom - rect.top - 24);
+      this.placeLabel(l, midpoint(rect));
+    });
+  }
+
   private drawAim(): void {
     const g = this.aim;
     g.clear();
-    if (this.viewport.portrait || this.manualPause || this.hidden || (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0)) { this.playerBow.hide(); return; }
-    const arrow = this.config.arrows.find(value => value.id === this.router.selectedArrow.id)!;
+    if (this.viewport.portrait || this.manualPause || this.hidden || this.rewardVisible || (this.arcade && this.combatStates.get('PlayerRagdoll')!.hp <= 0)) { this.playerBow.hide(); return; }
+    const baseArrow = this.config.arrows.find(value => value.id === this.router.selectedArrow.id)!;
+    const arrow = this.arcade ? this.arcade.loadout.arrow(this.arcade.progression.arrow(baseArrow)) : baseArrow;
     const socket = { ...this.playerAim.bowSocket(), angleRad: this.router.aimRad };
     const drawing = this.router.aimId !== null;
     const hand = this.playerAim.handsSnapshot.stringGrip;
@@ -755,8 +906,11 @@ export class PhysicsLab extends Component {
     const followingHand = drawing || (!pose.bowReleasing && pose.drawAmount > 0.001);
     const flex = followingHand ? handDrawFlex(socket, hand, this.config.bowControl.braceDepthM,
       this.config.bowControl.drawTravelM, pose.drawAmount) : pose.bowFlex;
-    if (!this.playerBow.draw(socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing)) {
-      drawWeaponBow(g, socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing ? TIP_OFFSET_M : undefined);
+    const equipped = this.arcade?.loadout.bow ?? 'thunder';
+    if (equipped !== 'thunder') this.playerBow.hide();
+    if (equipped !== 'thunder' || !this.playerBow.draw(socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing)) {
+      drawWeaponBow(g, socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing ? TIP_OFFSET_M : undefined,
+        equipped === 'moon' ? 'piercing' : equipped === 'gale' ? 'impact' : arrow.id, BOWS[equipped].tint);
     }
     const readyTip = drawing ? nockedArrowTip(hand, socket.angleRad, thunderArrowLength(arrow.id)) : undefined;
     const clear = this.projectiles.muzzleClear('PlayerRagdoll', socket, readyTip);
@@ -779,6 +933,7 @@ export class PhysicsLab extends Component {
       const { radius, opacity } = this.impactFeedback.sample(mark);
       drawImpactMark(g, mark.point, mark.directionRad, radius, opacity, mark.tier);
     }
+    for (const mark of this.arcade?.loadout.effects ?? []) drawSkillMark(g, mark);
   }
 
   private playSound(kind: 'shot' | 'hit' | 'drop' | 'hit-heavy' | 'hit-critical'): void {

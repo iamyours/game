@@ -1,5 +1,8 @@
 # 风暴弓手项目约束
 
+## D038 当前玩法补充
+用户追加持续新鲜感、定期BOSS、道具、装备切换升级和技能特效。当前默认模式按docs/RUN_VARIETY.md与T022执行：5击败一段、15战两阶段BOSS、三弓/本局升级、药瓶符石与手动技能箭。BOSS头部暴击不即死，其余非血腥边界保持；旧选关流程仍延期。装备切换共用冷却/蓄能，技能不得自动发箭；段间奖励先等待在途箭结算。
+
 ## 开工
 先读取 docs/STATUS.md、docs/PRD.md、docs/ARCHITECTURE.md、docs/PLAN.md 与当前 tasks/Txxx.md，检查现有工程与用户改动。沿用实际锁定的 Cocos Creator 3.8 LTS 小版本、TypeScript 和 Box2D 2D。不得自行升级或重建覆盖工程。
 

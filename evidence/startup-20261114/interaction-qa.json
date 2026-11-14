@@ -1,0 +1,48 @@
+{
+  "scope": "UI fixture only, NOT actual gameplay",
+  "checks": [
+    {
+      "name": "phone-wide",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    },
+    {
+      "name": "phone-cooldown",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    },
+    {
+      "name": "phone-reward",
+      "rewardBlocksBattlefield": true,
+      "pauseCannotLeakThroughReward": true,
+      "draggedOutDoesNotChoose": true,
+      "cancelledDoesNotChoose": true,
+      "selectionDoesNotFire": true,
+      "rankAppliedOnce": true,
+      "scope": "Production reward handlers + progression in UI fixture; no engine/physics"
+    },
+    {
+      "name": "phone-reward",
+      "inputAtCharacter": true,
+      "releaseOnce": true,
+      "deadBlocksAim": true,
+      "retryQueuesResetOnly": true,
+      "aliveDownedAcceptsAim": true,
+      "modalDoesNotLeakInput": true,
+      "pauseContinuesWithoutShot": true,
+      "scope": "Production component handlers + InputRouter in a UI fixture; no engine/physics"
+    }
+  ]
+}

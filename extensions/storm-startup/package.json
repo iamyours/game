@@ -1,0 +1,8 @@
+{
+  "name": "storm-startup",
+  "version": "1.0.0",
+  "package_version": 2,
+  "description": "Shorten the engine splash before the resource-gated battle loading screen",
+  "editor": ">=3.8.8 <3.9.0",
+  "contributions": { "builder": "./builder.cjs" }
+}

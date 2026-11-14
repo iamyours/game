@@ -1,3 +1,7 @@
+# D042 首场加载与战斗衔接
+
+首场实际资源解析、人物/平台/弓箭挂载与两帧绘制完成后才开放输入和固定步。普通敌人持续倒地或失弓3秒触发真实崩台；BOSS仅失弓5秒触发，不直接扣血或计分。默认插屏、模块裁剪、阶段/命中反馈与完整复验见STARTUP_AND_PACING.md；T024保持IN_PROGRESS，G1/发布/旧物理失败不放行。
+
 # D041 三弓图片与本箭外观快照
 
 WeaponArtAssets集中持有三款ThunderWeaponAssets，独立加载/回退；疾风/月蚀各用单张GPT图集的弓/箭区域，一张纹理只addRef一次。ThunderBowSkin复用40片节点按装备换帧，保持原手驱动形变。BattleLoadout.arrow写appearance，ProjectileSystem.fire复制配置；搭箭/飞行/插箭读取同款图片，跨敌我箭池复用隐藏/换帧旧皮肤。物理与数值无改动，详见GPT_WEAPON_ART.md。

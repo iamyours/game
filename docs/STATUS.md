@@ -1,3 +1,15 @@
+# 当前状态（D042）
+
+version: V3.0
+currentMilestone: CONTINUOUS_BATTLE
+currentTask: T024
+taskState: IN_PROGRESS
+sourceRevision: 53e3438（本轮基线）
+runtimeVerified: false
+feelGateG1: BLOCKED
+
+首场资源实际load/解析与引用、4并发/进度/超时重试、完整场景两帧绘制后开战已接线；背景预取和音频后台顺序解析；新增默认插屏500ms构建后处理与引擎模块裁剪。普通倒地/失弓3秒崩台，BOSS仅失弓5秒；新增伤害/爆头/阶段目标与下一敌人提示。真实Creator/微信构建与手机手感未验，旧物理/销毁/G1不放行。详见docs/STARTUP_AND_PACING.md、tasks/T024.md和evidence/startup-20261114/verification.md。
+
 # 当前状态（D041）
 
 version: V2.9

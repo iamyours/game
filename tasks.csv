@@ -22,3 +22,4 @@ T020,LATER,装甲敌人与掉盔扩展,,,保留原装甲公式、头盔素材和
 T021,LATER,三关九波与关卡解锁,,,保留历史RunSession、levels种子与迁移测试；当前默认连续模式不接选关、首通和下一关。,,后续重新启用前单独确认范围和运行验收,DEFERRED,,,D024明确移出当前主线，不删除历史代码和证据
 T022,M3,持续对战、BOSS与装备道具技能,,T019,分段强化、定期BOSS、三弓切换升级、道具与技能接入真实射击。,RunProgression；BattleLoadout；默认连续模式；回归与生产UI夹具。,第15/30战BOSS实射；技能/库存/奖励去重；切装不绕冷却；段间在途箭；长局资源与重开。,IN_PROGRESS,,docs/RUN_VARIETY.md; evidence/run-progression-20261113/verification.md,缺Creator、真实导入与当前构建；引擎/物理/手机/15分钟与原D031问题未放行。
 T023,M4,命中重量、音乐、远征场景与持续目标,,T005 T006 T012 T013 T014 T022,扎入余震与头颈；四曲和三场景；挑战、连杀和跨局修炼。,Expedition；原创音乐/背景；生产调用和离线证据。,真实击退/颈部/音频；45战场景；奖励存档；15分钟/30次重开。,IN_PROGRESS,,docs/EXPEDITION_RELEASE.md; evidence/expedition-20261113/verification.md,缺Creator、导入和当前运行包；原物理/销毁/G1/渠道未放行。
+T024,M4,首场加载、默认插屏与战斗衔接,,T012 T014 T019 T022 T023,完整资源与两帧绘制后开战；崩台衔接和阶段反馈,Boot/StartupLoading；构建扩展；回归夹具,真机冷热启动、重试、实射崩台、15战与长局,IN_PROGRESS,,evidence/startup-20261114/verification.md,缺Creator、真实导入、当前包及微信真机；旧物理/G1未放行

@@ -1,6 +1,6 @@
 import { BoxCollider2D, CircleCollider2D, Color, ERigidBody2DType, Graphics, Node, RigidBody2D, Sprite, UIOpacity } from 'cc';
 import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
-import { ArcadeCycle, BowState, canRelease, chooseArcadeSpawn, platformAngularVelocity } from '../domain/ArcadeRules';
+import { ArcadeCycle, BowState, PlatformPressure, canRelease, chooseArcadeSpawn, platformAngularVelocity } from '../domain/ArcadeRules';
 import { AttackSlots, EnemyAttack, ballisticAngles, predictAim } from '../domain/BattleRules';
 import { PickupRules } from '../domain/PickupRules';
 import { PhysicsAdapter as P } from '../physics/PhysicsAdapter';
@@ -20,9 +20,10 @@ import { BattleLoadout } from '../domain/BattleLoadout';
 import { RunChallenges, biomeForStage } from '../domain/Expedition';
 
 type Enemy = { actor: RagdollInstance; aim: AimController; skin: CharacterSkin; platform: Node;
-  attack: EnemyAttack; attackArrowId: string; encounter: Encounter; spec: PhysicsLabConfig['enemies'][number]; hpMax: number; bow: BowState; heavy: boolean; rocking: boolean; bornAt: number; deadAt: number | null; telegraph: boolean };
+  attack: EnemyAttack; attackArrowId: string; encounter: Encounter; spec: PhysicsLabConfig['enemies'][number]; hpMax: number; bow: BowState; pressure: PlatformPressure; heavy: boolean; rocking: boolean; bornAt: number; deadAt: number | null; telegraph: boolean };
 /** Owns only the endless battle loop; called from the existing single fixed step. */
 export class ArcadeBattle {
+  public ready: Promise<void> = Promise.resolve();
   public readonly loadout = new BattleLoadout();
   public readonly challenges = new RunChallenges();
   public readonly progression = new RunProgression(Math.random, () => this.loadout.canUpgrade);
@@ -48,11 +49,20 @@ export class ArcadeBattle {
   public rejectedShots = 0;
   private spawnRetryAt = 0;
   private initialSpawnPending = true;
+  private collapseRequested = false;
+  private defeatText = '';
+  private defeatAt = -Infinity;
   public get current() { return this.enemies.find(e => e.deadAt === null); }
+  public get defeatBanner(): string { return this.elapsed - this.defeatAt < 1.2 ? this.defeatText : ''; }
+  public get enemyStatus() {
+    const enemy = this.current;
+    return enemy ? { armed: enemy.bow.armed, downed: enemy.aim.poseSnapshot.pose === 'downed',
+      collapseSec: enemy.pressure.remainingSec, collapsing: enemy.pressure.collapsed } : null;
+  }
   public get snapshot() { return { score: this.score, enemyShots: this.enemyShots, enemyId: this.current?.actor.id ?? null,
     stage: this.progression.stage, progress: this.progression.progress, offers: this.progression.offers, upgrades: this.progression.upgrades, loadout: this.loadout.snapshot,
     biome: biomeForStage(this.progression.stage).id, challenges: this.challenges.snapshot,
-    rewardReady: this.rewardReady, encounter: this.current?.encounter.kind ?? null, boss: this.bossStatus,
+    rewardReady: this.rewardReady, encounter: this.current?.encounter.kind ?? null, boss: this.bossStatus, enemyStatus: this.enemyStatus, defeatBanner: this.defeatBanner,
     pickups: this.pickupRules.snapshot, armed: this.current?.bow.armed ?? false, heavy: this.current?.heavy ?? false, rocking: this.current?.rocking ?? false,
     rejectedShots: this.rejectedShots, telegraph: this.current?.telegraph ?? false, bodiesRetained: this.enemies.length, platformCount: this.enemies.length, dropCount: this.drops.length, nextSpawnSec: Number.isFinite(this.nextSpawn) ? Math.max(0, this.nextSpawn - this.elapsed) : null }; }
   public constructor(private readonly world: Node, private readonly cfg: PhysicsLabConfig,
@@ -61,12 +71,13 @@ export class ArcadeBattle {
     private readonly onSpawn: (aim: AimController | null) => void,
     private readonly onSound: (kind: 'shot' | 'drop') => void = () => {},
     private readonly onPickup: (effect: { hp: number; stamina: number; item?: 'potion' | 'rune' }) => void = () => {},
-    private readonly ruinsArt?: RuinsArtAssets) {
+    private readonly ruinsArt?: RuinsArtAssets, private readonly strictResources = false) {
     this.cycle = new ArcadeCycle(cfg.arcade.respawnSec);
     this.pickupRules = new PickupRules(cfg.pickups, Math.random, true);
     const overlay = new Node('BattleFeedback'); overlay.layer = world.layer; overlay.parent = world;
     this.graphics = overlay.addComponent(Graphics);
     this.spawn();
+    if (strictResources && !this.current) throw new Error('首场敌人生成失败，请重试');
   }
   private get player() { return this.actors[0]!; }
   public get bossStatus() {
@@ -90,6 +101,8 @@ export class ArcadeBattle {
     }
     const state = this.states.get(enemy.actor.id)!;
     const player = this.states.get(this.player.id)!;
+    if (enemy.pressure.step(dt, { active: player.hp > 0, alive: state.hp > 0, armed: enemy.bow.armed,
+      downed: enemy.aim.poseSnapshot.pose === 'downed', boss: enemy.encounter.kind === 'boss' })) this.collapseRequested = true;
     const spec = enemy.spec;
     const events = enemy.attack.step(dt, { active: player.hp > 0, alive: state.hp > 0, armed: enemy.bow.armed, hpRatio: state.hp / enemy.hpMax }, () => {
       const socket = enemy.aim.bowSocket(), target = this.player.worldPointM('chest', [0, 0]);
@@ -130,12 +143,14 @@ export class ArcadeBattle {
       const state = this.states.get(enemy.actor.id)!;
       if (enemy.deadAt === null && P.positionM(enemy.actor.bodies.get('pelvis')!.node).y < this.cfg.run.fallKillY_M) state.hp = 0;
       if (state.hp <= 0 && enemy.deadAt === null) this.kill(enemy);
+      else if (enemy.deadAt === null && enemy === this.current && this.collapseRequested) this.releasePlatform(enemy);
       if (enemy.deadAt !== null) {
         const age = this.elapsed - enemy.deadAt, opacity = retirementOpacity(age, this.cfg.arcade.cleanupSec);
         this.fade(enemy.actor.root, opacity); this.fade(enemy.platform, opacity);
         if (age >= this.cfg.arcade.cleanupSec) this.remove(enemy);
       }
     }
+    this.collapseRequested = false;
     const corpses = this.enemies.filter(e => e.deadAt !== null);
     while (corpses.length > this.cfg.limits.maxCorpses) this.remove(corpses.shift()!);
     for (let i = this.drops.length - 1; i >= 0; i--) {
@@ -163,6 +178,7 @@ export class ArcadeBattle {
     for (const enemy of [...this.enemies]) this.remove(enemy);
     for (const drop of this.drops) P.retire(drop.node); this.drops.length = 0;
     this.injuries.clear(); this.enemyShots = this.rejectedShots = 0;
+    this.collapseRequested = false; this.defeatText = ''; this.defeatAt = -Infinity;
     this.cycle.reset(); this.spawnRetryAt = 0; this.initialSpawnPending = true;
     this.progression.reset();
     this.challenges.reset();
@@ -255,34 +271,39 @@ export class ArcadeBattle {
     const collider = platform.addComponent(BoxCollider2D); collider.group = body.group;
     collider.size.set(P.units(width), P.units(0.6)); collider.friction = 0.9; collider.apply();
     drawRuinsPlatform(platform.addComponent(Graphics), width);
-    this.ruinsArt?.attachPlatform(platform, width);
+    const platformReady = this.ruinsArt?.attachPlatform(platform, width) ?? Promise.resolve();
     const actor = this.factory.spawn(this.world, `Enemy_${this.serial}`, [x, y + 0.41], encounter.tint, encounter.massMultiplier, -1);
     const aim = new AimController(actor, new PoseController(actor, actor.definition, this.cfg.bowControl)); aim.setWorldAim(Math.PI - 0.2);
-    const skin = new CharacterSkin(actor, actor.definition); void skin.load('enemy', 'ruins').then(() => {
+    const skin = new CharacterSkin(actor, actor.definition);
+    const strict = this.strictResources && this.initialSpawnPending;
+    const skinReady = skin.load('enemy', 'ruins', strict).then(() => {
       if (!this.enemies.some(e => e.actor === actor)) return;
       for (const node of actor.bodyNodes.values()) {
         const sprite = node.getChildByName(`Skin_${node.name}`)?.getComponent(Sprite);
         if (sprite) sprite.color = new Color().fromHEX(encounter.tint);
       }
-    }).catch(e => console.warn('[Arcade skin]', e));
+    }).catch(e => { if (strict) throw e; console.warn('[Arcade skin]', e); });
+    this.ready = Promise.all([platformReady, skinReady]).then(() => {});
     const spec = encounter.spec;
     const hpMax = spec.hp;
     this.states.set(actor.id, { id: actor.id, hp: hpMax, armor: 0, hits: 0, lastHit: null });
     this.actors.push(actor); this.projectiles.registerActor(actor);
     this.enemies.push({ actor, aim, skin, platform, hpMax, heavy, rocking, encounter, bornAt: this.elapsed,
-      bow: new BowState(this.cfg.reaction.enemyArmTraumaToDisarm * (encounter.kind === 'boss' ? 3 : 1)), deadAt: null, telegraph: false, attackArrowId: 'normal',
+      bow: new BowState(this.cfg.reaction.enemyArmTraumaToDisarm * (encounter.kind === 'boss' ? 3 : 1)), pressure: new PlatformPressure(), deadAt: null, telegraph: false, attackArrowId: 'normal',
       spec, attack: new EnemyAttack(spec, this.cfg.run, new AttackSlots(this.cfg.run.enemyAttackStartSeparationSec), Math.random) });
     this.nextSpawn = Infinity; this.initialSpawnPending = false; this.cycle.spawned(); this.onSpawn(aim);
   }
   private kill(enemy: Enemy): void {
     enemy.deadAt = this.elapsed; enemy.telegraph = false; enemy.aim.setAlive(false);
-    const body = enemy.platform.getComponent(RigidBody2D)!;
-    body.type = ERigidBody2DType.Dynamic;
-    P.setVelocity(body, (Math.random() - 0.5) * 0.8, -0.2, (Math.random() - 0.5) * 1.5); body.wakeUp();
+    this.releasePlatform(enemy);
     if (enemy.bow.drop()) this.dropBow(enemy);
     const generation = Number(enemy.actor.id.slice('Enemy_'.length));
     if (this.cycle.defeated(generation)) {
       const hit = this.states.get(enemy.actor.id)!.lastHit;
+      this.defeatText = enemy.encounter.kind === 'boss' ? '首领击败 · 获得战利品' :
+        P.positionM(enemy.actor.bodies.get('pelvis')!.node).y < this.cfg.run.fallKillY_M ? '坠落击败' :
+          hit?.attackerId === this.player.id && hit.partId === 'head' ? '爆头击败' : '击败';
+      this.defeatAt = this.elapsed;
       const reward = this.challenges.defeated(hit?.attackerId === this.player.id && hit.partId === 'head',
         enemy.encounter.kind === 'boss', this.states.get(this.player.id)!.hp > 0);
       if (reward === 'forge') {
@@ -295,6 +316,13 @@ export class ArcadeBattle {
       this.progression.defeated(); this.loadout.charge(15);
     }
     this.nextSpawn = this.elapsed + this.cfg.arcade.respawnSec;
+  }
+  private releasePlatform(enemy: Enemy): void {
+    const body = enemy.platform.getComponent(RigidBody2D)!;
+    if (body.type === ERigidBody2DType.Dynamic) return;
+    enemy.rocking = false;
+    body.type = ERigidBody2DType.Dynamic;
+    P.setVelocity(body, (Math.random() - 0.5) * 0.8, -0.2, (Math.random() - 0.5) * 1.5); body.wakeUp();
   }
   private dropBow(enemy: Enemy): void {
     enemy.telegraph = false; enemy.aim.setDraw(false, 0); enemy.aim.setArmed(false);
@@ -326,6 +354,16 @@ export class ArcadeBattle {
   public draw(): void {
     const g = this.graphics; g.clear();
     for (const enemy of this.enemies) enemy.skin.draw();
+    const threatened = this.current;
+    if (threatened?.pressure.remainingSec !== null && threatened?.pressure.remainingSec !== undefined) {
+      const center = P.positionM(threatened.platform);
+      g.strokeColor = new Color(255, 196, 105, Math.round(170 + 65 * Math.sin(this.elapsed * 14)));
+      g.lineWidth = P.units(0.045);
+      g.moveTo(P.units(center.x - 0.55), P.units(center.y - 0.12));
+      g.lineTo(P.units(center.x - 0.16), P.units(center.y + 0.14));
+      g.lineTo(P.units(center.x + 0.08), P.units(center.y - 0.2));
+      g.lineTo(P.units(center.x + 0.45), P.units(center.y + 0.12)); g.stroke();
+    }
     for (const actor of this.actors) {
       const state = this.states.get(actor.id); if (!state) continue;
       for (const [part, expires] of this.injuries.get(actor.id) ?? []) {

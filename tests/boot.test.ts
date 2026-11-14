@@ -32,3 +32,21 @@ test('就绪回调错误会使启动失败而不是伪报 ready', async () => {
   const runtime = new BootRuntime({ loadConfig: async () => 2, onReady: () => { throw new Error('render failed'); } });
   await assert.rejects(runtime.start(), /render failed/); assert.equal(runtime.state, 'failed');
 });
+
+test('异步视觉组装结束前不能ready；组装期间销毁不恢复ready', async () => {
+  let finish!: () => void;
+  const visual = new Promise<void>(resolve => { finish = resolve; });
+  const runtime = new BootRuntime({ loadConfig: async () => 1, onReady: () => visual });
+  const start = runtime.start(); await Promise.resolve(); await Promise.resolve(); await Promise.resolve();
+  assert.equal(runtime.state, 'loading'); runtime.dispose(); finish(); await start;
+  assert.equal(runtime.state, 'disposed');
+});
+
+test('异步纹理组装失败可以重试，后续只在成功组装后就绪', async () => {
+  let attempts = 0;
+  const runtime = new BootRuntime({ loadConfig: async () => 1, onReady: async () => {
+    if (++attempts === 1) throw new Error('skin failed');
+  } });
+  await assert.rejects(runtime.start(), /skin failed/); assert.equal(runtime.state, 'failed');
+  await runtime.start(); assert.equal(runtime.state, 'ready'); assert.equal(attempts, 2);
+});

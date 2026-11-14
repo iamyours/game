@@ -17,15 +17,22 @@ export class CharacterSkin {
   private neck: Graphics | null = null;
   public constructor(private readonly actor: RagdollInstance, private readonly rig: RigDefinition) {}
 
-  public async load(skin: 'hero' | 'enemy', style: 'classic' | 'ruins' = 'classic'): Promise<void> {
+  public async load(skin: 'hero' | 'enemy', style: 'classic' | 'ruins' = 'classic', strict = false): Promise<void> {
     if (style === 'ruins') {
       try { await this.loadAtlas(`${skin}-ruins-v2`, `${skin}-ruins-v2-frames`, skin === 'enemy'); return; }
-      catch (error) { console.warn('[CharacterSkin] 遗迹皮肤未就绪，保留原角色资源：', error); }
+      catch (error) { if (strict) throw error; console.warn('[CharacterSkin] 遗迹皮肤未就绪，保留原角色资源：', error); }
     }
     await this.loadAtlas(`${skin}-atlas`, `${skin}-frames`, false);
   }
 
   private async loadAtlas(image: string, metadata: string, mirrorArt: boolean): Promise<void> {
+    // Boot retains the parsed assets. New enemy generations mount their skin synchronously,
+    // so a cached resources.load callback cannot expose one grey-box frame between encounters.
+    const cachedTexture = resources.get?.(`characters/${image}/texture`, Texture2D);
+    const cachedSpec = resources.get?.(`characters/${metadata}`, JsonAsset);
+    if (cachedTexture instanceof Texture2D && cachedSpec) {
+      this.mountAtlas(cachedTexture, cachedSpec.json as AtlasSpec, mirrorArt); return;
+    }
     const [texture, spec] = await Promise.all([
       new Promise<Texture2D>((resolve, reject) => resources.load(`characters/${image}/texture`, Texture2D,
         (error, asset) => {
@@ -36,6 +43,10 @@ export class CharacterSkin {
       new Promise<AtlasSpec>((resolve, reject) => resources.load(`characters/${metadata}`, JsonAsset,
         (error, asset) => error ? reject(error) : resolve(asset.json as AtlasSpec))),
     ]);
+    this.mountAtlas(texture, spec, mirrorArt);
+  }
+
+  private mountAtlas(texture: Texture2D, spec: AtlasSpec, mirrorArt: boolean): void {
     if (this.disposed || !isValid(this.actor.root)) return;
     if (texture.width !== spec.imageSize[0] || texture.height !== spec.imageSize[1]) throw new Error('角色图集尺寸与切片表不一致');
     for (const part of this.rig.bodyDefinitions) {

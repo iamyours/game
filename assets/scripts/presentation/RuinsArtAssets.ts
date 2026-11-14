@@ -13,6 +13,7 @@ interface ArtPack { background: SpriteFrame; platform: SpriteFrame[]; spec: ArtS
 export class RuinsArtAssets {
   private disposed = false;
   private pending: Promise<ArtPack | null> | null = null;
+  private pack: ArtPack | null = null;
   private readonly textures: Texture2D[] = [];
   private readonly frames: SpriteFrame[] = [];
   private visuals: Node[] = [];
@@ -22,8 +23,13 @@ export class RuinsArtAssets {
   private biome: BiomeId = 'storm';
   private readonly variants = new Map<BiomeId, Promise<SpriteFrame | null>>();
 
-  public attachBackdrop(parent: Node): void {
-    void this.load().then(pack => {
+  public async ready(strict = false): Promise<void> {
+    const pack = await this.load();
+    if (strict && !pack) throw new Error('遗迹背景或平台未准备完成');
+  }
+
+  public attachBackdrop(parent: Node): Promise<void> {
+    return this.load().then(pack => {
       if (!pack || this.disposed || !isValid(parent)) return;
       const node = this.sprite(parent, 'PaintedStormRuins', pack.background);
       this.background = node;
@@ -45,28 +51,35 @@ export class RuinsArtAssets {
     node.getComponent(Sprite)!.color = new Color().fromHEX(this.biome === 'frost' ? '#B9D3FF' : this.biome === 'ember' ? '#F4BE91' : '#FFFFFF');
   }
 
-  private applyBiome(): void {
-    if (!this.background || this.disposed) return;
-    const id = this.biome;
+  /** Parse one upcoming painting during play; switching biomes then uses the resident frame. */
+  public async preloadBiome(id: BiomeId): Promise<void> { if (!this.disposed) await this.variant(id); }
+
+  private variant(id: BiomeId): Promise<SpriteFrame | null> {
     if (!this.variants.has(id)) {
       if (id === 'storm') this.variants.set(id, this.load().then(pack => pack?.background ?? null));
       else this.variants.set(id, new Promise(resolve => resources.load(`scenery/${id === 'frost' ? 'frost-sanctum-v1' : 'ember-citadel-v1'}/texture`, Texture2D, (error, texture) => {
         if (this.disposed) return resolve(null);
-        if (error || !(texture instanceof Texture2D)) { console.warn('[Biome] 场景加载失败，保留现有背景', error); return resolve(null); }
+        if (error || !(texture instanceof Texture2D)) { this.variants.delete(id); console.warn('[Biome] 场景加载失败，保留现有背景', error); return resolve(null); }
         texture.addRef(); this.textures.push(texture);
         const frame = new SpriteFrame(); frame.texture = texture; frame.rect = new Rect(0, 0, texture.width, texture.height);
         frame.originalSize = new Size(texture.width, texture.height); frame.packable = false; this.frames.push(frame); resolve(frame);
       })));
     }
-    void this.variants.get(id)!.then(frame => {
+    return this.variants.get(id)!;
+  }
+
+  private applyBiome(): void {
+    if (!this.background || this.disposed) return;
+    const id = this.biome;
+    void this.variant(id).then(frame => {
       if (!frame || this.disposed || this.biome !== id || !this.background || !isValid(this.background)) return;
       this.background.getComponent(Sprite)!.spriteFrame = frame;
       this.backgroundAspect = frame.rect.width / frame.rect.height; this.fitBackdrop();
     });
   }
 
-  public attachPlatform(parent: Node, widthM: number): void {
-    void this.load().then(pack => {
+  public attachPlatform(parent: Node, widthM: number): Promise<void> {
+    const attach = (pack: ArtPack | null): void => {
       if (!pack || this.disposed || !isValid(parent) || !parent.activeInHierarchy) return;
       const cap = Math.min(pack.spec.assets.platform.capWidthM, widthM / 3);
       const widths = [cap, widthM - cap * 2, cap];
@@ -80,11 +93,13 @@ export class RuinsArtAssets {
         x += width;
       }
       const fallback = parent.getComponent(Graphics); if (fallback) fallback.enabled = false;
-    });
+    };
+    if (this.pack) { attach(this.pack); return Promise.resolve(); }
+    return this.load().then(attach);
   }
 
   public dispose(): void {
-    this.disposed = true; this.background = null;
+    this.disposed = true; this.background = null; this.pack = null;
     this.variants.clear();
     for (const node of this.visuals) if (isValid(node)) node.destroy();
     this.visuals.length = 0;
@@ -131,7 +146,7 @@ export class RuinsArtAssets {
           result.rect = new Rect(...rect); result.originalSize = new Size(rect[2], rect[3]); result.packable = false;
           return result;
         };
-        return { background: frame(background, [0, 0, background.width, background.height]), spec: data,
+        return this.pack = { background: frame(background, [0, 0, background.width, background.height]), spec: data,
           platform: [frame(platform, [x, y, cap, h]), frame(platform, [x + cap, y, w - cap * 2, h]), frame(platform, [x + w - cap, y, cap, h])] };
       }).catch(error => {
         for (const frame of this.frames) frame.destroy(); this.frames.length = 0;

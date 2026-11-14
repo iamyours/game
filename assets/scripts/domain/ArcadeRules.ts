@@ -41,6 +41,24 @@ export function canRelease(state: { alive: boolean; armed: boolean; handsReady: 
   return state.alive && state.armed && state.handsReady && state.muzzleClear;
 }
 
+/** Telegraph a real platform fall; never turn a knockdown directly into HP loss/score. */
+export class PlatformPressure {
+  private age = 0;
+  private limit = 0;
+  public collapsed = false;
+  public get remainingSec(): number | null { return this.limit > 0 && !this.collapsed ? Math.max(0, this.limit - this.age) : null; }
+  public step(dt: number, state: { active: boolean; alive: boolean; armed: boolean; downed: boolean; boss: boolean }): boolean {
+    validTime(dt);
+    if (this.collapsed || !state.active || !state.alive) return false;
+    const threatened = !state.armed || (!state.boss && state.downed);
+    if (!threatened) { this.age = this.limit = 0; return false; }
+    if (this.limit === 0) this.limit = state.boss ? 5 : 3;
+    this.age += dt;
+    if (this.age + 1e-9 < this.limit) return false;
+    this.collapsed = true; return true;
+  }
+}
+
 /** Latch a real fall, filtering short hit recoil. Reset is the only automatic stand-up path. */
 export class FallDetector {
   private badSeconds = 0;

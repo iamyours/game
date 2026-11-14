@@ -57,14 +57,17 @@ export class ThunderWeaponAssets {
 
 /** A failed variant never prevents the other bows from loading. Owned by the scene, not pool slots. */
 export class WeaponArtAssets {
+  private pending: Promise<void> | null = null;
   private readonly variants = new Map<BowId, ThunderWeaponAssets>(
     (['thunder', 'gale', 'moon'] as const).map(id => [id, new ThunderWeaponAssets(id)]));
   public forBow(id: BowId): ThunderWeaponAssets { return this.variants.get(id)!; }
-  public async load(): Promise<void> {
-    await Promise.all(Array.from(this.variants.values(), async assets => {
+  public async load(strict = false): Promise<void> {
+    this.pending ??= Promise.all(Array.from(this.variants.values(), async assets => {
       try { await assets.load(); }
       catch (error) { console.warn(`[WeaponArt] ${assets.id} 素材加载失败，保留程序武器：`, error); }
-    }));
+    })).then(() => {});
+    await this.pending;
+    if (strict && Array.from(this.variants.values()).some(assets => !assets.ready)) throw new Error('弓箭装备未准备完成');
   }
   public dispose(): void { for (const assets of this.variants.values()) assets.dispose(); }
 }

@@ -160,7 +160,7 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
     progression.defeated(); if (progression.pending) progression.choose(progression.offers[0]);
   }
   const loadout = new BattleLoadout();
-  lab.arcade = { score: 3, progression, loadout, challenges: new RunChallenges(), bossStatus: null, get rewardReady() { return progression.pending; }, chooseReward(id) { return progression.choose(id); } };
+  lab.arcade = { current: { encounter: { name: '弓手', hint: '瞄准头部，或射伤持弓臂', tint: '#E98575' } }, enemyStatus: null, snapshot: { nextSpawnSec: 1.2 }, score: 3, progression, loadout, challenges: new RunChallenges(), bossStatus: null, get rewardReady() { return progression.pending; }, chooseReward(id) { return progression.choose(id); } };
   lab.career = new CareerRepository({ getItem: () => null, setItem() {} });
   lab.combatStates = new Map([['PlayerRagdoll', { hp: 92 }]]); lab.shotBudget = { stamina: 78, cooldownSec: cooldown };
   lab.lastShot = { arrowId: 'impact' };

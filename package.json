@@ -29,7 +29,8 @@
     "test:web:projectile-presentation": "node scripts/verify-projectile-presentation-web.mjs",
     "preview:presentation": "node scripts/render-battle-presentation.mjs",
     "check:syntax": "node scripts/check-engine-syntax.mjs",
-    "typecheck:engine-source": "node scripts/typecheck-engine-source.mjs"
+    "typecheck:engine-source": "node scripts/typecheck-engine-source.mjs",
+    "optimize:startup": "node scripts/optimize-startup.cjs"
   },
   "devDependencies": {
     "@types/node": "24.0.0",

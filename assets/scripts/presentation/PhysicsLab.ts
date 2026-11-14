@@ -58,6 +58,11 @@ function fill(g: Graphics, x: number, y: number, w: number, h: number, hex: stri
 /** Boot-built physics calibration and target practice. */
 @ccclass('StormArchersPhysicsLab')
 export class PhysicsLab extends Component {
+  public ready: Promise<void> = Promise.resolve();
+  private loading = false;
+  private backgroundStarted = false;
+  private nextBiomePrepared = '';
+  private readonly startupTasks: Promise<void>[] = [];
   private physics: Physics | null = null;
   private arcade: ArcadeBattle | null = null;
   private arcadeMode = typeof location === 'undefined' || new URLSearchParams(location.search).get('practice') !== '1';
@@ -70,6 +75,8 @@ export class PhysicsLab extends Component {
   private aim!: Graphics;
   private impactArt!: Graphics;
   private readonly impactFeedback = new ImpactFeedback();
+  private hitText!: Label;
+  private hitReadout: { point: Point; text: string; until: number; critical: boolean } | null = null;
   private readonly ruinsArt = new RuinsArtAssets();
   private title!: Label;
   private vitals!: Label;
@@ -150,7 +157,8 @@ export class PhysicsLab extends Component {
     return this.arcadeMode && typeof document !== 'undefined' && Boolean(document.fullscreenEnabled);
   }
 
-  public setup(canvas: Canvas, config: PhysicsLabConfig, seedHash: string): void {
+  public setup(canvas: Canvas, config: PhysicsLabConfig, seedHash: string, deferStart = false): void {
+    this.loading = deferStart;
     this.config = config;
     this.shotBudget = new ShotBudget(config.player);
     this.records = new ArcadeRecordRepository(sys.localStorage);
@@ -158,11 +166,7 @@ export class PhysicsLab extends Component {
     this.beginCareerRun();
     this.soundSource = this.node.addComponent(AudioSource);
     if (this.arcadeMode) for (let i = 0; i < 2; i++) this.musicSources.push(child(this.node, `Music_${i}`).addComponent(AudioSource));
-    if (this.arcadeMode) for (const kind of ['shot', 'hit', 'drop', 'hit-heavy', 'hit-critical', 'music-storm', 'music-frost', 'music-ember', 'music-boss']) resources.load(`audio/${kind}`, AudioClip, (error, clip) => {
-      if (error) { console.warn('[Audio]', error); return; }
-      if (this.disposed || !isValid(this.node)) return;
-      clip.addRef(); this.audioClips.set(kind, clip);
-    });
+    // Audio is prepared in the background after the first complete visual frame.
     this.seedHash = seedHash;
     const uiCamera = canvas.cameraComponent;
     if (!uiCamera) throw new Error('Boot Canvas 缺少 UI 相机');
@@ -199,9 +203,10 @@ export class PhysicsLab extends Component {
     ];
     this.skins = this.ragdolls.map(actor => new CharacterSkin(actor, config.rig));
     this.skins.forEach((skin, index) => {
-      void skin.load(index === 0 ? 'hero' : 'enemy', this.arcadeMode ? 'ruins' : 'classic').catch(error => {
+      this.startupTasks.push(skin.load(index === 0 ? 'hero' : 'enemy', this.arcadeMode ? 'ruins' : 'classic', deferStart).catch(error => {
+        if (deferStart) throw error;
         console.warn('[PhysicsLab] 角色图片加载失败，保留灰盒：', error);
-      });
+      }));
     });
     this.playerAim = new AimController(this.ragdolls[0], new PoseController(this.ragdolls[0], config.rig, config.bowControl));
     this.enemyAim = this.arcadeMode ? this.playerAim : new AimController(this.ragdolls[1]!, new PoseController(this.ragdolls[1]!, config.rig, config.bowControl));
@@ -216,6 +221,9 @@ export class PhysicsLab extends Component {
       this.arcade?.hit(state, state.lastHit!.partId);
       const hit = state.lastHit!;
       const tier = hit.partId === 'head' ? 3 : hit.arrow.id === 'impact' || state.hp <= 0 ? 2 : 1;
+      if (hit.attackerId === 'PlayerRagdoll') this.hitReadout = { point: { ...hit.pointM },
+        text: state.hp <= 0 ? hit.partId === 'head' ? '爆头' : '击败' : `${hit.partId === 'head' ? '暴击 ' : ''}−${Math.ceil(hit.result.hpDamage)}`,
+        until: (this.physics?.steps ?? 0) + 42, critical: tier === 3 };
       this.impactFeedback.hit(hit.shotId, hit.pointM, Math.atan2(hit.incomingVelocityMps.y, hit.incomingVelocityMps.x), tier);
       this.playSound(tier === 3 ? 'hit-critical' : tier === 2 ? 'hit-heavy' : 'hit');
       if (state.hp <= 0) aim.setAlive(false);
@@ -230,7 +238,7 @@ export class PhysicsLab extends Component {
     if (this.arcadeMode) this.combatStates.delete('EnemyRagdoll');
     this.weaponAssets = new WeaponArtAssets();
     this.playerBow = new ThunderBowSkin(world, this.weaponAssets);
-    void this.weaponAssets.load();
+    this.startupTasks.push(this.weaponAssets.load(deferStart));
     this.projectiles = new ProjectileSystem(world, config, this.ragdolls, (candidate, targetBody) => this.hitResolver.resolve(candidate, targetBody), this.weaponAssets);
     if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; }, kind => this.playSound(kind), effect => {
       const player = this.combatStates.get('PlayerRagdoll')!;
@@ -239,7 +247,8 @@ export class PhysicsLab extends Component {
         if (effect.item === 'potion') player.hp = Math.min(config.player.hp, player.hp + 15);
         else this.arcade.loadout.charge(25);
       }
-    }, this.ruinsArt);
+    }, this.ruinsArt, deferStart);
+    if (this.arcade) this.startupTasks.push(this.arcade.ready, this.ruinsArt.ready(deferStart));
     this.probe = new CalibrationProbe(world, config.physics);
     if (this.arcadeMode) for (const name of ['GlideBody', 'DropBody']) { const g = world.getChildByName(name)?.getComponent(Graphics); if (g) g.enabled = false; }
     this.aim = child(world, 'AimPreview').addComponent(Graphics);
@@ -264,6 +273,8 @@ export class PhysicsLab extends Component {
     this.retryLabel = label(this.overlay, 'Retry', 30, '再来一局');
     this.rewardLabels = Array.from({ length: 3 }, (_, i) => label(this.overlay, `Reward_${i}`, 32));
     this.bossLabel = label(this.overlay, 'Boss', 30);
+    this.hitText = label(this.overlay, 'HitReadout', 36);
+    this.hitText.node.active = false;
     this.equipmentButtons = (this.arcadeMode ? ['bow', 'skill', 'potion', 'rune'] as const : []).map(kind => ({ kind, label: label(this.overlay, `Equipment_${kind}`, 28), rect: empty }));
     this.resize();
     profiler.hideStats();
@@ -275,16 +286,46 @@ export class PhysicsLab extends Component {
     game.on(Game.EVENT_HIDE, this.hide, this);
     game.on(Game.EVENT_SHOW, this.show, this);
     if (typeof window !== 'undefined') window.addEventListener('blur', this.cancel);
+    this.ready = Promise.all(this.startupTasks).then(() => {
+      if (this.disposed) return;
+      for (const skin of this.skins) skin.draw();
+      this.drawHUD(); this.drawAim(); this.arcade?.draw();
+    });
+    if (!deferStart) this.beginBattle();
     console.info(`[PhysicsLab] ready in ${scene.name}; seed ${this.seedHash}`);
+  }
+
+  public beginBattle(): void {
+    if (this.disposed) return;
+    this.loading = false; this.syncPause(); this.dirty = true;
+    if (this.arcadeMode && !this.backgroundStarted) { this.backgroundStarted = true; void this.loadAudio(); }
+  }
+
+  private async loadAudio(): Promise<void> {
+    // At most one clip is parsed at a time; optional audio never stalls first play.
+    for (const kind of ['shot', 'hit', 'hit-heavy', 'hit-critical', 'drop', 'music-storm', 'music-boss', 'music-frost', 'music-ember']) {
+      if (this.disposed) return;
+      await new Promise<void>(resolve => resources.load(`audio/${kind}`, AudioClip, (error, clip) => {
+        if (error) console.warn('[Audio]', error);
+        else if (!this.disposed && isValid(this.node)) { clip.addRef(); this.audioClips.set(kind, clip); }
+        resolve();
+      }));
+    }
   }
 
   private seedHash = '';
 
   public update(dt: number): void {
+    if (this.loading) return;
     if (this.rewardPaused !== this.rewardVisible) { this.rewardPaused = this.rewardVisible; this.syncPause(); this.dirty = true; }
     this.physics?.advance(dt, this.beforeStep, this.afterStep);
     this.syncMusic(dt);
-    if (this.arcade) this.ruinsArt.setBiome(biomeForStage(this.arcade.progression.stage).id);
+    if (this.arcade) {
+      const stage = this.arcade.progression.stage;
+      this.ruinsArt.setBiome(biomeForStage(stage).id);
+      const next = biomeForStage(stage + 3 - (stage - 1) % 3).id;
+      if (this.nextBiomePrepared !== next) { this.nextBiomePrepared = next; void this.ruinsArt.preloadBiome(next); }
+    }
     // Enter only outside advance(): no additional substeps after opening the modal next frame.
     if (this.rewardPaused !== this.rewardVisible) { this.rewardPaused = this.rewardVisible; this.syncPause(); this.dirty = true; }
     if (this.arcadeMode && !this.hidden && !this.manualPause && !this.viewport.portrait) {
@@ -302,7 +343,7 @@ export class PhysicsLab extends Component {
     if (this.dirty && this.physics) { this.dirty = false; this.drawHUD(); }
     if (this.physics) {
       for (const skin of this.skins) skin.draw();
-      this.drawAim(); this.arcade?.draw(); this.drawImpactFeedback();
+      this.drawAim(); this.arcade?.draw(); this.drawImpactFeedback(); this.drawHitReadout();
     }
   }
 
@@ -339,7 +380,7 @@ export class PhysicsLab extends Component {
     const { worldWidthM, worldHeightM, worldCenterM: [cx, cy] } = this.config.viewport;
     const topLeft = v.worldToUI(cx - worldWidthM / 2, cy + worldHeightM / 2);
     const bottomRight = v.worldToUI(cx + worldWidthM / 2, cy - worldHeightM / 2);
-    return { thunderSkin: this.playerBow?.snapshot ?? null, arcade: this.arcade?.snapshot ?? null, stamina: this.shotBudget.stamina, cooldownSec: this.shotBudget.cooldownSec,
+    return { loading: this.loading, thunderSkin: this.playerBow?.snapshot ?? null, arcade: this.arcade?.snapshot ?? null, stamina: this.shotBudget.stamina, cooldownSec: this.shotBudget.cooldownSec,
       records: this.records.snapshot, career: this.career.snapshot, musicTrack: this.musicTrack, saveStatus: this.records.lastWrite, diagnostics: this.diagnostics.report(),
       nativeCounts: this.physics?.nativeCounts() ?? null, projectilePoolSize: this.projectiles?.poolSize ?? 0,
       projectileVisuals: { embedded: this.projectiles?.embeddedCount ?? 0, maxEmbedded: this.config.limits.maxEmbeddedVisuals,
@@ -475,6 +516,7 @@ export class PhysicsLab extends Component {
       this.resetRequested = false; this.demoRequested = null;
       this.projectiles.clear();
       this.impactFeedback.clear();
+      this.hitReadout = null;
       if (this.arcade) { this.ragdolls[0]!.reset(); this.arcade.reset(); }
       else this.ragdollFactory?.resetAll();
       for (const state of this.combatStates.values()) { if (this.arcade && state.id !== 'PlayerRagdoll') continue; state.hp = state.id === 'PlayerRagdoll' ? this.config.player.hp : (this.config.enemies[0]?.hp ?? 60); state.armor = state.id === 'PlayerRagdoll' ? 0 : (this.config.enemies[0]?.helmetDurability ?? 0); state.hits = 0; state.lastHit = null; }
@@ -501,7 +543,7 @@ export class PhysicsLab extends Component {
   };
 
   private press(event: EventTouch): void {
-    if (this.hidden || this.viewport.portrait) return;
+    if (this.loading || this.hidden || this.viewport.portrait) return;
     this.audioActivated = true; this.syncMusic(0);
     for (const touch of event.getTouches()) {
       const point = this.viewport.fromUILocation(touch.getUILocation());
@@ -535,12 +577,14 @@ export class PhysicsLab extends Component {
     this.dirty = true;
   }
   private move(event: EventTouch): void {
+    if (this.loading) return;
     if (this.rewardVisible) return;
     if (this.arcadeMode && this.combatStates.get('PlayerRagdoll')!.hp <= 0) return;
     for (const touch of event.getTouches()) this.router.move(touch.getID(), this.viewport.fromUILocation(touch.getUILocation()));
     this.dirty = true;
   }
   private release(event: EventTouch): void {
+    if (this.loading) return;
     for (const touch of event.getTouches()) {
       const point = this.viewport.fromUILocation(touch.getUILocation());
       if (this.rewardVisible) {
@@ -612,7 +656,7 @@ export class PhysicsLab extends Component {
   private show(): void { this.hidden = false; this.syncPause(); }
   private syncPause(): void {
     this.cancel();
-    const blocked = this.hidden || this.manualPause || this.viewport.portrait || (this.rewardVisible && !this.resetRequested);
+    const blocked = this.loading || this.hidden || this.manualPause || this.viewport.portrait || (this.rewardVisible && !this.resetRequested);
     this.router.setBlocked(blocked);
     this.physics?.setPaused(blocked);
     if (blocked) this.soundSource.stop();
@@ -627,7 +671,7 @@ export class PhysicsLab extends Component {
 
   private syncMusic(dt: number): void {
     if (!this.arcadeMode || !this.career || !this.viewport) return;
-    const blocked = !this.audioActivated || !this.career.snapshot.music || this.hidden || this.manualPause || this.viewport.portrait ||
+    const blocked = this.loading || !this.audioActivated || !this.career.snapshot.music || this.hidden || this.manualPause || this.viewport.portrait ||
       this.rewardVisible || (this.combatStates.get('PlayerRagdoll')?.hp ?? 0) <= 0;
     if (blocked) { for (const source of this.musicSources) if (source.playing) source.pause(); return; }
     const track = this.arcade?.bossStatus ? 'music-boss' : biomeForStage(this.arcade?.progression.stage ?? 1).track;
@@ -866,9 +910,12 @@ export class PhysicsLab extends Component {
       if (progress > 0) box({ ...track, right: track.left + (track.right - track.left) * progress }, cooldown > 0 ? '#E5B669' : '#69C7D3', 3);
     }
     const run = this.arcade!.progression;
-    const biome = biomeForStage(run.stage), career = this.career.snapshot, challenge = this.arcade!.challenges.snapshot;
-    this.title.string = `${biome.name} · ${run.progress}/5`;
-    this.metrics.string = `击败 ${this.arcade!.score} · 最佳 ${this.records.snapshot.bestScore} · 修炼Lv.${career.rank}`; this.metrics.color = color('#9AB6C4');
+    const biome = biomeForStage(run.stage), challenge = this.arcade!.challenges.snapshot;
+    this.title.string = `${biome.name} · 第 ${run.stage} 段`;
+    this.metrics.string = `击败 ${this.arcade!.score} · 再胜 ${run.pending ? 0 : 5 - run.progress} 次强化`; this.metrics.color = color('#9AB6C4');
+    // Five small steps make the next meaningful choice visible at a glance.
+    for (let i = 0; i < 5; i++) box({ left: safe.left + 28 + i * 85, right: safe.left + 104 + i * 85,
+      top: safe.top + 62, bottom: safe.top + 67 }, i < run.progress || run.pending ? '#D9BB79' : '#375461', 2);
     this.questLabel.node.active = hp > 0 && !this.manualPause && !this.rewardVisible && !this.arcade!.bossStatus;
     this.questLabel.color = color(challenge.banner ? '#FFDA89' : biome.tint);
     this.questLabel.string = challenge.banner || `${challenge.name} · ${challenge.detail} ${challenge.progress}/${challenge.target}\n` +
@@ -922,10 +969,19 @@ export class PhysicsLab extends Component {
       (this.router.aimId !== null ? `拉弓 ${Math.round(this.router.drawProgress * 100)}% · 松手放箭` :
         cooling ? `下一箭 ${this.shotBudget.cooldownSec.toFixed(1)}s · 可先瞄准` : '左侧拖动拉弓 · 松手放箭');
     const encounter = this.arcade!.current?.encounter;
-    if (hp > 0 && this.router.aimId === null && !cooling && !result && encounter) {
+    const status = this.arcade!.enemyStatus;
+    if (hp > 0 && run.pending) {
+      this.aimLabel.string = '本段完成 · 在途箭落下后选择强化';
+    } else if (hp > 0 && !encounter) {
+      this.aimLabel.string = `${this.arcade!.defeatBanner || '继续前进'} · 下一位 ${(this.arcade!.snapshot.nextSpawnSec ?? 0).toFixed(1)}s`;
+      this.aimLabel.color = color('#EACA8B');
+    } else if (hp > 0 && this.router.aimId === null && !result && status && (status.collapseSec !== null || status.collapsing)) {
+      this.aimLabel.string = status.collapsing ? '平台崩落 · 可继续补箭' : `${status.armed ? '敌人失衡' : '敌人失弓'} · 平台 ${(status.collapseSec ?? 0).toFixed(1)}s 后崩落`;
+      this.aimLabel.color = color('#F7C790');
+    } else if (hp > 0 && this.router.aimId === null && !cooling && !result && encounter) {
       this.aimLabel.string = `${encounter.name} · ${encounter.hint}`;
       this.aimLabel.color = color(encounter.tint);
-    } else if (hp > 0 && run.pending) this.aimLabel.string = '守关已破 · 等待在途箭落下后选择强化';
+    }
     if (!this.records.lastWrite.ok || !this.career.lastWrite.ok) this.aimLabel.string += ' · 记录暂未保存';
     const drag = this.router.drag;
     if (drag && hp > 0) {
@@ -946,6 +1002,19 @@ export class PhysicsLab extends Component {
         if (this.canFullscreen) box(this.fullscreenRect, '#224958');
       }
     }
+  }
+
+  private drawHitReadout(): void {
+    if (!this.hitText) return;
+    const hit = this.hitReadout, step = this.physics?.steps ?? 0;
+    this.hitText.node.active = Boolean(hit && step < hit.until && !this.manualPause && !this.hidden && !this.viewport.portrait && !this.rewardVisible);
+    if (!hit || !this.hitText.node.active) return;
+    const p = this.viewport.worldToUI(hit.point.x, hit.point.y + 0.5 + (42 - (hit.until - step)) / 80);
+    this.hitText.string = hit.text;
+    this.hitText.fontSize = this.aimLabel.fontSize + (hit.critical ? 12 : 4);
+    this.hitText.color = color(hit.critical ? '#FFE0A0' : '#F0F5E7');
+    this.placeLabel(this.hitText, Math.max(this.viewport.safe.left + 120, Math.min(this.viewport.safe.right - 120, p.x)),
+      Math.max(this.viewport.safe.top + 200, p.y));
   }
 
   private drawRewards(): void {
@@ -1049,7 +1118,7 @@ export class PhysicsLab extends Component {
       g.circle(Physics.units(-6 + (i * 7.3) % 38), Physics.units(1 + (i * 3.7) % 10), Physics.units(i % 3 ? 0.012 : 0.025));
     }
     g.fill();
-    this.ruinsArt.attachBackdrop(g.node);
+    this.startupTasks.push(this.ruinsArt.attachBackdrop(g.node));
   }
 
   private buildPlatforms(world: Node, platformGroup: number): void {
@@ -1075,7 +1144,7 @@ export class PhysicsLab extends Component {
       graphics.rect(Physics.units(-platform.width / 2), Physics.units(-0.3), Physics.units(platform.width), Physics.units(0.6));
       graphics.fill();
       if (this.arcadeMode) { graphics.clear(); drawRuinsPlatform(graphics, platform.width, true); }
-      if (this.arcadeMode) this.ruinsArt.attachPlatform(node, platform.width);
+      if (this.arcadeMode) this.startupTasks.push(this.ruinsArt.attachPlatform(node, platform.width));
     }
   }
 

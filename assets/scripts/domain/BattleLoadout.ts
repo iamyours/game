@@ -5,7 +5,7 @@ export type BowId = 'thunder' | 'gale' | 'moon';
 export type SkillKind = BowId | 'rune';
 export type ItemId = 'potion' | 'rune';
 type Arrow = PhysicsLabConfig['arrows'][number];
-export type EquippedArrow = Arrow & { skill?: SkillKind };
+export type EquippedArrow = Arrow & { skill?: SkillKind; appearance?: BowId };
 export const BOWS: Record<BowId, { name: string; skill: string; tint: string; detail: string }> = {
   thunder: { name: '雷霆弓', skill: '雷霆一击', tint: '#93E5FF', detail: '均衡 · 技能下一箭伤害翻倍' },
   gale: { name: '疾风弓', skill: '疾风三连', tint: '#A5E6B5', detail: '冷却更短 · 技能强化下三箭' },
@@ -55,7 +55,7 @@ export class BattleLoadout {
     const bowCadence = this.bow === 'gale' ? 0.8 : this.bow === 'moon' ? 1.2 : 1;
     const skill = this.primed?.kind;
     const skillDamage = skill === 'moon' ? 3 : skill === 'thunder' ? 2 : skill === 'gale' ? 1.2 : 1;
-    return { ...base, baseDamage: base.baseDamage * levelDamage * bowDamage * skillDamage * (this.rune ? 1.5 : 1),
+    return { ...base, appearance: this.bow, baseDamage: base.baseDamage * levelDamage * bowDamage * skillDamage * (this.rune ? 1.5 : 1),
       intervalSec: Math.max(0.2, base.intervalSec * bowCadence * (skill === 'gale' ? 0.5 : 1)),
       staminaCost: base.staminaCost * (skill === 'gale' ? 0.5 : 1),
       ...(skill || this.rune ? { skill: skill ?? 'rune' } : {}) };

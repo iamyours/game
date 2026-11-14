@@ -102,6 +102,14 @@ try {
   await page.mouse.click((r.left+r.right)/2/s.width*v.width,(r.top+r.bottom)/2/s.height*v.height);
  };
  await tapControl('bow');assert.equal((await snapshot()).arcade.loadout.bow,'gale');
+ report.weaponSkins=[];
+ for(const expected of ['gale','moon','thunder','gale']){
+  if(expected!=='gale'||report.weaponSkins.length)await tapControl('bow');
+  await waitSnapshot(s=>s?.thunderSkin?.bow===expected&&s.thunderSkin.loaded&&s.thunderSkin.visible&&s.thunderSkin.strips===40);
+  const skin=await page.evaluate(async()=>{const cc=await System.import('cc');const lab=cc.director.getScene().getChildByName('PhysicsLab').getComponent('StormArchersPhysicsLab');
+   const id=lab.arcade.loadout.bow;return {bow:id,firstStripMatches:lab.playerBow.strips[0].spriteFrame===lab.weaponAssets.forBow(id).bowFrames[0]};});
+  assert.equal(skin.bow,expected);assert.equal(skin.firstStripMatches,true);report.weaponSkins.push(skin);
+ }
  await tapControl('skill');assert.equal((await snapshot()).arcade.loadout.primed.shots,3);
  await page.evaluate(async()=>{const cc=await System.import('cc');cc.director.getScene().getChildByName('PhysicsLab').getComponent('StormArchersPhysicsLab').combatStates.get('PlayerRagdoll').hp=50;});
  await tapControl('potion');assert.equal((await snapshot()).arcade.loadout.items.potion,1);

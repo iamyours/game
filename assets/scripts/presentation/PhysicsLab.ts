@@ -12,7 +12,7 @@ import { ProjectileSystem, TIP_OFFSET_M } from '../combat/ProjectileSystem';
 import { HitResolver, type ActorCombatState } from '../combat/HitResolver';
 import { LabViewport } from './LabViewport';
 import { drawWeaponBow } from './WeaponVisual';
-import { ThunderBowSkin, ThunderWeaponAssets, thunderArrowLength } from './ThunderWeaponSkin';
+import { ThunderBowSkin, WeaponArtAssets, thunderArrowLength } from './ThunderWeaponSkin';
 import { handDrawFlex, nockedArrowTip } from '../domain/weaponGeometry';
 import { ArcadeBattle } from '../combat/ArcadeBattle';
 import { CharacterSkin } from './CharacterSkin';
@@ -99,7 +99,7 @@ export class PhysicsLab extends Component {
   private playerAim!: AimController;
   private enemyAim!: AimController;
   private projectiles!: ProjectileSystem;
-  private weaponAssets!: ThunderWeaponAssets;
+  private weaponAssets!: WeaponArtAssets;
   private playerBow!: ThunderBowSkin;
   private hitResolver!: HitResolver;
   private combatStates!: Map<string, ActorCombatState>;
@@ -228,9 +228,9 @@ export class PhysicsLab extends Component {
     }, this.arcadeMode && config.arcade.headshotLethal, id => this.ragdolls.find(actor => actor.id === id)?.bodies.get('chest'),
       id => this.arcade?.allowsInstantHeadshot(id) ?? true);
     if (this.arcadeMode) this.combatStates.delete('EnemyRagdoll');
-    this.weaponAssets = new ThunderWeaponAssets();
+    this.weaponAssets = new WeaponArtAssets();
     this.playerBow = new ThunderBowSkin(world, this.weaponAssets);
-    void this.weaponAssets.load().catch(error => console.warn('[ThunderWeapon] 素材加载失败，保留程序武器：', error));
+    void this.weaponAssets.load();
     this.projectiles = new ProjectileSystem(world, config, this.ragdolls, (candidate, targetBody) => this.hitResolver.resolve(candidate, targetBody), this.weaponAssets);
     if (this.arcadeMode) this.arcade = new ArcadeBattle(world, config, this.ragdollFactory!, this.ragdolls, this.combatStates, this.projectiles, aim => { this.enemyAim = aim ?? this.playerAim; }, kind => this.playSound(kind), effect => {
       const player = this.combatStates.get('PlayerRagdoll')!;
@@ -989,8 +989,7 @@ export class PhysicsLab extends Component {
     const flex = followingHand ? handDrawFlex(socket, hand, this.config.bowControl.braceDepthM,
       this.config.bowControl.drawTravelM, pose.drawAmount) : pose.bowFlex;
     const equipped = this.arcade?.loadout.bow ?? 'thunder';
-    if (equipped !== 'thunder') this.playerBow.hide();
-    if (equipped !== 'thunder' || !this.playerBow.draw(socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing)) {
+    if (!this.playerBow.draw(socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing, equipped)) {
       drawWeaponBow(g, socket, this.config.bowControl, arrow.id, flex, followingHand ? hand : undefined, drawing ? TIP_OFFSET_M : undefined,
         equipped === 'moon' ? 'piercing' : equipped === 'gale' ? 'impact' : arrow.id, BOWS[equipped].tint);
     }

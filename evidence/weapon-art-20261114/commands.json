@@ -1,0 +1,42 @@
+[
+  {
+    "command": "npm run verify",
+    "exitCode": 0
+  },
+  {
+    "command": "npm run check:syntax",
+    "exitCode": 0
+  },
+  {
+    "command": "npm run typecheck:engine",
+    "exitCode": 2
+  },
+  {
+    "command": "npm run build:web",
+    "exitCode": 2
+  },
+  {
+    "command": "node --import tsx scripts/render-weapon-preview.mjs",
+    "exitCode": 0
+  },
+  {
+    "command": "PREVIEW_VIEWS=phone-wide,phone-gale,phone-moon PRESENTATION_PREVIEW_DIR=evidence/weapon-art-20261114 node --import tsx scripts/render-battle-presentation.mjs",
+    "exitCode": 0
+  },
+  {
+    "command": "node --check scripts/verify-arcade-web.mjs",
+    "exitCode": 0
+  },
+  {
+    "command": "node --check scripts/render-battle-presentation.mjs",
+    "exitCode": 0
+  },
+  {
+    "command": "node --check scripts/render-weapon-preview.mjs",
+    "exitCode": 0
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "generator": "GPT image generation (built-in)",
+  "coordinateOrigin": "top-left",
+  "texture": "weapons/gale-weapon",
+  "bow": {
+    "imageSize": [
+      1254,
+      1254
+    ],
+    "rect": [
+      120,
+      30,
+      425,
+      1190
+    ],
+    "grip": [
+      202,
+      626
+    ],
+    "upperTip": [
+      515,
+      108
+    ],
+    "lowerTip": [
+      515,
+      1152
+    ],
+    "strips": 40
+  },
+  "arrow": {
+    "imageSize": [
+      1254,
+      1254
+    ],
+    "rect": [
+      612,
+      578,
+      605,
+      94
+    ]
+  },
+  "sha256": {
+    "gale-weapon": "3b480251f1b55ac9b999080b4bc4608ab5f1d1203c9635d174a1c9a08b8f5f60"
+  }
+}

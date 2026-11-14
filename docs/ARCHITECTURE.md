@@ -1,3 +1,7 @@
+# D041 三弓图片与本箭外观快照
+
+WeaponArtAssets集中持有三款ThunderWeaponAssets，独立加载/回退；疾风/月蚀各用单张GPT图集的弓/箭区域，一张纹理只addRef一次。ThunderBowSkin复用40片节点按装备换帧，保持原手驱动形变。BattleLoadout.arrow写appearance，ProjectileSystem.fire复制配置；搭箭/飞行/插箭读取同款图片，跨敌我箭池复用隐藏/换帧旧皮肤。物理与数值无改动，详见GPT_WEAPON_ART.md。
+
 # D039 / D040 远征、音频与命中
 
 Expedition.ts集中三场景映射、RunChallenges和独立CareerRepository。ArcadeBattle在cycle.defeated唯一结算分支推进挑战，PhysicsLab在after-step提交累计检查点并只在开局快照传承伤害。原ShotBudget/ProjectileSystem保持射击归属。RuinsArtAssets只切SpriteFrame/平台色，缓存最多两张额外背景并检查异步请求所属场景。PhysicsLab双AudioSource独立于音效源，update推进渐变，首触解锁和模态/生命周期门控，退出先停源清clip再释放引用。插箭动画只动附着视觉子节点；头颈Graphics只读真实姿态；胸部冲量仍是原共享预算但保留有界力臂。详见EXPEDITION_RELEASE.md。

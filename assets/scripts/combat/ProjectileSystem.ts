@@ -5,12 +5,12 @@ import type { PhysicsLabConfig } from '../core/PhysicsLabConfig';
 import type { RagdollInstance } from '../physics/RagdollFactory';
 import { eventCallbackCount } from '../domain/RuntimeDiagnostics';
 import { drawWeaponArrow } from '../presentation/WeaponVisual';
-import { ThunderArrowSkin, thunderArrowLength, type ThunderWeaponAssets } from '../presentation/ThunderWeaponSkin';
+import { ThunderArrowSkin, thunderArrowLength, type WeaponArtAssets } from '../presentation/ThunderWeaponSkin';
 import { ArrowResidues, shortFlightTrail, embeddedArrowPose } from '../domain/ProjectilePresentation';
-import type { SkillKind } from '../domain/BattleLoadout';
+import type { SkillKind, BowId } from '../domain/BattleLoadout';
 
 type Point = { x: number; y: number };
-export type ProjectileArrowConfig = PhysicsLabConfig['arrows'][number] & { skill?: SkillKind };
+export type ProjectileArrowConfig = PhysicsLabConfig['arrows'][number] & { skill?: SkillKind; appearance?: BowId };
 export const TIP_OFFSET_M = 0.31;
 export interface HitCandidate {
   shotId: number; stepId: number; attackerId: string; targetId: string; partId: string;
@@ -43,7 +43,7 @@ export class ProjectileSystem {
   private bounds = { left: -2, right: 26, bottom: -3, top: 16 };
 
   public constructor(private readonly world: Node, private readonly config: PhysicsLabConfig,
-    actors: readonly RagdollInstance[], private readonly onHit: (candidate: HitCandidate, target: RigidBody2D) => void, private readonly weaponAssets?: ThunderWeaponAssets) {
+    actors: readonly RagdollInstance[], private readonly onHit: (candidate: HitCandidate, target: RigidBody2D) => void, private readonly weaponAssets?: WeaponArtAssets) {
     this.embedded = new ArrowResidues(config.limits, ({ node }) => { if (isValid(node, true)) Physics.retire(node); });
     const trailNode = new Node('FlightTrails'); trailNode.layer = world.layer; trailNode.parent = world;
     this.trails = trailNode.addComponent(Graphics);
@@ -106,13 +106,13 @@ export class ProjectileSystem {
     Physics.place(slot.node, point.x, point.y);
     slot.node.active = true;
     slot.graphics.node.setRotationFromEuler(0, 0, Physics.degrees(socket.angleRad));
-    const skinned = shooter === 'PlayerRagdoll' && slot.skin?.show(arrow.id);
+    const skinned = shooter === 'PlayerRagdoll' && slot.skin?.show(arrow.id, arrow.appearance);
     if (shooter !== 'PlayerRagdoll') slot.skin?.hide();
     slot.graphics.enabled = !skinned;
     if (!skinned) drawArrow(slot.graphics, arrow.id);
     const tail = { x: point.x - Math.cos(socket.angleRad) * thunderArrowLength(arrow.id),
       y: point.y - Math.sin(socket.angleRad) * thunderArrowLength(arrow.id) };
-    const shot = { id: this.nextId++, slot, shooter, arrow, previous: point, born: this.stepId, angle: socket.angleRad, trail: [tail],
+    const shot = { id: this.nextId++, slot, shooter, arrow: { ...arrow }, previous: point, born: this.stepId, angle: socket.angleRad, trail: [tail],
       velocity: { x: Math.cos(socket.angleRad) * arrow.speedMps, y: Math.sin(socket.angleRad) * arrow.speedMps } };
     slot.flight = shot;
     // Pooled tips must never inherit a stopped arrow's gravity, damping or spin.
@@ -245,7 +245,7 @@ export class ProjectileSystem {
     if (hit.partId !== 'platform') node.setSiblingIndex(0);
     const shaft = new Node('SettlingShaft'); shaft.layer = node.layer; shaft.parent = node;
     const skin = hit.attackerId === 'PlayerRagdoll' && this.weaponAssets ? new ThunderArrowSkin(shaft, this.weaponAssets) : null;
-    if (!skin?.show(hit.arrow.id)) drawArrow(shaft.addComponent(Graphics), hit.arrow.id);
+    if (!skin?.show(hit.arrow.id, hit.arrow.appearance)) drawArrow(shaft.addComponent(Graphics), hit.arrow.id);
     const born = this.stepId * this.config.physics.fixedTimeStepSec;
     this.embedded.add(hit.targetId, hit.partId === 'platform', { node, shaft, opacity: node.addComponent(UIOpacity),
       born, impulseNs: hit.arrow.impulseNs, terrain: hit.partId === 'platform' }, born);

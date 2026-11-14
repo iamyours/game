@@ -1,3 +1,19 @@
+# 当前状态（D041）
+
+version: V2.9
+currentMilestone: CONTINUOUS_BATTLE
+currentTask: T004 T005 T012
+taskState: IN_PROGRESS
+sourceRevision: b49816b（本轮最新拉取基线；追加疾风/月蚀GPT弓箭）
+runtimeVerified: false
+feelGateG1: BLOCKED（当前环境未导入/构建/运行本次源码）
+
+## D041 疾风/月蚀GPT弓箭（2026-11-14）
+
+- 新增两套GPT透明原图及弓/箭切片，保留雷霆；三弓统一40片连续形变和动态弦，切换复用视觉节点。搭箭、飞行、插箭匹配发射时装备，在途箭不随切弓换色；共享图集引用去重，加载失败独立回退。
+- 186项便携测试与38脚本语法退出0；三弓12格形变和三款手机离线合成已检查。当前Creator3.8.8/真实导入缺失，engine类型/build:web退出2；新增4份资源meta待实际导入，扩展arcade纹理检查未运行。T004/T005/T012与G1不升级。
+- 说明/完整提示词/实跑步骤：docs/GPT_WEAPON_ART.md；证据：evidence/weapon-art-20261114/verification.md。下方D040及更早为对应历史版本证据。
+
 # 当前状态（D040）
 
 version: V2.8

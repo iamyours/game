@@ -92,10 +92,13 @@ function platformSvg(widthM) {
   }).join('');
 }
 const esc = text => String(text).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
-const thunder = JSON.parse(readFileSync('assets/resources/weapons/thunder-art.json'));
-const thunderBow = readFileSync('assets/resources/weapons/thunder-bow.png').toString('base64');
-const thunderArrow = readFileSync('assets/resources/weapons/thunder-arrow.png').toString('base64');
-function thunderSvg(socket, hand) {
+const weapons = Object.fromEntries(['thunder', 'gale', 'moon'].map(id => [id, {
+  spec: JSON.parse(readFileSync(`assets/resources/weapons/${id}-art.json`)),
+  bow: readFileSync(`assets/resources/weapons/${id === 'thunder' ? 'thunder-bow' : `${id}-weapon`}.png`).toString('base64'),
+  arrow: readFileSync(`assets/resources/weapons/${id === 'thunder' ? 'thunder-arrow' : `${id}-weapon`}.png`).toString('base64'),
+}]));
+function weaponSvg(socket, hand, bowId) {
+  const { spec: thunder, bow: thunderBow, arrow: thunderArrow } = weapons[bowId];
   const deg = 180 / Math.PI, parts = [];
   const crop = (image, sourceSize, rect, w, h, x = -w / 2) => `<g transform="scale(1,-1)"><svg x="${x}" y="${-h / 2}" width="${w}" height="${h}" viewBox="${rect.join(' ')}" preserveAspectRatio="none"><image width="${sourceSize[0]}" height="${sourceSize[1]}" href="data:image/png;base64,${image}"/></svg></g>`;
   for (let i = 0; i < thunder.bow.strips; i++) {
@@ -135,7 +138,7 @@ function actorSvg(skin, origin, mirrored, angle, bowId = 'thunder') {
   }
   const g = new Graphics(); drawWeaponBow(g, socket, config.bowControl, 'normal', 0.7, hand, 0.31,
     bowId === 'moon' ? 'piercing' : bowId === 'gale' ? 'impact' : 'normal', bowId === 'moon' ? '#CBB6FF' : bowId === 'gale' ? '#A5E6B5' : '#F7C66F');
-  return `<g transform="translate(${origin[0] * 32},${origin[1] * 32}) scale(${mirrored ? -1 : 1},1)">${elements.join('')}${skin === 'hero' && bowId === 'thunder' ? thunderSvg(socket, hand) : g.commands.join('')}</g>`;
+  return `<g transform="translate(${origin[0] * 32},${origin[1] * 32}) scale(${mirrored ? -1 : 1},1)">${elements.join('')}${skin === 'hero' ? weaponSvg(socket, hand, bowId) : g.commands.join('')}</g>`;
 }
 const reports = [];
 const uiChecks = [];
@@ -143,7 +146,7 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   ['phone-cooldown', 844, 390, 92, 0.4], ['phone-defeat', 844, 390, 0, 0], ['phone-pause', 844, 390, 92, 0], ['phone-impact', 844, 390, 92, 0],
   ['phone-normal-hit', 844, 390, 92, 0], ['phone-heavy-hit', 844, 390, 92, 0],
   ['phone-reward', 844, 390, 92, 0], ['desktop-reward', 1440, 810, 92, 0],
-  ['phone-boss', 844, 390, 92, 0], ['phone-moon-skill', 844, 390, 92, 0],
+  ['phone-boss', 844, 390, 92, 0], ['phone-gale', 844, 390, 92, 0], ['phone-moon', 844, 390, 92, 0], ['phone-moon-skill', 844, 390, 92, 0],
   ['desktop-frost', 1440, 810, 92, 0], ['desktop-ember', 1440, 810, 92, 0]].filter(([name]) => !process.env.PREVIEW_VIEWS || process.env.PREVIEW_VIEWS.split(',').includes(name))) {
   paths.length = 0; screen.windowSize = { width, height };
   const lab = new PhysicsLab(), camera = { node: new Node(), orthoHeight: 0 };
@@ -199,6 +202,8 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
   assert.equal(lab.combatStates.get('PlayerRagdoll').hp, 85); assert.equal(loadout.snapshot.items.potion, 1);
   lab.press(event(44, control('rune'))); lab.cancel(); lab.release(event(44, control('rune'))); assert.equal(loadout.snapshot.rune, false);
   loadout.reset();
+  if (name === 'phone-gale' || name === 'phone-moon') loadout.switchBow();
+  if (name === 'phone-moon') loadout.switchBow();
   lab.cancel(); lab.combatStates.get('PlayerRagdoll').hp = hp; lab.manualPause = name === 'phone-pause'; lab.drawHUD();
   if (name.endsWith('reward')) {
     for (let i = 0; i < 5; i++) progression.defeated();
@@ -241,8 +246,9 @@ for (const [name, width, height, hp, cooldown] of [['desktop', 1440, 810, 92, 0]
     worldSvg += `<g transform="translate(${x * 32},${(y - 0.3) * 32})">${platformSvg(w)}</g>`;
   }
   worldSvg += actorSvg('hero', [3.5, 3.41], false, 0.25, loadout.bow) + actorSvg('enemy', [18.5, 4.51], true, 0.08);
-  const arrow = new Graphics(); drawWeaponArrow(arrow, 'normal', { x: 11.8, y: 5.7 }, -0.08);
-  worldSvg += arrow.commands.join('');
+  const flying = weapons[loadout.bow], arrowRect = flying.spec.arrow.rect, arrowLength = WEAPON_STYLES.normal.arrowLength;
+  const arrowHeight = Math.max(0.18, arrowLength * arrowRect[3] / arrowRect[2]);
+  worldSvg += `<g transform="translate(${11.8 * 32},${5.7 * 32}) rotate(${-0.08 * 180 / Math.PI}) scale(1,-1)"><svg x="${-arrowLength * 32}" y="${-arrowHeight * 16}" width="${arrowLength * 32}" height="${arrowHeight * 32}" viewBox="${arrowRect.join(' ')}" preserveAspectRatio="none"><image width="${flying.spec.arrow.imageSize[0]}" height="${flying.spec.arrow.imageSize[1]}" href="data:image/png;base64,${flying.arrow}"/></svg></g>`;
   if (name === 'phone-moon-skill') {
     const effects = new Graphics(); drawSkillMark(effects, { kind: 'moon', point: { x: 18.5, y: 5.8 }, age: 0.06, duration: 0.42, hit: true });
     worldSvg += effects.commands.join('');

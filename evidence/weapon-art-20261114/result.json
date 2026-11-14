@@ -1,0 +1,48 @@
+{
+  "scope": "Portable tests / production API fixtures / offline PNG geometry previews only",
+  "baseCommit": "b49816b0cd47ce88e95a76f44603bdfd6876ed83",
+  "tests": {
+    "total": 186,
+    "pass": 186,
+    "fail": 0
+  },
+  "syntaxFiles": 38,
+  "assets": [
+    {
+      "bow": "gale",
+      "path": "assets/resources/weapons/gale-weapon.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "3b480251f1b55ac9b999080b4bc4608ab5f1d1203c9635d174a1c9a08b8f5f60"
+    },
+    {
+      "bow": "moon",
+      "path": "assets/resources/weapons/moon-weapon.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "304dad12a89ebc3e750641f5623246ef8479e31c633ccda87fb0ce3e4ad75aca"
+    }
+  ],
+  "creatorRuntime": "BLOCKED",
+  "pendingCreatorMeta": [
+    "gale-weapon.png.meta",
+    "gale-art.json.meta",
+    "moon-weapon.png.meta",
+    "moon-art.json.meta"
+  ],
+  "physicsOrDeviceAcceptance": false
+}

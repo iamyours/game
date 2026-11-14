@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "generator": "GPT image generation (built-in)",
+  "coordinateOrigin": "top-left",
+  "texture": "weapons/moon-weapon",
+  "bow": {
+    "imageSize": [
+      1254,
+      1254
+    ],
+    "rect": [
+      78,
+      70,
+      486,
+      1120
+    ],
+    "grip": [
+      164,
+      630
+    ],
+    "upperTip": [
+      543,
+      154
+    ],
+    "lowerTip": [
+      543,
+      1106
+    ],
+    "strips": 40
+  },
+  "arrow": {
+    "imageSize": [
+      1254,
+      1254
+    ],
+    "rect": [
+      575,
+      578,
+      635,
+      97
+    ]
+  },
+  "sha256": {
+    "moon-weapon": "304dad12a89ebc3e750641f5623246ef8479e31c633ccda87fb0ce3e4ad75aca"
+  }
+}
